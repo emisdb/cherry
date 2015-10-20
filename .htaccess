@@ -1,0 +1,12 @@
+AddDefaultCharset UTF-8
+RewriteEngine on
+# if a directory or a file exists, use it directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# for SEO
+#RewriteCond %{REQUEST_URI} !^/robots.txt$
+#RewriteCond %{REQUEST_URI} !^/sitemap.xml$
+RewriteCond $1 !^(css|js)
+# otherwise forward it to index.php
+RewriteRule . index.php
+#php_value upload_max_filesize 15M

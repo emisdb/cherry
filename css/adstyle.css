@@ -1,0 +1,163 @@
+/* vmesto bootstrap */
+body{
+    margin:0 auto;
+}
+
+input[type="file"], input[type="image"], input[type="submit"], input[type="reset"], input[type="button"],  input[type="checkbox"] {
+    width: auto;
+    float: left;
+    margin: 4px 10px;
+}
+
+input[type="radio"]{
+	width: auto;
+	float:none;	
+	margin: 4px 10px;
+}
+
+textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input{
+	padding:0;
+}
+
+.container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
+    width: 100%;
+}
+/*
+.span3 {
+    width: 250px;
+}
+.span4 {
+    width: 333px;
+}
+.span5 {
+    width: 416px;
+}
+.span6 {
+    width: 460px;
+}
+.span9 {
+    width: 670px;
+}
+*/
+h1{
+    font-size: 20px;
+}
+
+/*
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+    padding: 0px;
+}*/
+/*vmesto style yii widget*/
+.grid-view table.items th, .grid-view table.items td {
+    font-size: 0.9em;
+    border: 1px white solid;
+    padding: 4px 15px 4px 5px;
+}
+
+
+/*adminka*/
+
+.block-name{
+    font-size:20px;
+}
+
+.name_menu_ra{
+    color: #526da5;
+    font-size: 14px;
+    font-weight: bold;
+    padding-bottom:5px;
+}
+
+input, textarea, .uneditable-input {
+    width: 100%; /*406px;*/
+}
+
+/*панель управления*/
+.content_admin{
+    padding:10px 0px 0px 10px;
+    text-align:justify;
+}
+/*предупреждение*/
+.red{
+    color:#F50D23;
+    padding:10px;
+    border:#F50D23 2px solid;
+    font-weight:bold;
+}
+/*строка действие*/
+.create{
+    background:#F6F8F8;
+    text-align:right;
+    padding:3px 10px 3px 10px;
+    color:#3A6998;
+    font-size:11px;
+}
+.create a{
+    text-decoration:none;
+    color:#3A6998;
+}
+.create a:hover{
+    text-decoration:underline;
+    color:#3A6998;
+}
+.create1{
+    background:#F6F8F8;
+    text-align:left;
+    padding:3px 10px 3px 10px;
+    color:#3A6998;
+    font-size:11px;
+    margin-bottom: 20px;
+	border-radius: 5px;
+}
+.create1 a{
+    text-decoration:none;
+    color:#F8091A;
+}
+.create1 a:hover{
+    text-decoration:underline;
+    color:#F8091A;
+}
+.name_block{
+    color:#3A6998;
+    font-size:14px;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+/*adminka*/
+div.form .suc {
+border: 2px solid #C6D880;
+padding: 7px 7px 12px 7px;
+margin: 0 0 20px 0;
+background: #E6EFC2;
+font-size: 0.9em;
+}
+.row {
+margin-left: 0px; 
+}
+
+/*BUTTON*/
+.cancel a,.cancel a:hover{
+    color:#ffffff;
+    text-decoration: none;
+}
+
+/*System message*/
+.successfully{
+	border-radius:5px;
+	border:1px solid #048B0B;
+	background:#94F799;
+	padding:10px;
+
+	text-align:center;
+	
+
+
+
+
+
+
+
+
+		
+}

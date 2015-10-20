@@ -1,0 +1,388 @@
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+   
+.container {
+    width: 960px !important;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+.row {
+    margin-right: 0px; 
+    margin-left: 0px; 
+}
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+    padding-right: 0px; 
+    padding-left: 0px; 
+}
+/*menu*/
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus, .nav-pills>li>a, .nav-pills>li>a:hover, .nav-pills>li>a:focus 
+{
+    color: #dd001a;
+    background-color: #ffffff;
+    font-family: ROBOTOB;
+    font-size:14px;
+    outline: none;
+}
+
+/*carusel*/
+.carousel-indicators {
+    bottom: -2px;
+}
+.carousel-control {
+    opacity: 1;
+}
+/*modal*/
+/*.modal-header .close {
+    margin-top: -15px;
+    margin-right: -92px;
+}*/
+.close{
+    opacity: 1;
+    margin-top: -25px;
+    margin-right: -55px;
+}
+.modal-content{
+    padding:30px;    
+}
+/*modal*/
+label {
+ font-weight: normal; 
+}
+.form-control {
+  border-radius:0px;
+outline: none;
+    
+}
+  
+/* FONT-FAMILY */
+@font-face {
+  font-family: ROBOTOB;
+  src: url("../fonts/Roboto-Bold.ttf") format("opentype");
+}
+@font-face {
+  font-family: ROBOTOR;
+  src: url("../fonts/Roboto-Regular.ttf") format("opentype");
+}
+
+/* TEXT */
+.text-1{
+     color: #383838;
+     font-size: 16px;
+     font-family: Georgia, Arial;
+}
+.text-2{
+     color: #383838;
+     font-size: 14px;
+     font-family: ROBOTOR;
+}
+.text-3, .text-3 a{
+    color: #000000;
+    font-size: 16px;
+    font-family: Georgia, Arial; 
+    text-decoration: none;
+    width: 127px;
+    position: relative;
+    top: 113px;
+    text-align: center;
+    height: 58px;
+    display: table-cell;
+    vertical-align: middle;
+}
+a:hover .text-3{
+    color: #607d8b;
+    font-size: 16px;
+    font-family: Georgia, Arial; 
+    text-decoration: none;
+}
+.text-4, .text-4 a{
+     color: #ffffff;
+     font-size: 14px;
+     font-family: Georgia, Arial; 
+
+}
+.text-4 a:hover{
+     color: #ffffff;
+     font-size: 14px;
+     font-family: Georgia, Arial; 
+     text-decoration: underline; 
+}
+.text-5, .text-5 a{
+     color: #ffffff;
+     font-size: 16px;
+     font-family: ROBOTOB; 
+     letter-spacing: 3px;
+     text-decoration: none;
+}
+.text-5 a:hover{
+     color: #000000;
+     font-size: 16px;
+     font-family: ROBOTOB; 
+     letter-spacing: 3px;
+     text-decoration: none;
+}
+.text-6{
+    color: #ffffff;
+    font-size: 14px;
+    font-family: ROBOTOB; 
+    letter-spacing: 3px;
+    text-decoration: none;
+}
+.text-7{
+    width: 127px;
+    position: relative;
+    top: 127px;
+    text-align: center;
+    height: 58px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+/* BUTTON */
+.but-ent{
+    color: #ffffff;
+    border:1px solid #ffffff;
+    border-radius:20px;
+}
+.but-ent:hover{
+    border:1px solid #ffffff;
+    background:#ffffff;
+    border-radius:20px;
+}
+.but-ent:hover.text-5 a{
+    color:#000000;
+}
+
+.but-form{
+    color: #ffffff;
+   
+    border-radius:20px;
+       background:#607d8b;
+       padding:6px 128px;
+}
+/*.but-form:hover{
+    border:1px solid #ffffff;
+    background:#607d8b;
+    border-radius:20px;
+}
+.but-ent:hover.text-5 a{
+    color:#000000;
+}*/
+
+/**/
+.line-box{
+    border-top: 1px solid #c9c9c9;
+    border-bottom: 1px solid #c9c9c9;
+    height:43px;
+}
+
+.cd-padding-right-15{
+    padding-right: 15px;
+}
+.cd-align-center{
+    text-align: center;
+}
+
+/* HEADER */
+
+.nav-main li a{
+    color: #383838;
+    font-family: ROBOTOB;
+    font-size:14px;
+    background-color: #ffffff;
+}
+.nav-main li a:hover, .nav-main>li>a:focus{
+    color: #dd001a;
+    font-family: ROBOTOB;
+    font-size:14px;
+    background-color: #ffffff;
+}
+.map-kontakt{
+    display:table;
+    width:100%;
+    text-align:center;
+}
+.map-kontakt-item{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+.nav-dop li a, .nav-dop li a:hover, .nav-dop>li>a:focus{
+
+    background-color: transparent;
+    /*margin-left:-20px;
+    padding-left:20px;*/
+}
+
+.dop-menu{
+    text-align:center;
+    padding-right: 20px;
+    height: 200px;
+    width:142px;
+    margin-right:6px;
+}
+/*.dop-menu-kauf{ background: url(../img/kauf.png) no-repeat;padding-top:159px; }
+.dop-menu-kauf:hover{ background: url(../img/kauf_up.png) no-repeat; }
+
+.dop-menu-verkauf{ background: url(../img/verkauf.png) no-repeat;padding-top:159px; }
+.dop-menu-verkauf:hover{ background: url(../img/verkauf_up.png) no-repeat; }
+
+.dop-menu-vermietung{ background: url(../img/vermietung.png) no-repeat;padding-top:159px; }
+.dop-menu-vermietung:hover{ background: url(../img/vermietung_up.png) no-repeat; }
+
+.dop-menu-service{ background: url(../img/service.png) no-repeat;padding-top:159px; }
+.dop-menu-service:hover{ background: url(../img/service_up.png) no-repeat; }
+
+.dop-menu-segway{ background: url(../img/segway.png) no-repeat;padding-top:159px; }
+.dop-menu-segway:hover{ background: url(../img/segway_up.png) no-repeat; }
+*/
+/*
+.dop-menu-kauf{ background: url(../img/kauf.png) no-repeat;padding-top:159px; }
+.dop-menu-kauf:hover{ background: url(../img/kauf_up.png) no-repeat; }
+
+.dop-menu-verkauf{ background: url(../img/verkauf.png) no-repeat;padding-top:159px; }
+.dop-menu-verkauf:hover{ background: url(../img/verkauf_up.png) no-repeat; }
+
+.dop-menu-vermietung{ background: url(../img/vermietung.png) no-repeat;padding-top:159px; }
+.dop-menu-vermietung:hover{ background: url(../img/vermietung_up.png) no-repeat; }
+
+.dop-menu-service{ background: url(../img/service.png) no-repeat;padding-top:159px; }
+.dop-menu-service:hover{ background: url(../img/service_up.png) no-repeat; }
+
+.dop-menu-segway{ background: url(../img/segway.png) no-repeat;padding-top:159px; }
+.dop-menu-segway:hover{ background: url(../img/segway_up.png) no-repeat; }
+*/
+
+
+#navlist{position:relative;}
+#navlist li{margin:0;padding:0;list-style:none;position:absolute;top:0;}
+#navlist li, #navlist a{height:126px;display:block;}
+
+#but1{left:0px;width:127px;}
+#but1{background:url('../img/buttons.png') no-repeat 0 -126px;}
+#but1 a:hover{background: url('../img/buttons.png') 0 0px;}
+
+#but2{left:147px;width:127px;}
+#but2{background:url('../img/buttons.png') -147px -126px;}
+#but2 a:hover{background: url('../img/buttons.png') -147px 0;}
+
+#but3{left:294px;width:127px;}
+#but3{background:url('../img/buttons.png') -294px -126px;}
+#but3 a:hover{background: url('../img/buttons.png') -294px 0;}
+
+#but4{left:443px;width:127px;}
+#but4{background:url('../img/buttons.png') -443px -126px;}
+#but4 a:hover{background: url('../img/buttons.png') -443px 0;}
+
+#but5{left:589px;width:127px;}
+#but5{background:url('../img/buttons.png') -589px -126px;}
+#but5 a:hover{background: url('../img/buttons.png') -589px 0;}
+
+
+#map-canvas {
+        height: 143px;
+        width:225px;
+        margin: 0px;
+        padding: 0px
+      }
+
+/* CARUSEL */
+.str-left {
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    left: 10px;
+    top: 216px;
+    background: url(../img/left_arrow_normal.png) no-repeat;
+}
+.str-left:hover {
+    background: url(../img/left_arrow_hover.png) no-repeat;
+}
+.str-right {
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    right: 10px;
+    top: 216px;
+    background: url(../img/right_arrow_normal.png) no-repeat;
+}
+.str-right:hover {
+    background: url(../img/right_arrow_hover.png) no-repeat;
+}
+.box-carusel-but{
+  position: absolute;
+  left: 270px;
+  top: 360px;
+  padding: 4px 46px;  
+}
+/* FOOTER */
+.footer{
+    background: #263238;
+    height:68px;
+}
+.footer-left{
+    text-align: left;
+
+}
+.footer-right{
+    text-align: right;
+
+        
+}
+.footer-menu{
+  display: table-cell;
+  vertical-align: middle;
+  height: 68px;
+  padding: 0 3px;
+}
+
+/* MODALS */
+.tip-segway img{ 
+    border: 1px solid #c3cbd4;
+}
+/*.tip-segway img{ 
+    border: 1px solid #c3cbd4;
+}*/
+.form-left, .form-right {
+    float:left;
+}
+.form-right {
+    padding-left: 30px;
+}
+#myModal-kauf .modal-dialog {
+  width: 674px;
+  margin: 30px auto;
+}
+#myModal-verkauf .modal-dialog, #myModal-vermietung .modal-dialog,#myModal-service .modal-dialog{
+  width: 425px;
+  margin: 30px auto;
+}
+
+.form-seg button{
+    border-radius: 0px;
+ /*background:navy;*/
+   outline: none;
+}
+/*
+.form-seg button:hover{
+   background:yellow;
+     outline: none;
+   }
+
+.form-seg button:focus{
+   background:red;
+     outline: none;
+   }
+   .form-seg button:active{
+      background:blue;
+        outline: none;
+   }
+*/
+/*radio*/
+#seg1:checked~.seg1-img{
+    border:1px solid red;
+}
+.radio-but{
+    position: relative; top:-30px;left:190px;
+}
