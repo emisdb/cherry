@@ -40,6 +40,7 @@
                     <a href="<?php echo Yii::app()->request->baseUrl.'/tourCategories/admin'; ?>">Tour Categories</a><br/>
                     <a href="<?php echo Yii::app()->request->baseUrl.'/bonus/admin'; ?>">Discount</a><br/>
                     <a href="<?php echo Yii::app()->request->baseUrl.'/mainoptions/admin'; ?>">Main options</a><br/>
+                    <a href="<?php echo Yii::app()->request->baseUrl.'/cashboxType/admin'; ?>">Cashbox Types</a><br/>
                     
                     <hr />
 

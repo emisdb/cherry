@@ -69,7 +69,9 @@ class MainController extends Controller
 		    
         }//root
                 if($model->id_usergroups == 5) {
-              $this->layout = "guide";
+		          $this->redirect( Yii::app()->createUrl('guide/weeks',array('date'=>date("d.m.Y"))) );
+   
+//              $this->layout = "guide";
 		    
         }//root
         

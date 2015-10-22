@@ -15,7 +15,18 @@
  */
 class CashboxHistory extends CActiveRecord
 {
-	/**
+	private $_cli = null;
+		public function getTypename(){
+		if ($this->_cli === null && $this->cashboxtypes !== null)
+		{
+			$this->_cli = $this->cashboxtypes->name;
+		}
+		return $this->_cli;
+	}
+	public function setTypename($value){
+		$this->_cli = $value;
+	}
+/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
@@ -37,7 +48,7 @@ class CashboxHistory extends CActiveRecord
 			array('timestamp', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idcashbox_history, users_id, delta_cash, timestamp, annotation, approvedBy, cashBefore, editedBy', 'safe', 'on'=>'search'),
+			array('idcashbox_history, users_id, delta_cash, timestamp, annotation, approvedBy, cashBefore, editedBy, id_type', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,6 +60,8 @@ class CashboxHistory extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+	           'cashboxtypes'=>array(self::BELONGS_TO, 'CashboxType', 'id_type'),
+
 		);
 	}
 
@@ -100,7 +113,11 @@ class CashboxHistory extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
+		public function getCashboxTypes()
+		{
+		$usersArray = CHtml::listData($this->cashboxtypes, 'id', 'name');
+		return $usersArray;
+		}
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!

@@ -23,12 +23,41 @@
 
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
+      <!-- Left side column. contains the logo and sidebar -->
+      <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+          <!-- Sidebar user panel -->
+           <!-- search form -->
+          <!-- /.search form -->
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu">
+             <li>
+				<?php echo CHtml::link("<i class='fa fa-th'></i> <span>Profile</span>", array('profile')); ?>
+            </li>
+             <li>
+				<?php echo CHtml::link("<i class='fa fa-laptop'></i> <span>Return to the site</span>", "/"); ?>
+            </li>
+              <li>
+				<?php echo CHtml::link("<i class='fa fa-table'></i> <span>Scheduled tours</span>", array('guide/weeks','date'=>date('d.m.Y'))); ?>
+            </li>
+               <li>
+				<?php echo CHtml::link("<i class='fa fa-edit'></i> <span>Schedule</span>", array('guide/schedule')); ?>
+            </li>
+            <li>
+				<?php echo CHtml::link("<i class='fa fa-money'></i> <span>Cashbox</span>", array('guide/history','id'=> Yii::app()->user->id)); ?>
+            </li>
+          </ul>
+        </section>
+        <!-- /.sidebar -->
+      </aside>
+
         <?php echo $content; ?>
          <footer class="main-footer">
         <div class="pull-right hidden-xs">
           <b>Version</b> 2.3.0
         </div>
-        <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2015 <a href="http://cherrytours.com">Cherry Tours</a>.</strong> All rights reserved.
       </footer>
 
       <!-- Control Sidebar -->
