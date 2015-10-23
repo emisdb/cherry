@@ -3,7 +3,7 @@
       <div class="content-wrapper">
 		<!-- Modal -->
 		 <div class="modal modal-primary fade" id="guideModal" role="dialog">
-		   <div class="modal-dialog modal-sm">
+		   <div class="modal-dialog modal-md">
 			 <div class="modal-content">
 			   <div class="modal-header">
 				 <button type="button" class="close" data-dismiss="modal" aria-label="close">
@@ -30,11 +30,6 @@
 			?>
 			<h1>Current Subscriber</h1>
 			<div class="box-nav-right">
-				<button class="btn btn-primary cancel">
-				<a href="<?php echo Yii::app()->request->baseUrl; ?>/segGuidestourinvoicescustomers/info/id_sched/<? echo $model[0]->booking->sched->idseg_scheduled_tours;?>/date/<? echo $model[0]->booking->sched['date']; ?>/time/<? echo $model[0]->booking->sched['starttime']; ?>">
-				<?php echo 'Guides infos'; ?>
-				</a>
-				</button>
 				<button id="changebt" type="button" class="btn btn-primary cancel" data-toggle="modal" data-target="#guideModal">Guide's info</button>
 			</div>
 		</section>
@@ -255,14 +250,17 @@ $(document).ready ( function (){
 	$("#changebt").click( function(){
 	 <?php echo CHtml::ajax(array(
             'url'=>array('SegGuidestourinvoicescustomers/ajaxInfo'),
-            'data'=> "js:$(this).serialize()",
+	         'data'=>  array(
+				 'id_sched'=>$model[0]->booking->sched->idseg_scheduled_tours,
+				 'date'=>$model[0]->booking->sched['date'],
+				 'time'=>$model[0]->booking->sched['starttime']),
             'type'=>'post',
             'dataType'=>'json',
             'success'=>"function(data)
             {
                 if (data.status == 'failure')
                 {
-                    $('#modal-data').html('No info');
+                    $('#modal-data').html(data.div);
                  }
                 else
                 {
@@ -271,7 +269,7 @@ $(document).ready ( function (){
  
             } ",
             ))?>;
-    return false; 
+    return true; 
  });
 	for(i=0;i<count;i++){
 			//проверка какое значение выбрано в поле discount

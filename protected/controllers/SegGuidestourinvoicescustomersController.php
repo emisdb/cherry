@@ -23,7 +23,7 @@ class SegGuidestourinvoicescustomersController extends Controller
 	       		'users'=>array('*'),  
 			),
 		    array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('current','createpdf','info'),
+				'actions'=>array('current','createpdf','info','ajaxInfo'),
                 'roles'=>array('guide'),
 			),            
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -125,9 +125,20 @@ class SegGuidestourinvoicescustomersController extends Controller
 			'time'=>$time,
 		));
 	}
-	public function actionAjaxInfo($id_sched=null,$date=null,$time=null)
+	public function actionAjaxInfo()
 	{
-		
+	if (!Yii::app()->request->isAjaxRequest)
+			{
+				echo CJSON::encode(array(
+					'status'=>'failure', 
+					'div'=>'No Request'));
+//					'div'=>$this->renderPartial('_form', array('model'=>$model), true)));
+				exit;               
+			}
+		$id_sched = $_POST['id_sched'];
+		$date = $_POST['date'];
+		$time = $_POST['time'];
+
 		$id_control = Yii::app()->user->id;
 		$guide = User::model()->findByPk($id_control);
         $role_control = $guide->id_usergroups;    
@@ -176,7 +187,7 @@ class SegGuidestourinvoicescustomersController extends Controller
 		$gonorar = $gonorar_tour->base_provision+$cifra*$gonorar_tour->guestsMinforVariable;//summa gonorar
 		//$gonorar_vat = $gonorar*$vat/100;
 		
-		$this->renderPartial('info',array(
+		$result=$this->renderPartial('info',array(
 			'gonorar_tour'=>$gonorar_tour,
 			'cifra'=>$cifra,
 			'gonorar'=>$gonorar,
@@ -189,7 +200,11 @@ class SegGuidestourinvoicescustomersController extends Controller
 			'id_sched'=>$id_sched,
 			'date'=>$date,
 			'time'=>$time,
-		));
+			'ajax'=>true,
+		),true);
+				echo CJSON::encode(array(
+					'status'=>'failure', 
+					'div'=>$result));
 	}
 	
 	

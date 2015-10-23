@@ -30,22 +30,19 @@ $x3=number_format($gonorar, 2, '.', ' '); ?>
 </table>
 
 <div class="guide-info-name">Kassa</div>
-<? if (!empty($cash)){ ?>
-	<? $y1=number_format($cash->delta_cash+$cash->cashBefore, 2, '.', ' ');
+<?php if (!empty($cash)){  $y1=number_format($cash->delta_cash+$cash->cashBefore, 2, '.', ' ');
     $y2=number_format($cashincome, 2, '.', ' ');
     
     $y4=number_format($cashincome - $x3, 2, '.', ' ');
     $y5=number_format($cash->delta_cash+$cash->cashBefore + $cashincome - $x3, 2, '.', ' ');
-    ?>
-    
-<? } else { ?>
-<? $y1=number_format(0+0, 2, '.', ' ');
+ } 
+ else 
+	 {  $y1=number_format(0+0, 2, '.', ' ');
     $y2=number_format($cashincome, 2, '.', ' ');
     
     $y4=number_format($cashincome - $x3, 2, '.', ' ');
     $y5=number_format($cashincome - $x3, 2, '.', ' ');
-    ?>
-<? }?>
+ }?>
     <table class="table-info-guide">
         <tr>
             <td>Cash old:</td>
@@ -70,6 +67,7 @@ $x3=number_format($gonorar, 2, '.', ' '); ?>
     </table>
 
     <!-- *********************** BUTTINS ***************************************************************-->
+	<?php if(!(isset($ajax)&&$ajax)): ?>
 <div class="row buttons">
         <button class="btn btn-primary cancel">
         <a href="<?php echo Yii::app()->request->baseUrl; ?>/segGuidestourinvoicescustomers/current/id_sched/<? echo $id_sched;?>/date/<? echo $date; ?>/time/<? echo $time; ?>">
@@ -77,4 +75,5 @@ $x3=number_format($gonorar, 2, '.', ' '); ?>
         </a>
         </button>
 </div>
+	<?php	endif; ?>
 
