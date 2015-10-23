@@ -125,6 +125,72 @@ class SegGuidestourinvoicescustomersController extends Controller
 			'time'=>$time,
 		));
 	}
+	public function actionAjaxInfo($id_sched=null,$date=null,$time=null)
+	{
+		
+		$id_control = Yii::app()->user->id;
+		$guide = User::model()->findByPk($id_control);
+        $role_control = $guide->id_usergroups;    
+
+   
+		//sched
+		$sched = SegScheduledTours::model()->findByPk($id_sched);
+		
+		//tour
+		$tour = SegTourroutes::model()->findByPk($sched->tourroute_id);
+		
+		//tourroutes
+		$criteria_tourroutes = new CDbCriteria;
+		$criteria_tourroutes->condition = 'usersid=:usersid AND tourroutes_id=:tourroutes_id';
+		$criteria_tourroutes->params = array(':usersid'=>$sched->user_ob->id,'tourroutes_id'=>$tour->id_tour_categories);
+		$gonorar_tour = SegGuidesTourroutes::model()->find($criteria_tourroutes);
+		
+		//mainoption
+		$criteria_vat = new CDbCriteria;
+		$criteria_vat->condition = 'name=:name ';
+		$criteria_vat->params = array(':name'=>'Vat');
+		$vat = Mainoptions::model()->find($criteria_vat)->value;
+				
+		//cash
+		$criteria_cash = new CDbCriteria;
+		$criteria_cash->order ='timestamp DESC';
+		$criteria_cash->condition = 'users_id=:users_id ';
+		$criteria_cash->params = array(':users_id'=>$sched->guide1_id);
+		$cash = CashboxHistory::model()->find($criteria_cash);
+	
+		//segguidestourinvoices
+		$criteria_invoice = new CDbCriteria;
+		$criteria_invoice->condition = 'id_sched=:id_sched ';
+		$criteria_invoice->params = array(':id_sched'=>$sched->idseg_scheduled_tours);
+		$invoice = SegGuidestourinvoices::model()->find($criteria_invoice);
+		$cashincome = $invoice->cashIncome;
+		
+		//segguidestourinvoicescustomers
+		$criteria_c = new CDbCriteria;
+		$criteria_c->condition = 'tourInvoiceid=:tourInvoiceid AND isPaid=:isPaid';
+		$criteria_c->params = array(':tourInvoiceid'=>$invoice->idseg_guidesTourInvoices, ':isPaid'=>1);
+		$invoicecustomer = count(SegGuidestourinvoicescustomers::model()->findAll($criteria_c));
+		
+		$cifra = $invoicecustomer - $gonorar_tour->guest_variable;
+		if($cifra<=0){$cifra=0;}//turists >
+		$gonorar = $gonorar_tour->base_provision+$cifra*$gonorar_tour->guestsMinforVariable;//summa gonorar
+		//$gonorar_vat = $gonorar*$vat/100;
+		
+		$this->renderPartial('info',array(
+			'gonorar_tour'=>$gonorar_tour,
+			'cifra'=>$cifra,
+			'gonorar'=>$gonorar,
+			//'gonorar_vat'=>$gonorar_vat,
+			'vat'=>$vat,
+			
+			'cash'=>$cash,
+			'cashincome'=>$cashincome,
+			
+			'id_sched'=>$id_sched,
+			'date'=>$date,
+			'time'=>$time,
+		));
+	}
 	
 	
 	public function actionCreatepdf($id_invoice=null,$id_tour=null)
