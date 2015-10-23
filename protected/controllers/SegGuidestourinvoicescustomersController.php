@@ -592,7 +592,7 @@ class SegGuidestourinvoicescustomersController extends Controller
 				$datename = $date_format_n;
 				
 				$name_pdf2 = $name_pdf1.'_'.$datename.'.pdf';
-				$files_name = '/filespdf/'.$name_pdf2;
+				$files_name = __DIR__.'/../../filespdf/'.$name_pdf2;
 				//$path = $_SERVER['DOCUMENT_ROOT'];
 				//$path1 = 'Z:&#092;home&#092;seg1&#092;www&#092;';
 				//print_r($path);
@@ -610,7 +610,9 @@ class SegGuidestourinvoicescustomersController extends Controller
 				//$rrr = $fff;
 			
 				
-				$pdf->Output($files_name, 'I');	
+				$pdf->Output($files_name, 'F');	
+	          $this->redirect( Yii::app()->createUrl('/filespdf/'.$name_pdf2) );
+
 /*			$this->render('testpdf',array(
 					'tour'=>$tour,
 					'invoicecustomers'=>$invoicecustomers,

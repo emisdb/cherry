@@ -202,7 +202,7 @@ class SegScheduledTours extends CActiveRecord
 		));
 	}
 
-	public function search_s($guide1_id)
+	public function search_s($guide1_id, $date)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
@@ -211,8 +211,9 @@ class SegScheduledTours extends CActiveRecord
        
 
         $criteria->condition = 'guide1_id=:guide1_id';
-        $criteria->params = array(':guide1_id' => $guide1_id);
-        $criteria->order = 'date_now DESC';
+         $criteria->params = array(':guide1_id' => $guide1_id);
+		$criteria->addCondition("t.date  <= '$date'");
+        $criteria->order = 'date_now DESC, starttime DESC';
         
          $criteria->with = array('city_ob','language_ob','tourroute_ob');
 		$criteria->compare('city_ob.city_id',$this->city_ob,true);
@@ -247,30 +248,10 @@ class SegScheduledTours extends CActiveRecord
        	
            return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-          //  'sort'=>'date_now',
-            'sort'=>array(
-                'attributes'=>array( 
-                  
-                  //  'date_now'=>array(
-                  //      'desc'=>'date_now DESC',
-                //        'asc'=>'date_now ASC',
-                 //   ),
-                    
-                 //   
-                         
-                   /* 'starttime'=>array(
-                        'desc'=>'starttime DESC',
-                        'asc'=>'starttime ASC',
-                    ),*/
-                    
-                   
-                  // 'starttime'=>array(
-                  //      'desc'=>'starttime',
-                  //  ),
-                ),
-                'defaultOrder'=>'starttime',
-            )
-		));
+ 			   'pagination'=>array(
+        'pageSize'=>30,
+    ),
+  		));
     }
 
 	/**

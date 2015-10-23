@@ -20,7 +20,33 @@ $this->breadcrumbs=array(
 $datetime = time();
 ?>
 <h1>Scheduled Tours</h1>
-      </section>
+                     <div style=" width:100px;">
+                    <?php
+                        $this->widget('zii.widgets.jui.CJuiDatePicker',array(
+                            'name'=>'publishDate',
+ 								'value'=>date("d.m.Y",strtotime($date)),
+                            // additional javascript options for the date picker plugin
+                            'options'=>array(
+                               'showAnim'=>'fold',
+                                'dateFormat' => 'dd.mm.yy',
+                                 'yearRange'=>'2015:2050',
+//                                 'minDate' => 0,//'01.06.2015',//0, 
+                                 'defaultDate'=> time(),     
+                                 //'maxDate' => '2099-12-31',  
+                                 'onSelect'=> 'js: function(date) {if(date != "") { 
+                                    window.location.href = "'.CHtml::encode($this->createUrl('guide/schedule'
+                                    )).'/date/"+date ;
+                                 } }',
+                            ),
+                            'htmlOptions'=>array(
+                                 	'size' => '10',         // textField size
+        							'maxlength' => '10', 
+                            ),
+                            'flat'=>false,
+                        )); 
+                    ?>
+                    </div>
+		</section>
 
         <!-- Main content -->
         <section class="content">
@@ -28,7 +54,7 @@ $datetime = time();
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'sss-grid',
-	'dataProvider'=>$model->search_s($id_control),//$model->search_root(),
+	'dataProvider'=>$model->search_s($id_control, $date),//$model->search_root(),
 //	'filter'=>$model,
 	'rowCssClassExpression' => '$data->openTour || $data->date_now > '.$datetime.' ? "table_scheduled" : "table_scheduled_pdf"', 
 	//'rowCssClassExpression' => '$date->openTour ? "table_scheduled" : "table_scheduled_pdf"', 

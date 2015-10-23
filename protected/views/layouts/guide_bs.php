@@ -39,10 +39,10 @@
 				<?php echo CHtml::link("<i class='fa fa-laptop'></i> <span>Return to the site</span>", "/"); ?>
             </li>
               <li>
-				<?php echo CHtml::link("<i class='fa fa-table'></i> <span>Scheduled tours</span>", array('guide/weeks','date'=>date('d.m.Y'))); ?>
+				<?php echo CHtml::link("<i class='fa fa-table'></i><span>Schedule</span>", array('guide/weeks','date'=>date('d.m.Y'))); ?>
             </li>
                <li>
-				<?php echo CHtml::link("<i class='fa fa-edit'></i> <span>Schedule</span>", array('guide/schedule')); ?>
+				<?php echo CHtml::link("<i class='fa fa-edit'></i> <span>Scheduled tours</span>", array('guide/schedule')); ?>
             </li>
             <li>
 				<?php echo CHtml::link("<i class='fa fa-money'></i> <span>Cashbox</span>", array('guide/history','id'=> Yii::app()->user->id)); ?>

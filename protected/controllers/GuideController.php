@@ -568,7 +568,7 @@ class GuideController extends Controller
          
 
     }
-	public function actionSchedule()
+	public function actionSchedule($date=null)
 	{
 	   $id_control = Yii::app()->user->id;
        // $update_user = User::model()->findByPk($id_user);
@@ -580,7 +580,9 @@ class GuideController extends Controller
         $criteria = new CDbCriteria;
         $criteria->condition = 'guide1_id=:guide1_id';
         $criteria->params = array(':guide1_id' => $id_control);
-        //$//criteria->order = '(date_now DESC) AND (starttime DESC)';
+		if(is_null($date))   $Datef= date('Y-m-d');
+		else   $Datef= date('Y-m-d', strtotime($date));
+       //$//criteria->order = '(date_now DESC) AND (starttime DESC)';
         // $criteria->order = 'starttime DESC';
       //  $model = SegScheduledTours::model()->findAll($criteria);
      //  print_r($model);
@@ -604,7 +606,7 @@ class GuideController extends Controller
 		$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
  
 		$this->render('schedule',array(
-			'model'=>$model,'id_control'=>$id_control,'info'=>$test
+			'model'=>$model,'id_control'=>$id_control,'info'=>$test,'date'=> $Datef,
 		));
 	}
 	
