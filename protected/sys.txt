@@ -1,0 +1,28 @@
+1.Create Scheduled Tours
+	Run:		http://cherry/segScheduledTours/weeks/date/18.10.2015
+    controller action: http://cherry/segScheduledTours/take?date=18.10.2015&time=09%3A00%3A00
+			code:	new SegScheduledTours
+		
+	Run: http://cherry/segScheduledTours/spontan
+    			code:	new SegScheduledTours
+                
+2. Register on tour
+	Run: http://cherry/berlin/book?id=397&cat=1
+		code: 	
+               $scheduled = SegScheduledTours::model()->findByPk($id);
+				$scheduled->tourroute_id = $_POST['Book']['tour'];
+				$scheduled->language_id = $_POST['Book']['language'];
+				$scheduled->TNmax_sched = $ticket_array->TNmax;
+				$scheduled->current_subscribers=$scheduled->current_subscribers +$ticket_count;
+				$ticket_array = SegTourroutes::model()->findByPk($_POST['Book']['tour']);
+				$user_contact =  new SegContacts;
+				$guidestourinvoices = new SegGuidestourinvoices;
+				$guidestourinvoicescustomers = new SegGuidestourinvoicescustomers;
+
+3.Current Subscriber (report)
+	Run: http://cherry/segGuidestourinvoicescustomers/current/id_sched/391/date/2015-10-20/time/10:00:00
+    code:
+				$prov = SegGuidestourinvoices::model()->find($criteria_prov);
+				$model = SegGuidestourinvoicescustomers::model()->findAll($criteria_invoicecustomer);
+
+

@@ -202,7 +202,7 @@ class SegScheduledTours extends CActiveRecord
 		));
 	}
 
-	public function search_s($guide1_id, $date)
+	public function search_s($guide1_id, $date=null)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
@@ -212,7 +212,9 @@ class SegScheduledTours extends CActiveRecord
 
         $criteria->condition = 'guide1_id=:guide1_id';
          $criteria->params = array(':guide1_id' => $guide1_id);
+		 if(!is_null($date)){
 		$criteria->addCondition("t.date  <= '$date'");
+		 }
         $criteria->order = 'date_now DESC, starttime DESC';
         
          $criteria->with = array('city_ob','language_ob','tourroute_ob');

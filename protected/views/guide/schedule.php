@@ -7,7 +7,6 @@
 $this->breadcrumbs=array(
 	'Scheduled Tours',
 );
-
 ?> 
 <style>
 	.table_scheduled_pdf,.grid-view table.items tbody tr.table_scheduled_pdf:hover{ background:red; }

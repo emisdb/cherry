@@ -42,7 +42,7 @@ class SegGuidestourinvoicescustomers extends CActiveRecord
 		//	array('KA_string', 'length', 'max'=>12),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idseg_guidesTourInvoicesCustomers, tourInvoiceid, customersName, isTourist, discounttype_id, paymentoptionid, price, CustomerInvoiceNumber, cityid, KA_string, isPaid, origin_booking, id_invoiceoptions', 'safe', 'on'=>'search'),
+			array('tourInvoiceid, customersName, isTourist, discounttype_id, paymentoptionid, price, CustomerInvoiceNumber, cityid, KA_string, isPaid, origin_booking, id_invoiceoptions', 'safe', 'on'=>'search, update'),
 		);
 	}
 

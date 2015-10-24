@@ -22,16 +22,16 @@
 
        <!-- Content Header (Page header) -->
         <section class="content-header">
-			<?php
-			$this->breadcrumbs=array(
-				'Scheduled Tours'=>array('segScheduledTours/admin'),
-				'Current Subscriber',
-			);
-			?>
 			<h1>Current Subscriber</h1>
-			<div class="box-nav-right">
-				<button id="changebt" type="button" class="btn btn-primary cancel" data-toggle="modal" data-target="#guideModal">Guide's info</button>
-			</div>
+			<ol class="breadcrumb">
+				<li>
+					<?php echo chtml::link('Scheduled Tours',array('guide/scedule')); ?>
+				</li>
+				<li class="active"> Current Subscriber
+				</li>
+			</ol>	
+			<button id="changebt" type="button" class="btn btn-primary cancel" data-toggle="modal" data-target="#guideModal">Guide's info</button>
+
 		</section>
 
         <!-- Main content -->
@@ -39,28 +39,39 @@
 
 
 		<!-- param -->
-		<? $i=0; 
-		$id_c = $model[0]->booking->contact->idcontacts;
-		?><!-- groupsize  - chet, id contact user -->	
+			<div class="row">
+			<div class="col-md-8">
+			<div class="row create">
+			<div class="col-md-4 create-left">
 
-		<div><? echo $model[0]->booking->sched->tourroute_ob['name']; ?>
-			 <? echo $model[0]->booking->sched['date']; ?>
-			 <? echo $model[0]->booking->sched['starttime']; ?>
+				<?php $i=0; 
+				$id_c = $model[0]->booking->contact->idcontacts;
+				 echo $model[0]->booking->sched->tourroute_ob['name']." "
+						 .$model[0]->booking->sched['date']." "
+						 .$model[0]->booking->sched['starttime'];
+				 $element = 0; $k=0;$i=1;
+				 ?>
+			</div>
+			<div class="col-md-4">
+				<?php echo CHtml::link("New tourist","javascript:void(0);",array('onclick'=>'newtourist();')); ?>
+			</div>	
+		<div class="col-md-4">
 		</div>
-
-		<? $element = 0;?>
-		<? $k=0;$i=1;?>
-		<? $invoiceoptions_array = Invoiceoptions::model()->findAll(array('order'=>'id ASC')); ?>
-
-		<div style="display:none;" id="count"><? echo count($model);?></div>
-		<div style="display:none;" id="vat_nds"><? echo $vat_nds;?></div>
+		</div>
+		<div style="display:none;" id="count"><?php echo count($model);?></div>
+		<div style="display:none;" id="vat_nds"><?php echo $vat_nds;?></div>
+		<div class="row">
+		<div class="col-md-8">
 
 		<div class="form">
-
+	
 		<?php $form=$this->beginWidget('CActiveForm', array(
 			'id'=>'current-subscriber-form',
 			'enableAjaxValidation'=>false,
-		)); ?>
+		)); 
+	
+		?>
+		<input type="hidden" name="new_customer" id="new_customer" value="0">
 
 		<table border='1' cellpadding="5" cellspacing="5">
 			<tr>
@@ -73,119 +84,97 @@
 				<th>Vat</th>
 				<th>Options</th>
 			</tr>
-				<? if(!empty($model)){?>
-					<? for($element=0;$element < count($model);$element++){?>
-						<tr>
-		<!-- ******************************  Tourist  ****************************************************-->
-							<td><? echo $model[$element]->booking->contact->idcontacts;?></td>
-
-		<!-- ******************************  Nr  *********************************************************-->
-							<td>
-								<? if($id_c == $model[$element]->booking->contact->idcontacts){
-								}else{
-									$i = 1;	
-								}
-								$id_c = $model[$element]->booking->contact->idcontacts;						
-								$gs = $model[$element]->booking->groupsize - $model[$element]->booking->groupsize + $i;
-								$i++;?>
-								<? echo $gs;?>
-							</td>
-
-		<!-- ******************************  Name  ******************************************************-->
-							<td>
-								<? if($model[$element]->customersName == '') $model[$element]->customersName = $model[$element]->booking->contact->firstname.' '. $model[$element]->booking->contact->surname;?>
-								<? echo $form->textField($model[$element],'customersName',array('style'=>'width:170px','name'=>'customersName'.$k)); ?>
-							</td>
-
-		 <!-- ******************************  Discount  ************************************************-->              
-							<td>
-								<? $dis = Bonus::model()->findAll(array('order'=>'sort ASC')); ?>
-								<? foreach($dis as $d) {?>
-									<? $d->nametype = $d->name.' '.$d->type;?>
-								<? } ?>
-								<?php $list_discount = CHtml::listData($dis, 'id', 'nametype');  ?>
-
-								<div style="display:none;">
-									<? foreach($dis as $d){ ?>
-										<div id="i<?php echo $k;?>ii<? echo $d->id;?>"><? echo $d->val;?></div>
-										<div id="j<?php echo $k;?>jj<? echo $d->id;?>"><? echo $d->type;?></div>
-									<? } ?>
-									<div id="i<?php echo $k;?>ii0">0</div>
-									<div id="j<?php echo $k;?>jj0">euro</div>
-								</div>
-								<div style="display:none;" id="discount<?php echo $k;?>"><? echo $model[$element]->discounttype_id;?></div>
-								<select name="discounttype_id<? echo $k;?>" id="discounttype_id<?php echo $k;?>" onChange="price(value,this.id)" style="width:170px;">
-									<option value="0">--</option>
-									<? foreach($dis as $d){?>
-										<option value="<? echo $d->id;?>" <? if ($model[$element]->discounttype_id==$d->id) echo 'selected'; ?> ><? echo $d->nametype;?></option>
-									<? } ?>
-								</select>
-							</td>
-
-		 <!-- ******************************  Payment  ************************************************-->                    <td>
-								<? 
-								$criteria = new CDbCriteria;
-								$criteria->condition = 'idpayoptions=:idpayoptions1 OR idpayoptions=:idpayoptions2 OR idpayoptions=:idpayoptions3';
-								$criteria->params = array(':idpayoptions1' => 1,':idpayoptions2' => 2,':idpayoptions3' => 3);
-								$pay = Payoptions::model()->findAll($criteria);?>
-								<select name="payoption<? echo $k;?>" style="width:170px;" id="payoption<?php echo $k;?>" onChange="cash()">
-									<option value="0">--</option>
-									<? foreach($pay as $p){?>
-										<option value="<? echo $p->idpayoptions;?>" <? if($model[$element]->paymentoptionid==$p->idpayoptions) echo "selected";?>  ><? echo $p->displayname;?></option>
-									<? } ?>
-								</select>
-							</td>
-
-		<!-- ******************************  Price  ************************************************-->                 
-							<td>
-								<? $bp = $model[$element]->booking->sched->tourroute_ob['base_price'];?>
-								<input type="hidden" id="base_price" value = "<? echo $bp;?>" > 
-								<div id="price<?php echo $k;?>" style="float:left;">
-									<? if ($model[$element]->price==null){ ?>
-										<? echo $bp;?>
-									<? } else { ?>
-										<? echo $model[$element]->price; ?>
-									<? } ?>
-								</div>
-								<div style="float:left;"> &euro;</div>
-								<div style="clear:both;"></div>
-								<? $price_input = 'price_i'.$k;?>
-								<input type="hidden" id="<?php echo $price_input; ?>" name="price<? echo $k;?>" >
-							</td>
-
-		<!-- ******************************  Vat  ************************************************-->                  
-							<td style="width:40px;">
-								<? if($model[$element]->price==null){
+				<?php if(!empty($model))
+					{ 
+						foreach($dis as $d) {
+								$d->nametype = $d->name.' '.$d->type;
+								 } 
+						 $list_discount = CHtml::listData($dis, 'id', 'nametype'); 
+				for($element=0;$element < count($model);$element++)
+					{
+						echo "<tr><td>";
+							echo $model[$element]->booking->contact->idcontacts;
+						echo "</td><td>\n";
+						 if($id_c == $model[$element]->booking->contact->idcontacts){}
+						 else{	$i = 1;	}
+						$id_c = $model[$element]->booking->contact->idcontacts;						
+						$gs = $model[$element]->booking->groupsize - $model[$element]->booking->groupsize + $i;
+						$i++;
+						echo $gs;
+						echo "</td><td>\n";
+						if($model[$element]->customersName == '') $model[$element]->customersName = $model[$element]->booking->contact->firstname.' '. $model[$element]->booking->contact->surname;
+						echo $form->textField($model[$element],'customersName',array('style'=>'width:170px','name'=>'customersName'.$k)); 
+						echo "</td><td>\n";
+						 echo '<div style="display:none;">';
+						foreach($dis as $d){ 
+							echo '<div id="i'.$k.'ii'.$d->id.'" >'.$d->val.'</div>';
+							echo '<div id="j'.$k.'jj'.$d->id.'" >'.$d->type.'</div>';
+							 }
+							echo '<div id="i'.$k.'ii0" >0</div>';
+							echo '<div id="j'.$k.'jj0" >euro</div>';
+						echo "</div>\n";
+						echo '<div style="display:none;" id="discount'.$k.'" >'.$model[$element]->discounttype_id.'</div>';
+						echo '<select name="discounttype_id'.$k.'" id="discounttype_id'.$k.'" onChange="price(value,this.id)" style="width:170px;">';
+						echo '<option value="0">--</option>';
+						foreach($dis as $d){
+							echo '<option value="'.$d->id.'" ';
+							if ($model[$element]->discounttype_id==$d->id)
+								echo 'selected ';
+							echo '>'.$d->nametype.'</option>';
+						}
+						echo "</select></td><td>\n";
+						echo '<select name="payoption'.$k.'" style="width:170px;" id="payoption'.$k.'" onChange="cash()">';
+						echo '<option value="0">--</option>';
+						foreach($pay as $p){
+							echo '<option value="'.$p->idpayoptions.'" ';
+							if($model[$element]->paymentoptionid==$p->idpayoptions) 
+								echo "selected";
+							echo '>'.$p->displayname.'</option>';
+						}
+						echo "</select></td><td>\n";
+						$bp = $model[$element]->booking->sched->tourroute_ob['base_price'];
+						echo '<input type="hidden" id="base_price" value = "'.$bp.'" >';
+						echo '<div id="price'.$k.'" style="float:left;">';
+						 if ($model[$element]->price==null){ echo $bp; } else { echo $model[$element]->price; } 
+						echo '</div><div style="float:left;"> &euro;</div>';
+						echo '<div style="clear:both;"></div>';
+						echo '<input type="hidden" id="price_i'.$k.'" name="price<? echo $k;?>" >';
+						echo '</td><td style="width:40px;">';
+						if($model[$element]->price==null){
 									$vat_value = $bp*(1-1/($vat_nds/100+1));
 								} else {
 									$vat_value = $model[$element]->price*(1-1/($vat_nds/100+1));
 								}
 								$vat_value = number_format($vat_value, 2, '.', ' ');
-								?>
-								<div id="vat<?php echo $k;?>" style="float:left;"><? echo $vat_value;?></div><div style="float:left;"> &euro;</div>
-								<div style="clear:both;"></div>
-								<? $vat_input = 'vat_i'.$k;?>
-								<input type="hidden" id="<?php echo $vat_input; ?>" name="vat<? echo $k;?>" >
-							</td>
-
-		 <!-- ******************************  Option  *********************************************-->                     
-							<td>
-								<select name="option<? echo $k;?>" id="option<?php echo $k;?>" ostyle="width:170px;">
-									<option>--</option>
-									<? foreach($invoiceoptions_array as $p){?>
-										<option value="<? echo $p->id;?>" <? if ($model[$element]->id_invoiceoptions==$p->id) echo 'selected'; ?>><? echo $p->name;?></option>
-									<? } ?>
-								</select>
-							</td>
-						</tr>
-						<? $k++;?>
-					<? } ?>
-				<? }else{ ?>
-					<tr>
-						<td colspan="8">no current</td>
-					</tr>
-				<? } ?>
+						echo '<div id="vat'.$k.'" style="float:left;">'.$vat_value.'</div><div style="float:left;"> &euro;</div>';
+						echo '<div style="clear:both;"></div>';
+						$vat_input = 'vat_i'.$k;
+						echo '<input type="hidden" id="'.$vat_input.'" name="vat'.$k.'">';
+						echo "</td><td>\n";
+						echo '<select name="option'.$k.'" id="option'.$k.'" ostyle="width:170px;">';
+						echo '<option>--</option>';
+						foreach($invoiceoptions_array as $p){
+							echo '<option value="'.$p->id.'" ';
+							if ($model[$element]->id_invoiceoptions==$p->id) echo 'selected'; 
+							echo '>'.$p->name.'</option>';
+						}
+						echo "</select></td></tr>\n";
+						$k++;
+					} 
+				}else{ 
+					echo '<tr><td colspan="8">no current</td></tr>';
+				}
+				?>
 		</table>
+		</div>
+		</div>
+		<div class="col-md-4">
+		</div>
+		</div>
+			</div>
+		<div class="col-md-4">
+		</div>
+		</div>
 
 		<div style="display:none;" id="namek"><? echo $k;?></div>
 
@@ -226,7 +215,9 @@
 				<button class="btn btn-primary cancel"><a href="<?php echo Yii::app()->request->baseUrl; ?>/segScheduledTours/admin"><?php echo 'Cancel'; ?></a></button>
 		</div>
 
-		<?php $this->endWidget(); ?>
+		<?php
+		$this->endWidget();
+		?>
 
 </div><!-- form -->
 	
@@ -426,5 +417,9 @@ function cash()
 		 document.getElementById('price_sv_post').value = price_sv;
 		 document.getElementById('price_cash_post').value = price_cash;
 
+}
+ function newtourist() {
+	document.forms['current-subscriber-form']['new_customer'].value=1;
+	document.forms['current-subscriber-form'].submit();
 }
 </script>

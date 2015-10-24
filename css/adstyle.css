@@ -92,6 +92,10 @@ input, textarea, .uneditable-input {
     color:#3A6998;
     font-size:11px;
 }
+.create-left
+{
+    text-align: left;
+}
 .create a{
     text-decoration:none;
     color:#3A6998;

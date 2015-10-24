@@ -32,7 +32,7 @@ class GuideController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('view','profile','update','contact','user','weeks','take','show','schedule','history','current','delete'),
+				'actions'=>array('view','profile','update','contact','user','weeks','take','show','ajaxShow','schedule','history','current','delete'),
                 'roles'=>array('guide'),
 			),            
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -568,6 +568,95 @@ class GuideController extends Controller
          
 
     }
+	public function actionAjaxShow()
+	{
+		if (!Yii::app()->request->isAjaxRequest)
+			{
+				echo "No data";
+				exit;               
+			}
+
+	 	$id= $_POST['id'];
+		    $id_control = Yii::app()->user->id;
+       // $update_user = User::model()->findByPk($id_user);
+        $role_control = User::model()->findByPk($id_control)->id_usergroups;    
+      //  $id_guide = SegGuidesdata::model()->findByPk($update_user->id_guide)->idseg_guidesdata;
+         	$model=$this->loadST($id);
+        
+        //city
+        //$citie->seg_cityname = '';
+        $j=0;
+        $criteria_city = new CDbCriteria;
+        $criteria_city->condition = 'users_id=:users_id';
+        $criteria_city->params = array(':users_id' => $model->guide1_id);
+        $city = SegGuidesCities::model()->find($criteria_city);
+        if(isset($city)){
+            $criteria_c = new CDbCriteria;
+            $criteria_c->condition = 'idseg_cities=:idseg_cities';
+            $criteria_c->params = array(':idseg_cities' => $city->cities_id);
+            $citie = SegCities::model()->find($criteria_c);
+            
+            $model->city_id_all = $citie->seg_cityname;
+            $j = $citie->idseg_cities;
+        }else{
+            $model->city_id_all = 'no element';
+        }
+        
+        //language
+        if($model->language_id==NULL){
+            $i=0;
+            $criteria_language = new CDbCriteria;
+            $criteria_language->condition = 'users_id=:users_id';
+            $criteria_language->params = array(':users_id' => $model->guide1_id);
+            $language = SegLanguagesGuides::model()->findAll($criteria_language);
+            if(isset($language)){
+                foreach($language as $item){
+                    $criteria_i = new CDbCriteria;
+                    $criteria_i->condition = 'id_languages=:id_languages';
+                    $criteria_i->params = array(':id_languages' => $item->languages_id);
+                    $languages = Languages::model()->findAll($criteria_i);
+                    $model->language_id_all[$i] = $languages;
+                    $i++;
+                }
+            }else{
+                $model->language_id_all[0] = 'no element';
+            }
+        }else{
+            $criteria_i = new CDbCriteria;
+            $criteria_i->condition = 'id_languages=:id_languages';
+            $criteria_i->params = array(':id_languages' => $model->language_id);
+            $language = Languages::model()->find($criteria_i);
+            $model->language_id_all[0] = $language;
+        }
+               
+        //tour canegories + tourroute
+        //$tourroute_id_all;
+        $z=0;
+        $criteria_tour = new CDbCriteria;
+        $criteria_tour->condition = 'usersid=:usersid';
+        $criteria_tour->params = array(':usersid' => $model->guide1_id);
+
+        $tourcats = SegGuidesTourroutes::model()->findAll($criteria_tour);
+        if(isset($tourcats)){
+            foreach($tourcats as $tourroute){
+                $criteria_t = new CDbCriteria;
+                $criteria_t->condition = 'id_tour_categories=:id_tour_categories AND cityid=:cityid';
+                $criteria_t->params = array(':id_tour_categories' => $tourroute->tourroutes_id, ':cityid'=>$j);
+                $tourroutes = SegTourroutes::model()->find($criteria_t);
+                $model->tourroute_id_all[$z] = $tourroutes->name;
+                $z++;           
+    }
+            
+            
+            
+        }else{
+              $model->tourroute_id_all[0] = 'no element';
+        }
+        
+ 		$result=$this->renderPartial('ajaxshow',array('model'=>$model));
+         
+
+    }
 	public function actionSchedule($date=null)
 	{
 	   $id_control = Yii::app()->user->id;
@@ -629,13 +718,7 @@ class GuideController extends Controller
 	
 	public function actionCurrent($id_sched=null,$date=null,$time=null)
 	{
-		//print_r('999');
-		/*print_r($id_tour);
-				print_r('999');
-		print_r($date);
-				print_r('999');
-		print_r($time);*/
-		
+	
 		$id_control = Yii::app()->user->id;
         $guide = User::model()->findByPk($id_control);
         $role_control = $guide->id_usergroups;    
@@ -645,45 +728,23 @@ class GuideController extends Controller
 			$date_bd = date('Y-m-d',$date_format);
 			$dt =$date_bd.' '.$time;
 
-	//print_r($dt);
-	
-				//booking
-				$criteria_booking = new CDbCriteria;
-				
-				$criteria_booking->condition = 'sched_tourid=:sched_tourid ';
-				$criteria_booking->params = array(':sched_tourid'=>$id_sched);
+			$criteria_booking = new CDbCriteria;
+			$criteria_booking->condition = 'sched_tourid=:sched_tourid ';
+			$criteria_booking->params = array(':sched_tourid'=>$id_sched);
 			
-				//$criteria_booking->alias = 's';
-			//	$criteria_booking->join = 'LEFT JOIN seg_scheduled_tours as sc ON sc.idseg_scheduled_tours=s.sched_tourid';
-				//$criteria_booking->condition = 's.sched_tourid=:sched_tourid AND Concat(sc.date," ",sc.starttime)=:dt';
-				//$criteria_booking->params = array(':sched_tourid'=>$id_sched,':dt' => $dt);
-				$booking = SegBookings::model()->findAll($criteria_booking);
+			$booking = SegBookings::model()->findAll($criteria_booking);
 				
+			$criteria_sched = new CDbCriteria;
+			$criteria_sched->condition = 'idseg_scheduled_tours=:idseg_scheduled_tours ';
+			$criteria_sched->params = array(':idseg_scheduled_tours'=>$id_sched);
+			$sched = SegScheduledTours::model()->find($criteria_sched);
 				
-				
-				$criteria_sched = new CDbCriteria;
-				$criteria_sched->condition = 'idseg_scheduled_tours=:idseg_scheduled_tours ';
-				$criteria_sched->params = array(':idseg_scheduled_tours'=>$id_sched);
-				$sched = SegScheduledTours::model()->find($criteria_sched);
-				
-				
-				//print_r(count($booking));
-				
-				$book_z1 = array();$j=0;
-				foreach($booking as $book){
-					$book_z1[$j] = $book->idseg_bookings;	
-					$j++;
-					//print_r($book_z1[$j]);
-				}
-				
-				//print_r(count($booking));
-			//	$book_z = '8, 9';
-				
-				
-				
-				//guidestourinvoicescustomers
-				//cond
-				$x=1;$xx=0;$cond='';$y=1;$yy=0;$param=array();
+			$book_z1 = array();$j=0;
+			foreach($booking as $book){
+				$book_z1[$j] = $book->idseg_bookings;	
+				$j++;
+			}
+			$x=1;$xx=0;$cond='';$y=1;$yy=0;$param=array();
 				foreach($booking as $book){
 					if($xx==0){
 						$xx=1;
@@ -701,32 +762,39 @@ class GuideController extends Controller
 				
 					$yy++;	$x++; $y++;
 				}
+				$criteria_invoicecustomer = new CDbCriteria;
+				$criteria_invoicecustomer->condition = $cond;
+				$criteria_invoicecustomer->params = $param;
+				$model = SegGuidestourinvoicescustomers::model()->findAll($criteria_invoicecustomer);
+
 				
-				//print_r($param);
-				//foreach($booking as $book) {
-					$criteria_invoicecustomer = new CDbCriteria;
-					$criteria_invoicecustomer->condition = $cond;
-					//$criteria_invoicecustomer->params = array($param);
-						$criteria_invoicecustomer->params = $param;
-					$model = SegGuidestourinvoicescustomers::model()->findAll($criteria_invoicecustomer);
-					//$x++;
-				//}
-				
-				//print_r(count($model));
-				//for ($xx=0;$xx<$x;$xx++){
-					
-				//$model = $model1[$xx];
-				//}
-				//print_r(count($model2));
-				
-				
-				
-				//tour
-				/*$tour = SegTourroutes::model()->findByPk($sched->tourroute_id);*/
-				
-				//$k=0;
 				if(!empty($_POST))
 				{
+					$newcustomer=$_POST['new_customer'];
+					if($newcustomer>0)
+					{
+						if(count($model)>0)
+						{
+							$customer = new SegGuidestourinvoicescustomers;
+//							$customer->setAttributes($model[0]->attributes, true);
+							$customer->customersName = $model[0]->customersName;
+							$customer->price = $model[0]->price;
+							$customer->cityid = $model[0]->cityid;					
+							$customer->tourInvoiceid =  $model[0]->tourInvoiceid ;
+							$max= Yii::app()->db->createCommand("SELECT max(CustomerInvoiceNumber) from seg_guidestourinvoicescustomers where cityid=".$customer->cityid)->queryScalar();
+							$max_i = $max+1;
+							$splitstr=  explode("/",$model[0]->KA_string);
+							$customer->KA_string = $splitstr[0]."/".$max_i;
+							$customer->CustomerInvoiceNumber = $max_i;
+							$customer->isPaid = 0;
+							$customer->origin_booking = $model[0]->origin_booking ;
+							$customer->save();
+							$model = SegGuidestourinvoicescustomers::model()->findAll($criteria_invoicecustomer);
+							
+						}
+					}
+					else
+					{
 					//create guidetourinvoice
 					//проверка на существование invoice
 					$criteria_prov = new CDbCriteria;
@@ -747,22 +815,8 @@ class GuideController extends Controller
 					$invoice->guideNr = $sched->guide1_id;
 					$invoice->status = 0;
 					$invoice->id_sched = $sched->idseg_scheduled_tours;
-					//$sum_itog=0;
-					//$sum_bar=0;
-					//foreach($invoicecustomers as $item){
-						//$sum_itog=$sum_itog+$item->price;
-						//if($item->paymentoptionid==1) $sum_bar = $sum_bar+$item->price;
-					//}
-					//print_r($_POST);
 					$invoice->overAllIncome = $_POST['price_s_post'];
 					$invoice->cashIncome =  $_POST['price_cash_post'];
-					
-/*					$b = $tour->city['seg_cityname']{0};
-					$year = date('y',time());
-					$max= Yii::app()->db->createCommand("SELECT max(InvoiceNumber) from seg_guidestourinvoices where cityid=".$tour->cityid)->queryScalar();
-					$max_i = $max+1;
-					$invoice->TA_string = 'TA'.$b.$year.'/'.$max_i;
-					$invoice->InvoiceNumber =$max_i;*/
 					
 					
 					$invoice->save();
@@ -777,18 +831,11 @@ class GuideController extends Controller
 						if(!empty($_POST['price'.$k])) $model[$k]->price = $_POST['price'.$k];
 						$model[$k]->id_invoiceoptions = $_POST['option'.$k];
 						if($model[$k]->paymentoptionid)$model[$k]->isPaid = 1;
-					//	print_r($model[$k]);
-						//print_r('8777');
-						
+					
 						$model[$k]->save();
-							//print('555');
-					//$model->attributes=$_POST['SegScheduledTours'];
-					//if($model->save())
-						//$this->redirect(array('officeadmin'));
-						//print_r($_POST);
-						//print_r('00');
 						
 					}
+				}
 				}
 	
 				//mainoption
@@ -796,7 +843,15 @@ class GuideController extends Controller
 				$criteria_vat->condition = 'name=:name ';
 				$criteria_vat->params = array(':name'=>'Vat');
 				$vat_nds = Mainoptions::model()->find($criteria_vat)->value;
-		$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+				$criteria = new CDbCriteria;
+				$criteria->condition = 'idpayoptions=:idpayoptions1 OR idpayoptions=:idpayoptions2 OR idpayoptions=:idpayoptions3';
+				$criteria->params = array(':idpayoptions1' => 1,':idpayoptions2' => 2,':idpayoptions3' => 3);
+				$pay = Payoptions::model()->findAll($criteria);
+				$invoiceoptions_array = Invoiceoptions::model()->findAll(array('order'=>'id ASC')); 
+				$dis = Bonus::model()->findAll(array('order'=>'sort ASC')); 
+
+				
+				$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
  				
 				$this->render('current',array(
 					'model'=>$model,
@@ -806,8 +861,11 @@ class GuideController extends Controller
 					'date'=>$date,
 					'time'=>$time,
 					'vat_nds'=>$vat_nds,
-					'info'=>$test
-					));
+					'pay'=>$pay,
+					'dis'=>$dis,
+					'invoiceoptions_array'=>$invoiceoptions_array,
+					'info'=>$test,
+				));
 	
 	
 	}

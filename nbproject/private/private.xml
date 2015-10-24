@@ -3,14 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/OpenServer/domains/cherry/protected/views/guide/current.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/views/guide/schedule.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/controllers/SegGuidestourinvoicescustomersController.php</file>
             <file>file:/C:/OpenServer/domains/cherry/protected/controllers/BerlinController.php</file>
-            <file>file:/C:/OpenServer/domains/cherry/index.php</file>
-            <file>file:/C:/OpenServer/domains/cherry/.htaccess</file>
-            <file>file:/C:/OpenServer/domains/cherry/protected/views/main/system.php</file>
-            <file>file:/C:/OpenServer/domains/cherry/protected/views/user/profile.php</file>
-            <file>file:/C:/OpenServer/domains/cherry/protected/models/SegContacts.php</file>
-            <file>file:/C:/OpenServer/domains/cherry/protected/views/layouts/guide_bs.php</file>
-            <file>file:/C:/OpenServer/domains/cherry/protected/controllers/MainController.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/views/segGuidestourinvoicescustomers/current.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/controllers/GuideController.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/views/segGuidestourinvoicescustomers/info.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/views/guide/weeks.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/models/SegScheduledTours.php</file>
         </group>
     </open-files>
 </project-private>

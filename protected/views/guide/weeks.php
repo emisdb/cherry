@@ -1,21 +1,32 @@
 <?php $this->renderPartial('_top', array('info'=>$info)); ?>
     <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
+		 <div class="modal modal-primary fade" id="guideModal" role="dialog">
+		   <div class="modal-dialog modal-md">
+			 <div class="modal-content">
+			   <div class="modal-header">
+				 <button type="button" class="close" data-dismiss="modal" aria-label="close">
+					 <span aria-hidden="true">&times;</span></button>
+				 <h4 class="modal-title">Show tour</h4>
+			   </div>
+			   <div class="modal-body">
+				 <div id="modal-data">This is the guide's info.</div>
+			   </div>
+			   <div class="modal-footer">
+					<button  type="button" class="btn btn-outline pull-right btn-default" data-dismiss="modal">Close</button>
+			   </div>
+			 </div>
+		   </div>
+		 </div>
         <!-- Content Header (Page header) -->
         <section class="content-header">
 
-<?php
-/* @var $this SegScheduledToursController */
-/* @var $model SegScheduledTours */
-
-$this->breadcrumbs=array(
-	'Scheduled Tours',
-);
-
-?>
-
 <h1>Scheduled Tours </h1>
-                    <div style=" width:100px;">
+			<ol class="breadcrumb">
+				<li class="active"> Scheduled Tours
+				</li>
+			</ol>	
+	                    <div style=" width:100px;">
                     <?php
                         $this->widget('zii.widgets.jui.CJuiDatePicker',array(
                             'name'=>'publishDate',
@@ -60,18 +71,27 @@ $this->breadcrumbs=array(
     <td><?php echo $item->time;?></td>
     <td><?php echo $item->starttime;?></td>
     <td><?php echo $item->status;?></td>
-    <td><?php if($item->status=='frei!'){?>
-        <a href="<?php echo Yii::app()->createUrl('guide/take', array('date'=>$date, 'time'=>$item->time)); ?>">Take</a>
-    <?php } else { 
-        
-        if($item->status=='Block') {?>
-            No action
-         <?php }else{ ?>
-            <a href="<?php echo Yii::app()->createUrl('guide/show', array('id'=>$item->id)); ?>">Show</a>
-         <?php }?>
-    <?php }?>
+    <td><?php if($item->status=='frei!'){
+         echo CHtml::link("Take",array('guide/take', 'date'=>$date, 'time'=>$item->time));
+     }
+	 else {        
+        if($item->status=='Block') { echo "No action\n";}
+		else{  
+        echo CHtml::ajaxLink(
+             "Show",
+             $url=array('ajaxShow'),
+             $ajaxOptions= array(
+            'data'=>array('id'=>$item->id),
+              'type'=>'POST',
+		     'success'=>'function(html){ jQuery("#modal-data").html(html);  $("#guideModal").modal("show");return true;}',
+///             'complete' => 'return true;'
+				 )	  
+//             $htmlOptions=array("data-toggle"=>"modal","data-target"=>"#guideModal" )
+     );
+		}
+	}?>
     </td>
-   
+  
     
     </tr>
 <?php }?>
