@@ -25,7 +25,7 @@
 			<h1>Current Subscriber</h1>
 			<ol class="breadcrumb">
 				<li>
-					<?php echo chtml::link('Scheduled Tours',array('guide/scedule')); ?>
+					<?php echo chtml::link('Scheduled Tours',array('guide/schedule')); ?>
 				</li>
 				<li class="active"> Current Subscriber
 				</li>

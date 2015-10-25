@@ -107,7 +107,6 @@ $datetime = time();
 		),
 	),
 )); 
-echo "<div>$date</div>";
 ?>
 
 	
