@@ -1,7 +1,26 @@
-<?php $this->renderPartial('_top', array('info'=>$info)); ?>
+<?php $this->renderPartial('_top', array('info'=>$info));
+function drawdd($date,$time)
+{
+	$arrtime=explode(":",$time);
+	echo '<div class="btn-group">';
+	echo '<button type="button" class="btn btn-default">'.CHtml::link("00",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."00:00")).'</button>';
+	echo '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">';
+	echo '<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>';
+	echo '<ul class="dropdown-menu" role="menu" aria-expanded="false">';
+	echo '<li>'.CHtml::link("00",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."00:00")).'</li>';
+	echo '<li>'.CHtml::link("10",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."10:00")).'</li>';
+	echo '<li>'.CHtml::link("20",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."20:00")).'</li>';
+	echo '<li>'.CHtml::link("30",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."30:00")).'</li>';
+	echo '<li>'.CHtml::link("40",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."40:00")).'</li>';
+	echo '<li>'.CHtml::link("50",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."00:00")).'</li>';
+	echo '</ul></div> ';
+
+                       
+}
+?>
     <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
-		 <div class="modal modal-primary fade" id="guideModal" role="dialog">
+		 <div class="modal modal-info fade" id="guideModal" role="dialog">
 		   <div class="modal-dialog modal-md">
 			 <div class="modal-content">
 			   <div class="modal-header">
@@ -18,12 +37,11 @@
 			 </div>
 		   </div>
 		 </div>
-        <!-- Content Header (Page header) -->
         <section class="content-header">
 
-<h1>Scheduled Tours </h1>
+<h1>Day Schedule </h1>
 			<ol class="breadcrumb">
-				<li class="active"> Scheduled Tours
+				<li class="active">Day Schedule
 				</li>
 			</ol>	
 	                    <div style=" width:100px;">
@@ -73,9 +91,13 @@
     <td><?php echo $item->status;?></td>
     <td><?php if($item->status=='frei!'){
          echo CHtml::link("Take",array('guide/take', 'date'=>$date, 'time'=>$item->time));
-     }
+		 drawdd($date,$item->time);
+   }
 	 else {        
-        if($item->status=='Block') { echo "No action\n";}
+        if(substr($item->status,0,5)=='Block') {
+			if($item->status =='Block after') drawdd($date,$item->time);
+			else echo "No action\n";
+		}
 		else{  
         echo CHtml::ajaxLink(
              "Show",
@@ -88,6 +110,8 @@
 				 )	  
 //             $htmlOptions=array("data-toggle"=>"modal","data-target"=>"#guideModal" )
      );
+		if($item->status =='Belegt') drawdd($date,$item->time);
+
 		}
 	}?>
     </td>

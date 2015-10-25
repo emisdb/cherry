@@ -32,7 +32,7 @@ class GuideController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('view','profile','update','contact','user','weeks','take','show','ajaxShow','schedule','history','current','delete'),
+				'actions'=>array('view','profile','update','contact','user','weeks','take','show','ajaxShow','ajaxHistory','schedule','history','current','deleteST','delete'),
                 'roles'=>array('guide'),
 			),            
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -128,6 +128,14 @@ class GuideController extends Controller
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
 			$this->redirect(array('schedule'));
+	}
+	public function actionDeleteST($id,$date)
+	{
+		$this->loadST($id)->delete();
+
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax']))
+			$this->redirect(array('schedule','date'=>$date));
 	}
 
 	/**
@@ -371,9 +379,9 @@ class GuideController extends Controller
                // print_r($model->birthdate);
     			if($model->save())
     				if($id_control!=$id_user){
-    				    $this->redirect(array('guide/contact','id'=>$id_user));
+    				    $this->redirect(array('contact','id'=>$id_user));
                     } else{
-                        $this->redirect(array('guide/profile'));
+                        $this->redirect(array('profile'));
                     }
     		}
   		$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
@@ -426,17 +434,18 @@ class GuideController extends Controller
                 $day->id = 0;
                 $day->status = 'frei!';
             }
-            if($status_old=='Belegt, Deine Tour!'){
-                $day->status ='Block';
-                
-                
-                
-            }
-            $status_old = $day->status;
+            if(($status_old=='Belegt, Deine Tour!')&&($day->status == 'frei!')){
+                $day->status ='Block after';
+             }
             if($day->status == 'Belegt, Deine Tour!'){
-                if($i!=0)$model_week[$i-1]->status = 'Block';
+                if($i!=0){
+					if($status_old=='frei!')
+					$model_week[$i-1]->status = 'Block before';
+				}
+
             }
-            //$day_id_old1 = $day->id;
+ 			  $status_old = $day->status;
+			  //$day_id_old1 = $day->id;
             //$day_id_old2 = $day->id;
             
             
@@ -462,6 +471,8 @@ class GuideController extends Controller
         $user_control = User::model()->findByPk($id_control);  
         $role_control = $user_control->id_usergroups;    
         // $id_guide = SegGuidesdata::model()->findByPk($update_user->id_guide)->idseg_guidesdata;
+			$arrtime=explode($time);
+			$ortime=$arrtime[0].":00:00";
          
             $date_format =  strtotime($date);
             $date_bd = date('Y-m-d',$date_format);
@@ -476,7 +487,7 @@ class GuideController extends Controller
                 $scheduled_item->date_now = $date_format;
 				$scheduled_item->date = $date_bd;
                 $scheduled_item->guide1_id = $id_control;
-                $scheduled_item->original_starttime = $time;
+                $scheduled_item->original_starttime = $ortime;
                 $scheduled_item->visibility = 1;
                // $scheduled_item->tourroute_id =  $tour_schel;//???????????????????????????
                 $scheduled_item->city_id = $id_city;
@@ -715,7 +726,45 @@ class GuideController extends Controller
 			'history'=>$history,'info'=>$test
 		));
 	}
-	
+		public function actionAjaxHistory()
+	{
+			if (!Yii::app()->request->isAjaxRequest)
+			{
+				echo "No data";
+				exit;               
+			}
+
+	 	$id= $_POST['id'];
+		$id_control = Yii::app()->user->id;
+		$guide = User::model()->findByPk($id_control);
+        $role_control = $guide->id_usergroups;    
+    		$item = $this->loadHistory($id);
+		
+		$criteria_guide = new CDbCriteria;
+        $criteria_guide->condition = 'id=:id';
+        $criteria_guide->params = array(':id' => $item->users_id);
+		$guide = User::model()->find($criteria_guide);
+		$guide_name = $guide->username;
+		$guide_id = $guide->id;
+		
+		$criteria_tour = new CDbCriteria;
+        $criteria_tour->condition = 'idseg_scheduled_tours=:idseg_scheduled_tours';
+        $criteria_tour->params = array(':idseg_scheduled_tours' => $item->id_sched);
+		$tour_id = SegScheduledTours::model()->find($criteria_tour)->tourroute_id;
+		
+		$criteria_tour = new CDbCriteria;
+        $criteria_tour->condition = 'id_sched=:id_sched';
+        $criteria_tour->params = array(':id_sched' => $item->id_sched);
+		$invoice_name = SegGuidestourinvoices::model()->find($criteria_tour)->TA_string;
+
+		$this->renderPartial('view_hd',array(
+			'guide_name'=>$guide_name,
+			'guide_id'=>$guide_id,
+			'tour_id'=>$tour_id,
+			'invoice_name'=>$invoice_name,
+			'item'=>$item,
+		));
+	}
 	public function actionCurrent($id_sched=null,$date=null,$time=null)
 	{
 	
@@ -894,6 +943,14 @@ class GuideController extends Controller
 	 * @return SegBookings the loaded model
 	 * @throws CHttpException
 	 */
+	public function loadHistory($id)
+	{
+		$model=CashboxHistory::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
 	public function loadST($id)
 	{
 		$model=SegScheduledTours::model()->findByPk($id);

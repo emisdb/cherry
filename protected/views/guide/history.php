@@ -1,7 +1,24 @@
 <?php $this->renderPartial('_top', array('info'=>$info)); ?>
     <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
+ 		 <div class="modal modal-info fade" id="guideModal" role="dialog">
+		   <div class="modal-dialog modal-md">
+			 <div class="modal-content">
+			   <div class="modal-header">
+				 <button type="button" class="close" data-dismiss="modal" aria-label="close">
+					 <span aria-hidden="true">&times;</span></button>
+				 <h4 class="modal-title">Cashbox History</h4>
+			   </div>
+			   <div class="modal-body">
+				 <div id="modal-data">This is the guide's info.</div>
+			   </div>
+			   <div class="modal-footer">
+					<button  type="button" class="btn btn-outline pull-right btn-default" data-dismiss="modal">Close</button>
+			   </div>
+			 </div>
+		   </div>
+		 </div>
+       <!-- Content Header (Page header) -->
         <section class="content-header">
 			<?php
 $this->breadcrumbs=array(
@@ -33,7 +50,19 @@ $this->breadcrumbs=array(
         <td><? echo $item->cashBefore;?>  &euro;</td>
         <td><? echo $item->delta_cash;?>  &euro;</td>
         <td><? echo $item->delta_cash+$item->cashBefore;?>  &euro;</td>
-        <td><a href="<?php echo Yii::app()->request->baseUrl; ?>/cashboxHistory/view/id/<? echo $item->idcashbox_history;?>">Details</a></td>
+        <td>
+			<?php        echo CHtml::ajaxLink(
+             "Details",
+             $url=array('ajaxHistory'),
+             $ajaxOptions= array(
+            'data'=>array('id'=>$item->idcashbox_history),
+              'type'=>'POST',
+		     'success'=>'function(html){ jQuery("#modal-data").html(html);  $("#guideModal").modal("show");return true;}',
+///             'complete' => 'return true;'
+				 )	  
+//             $htmlOptions=array("data-toggle"=>"modal","data-target"=>"#guideModal" )
+     );?>
+		</td>
     </tr>
     
     <? } ?>

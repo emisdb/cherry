@@ -2,7 +2,7 @@
     <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
 		<!-- Modal -->
-		 <div class="modal modal-primary fade" id="guideModal" role="dialog">
+		 <div class="modal modal-info fade" id="guideModal" role="dialog">
 		   <div class="modal-dialog modal-md">
 			 <div class="modal-content">
 			   <div class="modal-header">
