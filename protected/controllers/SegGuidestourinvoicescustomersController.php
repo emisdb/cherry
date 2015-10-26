@@ -215,13 +215,14 @@ class SegGuidestourinvoicescustomersController extends Controller
 		//*********************************INFO FOR PDF***********************************************//
 		//tour
 		$tour = SegTourroutes::model()->findByPk($id_tour);
+		$mails=array();
 
 		
 		//invoicecustomers - booking
 		$criteria_book = new CDbCriteria;
 		$criteria_book->condition = 'tourInvoiceid=:tourInvoiceid ';
 		$criteria_book->params = array(':tourInvoiceid'=>$id_invoice);
-		$invoicecustomers = SegGuidestourinvoicescustomers::model()->findAll($criteria_book);
+		$invoicecustomers = SegGuidestourinvoicescustomers::model()->with(array('booking'=>array('contact')))->findAll($criteria_book);
 
 		//create segguidestourinvoices
 		$invoice_id = $invoicecustomers[0]->tourInvoiceid;
@@ -263,7 +264,6 @@ class SegGuidestourinvoicescustomersController extends Controller
 			$num = $num+1;
 			$sched->GN_string = $a.$b.$c.'/'.$id_guide.'/'.$year.'/'.$num;		
 					
-			$sched->save();
 	
 			$invoice->creationDate = $sched->date;
 
@@ -383,18 +383,8 @@ class SegGuidestourinvoicescustomersController extends Controller
 		$cashnow = $cashnew->cashBefore+$cashnew->delta_cash;
 
 		//************************************PDF CREATE***************************************************//
-		$pdf = Yii::createComponent('application.extensions.tcpdf.ETcPdf', 'P', 'cm', 'A4', true, 'UTF-8');
-		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor("Cheery Tours");
-		$pdf->SetTitle("Tourabrechnung");
-		$pdf->SetSubject("Tourabrechnung");
-		$pdf->SetKeywords("Tourabrechnung");
-		$pdf->setPrintHeader(false);
-		$pdf->setPrintFooter(false);
-		$pdf->AddPage();
 		//$pdf->SetFont('freeserif', '', 14);
 		$tbl = "" . date('d.m.Y', time()) . "<br>";
-		$pdf->SetFont('freeserif', '', 10);
 		$tbl.= '';
 
 		$printOrders = null;
@@ -453,6 +443,7 @@ class SegGuidestourinvoicescustomersController extends Controller
 					$i=0;
 					if(!empty($invoicecustomers)) { 
 						 foreach($invoicecustomers as $item) { 
+							 $mails[$item->booking->contact->idcontacts]=$item->booking->contact->email;
 						 
 							$tbl_zero='<tr>
 							  <td>'.$item->KA_string.'</td>
@@ -672,13 +663,36 @@ class SegGuidestourinvoicescustomersController extends Controller
 				//$datename = $date_format_n.'-'.$time_format_n;
 				$datename = $date_format_n;
 				
-				$name_pdf2 = $name_pdf1.'_'.$datename.'.pdf';
-				$files_name = __DIR__.'/../../filespdf/'.$name_pdf2;
+				$name_pdf2 = $name_pdf1.'_'.$datename;
+				$files_name1 = __DIR__.'/../../filespdf/'.$name_pdf2.'.pdf';
+				$files_name2 = __DIR__.'/../../filespdf/'.$name_pdf2.'_c.pdf';
 				//$path = $_SERVER['DOCUMENT_ROOT'];
 				//$path1 = 'Z:&#092;home&#092;seg1&#092;www&#092;';
 				//print_r($path);
 				//$files_name = $path1.'ggg.pdf';
+				$pdf = Yii::createComponent('application.extensions.tcpdf.ETcPdf', 'P', 'cm', 'A4', true, 'UTF-8');
+				$pdf->SetCreator(PDF_CREATOR);
+				$pdf->SetAuthor("Cheery Tours");
+				$pdf->SetTitle("Tourabrechnung");
+				$pdf->SetSubject("Tourabrechnung");
+				$pdf->SetKeywords("Tourabrechnung");
+				$pdf->setPrintHeader(false);
+				$pdf->setPrintFooter(false);
+				$pdf->AddPage();
+				$pdf->SetFont('freeserif', '', 10);
+
+				$pdfm = Yii::createComponent('application.extensions.tcpdf.ETcPdf', 'P', 'cm', 'A4', true, 'UTF-8');
+				$pdfm->SetCreator(PDF_CREATOR);
+				$pdfm->SetAuthor("Cheery Tours");
+				$pdfm->SetTitle("Tourabrechnung");
+				$pdfm->SetSubject("Tourabrechnung");
+				$pdfm->SetKeywords("Tourabrechnung");
+				$pdfm->setPrintHeader(false);
+				$pdfm->setPrintFooter(false);
+				$pdfm->AddPage();
+				$pdfm->SetFont('freeserif', '', 10);
 				$pdf->writeHTML($tbl, true, false, false, false, '');
+				$pdfm->writeHTML($tbl.$strmail, true, false, false, false, '');
 				$pdf->AddPage();
 				$pdf->writeHTML($tbl_page2, true, false, false, false, '');
 			//fopen($files_name,"w");
@@ -690,9 +704,16 @@ class SegGuidestourinvoicescustomersController extends Controller
 				//$fff='Z:\home\seg1\www\';
 				//$rrr = $fff;
 			
+				$pdfm->Output($files_name2, 'F');
 				
-				$pdf->Output($files_name, 'F');	
-	          $this->redirect( Yii::app()->createUrl('/filespdf/'.$name_pdf2) );
+				$pdf->Output($files_name1, 'F');	
+				
+				foreach ($mails as $value) {
+					$this->sendMail($value, $files_name2);
+			}
+				$sched->additional_info2=$name_pdf2;
+				$sched->save();
+	          $this->redirect( Yii::app()->createUrl('/filespdf/'.$name_pdf2.'.pdf') );
 
 /*			$this->render('testpdf',array(
 					'tour'=>$tour,
@@ -707,6 +728,20 @@ class SegGuidestourinvoicescustomersController extends Controller
 		//}
 
 	}
+	protected function sendMail($to,$att)
+	{
+		        Yii::import('ext.yii-mail.YiiMailMessage');
+                $message = new YiiMailMessage;
+                $message->setBody("Dear sirs, \n The invoice from Cherry tours.");
+                $message->subject = "The invoice from Cherry tours";
+                $message->addTo($to);
+//                $message->addTo(Yii::app()->params['adminEmail']);
+                $message->from = Yii::app()->params['adminEmail'];
+//                $pathto=Yii::app()->params['load_xml_pdf'].$filename;
+                $swiftAttachment = Swift_Attachment::fromPath($att); 
+               $message->attach($swiftAttachment);
+               return Yii::app()->mail->send($message);
+		}
 	
 	public function actionCurrent($id_sched=null,$date=null,$time=null)
 	{

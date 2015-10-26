@@ -212,7 +212,7 @@
 					<a href="<?php echo Yii::app()->request->baseUrl; ?>/segGuidestourinvoicescustomers/createpdf/id_invoice/<? echo $model[0]->tourInvoiceid;?>/id_tour/<? echo $model[0]->booking->sched['tourroute_id'];?>"><?php echo 'PDF'; ?>
 					</a>
 				</button>
-				<button class="btn btn-primary cancel"><a href="<?php echo Yii::app()->request->baseUrl; ?>/segScheduledTours/admin"><?php echo 'Cancel'; ?></a></button>
+				<button class="btn btn-primary cancel"><?php echo CHtml::link("Cancel", array("schedule")) ?></button>
 		</div>
 
 		<?php

@@ -13,7 +13,28 @@ class ThankyouController extends Controller
 		
 		$this->render('index');
 	}
+	public function actionMail()
+	{
 
+	               Yii::import('ext.yii-mail.YiiMailMessage');
+                $message = new YiiMailMessage;
+                $message->setBody("<h2>Добрый день</h2>Просим проверить счет. <br>"
+                        . " Если согласны, то просим прислать платежное поручение.<br>"
+                        . "<i>C уважением, Отдел продаж.</i>", 'text/html');
+                $message->subject = "Счет № для ";
+                $message->addTo("dentsi@yahoo.com");
+//                $message->addTo(Yii::app()->params['adminEmail']);
+                $message->from = Yii::app()->params['adminEmail'];
+//                $pathto=Yii::app()->params['load_xml_pdf'].$filename;
+//                $swiftAttachment = Swift_Attachment::fromPath($pathto); 
+//               $message->attach($swiftAttachment);
+               $res=Yii::app()->mail->send($message);
+			                  if($res)
+                 $this->renderText('Отправлена почта. Файл:'); 
+               else
+                  $this->renderText('Не отправлена почта'); 
+
+	}
 	// Uncomment the following methods and override them if needed
 	/*
 	public function filters()

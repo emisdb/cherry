@@ -39,9 +39,9 @@ function drawdd($date,$time)
 		 </div>
         <section class="content-header">
 
-<h1>Day Schedule </h1>
+		<h1>Day Schedule for <?php echo $city->cities->seg_cityname ?> </h1>
 			<ol class="breadcrumb">
-				<li class="active">Day Schedule
+				<li class="active">Day Schedule 
 				</li>
 			</ol>	
 	                    <div style=" width:100px;">

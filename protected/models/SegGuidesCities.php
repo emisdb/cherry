@@ -43,6 +43,9 @@ class SegGuidesCities extends CActiveRecord
 		return array(
             'cities'=>array(self::BELONGS_TO, 'SegCities', 'cities_id'),
 		);
+		return array(
+            'users'=>array(self::BELONGS_TO, 'User', 'users_id'),
+		);
 	}
 
 	/**

@@ -404,8 +404,8 @@ class GuideController extends Controller
         $criteria_city = new CDbCriteria;
         $criteria_city->condition = 'users_id=:users_id';
         $criteria_city->params = array(':users_id' => $id_control);
-        $id_city = SegGuidesCities::model()->find($criteria_city)->cities_id;
-          
+        $city = SegGuidesCities::model()->with('cities')->find($criteria_city);
+		          
         
         $model_week = array(); $i=0;$status_old ='';
         $start_times_tour =SegStarttimes::model()->findAll(); 
@@ -416,7 +416,7 @@ class GuideController extends Controller
             $date_format =  strtotime($date);
             $criteria = new CDbCriteria;
             $criteria->condition = 'original_starttime=:original_starttime AND date_now=:date_now AND city_id=:city_id';
-            $criteria->params = array(':original_starttime' => $item->timevalue,':date_now'=>$date_format,':city_id'=>$id_city);
+            $criteria->params = array(':original_starttime' => $item->timevalue,':date_now'=>$date_format,':city_id'=>$city->cities->idseg_cities);
             $scheduled_item = SegScheduledTours::model()->find($criteria);
             if(isset($scheduled_item)){
                 $day->id = $scheduled_item->idseg_scheduled_tours;
@@ -461,6 +461,7 @@ class GuideController extends Controller
 			'date'=>$date, 
 			'model'=>$model_week,
  			'info'=>$test,
+ 			'city'=>$city,
 				));
 	}
 
@@ -471,7 +472,7 @@ class GuideController extends Controller
         $user_control = User::model()->findByPk($id_control);  
         $role_control = $user_control->id_usergroups;    
         // $id_guide = SegGuidesdata::model()->findByPk($update_user->id_guide)->idseg_guidesdata;
-			$arrtime=explode($time);
+			$arrtime=explode(":",$time);
 			$ortime=$arrtime[0].":00:00";
          
             $date_format =  strtotime($date);

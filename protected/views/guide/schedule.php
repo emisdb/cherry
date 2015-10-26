@@ -98,7 +98,7 @@ $datetime = time();
 				   ),
 				   'pdf' => array(
 						'imageUrl'=>'/img/view.png',
-						'url' => 'Yii::app()->createUrl("/guide/current/id_sched/$data->idseg_scheduled_tours/date/$data->date/time/$data->starttime")',
+						'url' => 'Yii::app()->createUrl("/filespdf/$data->additional_info2.pdf")',
 						'label'=>'View PDF',
 						'visible'=>'$data->openTour',
 				   ),

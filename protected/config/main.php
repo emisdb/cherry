@@ -111,6 +111,16 @@ return array(
 				*/
 			),
 		),
+		            		'mail' => array(
+			'class' => 'ext.yii-mail.YiiMail',
+			'transportType'=>'smtp',
+                        'transportOptions'=>array(
+                           'host'=>'smtp.cherrytours.com',
+                           'username'=>'berlin@cherrytours.com',
+                           'password'=>'1q2w3e4r5t',
+                           'port'=>'465',
+                           'encryption'=>'ssl',
+                    )),
 	),
 
 	// application-level parameters that can be accessed

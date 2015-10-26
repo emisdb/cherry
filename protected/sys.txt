@@ -26,3 +26,6 @@
 				$model = SegGuidestourinvoicescustomers::model()->findAll($criteria_invoicecustomer);
 
 
+Проблемы:
+    1.  Выбор города для гида при отображении schedule производится очень опасно 
+        - берется первая запись из таблицы seg_guides_cities (нужен какой-то более прочный алгоритм)
