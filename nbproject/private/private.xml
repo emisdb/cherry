@@ -3,17 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/OpenServer/domains/cherry/protected/views/guide/_top.php</file>
-            <file>file:/C:/OpenServer/domains/cherry/protected/views/guide/schedule.php</file>
-            <file>file:/C:/OpenServer/domains/cherry/protected/views/guide/current.php</file>
-            <file>file:/C:/OpenServer/domains/cherry/protected/controllers/SegScheduledToursController.php</file>
-            <file>file:/C:/OpenServer/domains/cherry/protected/models/CashboxHistory.php</file>
-            <file>file:/C:/OpenServer/domains/cherry/protected/views/guide/view_hd.php</file>
             <file>file:/C:/OpenServer/domains/cherry/protected/controllers/GuideController.php</file>
-            <file>file:/C:/OpenServer/domains/cherry/protected/controllers/CashboxHistoryController.php</file>
-            <file>file:/C:/OpenServer/domains/cherry/protected/views/guide/weeks.php</file>
-            <file>file:/C:/OpenServer/domains/cherry/protected/views/guide/history.php</file>
-            <file>file:/C:/OpenServer/domains/cherry/protected/views/layouts/guide_bs.php</file>
         </group>
     </open-files>
 </project-private>

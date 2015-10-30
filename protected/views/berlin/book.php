@@ -56,8 +56,8 @@
                   <?php $list = CHtml::listData($tours_guide, 'idseg_tourroutes','name'); ?>
                    <div style="display:none;">
                         <? foreach($tours_guide as $item){?>
-                            <div id="t<? echo $item->idseg_tourroutes;?>"> <? echo $item->base_price;?></div>
-                            <div id="m<? echo $item->idseg_tourroutes;?>"> <? echo $item->TNmax;?></div> 
+                            <div id="t<?php echo $item->idseg_tourroutes;?>"> <? echo $item->base_price;?></div>
+                            <div id="m<?php echo $item->idseg_tourroutes;?>"> <? echo $item->TNmax;?></div> 
                         
                         <? } ?>
                    </div>
@@ -102,8 +102,8 @@
                   <div style="display:none;" id="ncat"><? echo $tour->id_tour_categories;?></div>
                   <div style="display:none;"><!-- param cat for all-->
                   	<? foreach($tours_guide as $item) { ?>
-                    	<div id="cat<? echo $item->idseg_tourroutes;?>"><? echo $item->id_tour_categories;?></div>
-                        <div id="base_price<? echo $item->idseg_tourroutes;?>"><? echo $item->base_price;?></div>
+                    	<div id="cat<?php echo $item->idseg_tourroutes;?>"><? echo $item->id_tour_categories;?></div>
+                        <div id="base_price<?php echo $item->idseg_tourroutes;?>"><? echo $item->base_price;?></div>
                     <? } ?>
                   </div>
                   <div style="display:none;" id="now_tiket"></div> <!-- begin list tiket categories -->
@@ -114,7 +114,7 @@
 					  <? foreach($tours_guide as $item) { ?>
 							<? if($item->id_tour_categories == $i){ ?>
                                     <? $primer = $item->TNmax - $scheduled->current_subscribers; ?>
-                                    <div style="display:none;" id="ntiket<? echo $item->idseg_tourroutes;?>">
+                                    <div style="display:none;" id="ntiket<?php echo $item->idseg_tourroutes;?>">
                                          <? echo $primer;?>
                                     </div>
                                 
@@ -175,7 +175,7 @@
     <div class="book-form">
         <div class="book_form-item">
             <div class="book-f">First name</div>
-            <div class="book-field"><?php echo $form->textField($contact,'firstname',array('placeholder'=>'John')); ?>
+            <div class="book-field"><?php echo $form->textField($contact,'firstname'); ?>
            <!-- <php echo $form->error($contact,'firstname'); ?>-->
             
             </div>
@@ -184,34 +184,34 @@
         </div>
         <div class="book_form-item">
             <div class="book-f">Last name</div>
-            <div class="book-field"><?php echo $form->textField($contact,'lastname',array('placeholder'=>'Llvingstone')); ?></div>
+            <div class="book-field"><?php echo $form->textField($contact,'lastname'); ?></div>
              <div style="clear: both;"></div>
         </div>
         <div class="book_form-item">
             <div class="book-f">Address</div>
-            <div class="book-field"><?php echo $form->textArea($contact,'address',array('placeholder'=>'Two East 55th Street, at Fifth Avenue; New York 10022; Unlted States')); ?></div>
+            <div class="book-field"><?php echo $form->textArea($contact,'address'); ?></div>
              <div style="clear: both;"></div>
         </div>
     </div>
     <div class="book-form">
         <div class="book_form-item">
             <div class="book-f">City</div>
-            <div class="book-field"><?php echo $form->textField($contact,'city',array('placeholder'=>'New York')); ?></div>
+            <div class="book-field"><?php echo $form->textField($contact,'city'); ?></div>
              <div style="clear: both;"></div>
         </div>
         <div class="book_form-item">
             <div class="book-f">Country</div>
-            <div class="book-field"><?php echo $form->textField($contact,'country',array('placeholder'=>'Unlted States')); ?></div>
+            <div class="book-field"><?php echo $form->textField($contact,'country'); ?></div>
              <div style="clear: both;"></div>
         </div>
         <div class="book_form-item">
             <div class="book-f">Phone</div>
-            <div class="book-field"><?php echo $form->textField($contact,'phone',array('placeholder'=>'(1)(___)___-___')); ?></div>
+            <div class="book-field"><?php echo $form->textField($contact,'phone'); ?></div>
              <div style="clear: both;"></div>
         </div>
         <div class="book_form-item">
             <div class="book-f">E-mail</div>
-            <div class="book-field"><?php echo $form->textField($contact,'email',array('placeholder'=>'johnllvingstone@gmail.com')); ?></div>
+            <div class="book-field"><?php echo $form->textField($contact,'email'); ?></div>
              <div style="clear: both;"></div>
         </div>
     </div>

@@ -26,7 +26,7 @@ class Swift_Transport_StreamBuffer
   
   /** A primary socket */
   private $_stream;
-  
+  protected $_sequence; 
   /** The input stream */
   private $_in;
   

@@ -1,22 +1,22 @@
 <?php $this->renderPartial('_top', array('info'=>$info));
-function drawdd($date,$time)
-{
-	$arrtime=explode(":",$time);
-	echo '<div class="btn-group">';
-	echo '<button type="button" class="btn btn-default">'.CHtml::link("00",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."00:00")).'</button>';
-	echo '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">';
-	echo '<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>';
-	echo '<ul class="dropdown-menu" role="menu" aria-expanded="false">';
-	echo '<li>'.CHtml::link("00",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."00:00")).'</li>';
-	echo '<li>'.CHtml::link("10",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."10:00")).'</li>';
-	echo '<li>'.CHtml::link("20",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."20:00")).'</li>';
-	echo '<li>'.CHtml::link("30",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."30:00")).'</li>';
-	echo '<li>'.CHtml::link("40",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."40:00")).'</li>';
-	echo '<li>'.CHtml::link("50",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."00:00")).'</li>';
-	echo '</ul></div> ';
-
-                       
-}
+//function drawdd($date,$time)
+//{
+//	$arrtime=explode(":",$time);
+//	echo '<div class="btn-group">';
+//	echo '<button type="button" class="btn btn-default">'.CHtml::link("00",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."00:00")).'</button>';
+//	echo '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">';
+//	echo '<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>';
+//	echo '<ul class="dropdown-menu" role="menu" aria-expanded="false">';
+//	echo '<li>'.CHtml::link("00",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."00:00")).'</li>';
+//	echo '<li>'.CHtml::link("10",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."10:00")).'</li>';
+//	echo '<li>'.CHtml::link("20",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."20:00")).'</li>';
+//	echo '<li>'.CHtml::link("30",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."30:00")).'</li>';
+//	echo '<li>'.CHtml::link("40",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."40:00")).'</li>';
+//	echo '<li>'.CHtml::link("50",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."00:00")).'</li>';
+//	echo '</ul></div> ';
+//
+//                       
+//}
 ?>
     <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
@@ -37,8 +37,20 @@ function drawdd($date,$time)
 			 </div>
 		   </div>
 		 </div>
-        <section class="content-header">
+	  <section class="content-header">
+		  <?php 
+		  if($err)
+		  {
+			  echo '<div class="alert alert-danger">';
+			  echo '<strong>Error!</strong> Tour on '.$err." is taken.";
+			  echo '</div>';
+		  }
+		  
+		  ?>
 
+		
+	
+		
 		<h1>Day Schedule for <?php echo $city->cities->seg_cityname ?> </h1>
 			<ol class="breadcrumb">
 				<li class="active">Day Schedule 
@@ -91,12 +103,15 @@ function drawdd($date,$time)
     <td><?php echo $item->status;?></td>
     <td><?php if($item->status=='frei!'){
          echo CHtml::link("Take",array('guide/take', 'date'=>$date, 'time'=>$item->time));
-		 drawdd($date,$item->time);
+//
+//		 		 drawdd($date,$item->time);
    }
 	 else {        
         if(substr($item->status,0,5)=='Block') {
-			if($item->status =='Block after') drawdd($date,$item->time);
-			else echo "No action\n";
+//			if($item->status =='Block after')
+//				drawdd($date,$item->time);
+//			else 
+				echo "No action\n";
 		}
 		else{  
         echo CHtml::ajaxLink(
@@ -110,7 +125,7 @@ function drawdd($date,$time)
 				 )	  
 //             $htmlOptions=array("data-toggle"=>"modal","data-target"=>"#guideModal" )
      );
-		if($item->status =='Belegt') drawdd($date,$item->time);
+//		if($item->status =='Belegt') drawdd($date,$item->time);
 
 		}
 	}?>
@@ -120,33 +135,39 @@ function drawdd($date,$time)
     </tr>
 <?php }?>
 </table>
-<!--
-<php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'user-grid',0
-	'dataProvider'=>$model,
-//	'filter'=>$model,
-	'columns'=>array(
-        /*array(
-            'name'=>'role_ob',
-            'value'=>'$data->role_ob->groupname',
-            'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
-        ),*/
-		'username',
-		'profile',
-		array(
-			'class'=>'CButtonColumn',
-            'template'=>'{action}',
-            'buttons' => array(
-               'action' => array(
-                     //'imageUrl'=>'/images/system/proc.png',
-                    'url' => 'Yii::app()->createUrl("/user/update/id/$data->id")',
-                    //'label'=>'Update',
-               ),
-              
-            ),
-		),
-	),
-)); ?>
--->
-     </section><!-- /.content -->
+
+ <hr>
+<h1> Spontaneous tour</h1>
+<div class="row" style="width:200px;margin-left: 10px;">
+<?php $this->widget('ext.clockpick.EClockpick', array(
+//         'model'            => $model,
+         'name'        =>'timepick',
+		 'value'=>'08:00',
+         'options'          =>array(
+     'starthour'=>8,
+                'endhour'=>19,
+                'event'=>'click',
+                'showminutes'=>true,
+                'minutedivisions'=>6,
+                'military' =>true,
+                'layout'=>'vertical',
+                'hoursopacity'=>1,
+                'minutesopacity'=>1,
+			 ),
+         'htmlOptions'      => array('size'=>5,
+					'maxlength'=>5, 
+			 )
+    )); 
+        echo CHtml::link("Take","#",array('onclick'=>'goclick()'));
+?>		
+						</div>
+   </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
+	  <script type="text/javascript">
+function goclick(){
+	var ptime=jQuery("#timepick").val();
+	var link= "<?php echo $this->createUrl('guide/take',array('date'=>$date, "spont"=>1)); ?>&time="+escape(ptime);   
+	window.location =link;
+	return true;
+	}
+</script>

@@ -692,7 +692,7 @@ class SegGuidestourinvoicescustomersController extends Controller
 				$pdfm->AddPage();
 				$pdfm->SetFont('freeserif', '', 10);
 				$pdf->writeHTML($tbl, true, false, false, false, '');
-				$pdfm->writeHTML($tbl.$strmail, true, false, false, false, '');
+				$pdfm->writeHTML($tbl, true, false, false, false, '');
 				$pdf->AddPage();
 				$pdf->writeHTML($tbl_page2, true, false, false, false, '');
 			//fopen($files_name,"w");
@@ -707,12 +707,12 @@ class SegGuidestourinvoicescustomersController extends Controller
 				$pdfm->Output($files_name2, 'F');
 				
 				$pdf->Output($files_name1, 'F');	
+				$sched->additional_info2=$name_pdf2;
+				$sched->save();
 				
 				foreach ($mails as $value) {
 					$this->sendMail($value, $files_name2);
 			}
-				$sched->additional_info2=$name_pdf2;
-				$sched->save();
 	          $this->redirect( Yii::app()->createUrl('/filespdf/'.$name_pdf2.'.pdf') );
 
 /*			$this->render('testpdf',array(

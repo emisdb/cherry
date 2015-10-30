@@ -59,7 +59,7 @@ class GuideController extends Controller
 	public function actionView($id)
 	{
 		$this->render('view',array(
-			'model'=>$this->loadModel($id),
+			'model'=>$this->loadGuide($id),
 		));
 	}
 	public function actionSystem()
@@ -392,7 +392,7 @@ class GuideController extends Controller
   			'info'=>$test,
 				));
   }
-	public function actionWeeks($date)
+	public function actionWeeks($date,$err=null)
 	{
 	    $id_control = Yii::app()->user->id;
        // $update_user = User::model()->findByPk($id_user);
@@ -462,21 +462,32 @@ class GuideController extends Controller
 			'model'=>$model_week,
  			'info'=>$test,
  			'city'=>$city,
+ 			'err'=>$err,
 				));
 	}
 
-	public function actionTake($date,$time)
+	public function actionTake($date,$time,$spont=0)
 	{
 	    $id_control = Yii::app()->user->id;
         // $update_user = User::model()->findByPk($id_user);
-        $user_control = User::model()->findByPk($id_control);  
-        $role_control = $user_control->id_usergroups;    
-        // $id_guide = SegGuidesdata::model()->findByPk($update_user->id_guide)->idseg_guidesdata;
-			$arrtime=explode(":",$time);
+ 			$arrtime=explode(":",$time);
 			$ortime=$arrtime[0].":00:00";
          
             $date_format =  strtotime($date);
             $date_bd = date('Y-m-d',$date_format);
+			$err="";
+			if($spont>0)
+			{
+		      $criteria = new CDbCriteria;
+			  $criteria->condition = 'original_starttime=:original_starttime AND date_now=:date_now AND guide1_id=:guide_id';
+            $criteria->params = array(':original_starttime' => $ortime,':date_now'=>$date_format,':guide_id'=>$id_control);
+            $scheduled_item = SegScheduledTours::model()->find($criteria);
+			if($scheduled_item){
+				$err=$time;
+				$this->redirect( Yii::app()->createUrl('guide/weeks',array('date'=>$date,'err'=>$err)) );
+			}
+ 
+			}
 			
             $criteria_city = new CDbCriteria;
             $criteria_city->condition = 'users_id=:users_id';

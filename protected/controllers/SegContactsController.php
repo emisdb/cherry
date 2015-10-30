@@ -14,7 +14,7 @@ class SegContactsController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('update'),
+				'actions'=>array('update','create'),
                 'roles'=>array('guide'),
 				//'users'=>array('@'),
 			),            
