@@ -88,9 +88,10 @@ $datetime = time();
 				   'update' => array(
 				   
 						 //'imageUrl'=>'/images/system/proc.png',
-						'url' => 'Yii::app()->createUrl("/guide/current/id_sched/$data->idseg_scheduled_tours/date/$data->date/time/$data->starttime")',
+						'url' => 'Yii::app()->createUrl("guide/current",array("id_sched"=>$data->idseg_scheduled_tours))',
 						'label'=>'Invoice for guide',
-						'visible'=>'$data->tourroute_id > 0 && $data->openTour!=1',
+						'visible'=>'$data->openTour!=1',
+//						'visible'=>'$data->tourroute_id > 0 && $data->openTour!=1',
 				   ),
 				   'delete' => array(
 						'url' => 'array("/guide/deleteST","id"=>$data->idseg_scheduled_tours,"date"=>"'.$date.'")',				   

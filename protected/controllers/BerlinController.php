@@ -308,7 +308,8 @@ class BerlinController extends Controller
 		$date_format = strtotime($date);
 		$town = SegCities::model()->findByPk($city);
         $date_bd = date('Y-m-d',$date_format);
-		$dt =$date_bd.' '.$time_bd;
+		if ($date_bd==date('Y-m-d'))	$dt =$date_bd.' '.$time_bd;
+		else $dt =$date_bd.' 00:00:00';
 
 		//classic
 		$criteria_classic = new CDbCriteria;
@@ -521,6 +522,7 @@ class BerlinController extends Controller
 				'id_city'=>$town->idseg_cities,
 				'date'=>$date,
 				'tours'=>$tours, 
+				'dt'=>$dt,
 				//'scheduled_array'=>$scheduled_array,
 				'city_f'=>$city,
 				'date_f'=>$date,

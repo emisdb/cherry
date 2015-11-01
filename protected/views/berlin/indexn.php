@@ -1,4 +1,4 @@
-<? 
+<?php 
 	if($city_f!=null){$city_f_n = $city_f;}else{$city_f_n=$id_city;}
 	if($date_f!=null){$date_f_n = $date_f;}else{$date_f_n=$date;}
 	$time_n =$time_f;

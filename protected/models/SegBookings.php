@@ -52,6 +52,7 @@ class SegBookings extends CActiveRecord
 		return array(
 			'sched'=>array(self::BELONGS_TO, 'SegScheduledTours', 'sched_tourid'),
 			'contact'=>array(self::BELONGS_TO, 'SegContacts', 'customer_id'),
+			'guidestourinvoicescustomers'=>array(self::HAS_MANY, 'SegGuidestourinvoicescustomers', 'origin_booking'),
 		);
 	}
 

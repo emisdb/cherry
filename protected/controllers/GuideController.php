@@ -777,57 +777,18 @@ class GuideController extends Controller
 			'item'=>$item,
 		));
 	}
-	public function actionCurrent($id_sched=null,$date=null,$time=null)
+	public function actionCurrent($id_sched)
 	{
 	
 		$id_control = Yii::app()->user->id;
         $guide = User::model()->findByPk($id_control);
-        $role_control = $guide->id_usergroups;    
-        // $id_guide = SegGuidesdata::model()->findByPk($update_user->id_guide)->idseg_guidesdata;
+		$sched = SegScheduledTours::model()->with(array('guidestourinvoices'=>array('guidestourinvoicescustomers'=>array('bookings'=>array('contact')))))->findByPk($id_sched);
+		if(is_null($sched)) 	throw new CHttpException(404,'The requested tour does not exist.');
 
-  			$date_format = strtotime($date);
+ 
+  			$date_format = strtotime($sched->date);
 			$date_bd = date('Y-m-d',$date_format);
-			$dt =$date_bd.' '.$time;
-
-			$criteria_booking = new CDbCriteria;
-			$criteria_booking->condition = 'sched_tourid=:sched_tourid ';
-			$criteria_booking->params = array(':sched_tourid'=>$id_sched);
-			
-			$booking = SegBookings::model()->findAll($criteria_booking);
-				
-			$criteria_sched = new CDbCriteria;
-			$criteria_sched->condition = 'idseg_scheduled_tours=:idseg_scheduled_tours ';
-			$criteria_sched->params = array(':idseg_scheduled_tours'=>$id_sched);
-			$sched = SegScheduledTours::model()->find($criteria_sched);
-				
-			$book_z1 = array();$j=0;
-			foreach($booking as $book){
-				$book_z1[$j] = $book->idseg_bookings;	
-				$j++;
-			}
-			$x=1;$xx=0;$cond='';$y=1;$yy=0;$param=array();
-				foreach($booking as $book){
-					if($xx==0){
-						$xx=1;
-					} else {
-						$cond.=' OR ';
-					}	
-					if(($xx!=1)AND($x!=count($booking))) {
-						$cond.=' OR ';
-					}
-					$cond.='origin_booking =:origin_booking'.$x;
-					
-					
-					//param
-					$param['origin_booking'.$y] = $book->idseg_bookings;
-				
-					$yy++;	$x++; $y++;
-				}
-				$criteria_invoicecustomer = new CDbCriteria;
-				$criteria_invoicecustomer->condition = $cond;
-				$criteria_invoicecustomer->params = $param;
-				$model = SegGuidestourinvoicescustomers::model()->findAll($criteria_invoicecustomer);
-
+			$dt =$date_bd.' '.$sched->starttime;
 				
 				if(!empty($_POST))
 				{
@@ -915,12 +876,10 @@ class GuideController extends Controller
 				$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
  				
 				$this->render('current',array(
-					'model'=>$model,
+//					'model'=>$model,
 					'guide'=>$guide,
 					'sched'=>$sched,
 					'id_sched'=>$id_sched,
-					'date'=>$date,
-					'time'=>$time,
 					'vat_nds'=>$vat_nds,
 					'pay'=>$pay,
 					'dis'=>$dis,
@@ -959,14 +918,6 @@ class GuideController extends Controller
         }else{
             $languages_guide = Languages::model()->findByPk($scheduled->language_id);
         } 
-         
-        /*  
-        $criteria = new CDbCriteria;
-        $criteria->condition = 'cityid=:cityid AND id_tour_categories=:id_tour_categories';
-        $criteria->params = array(':cityid' => $scheduled->city_id,':id_tour_categories'=>$cat);
-        $languages_guide = SegTourroutes::model()->find($criteria);
-		*/
-		
 		/*tourroute for cat*/
         $criteria = new CDbCriteria;
         $criteria->condition = 'cityid=:cityid AND id_tour_categories=:id_tour_categories';

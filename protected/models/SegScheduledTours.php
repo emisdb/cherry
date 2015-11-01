@@ -85,6 +85,8 @@ class SegScheduledTours extends CActiveRecord
 
  			//'tourroute_all'=>array(self::HAS_MANY, 'SegGuidesTourroutes', array('usersid'=>'guide1_id')),
 			'language_all'=>array(self::HAS_MANY, 'SegLanguagesGuides', array('users_id'=>'guide1_id')),
+			'bookings'=>array(self::HAS_MANY, 'SegBookings', 'sched_tourid'),
+			'guidestourinvoices'=>array(self::HAS_MANY, 'SegGuidestourinvoices', 'id_sched'),
 		);
 	}
 

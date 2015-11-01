@@ -25,7 +25,7 @@
 			<h1>Current Subscriber</h1>
 			<ol class="breadcrumb">
 				<li>
-					<?php echo chtml::link('Scheduled Tours',array('guide/schedule')); ?>
+					<?php echo Chtml::link('Scheduled Tours',array('guide/schedule')); ?>
 				</li>
 				<li class="active"> Current Subscriber
 				</li>
@@ -44,11 +44,13 @@
 			<div class="row create">
 			<div class="col-md-4 create-left">
 
-				<?php $i=0; 
-				$id_c = $model[0]->booking->contact->idcontacts;
-				 echo $model[0]->booking->sched->tourroute_ob['name']." "
-						 .$model[0]->booking->sched['date']." "
-						 .$model[0]->booking->sched['starttime'];
+				<?php
+				$i=0; 
+				if (count($sched->bookings)>0) $id_c = $sched->bookings[0]->contact->idcontacts;
+				else $id_c=0;
+				 echo $sched->tourroute_ob['name']." "
+						 .$sched['date']." "
+						 .$sched['starttime'];
 				 $element = 0; $k=0;$i=1;
 				 ?>
 			</div>
@@ -58,8 +60,6 @@
 		<div class="col-md-4">
 		</div>
 		</div>
-		<div style="display:none;" id="count"><?php echo count($model);?></div>
-		<div style="display:none;" id="vat_nds"><?php echo $vat_nds;?></div>
 		<div class="row">
 		<div class="col-md-8">
 
@@ -84,16 +84,23 @@
 				<th>Vat</th>
 				<th>Options</th>
 			</tr>
-				<?php if(!empty($model))
-					{ 
-						foreach($dis as $d) {
-								$d->nametype = $d->name.' '.$d->type;
-								 } 
-						 $list_discount = CHtml::listData($dis, 'id', 'nametype'); 
-				for($element=0;$element < count($model);$element++)
+			<?php 
+			if(count($sched->guidestourinvoices)>0)
+			{ 
+				foreach($dis as $d)
+				{
+					$d->nametype = $d->name.' '.$d->type;
+				} 
+				$list_discount = CHtml::listData($dis, 'id', 'nametype'); 
+				$count_cust;
+				foreach ($sched->guidestourinvoices as $value) {
+					$model=$value->guidestourinvoicescustomers;
+				
+					for($element=0;$element < count($model);$element++)
 					{
+						$count_cust++;
 						echo "<tr><td>";
-							echo $model[$element]->booking->contact->idcontacts;
+						echo $model[$element]->booking->contact->idcontacts;
 						echo "</td><td>\n";
 						 if($id_c == $model[$element]->booking->contact->idcontacts){}
 						 else{	$i = 1;	}
@@ -160,7 +167,8 @@
 						}
 						echo "</select></td></tr>\n";
 						$k++;
-					} 
+					}
+				}
 				}else{ 
 					echo '<tr><td colspan="8">no current</td></tr>';
 				}
@@ -177,6 +185,9 @@
 		</div>
 
 		<div style="display:none;" id="namek"><? echo $k;?></div>
+		<div style="display:none;" id="count"><?php echo $count_cust;?></div>
+		<div style="display:none;" id="vat_nds"><?php echo $vat_nds;?></div>
+
 
 		<div style="font-size:14px;font-weight:bold;padding:20px 0;">
 
@@ -209,8 +220,10 @@
 		<div class="row buttons">
 				<button class="btn btn-primary" type="submit"><?php echo 'Save'; ?></button>
 				<button class="btn btn-primary cancel">
-					<a href="<?php echo Yii::app()->request->baseUrl; ?>/segGuidestourinvoicescustomers/createpdf/id_invoice/<? echo $model[0]->tourInvoiceid;?>/id_tour/<? echo $model[0]->booking->sched['tourroute_id'];?>"><?php echo 'PDF'; ?>
-					</a>
+					<?php 
+					echo CHtml::link("PDF" ,Yii::app()->request->baseUrl."/segGuidestourinvoicescustomers/createpdf/id_invoice/".
+							$sched->guidestourinvoices[0]["idseg_guidesTourInvoices"]."/id_tour/".$sched['tourroute_id']);
+					?>
 				</button>
 				<button class="btn btn-primary cancel"><?php echo CHtml::link("Cancel", array("schedule")) ?></button>
 		</div>
@@ -242,9 +255,9 @@ $(document).ready ( function (){
 	 <?php echo CHtml::ajax(array(
             'url'=>array('SegGuidestourinvoicescustomers/ajaxInfo'),
 	         'data'=>  array(
-				 'id_sched'=>$model[0]->booking->sched->idseg_scheduled_tours,
-				 'date'=>$model[0]->booking->sched['date'],
-				 'time'=>$model[0]->booking->sched['starttime']),
+				 'id_sched'=>$sched->idseg_scheduled_tours,
+				 'date'=>$sched['date'],
+				 'time'=>$sched['starttime']),
             'type'=>'post',
             'dataType'=>'json',
             'success'=>"function(data)
