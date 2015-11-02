@@ -19,46 +19,36 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'id_users'); ?>
-		<?php echo $form->textField($model,'id_users'); ?>
-		<?php echo $form->error($model,'id_users'); ?>
-	</div>
 
 	<div class="row">
+	<div class="col-md-8">
+
 		<?php echo $form->labelEx($model,'id_type'); ?>
-		<?php echo $form->textField($model,'id_type'); ?>
+	<?php echo $form->dropDownList($model,'id_type', CHtml::listData(CashboxType::model()->findAll(),'id', 'name')); ?>
 		<?php echo $form->error($model,'id_type'); ?>
 	</div>
+	<div class="col-md-4">
+	</div>
+	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'delta_cash'); ?>
+		<div class="col-md-8">
+	<?php echo $form->labelEx($model,'delta_cash'); ?>
 		<?php echo $form->textField($model,'delta_cash'); ?>
 		<?php echo $form->error($model,'delta_cash'); ?>
 	</div>
+	<div class="col-md-4">
+	</div>
+	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'reason'); ?>
+		<div class="col-md-8">
+	<?php echo $form->labelEx($model,'reason'); ?>
 		<?php echo $form->textField($model,'reason',array('size'=>60,'maxlength'=>255)); ?>
 		<?php echo $form->error($model,'reason'); ?>
 	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'approvedBy'); ?>
-		<?php echo $form->textField($model,'approvedBy'); ?>
-		<?php echo $form->error($model,'approvedBy'); ?>
+	<div class="col-md-4">
 	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'request_date'); ?>
-		<?php echo $form->textField($model,'request_date'); ?>
-		<?php echo $form->error($model,'request_date'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'approval_date'); ?>
-		<?php echo $form->textField($model,'approval_date'); ?>
-		<?php echo $form->error($model,'approval_date'); ?>
 	</div>
 
 	<div class="row buttons">

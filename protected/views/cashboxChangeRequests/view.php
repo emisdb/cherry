@@ -26,7 +26,6 @@ $this->menu=array(
 		'id_type',
 		'delta_cash',
 		'reason',
-		'isApproved',
 		'approvedBy',
 		'request_date',
 		'approval_date',

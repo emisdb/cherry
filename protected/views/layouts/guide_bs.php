@@ -44,10 +44,26 @@
                <li>
 				<?php echo CHtml::link("<i class='fa fa-edit'></i> <span>Scheduled tours</span>", array('guide/schedule')); ?>
             </li>
-            <li>
-				<?php echo CHtml::link("<i class='fa fa-money'></i> <span>Cashbox</span>", array('guide/history','id'=> Yii::app()->user->id)); ?>
+			<li class="treeview">
+              <a href="#">
+                <i class="fa fa-pie-chart"></i>
+                <span>Cashbox</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li>
+					<?php echo CHtml::link("<i class='fa fa-money'></i> <span>Cashbox history (old)</span>", array('guide/history','id'=> Yii::app()->user->id)); ?>
+				</li>
+                <li>
+					<?php echo CHtml::link("<i class='fa fa-credit-card'></i> <span>Cashbox history</span>", array('guide/cash')); ?>
+				</li>
+                <li>
+					<?php echo CHtml::link("<i class='fa fa-money'></i> <span>Create record</span>", array('guide/createCash')); ?>
+				</li>
+              </ul>
             </li>
-          </ul>
+
+            </ul>
         </section>
         <!-- /.sidebar -->
       </aside>

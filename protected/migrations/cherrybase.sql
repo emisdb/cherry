@@ -31,15 +31,15 @@ CREATE TABLE IF NOT EXISTS `cashbox_change_requests` (
   `id_users` INT( 11 ) NOT NULL,
    `id_type` INT( 11 ) NOT NULL,
   `delta_cash` float NOT NULL,
-  `reason` varchar(1500) NOT NULL,
-  `isApproved` tinyint(4) NOT NULL DEFAULT '0',
-  `approvedBy` tinyint(4) NOT NULL,
+  `reason` varchar(255),
+  `approvedBy` INT( 11 ),
   `request_date` datetime NOT NULL,
-  `approval_date` datetime NOT NULL,
+  `approval_date` datetime,
   PRIMARY KEY (`idcashbox_change_requests`),
+    KEY `FK_cashbox_approve_user` (`approvedBy`),
     KEY `FK_cashbox_user` (`id_users`),
     KEY `FK_cashbox_type` (`id_type`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=130 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -53,10 +53,12 @@ CREATE TABLE IF NOT EXISTS `cashbox_change_request_documents` (
   `cashbox_change_requestid` int(11) NOT NULL,
   PRIMARY KEY (`idcashbox_change_request_documents`),
     KEY `FK_cashbox_id` (`cashbox_change_requestid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 ALTER TABLE `cashbox_change_requests`
   ADD CONSTRAINT `FK_cashbox_user` FOREIGN KEY (`id_users`) REFERENCES `tbl_user` (`id`)ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `cashbox_change_requests`
+  ADD CONSTRAINT `FK_cashbox_approve_user` FOREIGN KEY (`approvedBy`) REFERENCES `tbl_user` (`id`)ON DELETE RESTRICT ON UPDATE CASCADE;
 ALTER TABLE `cashbox_change_requests`
   ADD CONSTRAINT `FK_cashbox_type` FOREIGN KEY (`id_type`) REFERENCES `cashbox_type` (`id`)ON DELETE RESTRICT ON UPDATE CASCADE;
 ALTER TABLE `cashbox_change_request_documents`

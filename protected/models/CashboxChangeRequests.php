@@ -9,7 +9,6 @@
  * @property integer $id_type
  * @property double $delta_cash
  * @property string $reason
- * @property integer $isApproved
  * @property integer $approvedBy
  * @property string $request_date
  * @property string $approval_date
@@ -32,16 +31,25 @@ class CashboxChangeRequests extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_users, id_type, delta_cash, reason, approvedBy, request_date, approval_date', 'required'),
-			array('id_users, id_type, isApproved, approvedBy', 'numerical', 'integerOnly'=>true),
+			array('id_users, id_type, delta_cash', 'required'),
+			array('id_users, id_type, approvedBy', 'numerical', 'integerOnly'=>true),
 			array('delta_cash', 'numerical'),
-			array('reason', 'length', 'max'=>1500),
+			array('reason', 'length', 'max'=>255),
+			array('approval_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idcashbox_change_requests, id_users, id_type, delta_cash, reason, isApproved, approvedBy, request_date, approval_date', 'safe', 'on'=>'search'),
+			array('idcashbox_change_requests, id_users, id_type, delta_cash, reason, approvedBy, request_date, approval_date', 'safe', 'on'=>'search'),
 		);
 	}
-
+		public function behaviors()
+		{
+			return array(
+			'CTimestampBehavior' => array(
+			'class' => 'zii.behaviors.CTimestampBehavior',
+			'createAttribute' => 'request_date',
+			),
+			);
+		}
 	/**
 	 * @return array relational rules.
 	 */
@@ -50,7 +58,10 @@ class CashboxChangeRequests extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-		);
+			'user' => array(self::BELONGS_TO, 'User', 'id_users'),	
+			'apuser' => array(self::BELONGS_TO, 'User', 'approvedBy'),	
+			'cashtype' => array(self::BELONGS_TO, 'CashboxType', 'id_type'),	
+				);
 	}
 
 	/**
@@ -64,7 +75,6 @@ class CashboxChangeRequests extends CActiveRecord
 			'id_type' => 'Id Type',
 			'delta_cash' => 'Delta Cash',
 			'reason' => 'Reason',
-			'isApproved' => 'Is Approved',
 			'approvedBy' => 'Approved By',
 			'request_date' => 'Request Date',
 			'approval_date' => 'Approval Date',
@@ -94,7 +104,6 @@ class CashboxChangeRequests extends CActiveRecord
 		$criteria->compare('id_type',$this->id_type);
 		$criteria->compare('delta_cash',$this->delta_cash);
 		$criteria->compare('reason',$this->reason,true);
-		$criteria->compare('isApproved',$this->isApproved);
 		$criteria->compare('approvedBy',$this->approvedBy);
 		$criteria->compare('request_date',$this->request_date,true);
 		$criteria->compare('approval_date',$this->approval_date,true);

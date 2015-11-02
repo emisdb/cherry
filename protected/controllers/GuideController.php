@@ -32,7 +32,8 @@ class GuideController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('view','profile','update','contact','user','weeks','take','show','ajaxShow','ajaxHistory','schedule','history','current','deleteST','delete'),
+				'actions'=>array('view','profile','update','contact','user','weeks','take','show',
+					'ajaxShow','ajaxHistory','schedule','history','cash','createCash','current','deleteST','delete'),
                 'roles'=>array('guide'),
 			),            
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -722,6 +723,49 @@ class GuideController extends Controller
 		));
 	}
 	
+	public function actionCash()
+	{
+		$id_control = Yii::app()->user->id;
+		$guide = User::model()->findByPk($id_control);
+	$dataProvider=new CActiveDataProvider('CashboxChangeRequests',
+	array('criteria'=>array(
+		'condition'=>'id_users=:id_users',
+		'params'=>array(':id_users'=>$id_control),
+	    'order'=>'request_date DESC',
+	),
+		'pagination'=>array(
+		'pageSize'=>30,),
+		));
+		$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+ 	
+			$this->render('cash_index',array(
+				'dataProvider'=>$dataProvider,
+				'info'=>$test
+		));
+	}
+		public function actionCreateCash()
+	{
+		$model=new CashboxChangeRequests;
+		$id_control = Yii::app()->user->id;
+		$model->id_users=$id_control;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['CashboxChangeRequests']))
+		{
+			$model->attributes=$_POST['CashboxChangeRequests'];
+			if($model->save())
+				$this->redirect(array('cash'));
+		}
+
+		$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+ 		$this->render('cash_create',array(
+			'model'=>$model,
+			'info'=>$test
+		));
+	}
+
 	public function actionHistory($id)
 	{
 		$id_control = Yii::app()->user->id;

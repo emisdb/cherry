@@ -33,12 +33,7 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'reason'); ?>
-		<?php echo $form->textField($model,'reason',array('size'=>60,'maxlength'=>1500)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'isApproved'); ?>
-		<?php echo $form->textField($model,'isApproved'); ?>
+		<?php echo $form->textField($model,'reason',array('size'=>60,'maxlength'=>255)); ?>
 	</div>
 
 	<div class="row">
