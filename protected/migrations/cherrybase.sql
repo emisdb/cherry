@@ -64,6 +64,12 @@ ALTER TABLE `cashbox_change_requests`
 ALTER TABLE `cashbox_change_request_documents`
   ADD CONSTRAINT `FK_cashbox_id` FOREIGN KEY (`cashbox_change_requestid`) REFERENCES `cashbox_change_requests` (`idcashbox_change_requests`)ON DELETE CASCADE ON UPDATE CASCADE;
 
+ALTER TABLE  `cashbox_change_requests` ADD  `sched_user_id` INT( 11 ) NULL ;
+ALTER TABLE  `seg_guidestourinvoices` ADD  `contacts_id` INT( 11 ) NOT NULL ,
+ADD INDEX (  `contacts_id` ) ;
+ALTER TABLE  `seg_guidestourinvoices` ADD FOREIGN KEY (  `contacts_id` ) REFERENCES  `cherrydb`.`seg_contacts` (
+`idcontacts`
+) ON DELETE RESTRICT ON UPDATE CASCADE ;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

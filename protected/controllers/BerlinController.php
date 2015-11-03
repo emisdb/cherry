@@ -124,13 +124,13 @@ class BerlinController extends Controller
 				
 				//save booking
 				$id_user = $user_contact->idcontacts;
-				$current = new SegBookings;
-				$current->customer_id = $id_user;
-				$current->groupsize = $ticket_count;
-				$current->sched_tourid = $id;
-				$current->save();
-
-				$id_book = $current->idseg_bookings;
+//				$current = new SegBookings;
+//				$current->customer_id = $id_user;
+//				$current->groupsize = $ticket_count;
+//				$current->sched_tourid = $id;
+//				$current->save();
+//
+//				$id_book = $current->idseg_bookings;
 				
 				
 				//save guidestourinvoice
@@ -142,6 +142,7 @@ class BerlinController extends Controller
 				$guidestourinvoices->sched_tourid = $scheduled->tourroute_id;
 				$guidestourinvoices->guideNr = $scheduled->guide1_id;
 				$guidestourinvoices->status = 0;
+				$guidestourinvoices->contacts_id = $id_user;
 				$guidestourinvoices->id_sched = $scheduled->idseg_scheduled_tours;
 				$guidestourinvoices->save();	
 				
@@ -166,7 +167,7 @@ class BerlinController extends Controller
 					$guidestourinvoicescustomers->KA_string = 'KA'.$b.$year.'/'.$max_i;
 					$guidestourinvoicescustomers->CustomerInvoiceNumber = $max_i;
 					$guidestourinvoicescustomers->isPaid = 0;
-					$guidestourinvoicescustomers->origin_booking = $id_book;
+//					$guidestourinvoicescustomers->origin_booking = $id_book;
 					
 					
 					$guidestourinvoicescustomers->save();

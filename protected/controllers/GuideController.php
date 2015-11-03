@@ -933,9 +933,10 @@ class GuideController extends Controller
 	
 	
 	}
-
     public function actionBook($id, $cat)
 	{
+	    $this->layout = "berlin";
+            
         $scheduled = SegScheduledTours::model()->findByPk($id);
         
 		/*tourroutes*/
@@ -962,6 +963,14 @@ class GuideController extends Controller
         }else{
             $languages_guide = Languages::model()->findByPk($scheduled->language_id);
         } 
+         
+        /*  
+        $criteria = new CDbCriteria;
+        $criteria->condition = 'cityid=:cityid AND id_tour_categories=:id_tour_categories';
+        $criteria->params = array(':cityid' => $scheduled->city_id,':id_tour_categories'=>$cat);
+        $languages_guide = SegTourroutes::model()->find($criteria);
+		*/
+		
 		/*tourroute for cat*/
         $criteria = new CDbCriteria;
         $criteria->condition = 'cityid=:cityid AND id_tour_categories=:id_tour_categories';
@@ -1010,13 +1019,13 @@ class GuideController extends Controller
 				
 				//save booking
 				$id_user = $user_contact->idcontacts;
-				$current = new SegBookings;
-				$current->customer_id = $id_user;
-				$current->groupsize = $ticket_count;
-				$current->sched_tourid = $id;
-				$current->save();
-
-				$id_book = $current->idseg_bookings;
+//				$current = new SegBookings;
+//				$current->customer_id = $id_user;
+//				$current->groupsize = $ticket_count;
+//				$current->sched_tourid = $id;
+//				$current->save();
+//
+//				$id_book = $current->idseg_bookings;
 				
 				
 				//save guidestourinvoice
@@ -1028,6 +1037,7 @@ class GuideController extends Controller
 				$guidestourinvoices->sched_tourid = $scheduled->tourroute_id;
 				$guidestourinvoices->guideNr = $scheduled->guide1_id;
 				$guidestourinvoices->status = 0;
+				$guidestourinvoices->contacts_id = $id_user;
 				$guidestourinvoices->id_sched = $scheduled->idseg_scheduled_tours;
 				$guidestourinvoices->save();	
 				
@@ -1052,7 +1062,7 @@ class GuideController extends Controller
 					$guidestourinvoicescustomers->KA_string = 'KA'.$b.$year.'/'.$max_i;
 					$guidestourinvoicescustomers->CustomerInvoiceNumber = $max_i;
 					$guidestourinvoicescustomers->isPaid = 0;
-					$guidestourinvoicescustomers->origin_booking = $id_book;
+//					$guidestourinvoicescustomers->origin_booking = $id_book;
 					
 					
 					$guidestourinvoicescustomers->save();
@@ -1144,7 +1154,6 @@ class GuideController extends Controller
         $this->render('book',array('scheduled'=>$scheduled,'contact'=>$contact,'tour'=>$tour,'tours_guide'=>$tours_guide,'languages_guide'=>$languages_guide,'cat_item'=>$cat_item));
        
     } 
-
 
 
 	/**
