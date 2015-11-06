@@ -141,7 +141,7 @@
                             $pi=0;
                         }	 
 						}
-						echo $form->dropDownList($contact,'tickets'.$i ,$list_k,  array('style'=>'display:none;', 'id'=>'area'.$i, 'onChange'=>'clickTickets(this.value)'));
+						echo $form->dropDownList($contact,'tickets'.$i ,$list_k,  array('style'=>'display:none;', 'id'=>'area'.$i, 'onChange'=>'clickTickets(this.value)', 'class'=>"form-control select2"));
 					} 
 					 echo $form->hiddenField($contact,'cat_hidden', array('id'=>'cathidden','value'=>0)); 
 					 ?>
