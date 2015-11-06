@@ -32,7 +32,7 @@ class GuideController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('view','profile','update','contact','user','weeks','take','show',
+				'actions'=>array('view','profile','update','contact','user','weeks','take','show','book',
 					'ajaxShow','ajaxHistory','schedule','history','cash','createCash','current','deleteST','delete'),
                 'roles'=>array('guide'),
 			),            
@@ -933,13 +933,11 @@ class GuideController extends Controller
 	
 	
 	}
-    public function actionBook($id, $cat)
+    public function actionBook($id_sched)
 	{
-	    $this->layout = "berlin";
-            
-        $scheduled = SegScheduledTours::model()->findByPk($id);
-        
-		/*tourroutes*/
+        $scheduled = SegScheduledTours::model()->findByPk($id_sched);
+        $tour='';
+ 		/*tourroutes*/
         if($scheduled->tourroute_id==null){
             $criteria_tours_link = new CDbCriteria;
             $criteria_tours_link->condition = 'usersid=:usersid';
@@ -951,8 +949,11 @@ class GuideController extends Controller
             $criteria_tours_link2->condition = 'idseg_tourroutes=:idseg_tourroutes';
             $criteria_tours_link2->params = array(':idseg_tourroutes' => $scheduled->tourroute_id);
             $tours_guide = SegTourroutes::model()->findAll($criteria_tours_link2);
-        }
-         
+			$criteria = new CDbCriteria;
+			 $criteria->condition = 'cityid=:cityid AND idseg_tourroutes=:id_tour_categories';
+			 $criteria->params = array(':cityid' => $scheduled->city_id,':id_tour_categories'=>$scheduled->tourroute_id);
+			 $tour = SegTourroutes::model()->find($criteria);
+		 }
 		 /*languages*/
         if($scheduled->language_id==null){
             $criteria_lan_link = new CDbCriteria;
@@ -963,19 +964,6 @@ class GuideController extends Controller
         }else{
             $languages_guide = Languages::model()->findByPk($scheduled->language_id);
         } 
-         
-        /*  
-        $criteria = new CDbCriteria;
-        $criteria->condition = 'cityid=:cityid AND id_tour_categories=:id_tour_categories';
-        $criteria->params = array(':cityid' => $scheduled->city_id,':id_tour_categories'=>$cat);
-        $languages_guide = SegTourroutes::model()->find($criteria);
-		*/
-		
-		/*tourroute for cat*/
-        $criteria = new CDbCriteria;
-        $criteria->condition = 'cityid=:cityid AND id_tour_categories=:id_tour_categories';
-        $criteria->params = array(':cityid' => $scheduled->city_id,':id_tour_categories'=>$cat);
-        $tour = SegTourroutes::model()->find($criteria);
         
         //$model = new SegContacts;
         
@@ -1146,12 +1134,23 @@ class GuideController extends Controller
 			}
 		}
 		
-		$criteria_cat = new CDbCriteria;
-        $criteria_cat->condition = 'cityid=:cityid AND id_tour_categories=:id_tour_categories';
-        $criteria_cat->params = array(':cityid' => $scheduled->city_id,':id_tour_categories'=>$cat);
-		$cat_item = SegTourroutes::model()->find($criteria_cat)->idseg_tourroutes;
+//		$criteria_cat = new CDbCriteria;
+//        $criteria_cat->condition = 'cityid=:cityid AND id_tour_categories=:id_tour_categories';
+//        $criteria_cat->params = array(':cityid' => $scheduled->city_id,':id_tour_categories'=>$cat);
+//		$cat_item = SegTourroutes::model()->find($criteria_cat)->idseg_tourroutes;
 
-        $this->render('book',array('scheduled'=>$scheduled,'contact'=>$contact,'tour'=>$tour,'tours_guide'=>$tours_guide,'languages_guide'=>$languages_guide,'cat_item'=>$cat_item));
+				
+		$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+        $this->render('book',array(
+			'scheduled'=>$scheduled,
+			'contact'=>$contact,
+			'tour'=>$tour,
+			'tours_guide'=>$tours_guide,
+			'languages_guide'=>$languages_guide,
+			'info'=>$test,
+
+				));
        
     } 
 
