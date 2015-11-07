@@ -3,7 +3,6 @@
       <div class="content-wrapper">
        <section class="content-header">
 			<h1>Book the tour</h1>
-	
 			<div class="book-back t-text-tour">
 				<?php 
 				echo CHtml::link("Back",array('current','id_sched'=>$scheduled->idseg_scheduled_tours));
@@ -151,58 +150,105 @@
 				</div>
 			</div>
 		</div>
-   	<div  class="container">
-
-	<div class="book-contact">
-		<div class="book-contact-name">
+   	<div  class="container" >
+		<div class="row" style="margin-top:30px;">
+		<div class="book-contact-name col-md-12">
 			Booking Form
 		</div>
-		<div class="book-form">
-			<div class="book_form-item">
-				<div class="book-f">First name</div>
-				<div class="book-field"><?php echo $form->textField($contact,'firstname'); ?>
-           <!-- <php echo $form->error($contact,'firstname'); ?>-->
-            
-            </div>
-            
-             <div style="clear: both;"></div>
-        </div>
-        <div class="book_form-item">
-            <div class="book-f">Last name</div>
-            <div class="book-field"><?php echo $form->textField($contact,'lastname'); ?></div>
-             <div style="clear: both;"></div>
-        </div>
-        <div class="book_form-item">
-            <div class="book-f">Address</div>
-            <div class="book-field"><?php echo $form->textArea($contact,'address'); ?></div>
-             <div style="clear: both;"></div>
-        </div>
-        <div class="book_form-item">
-            <div class="book-f">City</div>
-            <div class="book-field"><?php echo $form->textField($contact,'city'); ?></div>
-             <div style="clear: both;"></div>
-        </div>
-        <div class="book_form-item">
-            <div class="book-f">Country</div>
-            <div class="book-field"><?php echo $form->textField($contact,'country'); ?></div>
-             <div style="clear: both;"></div>
-        </div>
-        <div class="book_form-item">
-            <div class="book-f">Phone</div>
-            <div class="book-field"><?php echo $form->textField($contact,'phone'); ?></div>
-             <div style="clear: both;"></div>
-        </div>
-        <div class="book_form-item">
-            <div class="book-f">E-mail</div>
-            <div class="book-field"><?php echo $form->textField($contact,'email'); ?></div>
-             <div style="clear: both;"></div>
-        </div>
-    </div>
-    <div style="clear: both;"></div>
-</div>
-<button class="but-book" type="submit"><?php echo 'BOOK'; ?></button>
-<?php $this->endWidget(); ?>   
-</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="form-group">
+				  <label>First name</label>
+				  <?php echo $form->textField($contact,'firstname',array('class'=>"form-control")); ?>
+				</div>					
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+				  <label>Surname</label>
+				  <?php echo $form->textField($contact,'lastname',array('class'=>"form-control")); ?>
+				</div>					
+			</div>
+			<div class="col-md-4">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="form-group">
+				  <label>Street</label>
+				  <?php echo $form->textField($contact,'street',array('class'=>"form-control")); ?>
+				</div>					
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+				  <label>Street Number</label>
+				  <?php echo $form->textField($contact,'house',array('class'=>"form-control")); ?>
+				</div>					
+			</div>
+			<div class="col-md-4">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8">
+				<div class="form-group">
+				  <label>Additional specification </label>
+				  <?php echo $form->textField($contact,'additional_address',array('class'=>"form-control")); ?>
+				</div>					
+			</div>
+			<div class="col-md-4">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				<div class="form-group">
+				  <label>Postal code</label>
+				  <?php echo $form->textField($contact,'postalcode',array('class'=>"form-control")); ?>
+				</div>					
+			</div>
+			<div class="col-md-5">
+				<div class="form-group">
+				  <label>City</label>
+				  <?php echo $form->textField($contact,'city',array('class'=>"form-control")); ?>
+				</div>					
+			</div>
+			<div class="col-md-4">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8">
+				<div class="form-group">
+				  <label>Country</label>
+				  <?php echo $form->textField($contact,'country',array('class'=>"form-control")); ?>
+				</div>					
+			</div>
+			<div class="col-md-4">
+			</div>
+		</div>
+   		<div class="row">
+			<div class="col-md-8">
+				<div class="form-group">
+				  <label>E-mail address</label>
+				  <?php echo $form->textField($contact,'email',array('class'=>"form-control")); ?>
+				</div>					
+			</div>
+			<div class="col-md-4">
+			</div>
+		</div>
+  		<div class="row">
+			<div class="col-md-8">
+				<div class="form-group">
+				  <label>Phone</label>
+				  <?php echo $form->textField($contact,'phone',array('class'=>"form-control")); ?>
+				</div>					
+			</div>
+			<div class="col-md-4">
+			</div>
+		</div>
+
+
+	<button class="but-book" type="submit"><?php echo 'BOOK'; ?></button>
+	<?php $this->endWidget(); ?>   
+	</div>
 	  </div>
  
 

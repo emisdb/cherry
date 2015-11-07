@@ -138,8 +138,10 @@
 
  <hr>
 <h1> Spontaneous tour</h1>
-<div class="row" style="width:200px;margin-left: 10px;">
-<?php $this->widget('ext.clockpick.EClockpick', array(
+<div class="row">
+	<div class="col-md-2">
+<?php 
+	$this->widget('ext.clockpick.EClockpick', array(
 //         'model'            => $model,
          'name'        =>'timepick',
 		 'value'=>'08:00',
@@ -157,9 +159,14 @@
          'htmlOptions'      => array('size'=>5,
 					'maxlength'=>5, 
 			 )
-    )); 
-        echo CHtml::link("Take","#",array('onclick'=>'goclick()'));
+    ));
+	?> 
+	</div>
+		<div class="col-md-10">
+ <?php
+ echo CHtml::link("Take","#",array('onclick'=>'goclick()'));
 ?>		
+						</div>
 						</div>
    </section><!-- /.content -->
       </div><!-- /.content-wrapper -->

@@ -17,6 +17,10 @@ class Book extends CFormModel
     public $lastname;
     public $address;
     public $city;
+   public $street;
+   public $house;
+    public $postalcode;
+   public $additional_address;
     public $country;
     public $phone;
     public $email;
@@ -24,7 +28,7 @@ class Book extends CFormModel
 	public function rules()
 	{
 		return array(
-			array('city_ex,date_ex,time_ex,tour, language, firstname, lastname, address, city, country, phone, email', 'required'),
+			array('city_ex,date_ex,time_ex,tour, language, postalcode, $additional_address, house, street, firstname, lastname, address, city, country, phone, email', 'required'),
 			array('email','email'),
 		);
 	}
