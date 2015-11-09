@@ -46,7 +46,7 @@
 
 				<?php
 				$i=0; 
-				if (count($sched->bookings)>0) $id_c = $sched->bookings[0]->contact->idcontacts;
+				if (count($sched->guidestourinvoices)>0) $id_c = $sched->guidestourinvoices[0]->contact->idcontacts;
 				else $id_c=0;
 				 echo $sched->tourroute_ob['name']." "
 						 .$sched['date']." "
@@ -101,16 +101,17 @@
 					{
 						$count_cust++;
 						echo "<tr><td>";
-						echo $model[$element]->booking->contact->idcontacts;
+						echo $model[$element]->tourinvoice->contact->idcontacts;
 						echo "</td><td>\n";
-						 if($id_c == $model[$element]->booking->contact->idcontacts){}
+						 if($id_c == $model[$element]->tourinvoice->contact->idcontacts){}
 						 else{	$i = 1;	}
-						$id_c = $model[$element]->booking->contact->idcontacts;						
-						$gs = $model[$element]->booking->groupsize - $model[$element]->booking->groupsize + $i;
+						$id_c = $model[$element]->tourinvoice->contact->idcontacts;						
+//						$gs = $model[$element]->tourinvoice->groupsize - $model[$element]->tourinvoice->groupsize + $i;
+						$gs = $i;
 						$i++;
 						echo $gs;
 						echo "</td><td>\n";
-						if($model[$element]->customersName == '') $model[$element]->customersName = $model[$element]->booking->contact->firstname.' '. $model[$element]->booking->contact->surname;
+						if($model[$element]->customersName == '') $model[$element]->customersName = $model[$element]->tourinvoice->contact->firstname.' '. $model[$element]->tourinvoice->contact->surname;
 						echo $form->textField($model[$element],'customersName',array('style'=>'width:170px','name'=>'customersName'.$k)); 
 						echo "</td><td>\n";
 						 echo '<div style="display:none;">';
@@ -140,7 +141,7 @@
 							echo '>'.$p->displayname.'</option>';
 						}
 						echo "</select></td><td>\n";
-						$bp = $model[$element]->booking->sched->tourroute_ob['base_price'];
+						$bp = $model[$element]->tourinvoice->sched->tourroute_ob['base_price'];
 						echo '<input type="hidden" id="base_price" value = "'.$bp.'" >';
 						echo '<div id="price'.$k.'" style="float:left;">';
 						 if ($model[$element]->price==null){ echo $bp; } else { echo $model[$element]->price; } 

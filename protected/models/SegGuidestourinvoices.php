@@ -38,7 +38,7 @@ class SegGuidestourinvoices extends CActiveRecord
 		//	array('creationDate', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idseg_guidesTourInvoices, creationDate, cityid, sched_tourid, guideNr, overAllIncome, cashIncome, InvoiceNumber, TA_string', 'safe', 'on'=>'search'),
+			array('idseg_guidesTourInvoices, creationDate, cityid, sched_tourid, guideNr, overAllIncome, cashIncome, InvoiceNumber, TA_string, contacts_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,6 +51,8 @@ class SegGuidestourinvoices extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'guidestourinvoicescustomers'=>array(self::HAS_MANY, 'SegGuidestourinvoicescustomers', 'tourInvoiceid'),
+			'contact'=>array(self::BELONGS_TO, 'SegContacts', 'contacts_id'),
+			'sched'=>array(self::BELONGS_TO, 'SegScheduledTours', 'id_sched'),
 		);
 	}
 

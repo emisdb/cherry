@@ -826,14 +826,26 @@ class GuideController extends Controller
 	
 		$id_control = Yii::app()->user->id;
         $guide = User::model()->findByPk($id_control);
-		$sched = SegScheduledTours::model()->with(array('guidestourinvoices'=>array('guidestourinvoicescustomers'=>array('bookings'=>array('contact')))))->findByPk($id_sched);
+		$sched = SegScheduledTours::model()->with(array('guidestourinvoices'=>array('guidestourinvoicescustomers','contact')))->findByPk($id_sched);
 		if(is_null($sched)) 	throw new CHttpException(404,'The requested tour does not exist.');
 
  
   			$date_format = strtotime($sched->date);
 			$date_bd = date('Y-m-d',$date_format);
 			$dt =$date_bd.' '.$sched->starttime;
-				
+	
+			//mainoption
+
+			$criteria_vat = new CDbCriteria;
+			$criteria_vat->condition = 'name=:name ';
+			$criteria_vat->params = array(':name'=>'Vat');
+			$vat_nds = Mainoptions::model()->find($criteria_vat)->value;
+			$criteria = new CDbCriteria;
+			$criteria->condition = 'idpayoptions=:idpayoptions1 OR idpayoptions=:idpayoptions2 OR idpayoptions=:idpayoptions3';
+			$criteria->params = array(':idpayoptions1' => 1,':idpayoptions2' => 2,':idpayoptions3' => 3);
+			$pay = Payoptions::model()->findAll($criteria);
+			$invoiceoptions_array = Invoiceoptions::model()->findAll(array('order'=>'id ASC')); 
+			$dis = Bonus::model()->findAll(array('order'=>'sort ASC')); 
 				if(!empty($_POST))
 				{
 					$newcustomer=$_POST['new_customer'];
@@ -863,33 +875,16 @@ class GuideController extends Controller
 					{
 					//create guidetourinvoice
 					//проверка на существование invoice
-					$criteria_prov = new CDbCriteria;
-					$criteria_prov->condition = 'guideNr=:guideNr AND id_sched=:id_sched ';
-					$criteria_prov->params = array(':guideNr'=>$sched->guide1_id,':id_sched'=>$sched->idseg_scheduled_tours);
-					$prov = SegGuidestourinvoices::model()->find($criteria_prov);
-					
-					if(!empty($prov)){
-						$invoice = $prov;
-						
-					} else {
-						$invoice = new SegGuidestourinvoices;
-					}
-
-					$invoice->creationDate = $sched->date;
-					$invoice->cityid = $sched->city_id;
-					$invoice->sched_tourid = $sched->tourroute_id;
-					$invoice->guideNr = $sched->guide1_id;
-					$invoice->status = 0;
-					$invoice->id_sched = $sched->idseg_scheduled_tours;
-					$invoice->overAllIncome = $_POST['price_s_post'];
-					$invoice->cashIncome =  $_POST['price_cash_post'];
-					
-					
-					$invoice->save();
+				foreach ($sched->guidestourinvoices as $invoice) {
+					$model=$invoice->guidestourinvoicescustomers;
+					$count_cust=0;
+					$overAllIncome=0;
+					$cashIncome=0;
 					$invoice_id =  $invoice->idseg_guidesTourInvoices;
-								
-					//foreach($model as $item){
+			
 					for($k=0;$k<count($model);$k++){
+					{
+						$count_cust++;
 						$model[$k]->tourInvoiceid = $invoice_id;
 						$model[$k]->customersName = $_POST['customersName'.$k];
 						$model[$k]->discounttype_id = $_POST['discounttype_id'.$k];
@@ -901,23 +896,20 @@ class GuideController extends Controller
 						$model[$k]->save();
 						
 					}
+					$invoice->creationDate = $sched->date;
+					$invoice->cityid = $sched->city_id;
+					$invoice->sched_tourid = $sched->tourroute_id;
+					$invoice->guideNr = $sched->guide1_id;
+					$invoice->status = 0;
+					$invoice->id_sched = $sched->idseg_scheduled_tours;
+//					$invoice->overAllIncome = $overAllIncome;
+//					$invoice->cashIncome =  $cashIncome;
+					$invoice->save();
 				}
-				}
-	
-				//mainoption
-				$criteria_vat = new CDbCriteria;
-				$criteria_vat->condition = 'name=:name ';
-				$criteria_vat->params = array(':name'=>'Vat');
-				$vat_nds = Mainoptions::model()->find($criteria_vat)->value;
-				$criteria = new CDbCriteria;
-				$criteria->condition = 'idpayoptions=:idpayoptions1 OR idpayoptions=:idpayoptions2 OR idpayoptions=:idpayoptions3';
-				$criteria->params = array(':idpayoptions1' => 1,':idpayoptions2' => 2,':idpayoptions3' => 3);
-				$pay = Payoptions::model()->findAll($criteria);
-				$invoiceoptions_array = Invoiceoptions::model()->findAll(array('order'=>'id ASC')); 
-				$dis = Bonus::model()->findAll(array('order'=>'sort ASC')); 
-
-				
-				$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+			}
+		}
+	}
+					$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
  				
 				$this->render('current',array(
 //					'model'=>$model,
@@ -936,7 +928,6 @@ class GuideController extends Controller
     public function actionBook($id_sched)
 	{
         $scheduled = SegScheduledTours::model()->findByPk($id_sched);
-        $tour='';
  		/*tourroutes*/
         if($scheduled->tourroute_id==null){
             $criteria_tours_link = new CDbCriteria;
@@ -967,47 +958,43 @@ class GuideController extends Controller
         
         //$model = new SegContacts;
         
-        $contact = new Book;
+        $contact = new Bookq;
         
-       	if(isset($_POST['Book']))
+       	if(isset($_POST['Bookq']))
 		{
-			$scheduled->tourroute_id = $_POST['Book']['tour'];
-			$scheduled->language_id = $_POST['Book']['language'];
+			if(is_null($scheduled->tourroute_id))
+			{
+				$scheduled->tourroute_id = $_POST['Bookq']['tour'];
+				$scheduled->language_id = $_POST['Bookq']['language'];
+			}
+			$contact->attributes=$_POST['Bookq'];
 			
-			$contact->attributes=$_POST['Book'];
+			$ticket_array = SegTourroutes::model()->findByPk($_POST['Bookq']['tour']);
 			
-			$ticket_array = SegTourroutes::model()->findByPk($_POST['Book']['tour']);
-			
-			$cat_i = $_POST['Book']['cat_hidden'];
-			if($cat_i == 1)$ticket_count = $_POST['Book']['tickets1'];
-			if($cat_i == 2)$ticket_count = $_POST['Book']['tickets2'];
-			if($cat_i == 3)$ticket_count = $_POST['Book']['tickets3'];
+			$cat_i = $_POST['Bookq']['cat_hidden'];
+			if($cat_i == 1)$ticket_count = $_POST['Bookq']['tickets1'];
+			if($cat_i == 2)$ticket_count = $_POST['Bookq']['tickets2'];
+			if($cat_i == 3)$ticket_count = $_POST['Bookq']['tickets3'];
 			$contact->tickets = $ticket_count; 
-			/*if (isset($_POST['Book']['tickets'])){
-				print_r('yes tiket');
-			}else{
-				print_r('no tiket'  );
-			}*/
-			
-			//print_r($_POST['Book']['cat_hidden'].'88');
-
-            if($contact->validate()){
+           if($contact->validate()){
 								
 				//save contact
 				$user_contact =  new SegContacts;
-				
-				$user_contact->firstname = $_POST['Book']['firstname'];
-				$user_contact->surname = $_POST['Book']['lastname'];
-				$user_contact->additional_address = $_POST['Book']['address'];
-				$user_contact->city = $_POST['Book']['city'];
-				$user_contact->country = $_POST['Book']['country'];
-				$user_contact->phone = $_POST['Book']['phone'];
-				$user_contact->email = $_POST['Book']['email'];
+				$user_contact->firstname = $_POST['Bookq']['firstname'];
+				$user_contact->surname = $_POST['Bookq']['lastname'];
+				$user_contact->additional_address = $_POST['Bookq']['additional_address'];
+				$user_contact->city = $_POST['Bookq']['city'];
+				$user_contact->street = $_POST['Bookq']['street'];
+				$user_contact->postalcode = $_POST['Bookq']['postalcode'];
+				$user_contact->house = $_POST['Bookq']['house'];
+				$user_contact->country = $_POST['Bookq']['country'];
+				$user_contact->phone = $_POST['Bookq']['phone'];
+				$user_contact->email = $_POST['Bookq']['email'];
 				$user_contact->save();
 				
 				//save booking
 				$id_user = $user_contact->idcontacts;
-//				$current = new SegBookings;
+//				$current = new SegBookqings;
 //				$current->customer_id = $id_user;
 //				$current->groupsize = $ticket_count;
 //				$current->sched_tourid = $id;
@@ -1044,7 +1031,7 @@ class GuideController extends Controller
 					//$guidestourinvoicescustomers->CustomeInvoicNumber = ;
 					$b = $tour->city['seg_cityname']{0};
 					$year = date('y',time());
-					$max= Yii::app()->db->createCommand("SELECT max(CustomerInvoiceNumber) from seg_guidestourinvoicescustomers where cityid=".$tour->cityid)->queryScalar();
+					$max= Yii::app()->db->createCommand("SELECT max(CustomerInvoiceNumber) from seg_guidestourinvoicescustomers where cityid=".$scheduled->city_id)->queryScalar();
 					$max_i = $max+1;
 					
 					$guidestourinvoicescustomers->KA_string = 'KA'.$b.$year.'/'.$max_i;
@@ -1127,9 +1114,8 @@ class GuideController extends Controller
 				$to = $user_contact->email;
 //				if ($this->sendMail($to, $name_forms, $message))
 				{
+					$this->redirect(array('current','id_sched'=>$id_sched));
 				
-				    $stuttgart_link = Yii::app()->createUrl('thankyou');
-				    header( 'Location: '.$stuttgart_link.'?id=1' );
 				}
 			}
 		}

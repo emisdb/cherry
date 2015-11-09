@@ -29,3 +29,8 @@
 Проблемы:
     1.  Выбор города для гида при отображении schedule производится очень опасно 
         - берется первая запись из таблицы seg_guides_cities (нужен какой-то более прочный алгоритм)
+
+
+For production:
+1.  choose the view/layout/guide_bs
+2   GuideController/book 1130 activate sendmail

@@ -54,7 +54,7 @@ class SegGuidestourinvoicescustomers extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'booking'=>array(self::BELONGS_TO, 'SegBookings', 'origin_booking'),
+//			'booking'=>array(self::BELONGS_TO, 'SegBookings', 'origin_booking'),
 			'tourinvoice'=>array(self::BELONGS_TO, 'SegGuidestourinvoices', 'tourInvoiceid'),
 			'discount'=>array(self::BELONGS_TO, 'Bonus', 'discounttype_id'),
 			'payment'=>array(self::BELONGS_TO, 'Payoptions', 'paymentoptionid'),

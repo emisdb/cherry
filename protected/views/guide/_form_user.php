@@ -63,9 +63,9 @@
 	<div class="row buttons">
         <button class="btn btn-primary" type="submit"><?php echo $model->isNewRecord ? 'New record' : 'Save'; ?></button>
         <?php if($model->id != Yii::app()->user->id) {?>
-            <button class="btn btn-primary cancel"><a href="<?php echo Yii::app()->request->baseUrl; ?>/user/admin"><?php echo 'Cancel'; ?></a></button>
+            <button class="btn btn-primary cancel"><a href="<?php echo Yii::app()->request->baseUrl; ?>admin"><?php echo 'Cancel'; ?></a></button>
         <?php }else{?>
-            <button class="btn btn-primary cancel"><a href="<?php echo Yii::app()->request->baseUrl; ?>/user/profile"><?php echo 'Cancel'; ?></a></button>
+            <button class="btn btn-primary cancel"><a href="<?php echo Yii::app()->request->baseUrl; ?>profile"><?php echo 'Cancel'; ?></a></button>
         <?php }?>
     </div>
 <?php $this->endWidget(); ?>

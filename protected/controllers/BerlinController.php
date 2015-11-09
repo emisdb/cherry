@@ -77,13 +77,24 @@ class BerlinController extends Controller
 		*/
 		
 		/*tourroute for cat*/
-        $criteria = new CDbCriteria;
-        $criteria->condition = 'cityid=:cityid AND id_tour_categories=:id_tour_categories';
-        $criteria->params = array(':cityid' => $scheduled->city_id,':id_tour_categories'=>$cat);
-        $tour = SegTourroutes::model()->find($criteria);
+       	if(isset($_POST['Book']))
+		{
+			$criteria = new CDbCriteria;
+			$criteria->condition = 'idseg_tourroutes=:idseg_tourroutes';
+			$criteria->params = array(':idseg_tourroutes'=>$_POST['Book']['tour']);
+			$tour = SegTourroutes::model()->find($criteria);
+			
+		}
+		else 
+		{
+			$criteria = new CDbCriteria;
+			$criteria->condition = 'cityid=:cityid AND id_tour_categories=:id_tour_categories';
+			$criteria->params = array(':cityid' => $scheduled->city_id,':id_tour_categories'=>$cat);
+			$tour = SegTourroutes::model()->find($criteria);
+
+		}
         
         //$model = new SegContacts;
-        
         $contact = new Book;
         
        	if(isset($_POST['Book']))

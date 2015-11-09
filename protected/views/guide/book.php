@@ -10,7 +10,7 @@
 			</div>
 			<ol class="breadcrumb">
 				<li>
-					<?php echo Chtml::link('Scheduled Tours',array('guide/schedule')); ?>
+					<?php echo Chtml::link('Scheduled Tours',array('schedule')); ?>
 				</li>
 				<li>
 					<?php 
@@ -53,10 +53,13 @@
 									   echo '<div id="m'.$item->idseg_tourroutes.'">'.$item->TNmax.'</div>'; 
 							   }
 							   echo '</div>';
-							   echo $form->dropDownList($contact,'tour',$list, array('id'=>'tour_area', 'options' => array($cat_item=>array('selected'=>true)), 'onChange'=>'clickTour(this.value)'));
+							   echo $form->dropDownList($contact,'tour',$list, array('id'=>'tour_area', 'class'=>'form-control select2', 'options' => array($cat_item=>array('selected'=>true)), 'onChange'=>'clickTour(this.value)'));
+							echo '<div style="display:none;" id="tour_set">0</div>';
 					   }
 					   else {
 						   echo '<input type="text" class="form-control" value="'.$scheduled->tourroute_ob->name.'" disabled="">';
+						   echo '<div style="display:none;" id="tour_area">'.$scheduled->tourroute_id.'</div>';
+						   echo '<div style="display:none;" id="tour_set">1</div>';
 						 }
 						 ?>
              
@@ -99,10 +102,8 @@
 							<?php
 							 if($scheduled->language_id==null)
 								 {	
-									 echo '<div class="book-select">';
 									 $list_l = CHtml::listData($languages_guide, 'id_languages', 'englishname');
-									 echo $form->dropDownList($contact,'language',$list_l);
-									 echo '</div>';
+									 echo $form->dropDownList($contact,'language',$list_l, array('class'=>'form-control select2'));
 								 }
 								 else 
 								 {
@@ -114,37 +115,37 @@
 				<div class="col-md-4">
 					<div class="form-group">
                       <label>Tickets</label>
- 				  <div style="display:none;" id="ntiket"><?php echo $tour->TNmax;?></div>
-                  <div style="display:none;" id="ncat"><?php echo $tour->id_tour_categories;?></div>
-                  <div style="display:none;"><!-- param cat for all-->
-                  	<?php 
-						foreach($tours_guide as $item) { 
-                    	echo '<div id="cat'.$item->idseg_tourroutes.'">'.$item->id_tour_categories.'</div>';
-                        echo '<div id="base_price'.$item->idseg_tourroutes,'">'.$item->base_price.'</div>';
-                     } 
-					 ?>
-                  </div>
-                  <div style="display:none;" id="now_tiket"></div> <!-- begin list tiket categories -->
-                  
-                  
-                  <?php for($i=1;$i<4;$i++)
-				  { 
-					$list_k=array();
-					foreach($tours_guide as $item) { 
-						if($item->id_tour_categories == $i)
-						{
-							$primer = $item->TNmax - $scheduled->current_subscribers;
-                            echo '<div style="display:none;" id="ntiket'.$item->idseg_tourroutes.'">'.$primer.'</div>';
-                            for($pi=0;$pi<$primer;$pi++)
-							{  $list_k[$pi+1] = $pi+1; }
-                            $pi=0;
-                        }	 
-						}
-						echo $form->dropDownList($contact,'tickets'.$i ,$list_k,  array('style'=>'display:none;', 'id'=>'area'.$i, 'onChange'=>'clickTickets(this.value)', 'class'=>"form-control select2"));
-					} 
-					 echo $form->hiddenField($contact,'cat_hidden', array('id'=>'cathidden','value'=>0)); 
-					 ?>
-                    </div>					
+						<div style="display:none;" id="ntiket"><?php echo $tour->TNmax;?></div>
+						<div style="display:none;" id="ncat"><?php echo $tour->id_tour_categories;?></div>
+						<div style="display:none;"><!-- param cat for all-->
+						  <?php 
+							  foreach($tours_guide as $item) { 
+							  echo '<div id="cat'.$item->idseg_tourroutes.'">'.$item->id_tour_categories.'</div>';
+							  echo '<div id="base_price'.$item->idseg_tourroutes,'">'.$item->base_price.'</div>';
+						   } 
+						   ?>
+						</div>
+						<div style="display:none;" id="now_tiket"></div> <!-- begin list tiket categories -->
+
+
+						<?php for($i=1;$i<4;$i++)
+						{ 
+						  $list_k=array();
+						  foreach($tours_guide as $item) { 
+							  if($item->id_tour_categories == $i)
+							  {
+								  $primer = $item->TNmax - $scheduled->current_subscribers;
+								  echo '<div style="display:none;" id="ntiket'.$item->idseg_tourroutes.'">'.$primer.'</div>';
+								  for($pi=0;$pi<$primer;$pi++)
+								  {  $list_k[$pi+1] = $pi+1; }
+								  $pi=0;
+							  }	 
+							  }
+							  echo $form->dropDownList($contact,'tickets'.$i ,$list_k,  array('style'=>'display:none;', 'id'=>'area'.$i, 'onChange'=>'clickTickets(this.value)', 'class'=>"form-control select2"));
+						  } 
+						   echo $form->hiddenField($contact,'cat_hidden', array('id'=>'cathidden','value'=>0)); 
+						   ?>
+						  </div>					
 				</div>
 				<div class="col-md-4">
 				</div>
@@ -268,7 +269,11 @@
 		document.getElementById('new_price').innerHTML=c;
   	}
 	function clickTickets(id){
-        var element = document.getElementById('tour_area').value ;
+		var element=0;
+        var settype = parseInt(document.getElementById('tour_set').innerHTML) ;
+		if(settype==0)    element = document.getElementById('tour_area').value ;
+		else element = document.getElementById('tour_area').innerHTML;
+
 		//  alert(element);
         var base_price = document.getElementById('base_price'+element).innerHTML;
 		//alert(base_price);
@@ -278,15 +283,17 @@
 	}
 	function clickTour(id){
 		//list tiket
-		var newcat = document.getElementById('cat'+parseFloat(id)).innerHTML;
-		document.getElementById('area'+parseFloat(newcat)).style.display="block";
+		var newcat = document.getElementById('cat'+parseInt(id)).innerHTML;
+		document.getElementById('area'+parseInt(newcat)).style.display="block";
 		var oldcat = document.getElementById('now_tiket').innerHTML;
-		document.getElementById('area'+parseFloat(oldcat)).style.display="none";
 		document.getElementById('now_tiket').innerHTML=newcat;
 		document.getElementById('cathidden').value = newcat;
+		if(oldcat){
+			document.getElementById('area'+parseInt(oldcat)).style.display="none";
+		}
 		//price		
         var base_price = document.getElementById('base_price'+id).innerHTML;
-        var number_ticket = document.getElementById('area'+parseFloat(newcat)).value;
+        var number_ticket = document.getElementById('area'+parseInt(newcat)).value;
 		var new_price = base_price*number_ticket;
 		document.getElementById('new_price').innerHTML=new_price;
  	}

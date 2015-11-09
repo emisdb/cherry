@@ -1,6 +1,6 @@
 <?php
 
-class Book extends CFormModel
+class Bookq extends CFormModel
 {
 	
     public $tour;
@@ -25,7 +25,7 @@ class Book extends CFormModel
 	public function rules()
 	{
 		return array(
-			array('tour, language, address, firstname, lastname, city, country, phone, email', 'required'),
+			array('postalcode, additional_address, house, street, firstname, lastname, city, country, phone, email', 'required'),
 			array('email','email'),
 		);
 	}
