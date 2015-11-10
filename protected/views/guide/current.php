@@ -93,28 +93,28 @@
 					$d->nametype = $d->name.' '.$d->type;
 				} 
 				$list_discount = CHtml::listData($dis, 'id', 'nametype'); 
+				$list_pay = CHtml::listData($pay, 'idpayoptions', 'displayname'); 
+				$list_op = CHtml::listData($invoiceoptions_array, 'id', 'name'); 
 				$count_cust;
 				foreach ($sched->guidestourinvoices as $value) {
 					$model=$value->guidestourinvoicescustomers;
-				
+					$i=0;				
 					for($element=0;$element < count($model);$element++)
 					{
 						$count_cust++;
+						$i++;
 						echo "<tr><td>";
 						echo $model[$element]->tourinvoice->contact->idcontacts;
 						echo "</td><td>\n";
-						 if($id_c == $model[$element]->tourinvoice->contact->idcontacts){}
-						 else{	$i = 1;	}
-						$id_c = $model[$element]->tourinvoice->contact->idcontacts;						
-//						$gs = $model[$element]->tourinvoice->groupsize - $model[$element]->tourinvoice->groupsize + $i;
 						$gs = $i;
-						$i++;
+						$id=$model[$element]->idseg_guidesTourInvoicesCustomers;
 						echo $gs;
 						echo "</td><td>\n";
 						if($model[$element]->customersName == '') $model[$element]->customersName = $model[$element]->tourinvoice->contact->firstname.' '. $model[$element]->tourinvoice->contact->surname;
-						echo $form->textField($model[$element],'customersName',array('style'=>'width:170px','name'=>'customersName'.$k)); 
+						echo $form->textField($model[$element],'customersName',array('style'=>'width:170px','name'=>'customersName'.$id)); 
 						echo "</td><td>\n";
-						 echo '<div style="display:none;">';
+						echo $form->dropDownList($model[$element],'discounttype_id',$list_discount,array('empty' => '--','name'=>'discounttype_id'.$id, 'onChange'=>'price(value,this.id)'));
+/*						 echo '<div style="display:none;">';
 						foreach($dis as $d){ 
 							echo '<div id="i'.$k.'ii'.$d->id.'" >'.$d->val.'</div>';
 							echo '<div id="j'.$k.'jj'.$d->id.'" >'.$d->type.'</div>';
@@ -132,7 +132,10 @@
 							echo '>'.$d->nametype.'</option>';
 						}
 						echo "</select></td><td>\n";
-						echo '<select name="payoption'.$k.'" style="width:170px;" id="payoption'.$k.'" onChange="cash()">';
+*/
+						echo "</td><td>\n";
+						echo $form->dropDownList($model[$element],'paymentoptionid',$list_pay,array('empty' => '--','name'=>'payoption'.$id, 'onChange'=>'cash()'));
+/*						echo '<select name="payoption'.$k.'" style="width:170px;" id="payoption'.$k.'" onChange="cash()">';
 						echo '<option value="0">--</option>';
 						foreach($pay as $p){
 							echo '<option value="'.$p->idpayoptions.'" ';
@@ -141,13 +144,14 @@
 							echo '>'.$p->displayname.'</option>';
 						}
 						echo "</select></td><td>\n";
+*/						echo "</td><td>\n";
 						$bp = $model[$element]->tourinvoice->sched->tourroute_ob['base_price'];
-						echo '<input type="hidden" id="base_price" value = "'.$bp.'" >';
-						echo '<div id="price'.$k.'" style="float:left;">';
+						echo '<input type="hidden" id="base_price"$id value = "'.$bp.'" >';
+						echo '<div id="price'.$id.'" style="float:left;">';
 						 if ($model[$element]->price==null){ echo $bp; } else { echo $model[$element]->price; } 
 						echo '</div><div style="float:left;"> &euro;</div>';
 						echo '<div style="clear:both;"></div>';
-						echo '<input type="hidden" id="price_i'.$k.'" name="price<? echo $k;?>" >';
+						echo '<input type="hidden" id="price_i'.$id.'" name="price<? echo $k;?>" >';
 						echo '</td><td style="width:40px;">';
 						if($model[$element]->price==null){
 									$vat_value = $bp*(1-1/($vat_nds/100+1));
@@ -160,7 +164,8 @@
 						$vat_input = 'vat_i'.$k;
 						echo '<input type="hidden" id="'.$vat_input.'" name="vat'.$k.'">';
 						echo "</td><td>\n";
-						echo '<select name="option'.$k.'" id="option'.$k.'" ostyle="width:170px;">';
+						echo $form->dropDownList($model[$element],'id_invoiceoptions',$list_op,array('empty' => '--','name'=>'option'.$id));
+/*						echo '<select name="option'.$k.'" id="option'.$k.'" ostyle="width:170px;">';
 						echo '<option>--</option>';
 						foreach($invoiceoptions_array as $p){
 							echo '<option value="'.$p->id.'" ';
@@ -168,6 +173,7 @@
 							echo '>'.$p->name.'</option>';
 						}
 						echo "</select></td></tr>\n";
+*/						echo "</td></tr>\n";
 						$k++;
 					}
 				}
@@ -243,6 +249,12 @@
 
 <!-- *********************** javascript ***************************************************************-->
 <script type="text/javascript">
+	<?php
+	echo "var discounts={";
+	foreach($dis as $d)	echo "'".$d->id."':['".$d->name."','".$d->type."'],";
+	echo "};";
+	?>
+
 $(document).ready ( function (){
 	var i;
 	var price=0;
@@ -323,6 +335,7 @@ function price(id,k){
 		 var vat_nds = document.getElementById('vat_nds').innerHTML;//НДС
 		 k = parseInt(k.replace(/\D+/g,""));//номер строки
 		 var price;
+		 alert(discounts[id][0]+":"+discounts[id][1]);return;
 		 var val = document.getElementById('i'+k+'ii'+id).innerHTML;
  		 var type = document.getElementById('j'+k+'jj'+id).innerHTML;
 		 var base_price = document.getElementById('base_price').value;

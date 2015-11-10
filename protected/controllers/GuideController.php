@@ -881,7 +881,7 @@ class GuideController extends Controller
 					$overAllIncome=0;
 					$cashIncome=0;
 					$invoice_id =  $invoice->idseg_guidesTourInvoices;
-			
+//			
 					for($k=0;$k<count($model);$k++){
 					{
 						$count_cust++;
