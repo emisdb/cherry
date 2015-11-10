@@ -151,7 +151,7 @@
 						 if ($model[$element]->price==null){ echo $bp; } else { echo $model[$element]->price; } 
 						echo '</div><div style="float:left;"> &euro;</div>';
 						echo '<div style="clear:both;"></div>';
-						echo '<input type="hidden" id="price_i'.$id.'" name="price<? echo $k;?>" >';
+						echo '<input type="hidden" id="price_i'.$id.'" name="price'.$k.'" >';
 						echo '</td><td style="width:40px;">';
 						if($model[$element]->price==null){
 									$vat_value = $bp*(1-1/($vat_nds/100+1));
