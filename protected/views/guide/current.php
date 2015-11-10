@@ -146,7 +146,7 @@
 						echo "</select></td><td>\n";
 */						echo "</td><td>\n";
 						$bp = $model[$element]->tourinvoice->sched->tourroute_ob['base_price'];
-						echo '<input type="hidden" id="base_price"$id value = "'.$bp.'" >';
+						echo '<input type="hidden" id="base_price'.$id.'" value = "'.$bp.'" >';
 						echo '<div id="price'.$id.'" style="float:left;">';
 						 if ($model[$element]->price==null){ echo $bp; } else { echo $model[$element]->price; } 
 						echo '</div><div style="float:left;"> &euro;</div>';
