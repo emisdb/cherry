@@ -1377,6 +1377,7 @@ class GuideController extends Controller
 					  <th style="font-weight:bold;width:50px;"><br>&nbsp;<br>Vat.<br></th>
 					  <th style="font-weight:bold;width:100px;text-align:center;"><br>&nbsp;<br>Option<br></th>
 					</tr>';
+					$vat= Yii::app()->db->createCommand("SELECT value from mainoptions where name='Vat'")->queryScalar();
 					$i=0;
 					$sum_itog=0;
 					$sum_bar=0;
@@ -1466,7 +1467,6 @@ class GuideController extends Controller
 								}
 							}
 					}
-					$vat= Yii::app()->db->createCommand("SELECT value from mainoptions where name='Vat'")->queryScalar();
 					$sum_vat = round($sum_itog*(1-1/($vat/100+1)),2);
 					$sum_b_vat = $sum_itog - $sum_vat;
 
