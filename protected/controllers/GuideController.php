@@ -7,6 +7,7 @@ class GuideController extends Controller
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/guide_bs';
+	public $totval=0;
 
 	/**
 	 * @return array action filters
@@ -33,7 +34,7 @@ class GuideController extends Controller
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('view','profile','update','contact','user','weeks','take','show','book',
-					'ajaxShow','ajaxHistory','schedule','history','cash','createCash','createpdf','current','deleteST','delete'),
+					'ajaxShow','ajaxHistory','schedule','history','cash','createCash','cashReport','current','deleteST','delete'),
                 'roles'=>array('guide'),
 			),            
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -722,17 +723,61 @@ class GuideController extends Controller
 			'model'=>$model,'id_control'=>$id_control,'info'=>$test,'date'=> $Datef,
 		));
 	}
-	
+		public function actionCashReport()
+	{
+		$id_control = Yii::app()->user->id;
+		$model=new CashboxChangeRequests('search');
+		$model->unsetAttributes();  // clear any default values
+		$model->id_users=$id_control;
+		 if(empty($_POST))
+		 {
+			$model->from_date = Mainoptions::model()->getCvalue('payf_'.$id_control);
+			$model->to_date = Mainoptions::model()->getCvalue('payt_'.$id_control);
+
+		 }
+		 else
+		  {
+            Mainoptions::model()->setCvalue('payf_'.$id_control,$_POST['CashboxChangeRequests']['from_date']);
+			Mainoptions::model()->setCvalue('payt_'.$id_control,$_POST['CashboxChangeRequests']['to_date']);
+			$model->from_date = $_POST['CashboxChangeRequests']['from_date'];
+			$model->to_date = $_POST['CashboxChangeRequests']['to_date'];
+		}
+		$cashnow=0;
+		if(isset($model->from_date)) 
+		{
+			
+		$command=Yii::app()->db->createCommand();
+        $command->select('SUM(delta_cash) AS sum');
+        $command->from('cashbox_change_requests');
+        $command->where('id_users=:id AND request_date < :rd', array(':id'=>$id_control,':rd'=>date('Y-m-d H:i:s', strtotime($model->from_date))));
+        $cashnow= $command->queryScalar();
+		$this->totval=$cashnow;
+
+		}
+
+ 		$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+ 	
+		$this->render('cash_admin',array(
+				'model'=>$model,
+				'cashnow'=>$cashnow,
+				'info'=>$test
+		));
+	}
+
+	protected function adding($data,$row){
+		$this->totval=$this->totval+$data->delta_cash;
+		return Yii::app()->numberFormatter->formatCurrency($this->totval, '') ;
+	}
 	public function actionCash()
 	{
 		$id_control = Yii::app()->user->id;
 		$guide = User::model()->findByPk($id_control);
-	$dataProvider=new CActiveDataProvider('CashboxChangeRequests',
-	array('criteria'=>array(
-		'condition'=>'id_users=:id_users',
-		'params'=>array(':id_users'=>$id_control),
-	    'order'=>'request_date DESC',
-	),
+		$dataProvider=new CActiveDataProvider('CashboxChangeRequests',
+		array('criteria'=>array(
+			'condition'=>'id_users=:id_users',
+			'params'=>array(':id_users'=>$id_control),
+			'order'=>'request_date DESC',
+			),
 		'pagination'=>array(
 		'pageSize'=>30,),
 		));
@@ -828,9 +873,9 @@ class GuideController extends Controller
         $guide = User::model()->findByPk($id_control);
 		$sched = SegScheduledTours::model()->with(array('guidestourinvoices'=>array('guidestourinvoicescustomers','contact')))->findByPk($id_sched);
 		if(is_null($sched)) 	throw new CHttpException(404,'The requested tour does not exist.');
-
- 
-  			$date_format = strtotime($sched->date);
+		if($sched->additional_info2) $this->redirect(array('schedule'));
+//		if($sched->additional_info2) $this->redirect(Yii::app()->createUrl("/filespdf/".$sched->additional_info2.".pdf"));
+ 			$date_format = strtotime($sched->date);
 			$date_bd = date('Y-m-d',$date_format);
 			$dt =$date_bd.' '.$sched->starttime;
 	
@@ -848,34 +893,9 @@ class GuideController extends Controller
 			$dis = Bonus::model()->findAll(array('order'=>'sort ASC')); 
 				if(!empty($_POST))
 				{
-//					$newcustomer=$_POST['new_customer'];
-//					if($newcustomer>0)
-//					{
-//						if(count($model)>0)
-//						{
-//							$customer = new SegGuidestourinvoicescustomers;
-////							$customer->setAttributes($model[0]->attributes, true);
-//							$customer->customersName = $model[0]->customersName;
-//							$customer->price = $model[0]->price;
-//							$customer->cityid = $model[0]->cityid;					
-//							$customer->tourInvoiceid =  $model[0]->tourInvoiceid ;
-//							$max= Yii::app()->db->createCommand("SELECT max(CustomerInvoiceNumber) from seg_guidestourinvoicescustomers where cityid=".$customer->cityid)->queryScalar();
-//							$max_i = $max+1;
-//							$splitstr=  explode("/",$model[0]->KA_string);
-//							$customer->KA_string = $splitstr[0]."/".$max_i;
-//							$customer->CustomerInvoiceNumber = $max_i;
-//							$customer->isPaid = 0;
-//							$customer->origin_booking = $model[0]->origin_booking ;
-//							$customer->save();
-//							$model = SegGuidestourinvoicescustomers::model()->findAll($criteria_invoicecustomer);
-//							
-//						}
-//					}
-//					else
-//					{
-					//create guidetourinvoice
-					//проверка на существование invoice
-				foreach ($sched->guidestourinvoices as $invoice) {
+					$pdf=$_POST['pdf'];
+
+					foreach ($sched->guidestourinvoices as $invoice) {
 					$model=$invoice->guidestourinvoicescustomers;
 					$count_cust=0;
 					$overAllIncome=0;
@@ -891,9 +911,9 @@ class GuideController extends Controller
 						$model[$k]->customersName = $_POST['customersName'.$kk];
 						$model[$k]->discounttype_id = $_POST['discounttype_id'.$kk];
 						$model[$k]->paymentoptionid = $_POST['payoption'.$kk];
-						if(!empty($_POST['price'.$kk])) {
+//						if(!empty($_POST['price'.$kk])) {
 							$model[$k]->price = $_POST['price'.$kk];
-						}
+//						}
 						$overAllIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
 						if($model[$k]->paymentoptionid==1) $cashIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
 						$model[$k]->id_invoiceoptions = $_POST['option'.$kk];
@@ -912,8 +932,12 @@ class GuideController extends Controller
 					$invoice->cashIncome =  $cashIncome;
 					$invoice->save();
 				}
+				if($pdf){
+					if(!$this->createpdf($sched)) return;
+//					$this->redirect(Yii::app()->createUrl("/filespdf/".$sched->additional_info2.".pdf"));
+					return;
+				}
 			}
-//		}
 	$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
 
 	$this->render('current',array(
@@ -932,6 +956,7 @@ class GuideController extends Controller
 	}
     public function actionBook($id_sched)
 	{
+		$tour=null;
         $scheduled = SegScheduledTours::model()->findByPk($id_sched);
  		/*tourroutes*/
         if($scheduled->tourroute_id==null){
@@ -967,10 +992,15 @@ class GuideController extends Controller
         
        	if(isset($_POST['Bookq']))
 		{
+			
 			if(is_null($scheduled->tourroute_id))
 			{
 				$scheduled->tourroute_id = $_POST['Bookq']['tour'];
 				$scheduled->language_id = $_POST['Bookq']['language'];
+				$criteria = new CDbCriteria;
+				 $criteria->condition = 'cityid=:cityid AND idseg_tourroutes=:id_tour_categories';
+				 $criteria->params = array(':cityid' => $scheduled->city_id,':id_tour_categories'=>$scheduled->tourroute_id);
+				 $tour = SegTourroutes::model()->find($criteria);
 			}
 			$contact->attributes=$_POST['Bookq'];
 			
@@ -996,6 +1026,7 @@ class GuideController extends Controller
 				$user_contact->phone = $_POST['Bookq']['phone'];
 				$user_contact->email = $_POST['Bookq']['email'];
 				$user_contact->save();
+//			var_dump($_POST['Bookq']); return;
 				
 				//save booking
 				$id_user = $user_contact->idcontacts;
@@ -1058,25 +1089,12 @@ class GuideController extends Controller
 				$scheduled->save();
 				
             	//email
-				$date_ex = date('d/m/Y',$_POST['Book']['date_ex']);
-					
-				//print_r('time - '.$_POST['Book']['time_ex']);
-				//print_r('<br>');
-				$x1 = strtotime($_POST['Book']['time_ex']) - strtotime("00:00:00");
-				//print_r('strtotime - '.$x1);
-				//print_r('<br>');
+				$date_ex = date('d/m/Y',$scheduled->date_now);
+				$x1 = strtotime($scheduled->starttime) - strtotime("00:00:00");
 				$x2 = $tour->standard_duration*60;
-				//print_r('duration - '.$x2);
-				//print_r('<br>');
 				$x3 = $x1+$x2;
-				//print_r('vse - '.$x3);
-				//print_r('<br>');
 				$x4 = $x3+strtotime("00:00:00");
-				//print_r('nowtime - '.$x4);
-				//print_r('<br>');
 				$x5 = date('H:i:s',$x4);
-				//print_r('date - '.$x5);
-				//print_r('<br>');
 				$tourend = $x5;
 				
 				$guidename = $scheduled->user_ob->contact_ob->firstname;
@@ -1086,7 +1104,7 @@ class GuideController extends Controller
 				$message.="\n";
 				$message.="\nWe have just reserved the following tour date for you:";
 				$message.="\n".$date_ex;
-				$message.="\nTour start: ".$_POST['Book']['time_ex']." (Please show up at the assigned meeting point about 10 minutes before tour start.)";
+				$message.="\nTour start: ".$scheduled->date_now." (Please show up at the assigned meeting point about 10 minutes before tour start.)";
 				$message.="\n";
 				$message.="\nEnd of tour: ".$tourend;
 				$message.="\nTour route: ".$scheduled->tourroute_ob->name;
@@ -1143,14 +1161,11 @@ class GuideController extends Controller
 
 				));
     } 
-	public function actionCreatepdf($id_sched)
+	public function createpdf($sched)
 	{
 		
 		$id_control = Yii::app()->user->id;
-                $guide = User::model()->with('contact_ob')->findByPk($id_control);
-		$sched = SegScheduledTours::model()->with(array('guidestourinvoices'=>array('guidestourinvoicescustomers','contact')))->findByPk($id_sched);
-		if(is_null($sched)) 	throw new CHttpException(404,'The requested tour does not exist.');
-	
+        $guide = User::model()->with('contact_ob')->findByPk($id_control);
 		$date_format = strtotime($sched->date);
 		$date_bd = date('Y-m-d',$date_format);
 		$dt =$date_bd.' '.$sched->starttime;
@@ -1161,7 +1176,8 @@ class GuideController extends Controller
 		if((!is_null($guide->contact_ob['surname'])) && $guide->contact_ob['surname']!=''){$ln = $guide->contact_ob['surname']{0};}else{$ln='0';}
 		$c = $tour->city['seg_cityname']{0};
 		$year = date('y',time());
-		$num=0;
+       $b = $tour->city['seg_cityname']{0};
+ 		$num=0;
 		$criteria_i = new CDbCriteria;
 		$criteria_i->condition = 'guide1_id=:guide1_id AND openTour=:openTour';
 		$criteria_i->params = array(':guide1_id'=>$id_control,'openTour'=>1);
@@ -1185,56 +1201,32 @@ class GuideController extends Controller
 		$sum_itog=0;
 		$sum_bar=0;
 		$count_cust=0;
-                var_dump($_POST);return;
-                foreach ($sched->guidestourinvoices as $invoice) 
-                {
-                    $model=$invoice->guidestourinvoicescustomers;
-                    $overAllIncome=0;
-                    $cashIncome=0;
-                    $count_inv=0;
-                    $invoice_id =  $invoice->idseg_guidesTourInvoices;
-                    for($k=0;$k<count($model);$k++){
-                            $kk=$model[$k]->idseg_guidesTourInvoicesCustomers;
-                            $count_cust++;
-                            $count_inv++;
-                            $model[$k]->tourInvoiceid = $invoice_id;
-                            if(!empty($_POST))
-                            {
-                                    $model[$k]->customersName = $_POST['customersName'.$kk];
-                                    $model[$k]->discounttype_id = $_POST['discounttype_id'.$kk];
-                                    $model[$k]->paymentoptionid = $_POST['payoption'.$kk];
-                                    $model[$k]->id_invoiceoptions = $_POST['option'.$kk];
-                                    if(!empty($_POST['price'.$kk])) {
-                                            $model[$k]->price = $_POST['price'.$kk];
-                                    }
-                            }
-                            $overAllIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
-                            if($model[$k]->paymentoptionid==1) $cashIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
-                            if($model[$k]->paymentoptionid) $model[$k]->isPaid = 1;
-                            $model[$k]->save();
-                    }
-                    $invoice->creationDate = $sched->date;
-                    $invoice->cityid = $sched->city_id;
-                    $invoice->sched_tourid = $sched->tourroute_id;
-                    $invoice->guideNr = $sched->guide1_id;
-                    $invoice->status = 1;
-                    $invoice->id_sched = $sched->idseg_scheduled_tours;
-                    $invoice->overAllIncome = $overAllIncome;
-                    $invoice->cashIncome =  $cashIncome;
-                    $sum_itog += $invoice->overAllIncome;
-                    $sum_bar += $invoice->cashIncome;
-//			 	$sum_itog += number_format($invoice->overAllIncome, 2, '.', ' ');
-//				$sum_bar += number_format($invoice->cashIncome, 2, '.', ' ');
-                    $b = $tour->city['seg_cityname']{0};
-                    $year = date('y',time());
-                    $max= Yii::app()->db->createCommand("SELECT max(InvoiceNumber) from seg_guidestourinvoices where cityid=".$tour->cityid)->queryScalar();
-                    $max_i = $max+1;
-                    $invoice->TA_string = 'TA'.$b.$year.'/'.$max_i;
-                    $invoice->InvoiceNumber =$max_i;
-                    $invoice->save();
-                    $tmpname=$this->doPDF($sched, $invoice);
-                    $mails[]=array($invoice->contact['email'],$tmpname);
+        foreach ($sched->guidestourinvoices as $invoice) 
+       {
+			$model=$invoice->guidestourinvoicescustomers;
+			$overAllIncome=0;
+			$cashIncome=0;
+			$count_inv=0;
+			$invoice_id =  $invoice->idseg_guidesTourInvoices;
+            for($k=0;$k<count($model);$k++){
+                $kk=$model[$k]->idseg_guidesTourInvoicesCustomers;
+                $count_cust++;
+                $count_inv++;
+                $overAllIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
+				if($model[$k]->paymentoptionid==1)
+				   $cashIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
                }
+               $invoice->status = 1;
+               $sum_itog += $invoice->overAllIncome;
+               $sum_bar += $invoice->cashIncome;
+               $max= Yii::app()->db->createCommand("SELECT max(InvoiceNumber) from seg_guidestourinvoices where cityid=".$tour->cityid)->queryScalar();
+               $max_i = $max+1;
+               $invoice->TA_string = 'TA'.$b.$year.'/'.$max_i;
+               $invoice->InvoiceNumber =$max_i;
+               $invoice->save();
+               $tmpname=$this->doPDF($sched, $invoice);
+               $mails[]=array($invoice->contact['email'],$tmpname);
+        }
 		$sum_vat = round($sum_itog*(1-1/($vat/100+1)),2);
 		$sum_b_vat = $sum_itog - $sum_vat;
 	
@@ -1243,47 +1235,30 @@ class GuideController extends Controller
 		$gonorar = $tourroutes->base_provision+$cifra*$tourroutes->guestsMinforVariable;//summa gonorar
 		$gonorar_vat = $gonorar*(1-1/($vat/100+1));
 		$gonorar_vat = number_format($gonorar_vat, 2, '.', ' ');
-		
-		
-	
-		
-		//********************************SAVE INFO FOR PDF************************************************//
-		$id_guide = $sched->guide1_id;
-		
-		$criteria_cash = new CDbCriteria;
-		$criteria_cash->order ='timestamp DESC';
-		$criteria_cash->condition = 'users_id=:users_id ';
-		$criteria_cash->params = array(':users_id'=>$id_guide);
-		$cashbox = CashboxHistory::model()->find($criteria_cash);
-		
-		if(!empty($cashbox)){
-			$old_cash = $cashbox->cashBefore;
-			$old_delta = $cashbox->delta_cash;
-		}else{
-			$old_cash = 0;
-			$old_delta = 0;
-		}
-		$cashnew = new CashboxHistory;
-		$cashnew->users_id = $id_guide;
+
+		$cashnew=new CashboxChangeRequests;
+		$cashnew->id_users=$id_control;
+		$cashnew->approvedBy=$id_control;
 		$cashnew->delta_cash = $sum_bar;
 		$datetime = date('Y-m-d H:i:s', time());
-		$cashnew->timestamp =$datetime;
-		$cashnew->cashBefore = $old_cash+$old_delta;
+		$cashnew->approval_date=$datetime;
 		$cashnew->id_type = 1;
-		$cashnew->id_sched = $sched->idseg_scheduled_tours;
+		$cashnew->sched_user_id = $sched->idseg_scheduled_tours;
 		$cashnew->save();
-		$cashnew1 = new CashboxHistory;
-		$cashnew1->users_id = $id_guide;
+		$cashnew1 = new CashboxChangeRequests;
+		$cashnew1->id_users=$id_control;
+		$cashnew1->approvedBy=$id_control;
+		$cashnew1->approval_date=$datetime;
+		$cashnew1->sched_user_id = $sched->idseg_scheduled_tours;
 		$cashnew1->delta_cash = -$gonorar;
-		//$datetime = date('Y-m-d H:i:s', time());
-		$cashnew1->timestamp =$datetime;
-		$cashnew1->id_sched = $sched->idseg_scheduled_tours;
-		$cashnew1->cashBefore = $cashnew->cashBefore+$cashnew->delta_cash;
 		$cashnew1->id_type = 2;
 		$cashnew1->save();
-		
-		$cashnow = $cashnew->cashBefore+$cashnew->delta_cash;
-
+		echo "<h2>Casho:</h2>";
+		$command=Yii::app()->db->createCommand();
+        $command->select('SUM(delta_cash) AS sum');
+        $command->from('cashbox_change_requests');
+        $command->where('id_users=:id', array(':id'=>$id_control));
+        $cashnow= $command->queryScalar();	
 		//************************************PDF CREATE***************************************************//
 		//$pdf->SetFont('freeserif', '', 14);
 		$printOrders = null;
@@ -1294,35 +1269,22 @@ class GuideController extends Controller
 		$forpdf['base_provision'] = number_format($tourroutes->base_provision, 2, '.', ' ');
 		$forpdf['guestsMinforVariable'] = number_format($tourroutes->guestsMinforVariable, 2, '.', ' ');
 		$forpdf['gonorar_zero'] = number_format($gonorar, 2, '.', ' ');
-		$forpdf['cashBefore'] = number_format($cashnew->cashBefore, 2, '.', ' '); 
+		$forpdf['cashBefore'] = number_format($cashnow+$gonorar-$sum_bar, 2, '.', ' '); 
 		$forpdf['sum_bar_zero'] = number_format($sum_bar, 2, '.', ' '); 
 		$forpdf['cashnow_zero'] = number_format($cashnow, 2, '.', ' '); 
 		$forpdf['delta_cash_zero'] = number_format($cashnew->delta_cash, 2, '.', ' ');
 		$forpdf['cashnow_enter'] = $forpdf['cashnow_zero']- $forpdf['gonorar_zero'];
 		$name_pdf2=$this->doPDF($sched, $forpdf);
+//		var_dump($mails);return false;
 		$sched->additional_info2=$name_pdf2;
 		$sched->save();
-//		var_dump($mails);		
-		$this->redirect(array("current","id_sched"=>$id_sched));
-		return;
 				foreach ($mails as $value) {
-					$this->sendMail($value, $files_name2);
+					$this->sendMail($value[0], __DIR__.'/../../filespdf/'.$value[1].'.pdf');
+					unlink(__DIR__.'/../../filespdf/'.$value[1].'.pdf');
 			}
-	          $this->redirect( Yii::app()->createUrl('/filespdf/'.$name_pdf2.'.pdf') );
-
-/*			$this->render('testpdf',array(
-					'tour'=>$tour,
-					'invoicecustomers'=>$invoicecustomers,
-					'sched'=>$sched,
-					
-					'vat'=>$vat,
-					'invoice'=>$invoice,
-					'sum_vat'=>$sum_vat,
-					'sum_b_vat'=>$sum_b_vat,
-					));*/
-		//}
-
+	        $this->redirect( Yii::app()->createUrl('/filespdf/'.$name_pdf2.'.pdf') );
 	}
+
 	protected function doPDF($sched,$invoice)
 	{
 		$date_format = strtotime($sched->date);
@@ -1333,7 +1295,13 @@ class GuideController extends Controller
 		if(is_array($invoice)){
 			$is_full=true;
 			$forpdf=$invoice;
+		$txt_num=$sched->idseg_scheduled_tours;
 		}
+ else {
+		$txt_num=$invoice->TA_string;
+			
+		}
+
 		$tbl0 = '<table style="margin:30px;">
                         <tr>
                             <td>
@@ -1341,7 +1309,7 @@ class GuideController extends Controller
                                 <table style="width:200px;">
                                     <tr>
                                             <td>Invoice number:</td>
-                                            <td style="text-align:right;">'.$invoice->TA_string.'</td>
+											<td style="text-align:right;">'.$txt_num.'</td>
                                     </tr>
                                     <tr>
                                             <td>Date of invoice:</td>
@@ -1383,7 +1351,7 @@ class GuideController extends Controller
 					$sum_itog=0;
 					$sum_bar=0;
 					$count_cust=0;
-                                        if($is_full)
+                    if($is_full)
 					{
                                             foreach ($sched->guidestourinvoices as $invo) {
                                                 $invoicecustomers=$invo->guidestourinvoicescustomers;
@@ -1648,11 +1616,26 @@ class GuideController extends Controller
 				$pdf->AddPage();
 				$pdf->writeHTML($tbl_page2, true, false, false, false, '');
 
-				}				
+				}	
+			
 				$pdf->Output($files_name1, 'F');
-                                return $name_pdf2;
+	                            return $name_pdf2;
 
 	}
+	protected function sendMail($to,$att)
+	{
+		        Yii::import('ext.yii-mail.YiiMailMessage');
+                $message = new YiiMailMessage;
+                $message->setBody("Dear sirs, \n The invoice from Cherry tours.");
+                $message->subject = "The invoice from Cherry tours";
+                $message->addTo($to);
+//                $message->addTo(Yii::app()->params['adminEmail']);
+                $message->from = Yii::app()->params['adminEmail'];
+//                $pathto=Yii::app()->params['load_xml_pdf'].$filename;
+                $swiftAttachment = Swift_Attachment::fromPath($att); 
+               $message->attach($swiftAttachment);
+               return Yii::app()->mail->send($message);
+		}
 
 	/**
 	 * Manages all models.

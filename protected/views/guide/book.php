@@ -53,7 +53,7 @@
 									   echo '<div id="m'.$item->idseg_tourroutes.'">'.$item->TNmax.'</div>'; 
 							   }
 							   echo '</div>';
-							   echo $form->dropDownList($contact,'tour',$list, array('id'=>'tour_area', 'class'=>'form-control select2', 'options' => array($cat_item=>array('selected'=>true)), 'onChange'=>'clickTour(this.value)'));
+							   echo $form->dropDownList($contact,'tour',$list, array('id'=>'tour_area', 'class'=>'form-control select2',  'onChange'=>'clickTour(this.value)'));
 							echo '<div style="display:none;" id="tour_set">0</div>';
 					   }
 					   else {
@@ -67,9 +67,9 @@
 				</div>
 				<div class="col-md-4">
 					<div class="t-evro-tour" style="width:95px;border-top: 1px dotted #a7a7a7;border-left:1px dotted #a7a7a7;border-right:1px dotted #a7a7a7;">
-						<div id="price" style="display:none;"><?php echo $tour->base_price;?></div>
+						<div id="price" style="display:none;"><?php echo (isset($tour)) ? $tour->base_price : ""; ?></div>
 						<div id="new_price" style="float:left;padding-left:20px;">
-							<?php echo $tour->base_price;?>
+							<?php echo (isset($tour)) ? $tour->base_price : "";?>
 						</div>    
 						<div style="float:left;padding-left:10px;">
 							<img src="<?php echo Yii::app()->request->baseUrl; ?>/img/str2/evro.png" />
@@ -115,8 +115,8 @@
 				<div class="col-md-4">
 					<div class="form-group">
                       <label>Tickets</label>
-						<div style="display:none;" id="ntiket"><?php echo $tour->TNmax;?></div>
-						<div style="display:none;" id="ncat"><?php echo $tour->id_tour_categories;?></div>
+						<div style="display:none;" id="ntiket"><?php echo (isset($tour)) ? $tour->TNmax : "";?></div>
+						<div style="display:none;" id="ncat"><?php echo  (isset($tour)) ? $tour->id_tour_categories : "";?></div>
 						<div style="display:none;"><!-- param cat for all-->
 						  <?php 
 							  foreach($tours_guide as $item) { 

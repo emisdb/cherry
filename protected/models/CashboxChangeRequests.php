@@ -15,6 +15,8 @@
  */
 class CashboxChangeRequests extends CActiveRecord
 {
+	public $from_date;
+	public $to_date;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -35,7 +37,7 @@ class CashboxChangeRequests extends CActiveRecord
 			array('id_users, id_type, approvedBy', 'numerical', 'integerOnly'=>true),
 			array('delta_cash', 'numerical'),
 			array('reason', 'length', 'max'=>255),
-			array('approval_date', 'safe'),
+			array('approval_date,id_users,id_type,delta_cash,approvedBy,reason', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('idcashbox_change_requests, id_users, id_type, delta_cash, reason, approvedBy, request_date, approval_date', 'safe', 'on'=>'search'),
@@ -70,15 +72,44 @@ class CashboxChangeRequests extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idcashbox_change_requests' => 'Idcashbox Change Requests',
+			'idcashbox_change_requests' => 'Id',
 			'id_users' => 'Id Users',
-			'id_type' => 'Id Type',
-			'delta_cash' => 'Delta Cash',
+			'id_type' => 'Type',
+			'delta_cash' => 'Cash',
 			'reason' => 'Reason',
 			'approvedBy' => 'Approved By',
-			'request_date' => 'Request Date',
+			'request_date' => 'Date',
 			'approval_date' => 'Approval Date',
 		);
+	}
+		public function getTotals($ids)
+        {
+                $ids = implode(",",$ids);
+               if(strlen($ids)==0)  return Yii::app()->numberFormatter->formatCurrency(0,'');
+                
+                $connection=Yii::app()->db;
+                 $command=$connection->createCommand("SELECT SUM(delta_cash)
+                                                     FROM `".$this->tableName()."` where idcashbox_change_requests in (".$ids.")");
+
+                 return Yii::app()->numberFormatter->formatCurrency($command->queryScalar(),'');
+        }
+
+		private function daterange($criteria)
+	{
+        $txtd='t.request_date';
+ 		if(!empty($this->from_date) && empty($this->to_date))
+            {
+                $criteria->addCondition($txtd." >= '".date('Y-m-d H:i:s', strtotime($this->from_date))."'");  
+                            // date is database date column field
+            }
+                    elseif(!empty($this->to_date) && empty($this->from_date))
+            {
+                $criteria->addCondition($txtd." <= '".date('Y-m-d H:i:s', strtotime($this->to_date." 23:59:59"))."'");
+            }
+                    elseif(!empty($this->to_date) && !empty($this->from_date))
+            {
+                $criteria->addCondition($txtd."  >= '".date('Y-m-d H:i:s', strtotime($this->from_date))."' and ".$txtd." <= '".date('Y-m-d H:i:s', strtotime($this->to_date." 23:59:59"))."'");
+            }
 	}
 
 	/**
@@ -98,7 +129,8 @@ class CashboxChangeRequests extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-
+		$sort   = new CSort;
+        $criteria->with = array("apuser","cashtype");
 		$criteria->compare('idcashbox_change_requests',$this->idcashbox_change_requests);
 		$criteria->compare('id_users',$this->id_users);
 		$criteria->compare('id_type',$this->id_type);
@@ -107,9 +139,14 @@ class CashboxChangeRequests extends CActiveRecord
 		$criteria->compare('approvedBy',$this->approvedBy);
 		$criteria->compare('request_date',$this->request_date,true);
 		$criteria->compare('approval_date',$this->approval_date,true);
-
+		$this->daterange($criteria);
+		$sort->defaultOrder= array(
+            'request_date'=>CSort::SORT_ASC,
+        );
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+          'pagination'=>false,
+            'criteria'=>$criteria,
+            'sort'=>$sort,
 		));
 	}
 

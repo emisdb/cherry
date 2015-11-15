@@ -72,7 +72,7 @@
 		)); 
 	
 		?>
-		<input type="hidden" name="new_customer" id="new_customer" value="0">
+		<input type="hidden" name="pdf" id="pdf" value="0">
 
 		<table border='1' cellpadding="5" cellspacing="5">
 			<tr>
@@ -87,9 +87,10 @@
 				<th>Options</th>
 			</tr>
 			<?php 
+			$count_cust=0;
+			$strforjs="var custs=[";
 			if(count($sched->guidestourinvoices)>0)
 			{ 
-				$strforjs="var custs=[";
 				foreach($dis as $d)
 				{
 					$d->nametype = $d->name.' '.$d->type;
@@ -97,7 +98,7 @@
 				$list_discount = CHtml::listData($dis, 'id', 'nametype'); 
 				$list_pay = CHtml::listData($pay, 'idpayoptions', 'displayname'); 
 				$list_op = CHtml::listData($invoiceoptions_array, 'id', 'name'); 
-				$count_cust;
+				$count_cust=0;
 				foreach ($sched->guidestourinvoices as $value) {
 					$model=$value->guidestourinvoicescustomers;
 					$i=0;				
@@ -121,13 +122,14 @@
 						echo $form->dropDownList($model[$element],'paymentoptionid',$list_pay,array('empty' => '--','name'=>'payoption'.$id, 'onChange'=>'cash()'));
 						echo "</td><td style='text-align: right;'>\n";
 						$bp = $model[$element]->tourinvoice->sched->tourroute_ob['base_price'];
+						$price_sh=0;
+						if ($model[$element]->price==null){ $price_sh=$bp; } else { $price_sh=$model[$element]->price; } 
 						echo '<div id="base_price'.$id.'" style="float:left;">'.$bp.'</div><div style="float:left;"> &euro;</div><div style="clear:both;"></div>';
 						echo "</td><td style='text-align:right;'>\n";
-						echo '<div id="price'.$id.'" style="float:left;">';
-						 if ($model[$element]->price==null){ echo $bp; } else { echo $model[$element]->price; } 
+						echo '<div id="price'.$id.'" style="float:left;">'.$price_sh;
 						echo '</div><div style="float:left;"> &euro;</div>';
 						echo '<div style="clear:both;"></div>';
-						echo '<input type="hidden" id="price_i'.$id.'" name="price'.$id.'" >';
+						echo '<input type="hidden" id="price_i'.$id.'" name="price'.$id.'" value="'.$price_sh.'" >';
 						echo '</td><td style="width:40px;text-align:right;">';
 						if($model[$element]->price==null){
 									$vat_value = $bp*(1-1/($vat_nds/100+1));
@@ -191,7 +193,7 @@
 				<button class="btn btn-primary" type="submit"><?php echo 'Save'; ?></button>
 				<button class="btn btn-primary cancel">
 					<?php 
-					echo CHtml::link("PDF" ,array("createpdf","id_sched"=>$sched['idseg_scheduled_tours']));
+					echo CHtml::link("PDF","javascript:void(0);",array('onclick'=>'newtourist();'));
 					?>
 				</button>
 				<button class="btn btn-primary cancel"><?php echo CHtml::link("Cancel", array("schedule")) ?></button>
@@ -335,7 +337,7 @@ function cash()
 	
  }
  function newtourist() {
-	document.forms['current-subscriber-form']['new_customer'].value=1;
+	document.forms['current-subscriber-form']['pdf'].value=1;
 	document.forms['current-subscriber-form'].submit();
 }
 </script>

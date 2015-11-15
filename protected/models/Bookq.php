@@ -10,6 +10,7 @@ class Bookq extends CFormModel
 	public $tickets2;
 	public $tickets3;	
 	
+	public $cat_hidden;
 	public $firstname;
     public $lastname;
     public $address;
@@ -25,8 +26,9 @@ class Bookq extends CFormModel
 	public function rules()
 	{
 		return array(
-			array('postalcode, additional_address, house, street, firstname, lastname, city, country, phone, email', 'required'),
+			array('firstname, lastname, city, country, phone, email', 'required'),
 			array('email','email'),
+			array('tour, language, firstname, lastname, city, country, phone, email, cat_hidden, tickets1, tickets2 , tickets3, street, house, additional_address, postalcode', 'safe'),
 		);
 	}
 

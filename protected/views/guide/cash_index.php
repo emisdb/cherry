@@ -20,17 +20,6 @@
 		 </div>
        <!-- Content Header (Page header) -->
         <section class="content-header">
-			<?php
-
-$this->breadcrumbs=array(
-	'Cashbox Change Requests',
-);
-
-$this->menu=array(
-	array('label'=>'Create Cashbox Record', 'url'=>array('create')),
-//	array('label'=>'Manage CashboxChangeRequests', 'url'=>array('admin')),
-);
-?>
 
 <h1>Cashbox history</h1>
       </section>

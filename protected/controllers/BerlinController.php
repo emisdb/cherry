@@ -253,7 +253,7 @@ class BerlinController extends Controller
 				
 				$name_forms = $scheduled->city_ob->seg_cityname;
 				$to = $user_contact->email;
-//				if ($this->sendMail($to, $name_forms, $message))
+				if ($this->sendMail($to, $name_forms, $message))
 				{
 				
 				    $stuttgart_link = Yii::app()->createUrl('thankyou');

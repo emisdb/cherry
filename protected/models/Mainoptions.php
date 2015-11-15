@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'mainoptions':
  * @property integer $id
  * @property integer $value
- * @property string $main
+ * @property string $name
  */
 class Mainoptions extends CActiveRecord
 {
@@ -27,7 +27,7 @@ class Mainoptions extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('value, name', 'required'),
-			array('value', 'numerical', 'integerOnly'=>true),
+//			array('value', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>200),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -56,6 +56,38 @@ class Mainoptions extends CActiveRecord
 			'value' => 'Value',
 			'name' => 'Name',
 		);
+	}
+	public function getCvalue($key)
+	{
+		$this->name=$key;
+		$model=$this->find("name='".$key."'");
+		if($model===null)	return "";
+		else return $model->value;
+
+	}
+	public function delCvalue($key)
+	{
+		$this->name=$key;
+		$model=$this->find("name='".$key."'");
+		if($model!==null) $model->delete();
+	}
+	public function setCvalue($key,$value)
+	{
+		$this->name=$key;
+		$model=$this->find("name='".$key."'");
+		if($model===null)
+		{
+			$model= new Mainoptions;
+			$model->setAttribute('name',$key);
+			$model->setAttribute('value',$value);
+			$model->save();
+		}
+		else 
+		{
+			$model->setAttribute('value',$value);
+			$model->save();
+		}
+
 	}
 
 	/**

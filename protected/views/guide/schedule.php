@@ -100,6 +100,7 @@ $datetime = time();
 				   'pdf' => array(
 						'imageUrl'=>'/img/view.png',
 						'url' => 'Yii::app()->createUrl("/filespdf/$data->additional_info2.pdf")',
+					   'options'=>array("target"=>'_blank'),
 						'label'=>'View PDF',
 						'visible'=>'$data->openTour',
 				   ),
