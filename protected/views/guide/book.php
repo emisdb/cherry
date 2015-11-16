@@ -43,7 +43,7 @@
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">
-                      <label>Tour</label>
+                      <label>Tour:</label>
 						<?php if($scheduled->tourroute_id==null)
 							{
 							   $list = CHtml::listData($tours_guide, 'idseg_tourroutes','name');
@@ -58,6 +58,7 @@
 					   }
 					   else {
 						   echo '<input type="text" class="form-control" value="'.$scheduled->tourroute_ob->name.'" disabled="">';
+						  echo $form->hiddenField($contact,'tour',array('class'=>"form-control"));
 						   echo '<div style="display:none;" id="tour_area">'.$scheduled->tourroute_id.'</div>';
 						   echo '<div style="display:none;" id="tour_set">1</div>';
 						 }
@@ -108,6 +109,7 @@
 								 else 
 								 {
 								   echo '<input type="text" class="form-control" value="'.$scheduled->language_ob->englishname.'" disabled="">';
+									echo $form->hiddenField($contact,'language');
 								 }
 							 ?>
 					</div>					
@@ -273,11 +275,7 @@
         var settype = parseInt(document.getElementById('tour_set').innerHTML) ;
 		if(settype==0)    element = document.getElementById('tour_area').value ;
 		else element = document.getElementById('tour_area').innerHTML;
-
-		//  alert(element);
         var base_price = document.getElementById('base_price'+element).innerHTML;
-		//alert(base_price);
-		
         var new_price = base_price*id;
 		document.getElementById('new_price').innerHTML=new_price;
 	}

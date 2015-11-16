@@ -1135,7 +1135,7 @@ class GuideController extends Controller
 				
 				$name_forms = $scheduled->city_ob->seg_cityname;
 				$to = $user_contact->email;
-//				if ($this->sendMail($to, $name_forms, $message))
+				if ($this->sendMail($to, $name_forms, $message))
 				{
 					$this->redirect(array('current','id_sched'=>$id_sched));
 				
@@ -1253,7 +1253,6 @@ class GuideController extends Controller
 		$cashnew1->delta_cash = -$gonorar;
 		$cashnew1->id_type = 2;
 		$cashnew1->save();
-		echo "<h2>Casho:</h2>";
 		$command=Yii::app()->db->createCommand();
         $command->select('SUM(delta_cash) AS sum');
         $command->from('cashbox_change_requests');

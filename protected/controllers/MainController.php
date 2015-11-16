@@ -61,7 +61,9 @@ class MainController extends Controller
 		   
         }//root   
                 if($model->id_usergroups == 3) {
-              $this->layout = "office";
+		          $this->redirect( Yii::app()->createUrl('office/profile') );
+
+//              $this->layout = "office";
 		      
         }//root
                 if($model->id_usergroups == 4) {

@@ -100,7 +100,8 @@ return array(
 				array(
 
 
-  'class' => 'CWebLogRoute',
+			'class' => 'CWebLogRoute',
+					'enabled'=>YII_DEBUG,
             'categories' => 'application',
             'levels'=>'error, warning, trace, profile, info',				),
 				// uncomment the following to show log messages on web pages
