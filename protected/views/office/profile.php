@@ -26,7 +26,7 @@
 )); ?>
 
 <hr />
-<div class="create"><a href="<?php echo Yii::app()->createUrl('office/contact',array('id'=>$model->id,'id_user'=>$model->id)); ?>">Update profile contact</a></div>
+<div class="create"><a href="<?php echo Yii::app()->createUrl('office/contact',array('id'=>$model->id)); ?>">Update profile contact</a></div>
 CONTACTS
 <hr />
 

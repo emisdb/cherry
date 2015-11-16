@@ -42,7 +42,7 @@
 				<?php echo CHtml::link("<i class='fa fa-laptop'></i> <span>Return to the site</span>", "/"); ?>
             </li>
              <li <?php echo (Yii::app()->controller->action->id=='user') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-table'></i><span>Users</span>", array('user')); ?>
+				<?php echo CHtml::link("<i class='fa fa-table'></i><span>Users</span>", array('admin')); ?>
             </li>
              <li <?php echo (Yii::app()->controller->action->id=='bonus') ? "class=\"active\"" : "" ; ?>>
 				<?php echo CHtml::link("<i class='fa fa-table'></i><span>Discount</span>", array('bonus')); ?>

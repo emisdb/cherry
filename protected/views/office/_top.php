@@ -20,8 +20,8 @@
                   <i class="fa fa-calendar-o"></i>
                   <span class="label label-warning"><?php echo count($info['tours'])?></span>
                 </a>
-                <ul class="dropdown-menu" style="background-color: #80CFFF;">
-                  <li class="header" style="background-color: #80CFFF;" >You have <?php echo count($info['tours'])?> tours scheduled</li>
+                <ul class="dropdown-menu" style="background-color: #8fdf82;">
+                  <li class="header" style="background-color: #8fdf82;" >You have <?php echo count($info['tours'])?> tours scheduled</li>
                   <li>
                    <ul class="menu">
                    <!-- inner menu: contains the actual data -->
@@ -42,15 +42,15 @@
                   <i class="fa fa-file-o"></i>
                   <span class="label label-danger"><?php echo count($info['todo'])?></span>
                 </a>
-                <ul class="dropdown-menu" style="background-color: #80CFFF;">
-                  <li class="header" style="background-color: #80CFFF;">You have <?php echo count($info['todo'])?> tours unreported</li>
+                <ul class="dropdown-menu" style="background-color: #8fdf82;">
+                  <li class="header" style="background-color: #8fdf82;">You have <?php echo count($info['todo'])?> tours unreported</li>
                   <li>
                     <!-- inner menu: contains the actual data -->
                     <ul class="menu">
  					  <?php
 						foreach ($info['todo'] as $key => $value) {
 							$date_format=date_format(new DateTime($value->date),'d.m.Y');
-						  echo '<li>'.CHtml::link(CHtml::encode(''.($key+1).'. '.$date_format.' '.$value->starttime), array('guide/current','id_sched'=>$value->idseg_scheduled_tours));
+						  echo '<li>'.CHtml::link(CHtml::encode(''.($key+1).'. '.$date_format.' '.$value->starttime), array('current','id_sched'=>$value->idseg_scheduled_tours));
 //						  echo '<li>'.CHtml::link(CHtml::encode(''.($key+1).'. '.$date_format.' '.$value->starttime), array('segGuidestourinvoicescustomers/current','id_sched'=>$value->idseg_scheduled_tours,'date'=>$date_format,'time'=>$value->starttime));
 						  //segGuidestourinvoicescustomers/current/id_sched/405/date/2015-10-20/time/18:00:00
 						  echo "</li>\n";
@@ -99,4 +99,3 @@
           </div>
         </nav>
       </header>
- 
