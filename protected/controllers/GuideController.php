@@ -7,6 +7,7 @@ class GuideController extends Controller
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/guide_bs';
+        public $defaultActon='schedule';
 	public $totval=0;
  	public $cashsum=0;
         
@@ -1347,11 +1348,11 @@ class GuideController extends Controller
 		$forpdf['base_provision'] = number_format($tourroutes->base_provision, 2, '.', ' ');
 		$forpdf['guestsMinforVariable'] = number_format($tourroutes->guestsMinforVariable, 2, '.', ' ');
 		$forpdf['gonorar_zero'] = number_format($gonorar, 2, '.', ' ');
-		$forpdf['cashBefore'] = number_format($cashnow+$gonorar-$sum_bar, 2, '.', ' '); 
+		$forpdf['cashBefore'] = number_format($cashnow, 2, '.', ' '); 
 		$forpdf['sum_bar_zero'] = number_format($sum_bar, 2, '.', ' '); 
-		$forpdf['cashnow_zero'] = number_format($cashnow, 2, '.', ' '); 
-		$forpdf['delta_cash_zero'] = number_format($cashnew->delta_cash, 2, '.', ' ');
-		$forpdf['cashnow_enter'] = $forpdf['cashnow_zero']- $forpdf['gonorar_zero'];
+		$forpdf['cashnow_zero'] = number_format($cashnow-$gonorar+$sum_bar, 2, '.', ' '); 
+		$forpdf['delta_cash_zero'] = number_format($sum_bar-$gonorar, 2, '.', ' ');
+		$forpdf['cashnow_enter'] = number_format($cashnow+$gonorar-$sum_bar, 2, '.', ' ');
 		$name_pdf2=$this->doPDF($sched, $forpdf);
 //		var_dump($mails);return false;
 		$sched->additional_info2=$name_pdf2;
@@ -1662,7 +1663,7 @@ class GuideController extends Controller
 						  <td style="text-align:right;">'.$forpdf['sum_bar_zero'].'&nbsp;&euro;</td>
 						</tr>
 						<tr>
-						  <td colspan="2" style="font-weight:bold;">von&nbsp;'.$forpdf['cashnow_enter'].'&nbsp;&euro;</td>
+						  <td colspan="2" style="font-weight:bold;">von&nbsp;'.$forpdf['cashnow_zero'].'&nbsp;&euro;</td>
 						  <td>Total fees</td>
 						  <td>&nbsp;</td>
 						  <td style="text-align:right;">'.$forpdf['gonorar_zero'].'&nbsp;&euro;</td>
@@ -1678,7 +1679,7 @@ class GuideController extends Controller
 						  <td>&nbsp;</td>
 						  <td>&nbsp;</td>
 						  <td colspan="2">Cash new: am '.$date_format.';'.$time_format.'</td>
-						  <td style="text-align:right;">'.$forpdf['cashnow_enter'].'&nbsp;&euro;</td>
+						  <td style="text-align:right;">'.$forpdf['cashnow_zero'].'&nbsp;&euro;</td>
 						</tr>
 						<tr>
 						  <td>&nbsp;</td>

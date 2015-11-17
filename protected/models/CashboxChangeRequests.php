@@ -12,6 +12,9 @@
  * @property integer $approvedBy
  * @property string $request_date
  * @property string $approval_date
+ * @property string $sched_user_id
+ * 
+ * 
  */
 class CashboxChangeRequests extends CActiveRecord
 {
@@ -37,7 +40,7 @@ class CashboxChangeRequests extends CActiveRecord
 			array('id_users, id_type, approvedBy', 'numerical', 'integerOnly'=>true),
 			array('delta_cash', 'numerical'),
 			array('reason', 'length', 'max'=>255),
-			array('approval_date,id_users,id_type,delta_cash,approvedBy,reason', 'safe'),
+			array('approval_date,id_users,id_type,delta_cash,approvedBy,reason, sched_user_id', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('idcashbox_change_requests, id_users, id_type, delta_cash, reason, approvedBy, request_date, approval_date', 'safe', 'on'=>'search'),
@@ -63,6 +66,7 @@ class CashboxChangeRequests extends CActiveRecord
 			'user' => array(self::BELONGS_TO, 'User', 'id_users'),	
 			'apuser' => array(self::BELONGS_TO, 'User', 'approvedBy'),	
 			'cashtype' => array(self::BELONGS_TO, 'CashboxType', 'id_type'),	
+			'sched'=>array(self::BELONGS_TO, 'SegScheduledTours', 'sched_user_id'),
 				);
 	}
 
@@ -130,7 +134,7 @@ class CashboxChangeRequests extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 		$sort   = new CSort;
-        $criteria->with = array("apuser","cashtype");
+        $criteria->with = array("sched","apuser","cashtype");
 		$criteria->compare('idcashbox_change_requests',$this->idcashbox_change_requests);
 		$criteria->compare('id_users',$this->id_users);
 		$criteria->compare('id_type',$this->id_type);

@@ -154,7 +154,22 @@ $dataProvider=$model->search();
 					'filter'=>false, // Set the filter to false when date range searching
 			
 			 ),
-	
+		array(
+		
+				'class'=>'CButtonColumn',
+				'template'=>'{pdf}',
+				'buttons' => array(
+				   'pdf' => array(
+						'imageUrl'=>'/img/view.png',
+						'url' => 'Yii::app()->createUrl("/filespdf/".$data->sched->additional_info2.".pdf")',
+//						'url' => '$data->sched->additional_info2',
+					   'options'=>array("target"=>'_blank'),
+						'label'=>'View PDF',
+						'visible'=>'$data->id_type==1 OR $data->id_type==2',
+				   ),
+				   
+				),
+		),	
             ),
 ));
 
