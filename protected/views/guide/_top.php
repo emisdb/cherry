@@ -73,15 +73,16 @@
                     <p>
                       <?php echo $info['guide']['contact']->firstname." ".$info['guide']['contact']->surname ?>
                       <small><?php echo $info['guide']['contact']->email ?></small>
+                      <small><?php echo $info['guide']['contact']->city ?></small>
                     </p>
                   </li>
                   <!-- Menu Body -->
                   <li class="user-body">
                     <div class="col-xs-6 text-center">
-                      <a href="#"><?php echo $info['guide']['contact']->country ?></a>
-                    </div>
-                    <div class="col-xs-6 text-center">
-                      <a href="#"><?php echo $info['guide']['contact']->city ?></a>
+                 	<?php echo CHtml::link("Cashbox:", array('cashReport')); ?>
+                   </div>
+                   <div class="col-xs-6 text-center">
+                   	<?php echo CHtml::link("".number_format($this->cashsum, 2, '.', ' ')."&euro", array('cashReport')); ?>
                     </div>
                             </li>
                   <!-- Menu Footer-->

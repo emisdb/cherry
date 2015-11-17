@@ -8,7 +8,16 @@ class GuideController extends Controller
 	 */
 	public $layout='//layouts/guide_bs';
 	public $totval=0;
-
+ 	public $cashsum=0;
+        
+        public function init() {
+                parent::init();
+  		$command=Yii::app()->db->createCommand();
+                $command->select('SUM(delta_cash) AS sum');
+                $command->from('cashbox_change_requests');
+                $command->where('id_users=:id', array(':id'=>Yii::app()->user->id));
+                $this->cashsum= $command->queryScalar();
+           }
 	/**
 	 * @return array action filters
 	 */
@@ -34,7 +43,7 @@ class GuideController extends Controller
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('view','profile','update','contact','user','weeks','take','show','book',
-					'ajaxShow','ajaxHistory','schedule','history','cash','createCash','cashReport','current','deleteST','delete'),
+					'ajaxInfo','ajaxShow','ajaxHistory','schedule','history','cash','createCash','cashReport','current','deleteST','delete'),
                 'roles'=>array('guide'),
 			),            
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -954,6 +963,75 @@ class GuideController extends Controller
 
 	
 	}
+        	public function actionAjaxInfo()
+	{
+	if (!Yii::app()->request->isAjaxRequest)
+			{
+				echo CJSON::encode(array(
+					'status'=>'failure', 
+					'div'=>'No Request'));
+//					'div'=>$this->renderPartial('_form', array('model'=>$model), true)));
+				exit;               
+			}
+		$id_sched = $_POST['id_sched'];
+		$date = $_POST['date'];
+		$time = $_POST['time'];
+
+		$id_control = Yii::app()->user->id;
+		$guide = User::model()->findByPk($id_control);
+        $role_control = $guide->id_usergroups;    
+
+   
+		//sched
+		$sched = SegScheduledTours::model()->findByPk($id_sched);
+		
+		//tour
+		$tour = SegTourroutes::model()->findByPk($sched->tourroute_id);
+		
+		//tourroutes
+		$criteria_tourroutes = new CDbCriteria;
+		$criteria_tourroutes->condition = 'usersid=:usersid AND tourroutes_id=:tourroutes_id';
+		$criteria_tourroutes->params = array(':usersid'=>$sched->user_ob->id,'tourroutes_id'=>$tour->id_tour_categories);
+		$gonorar_tour = SegGuidesTourroutes::model()->find($criteria_tourroutes);
+		
+		//mainoption
+		$criteria_vat = new CDbCriteria;
+		$criteria_vat->condition = 'name=:name ';
+		$criteria_vat->params = array(':name'=>'Vat');
+		$vat = Mainoptions::model()->find($criteria_vat)->value;
+				
+		$command=Yii::app()->db->createCommand();
+                $command->select('SUM(cashIncome) AS sumk');
+                $command->from('seg_guidestourinvoices');
+                $command->where('id_sched=:id_sched', array(':id_sched'=>$sched->idseg_scheduled_tours));
+                $cashincome= $command->queryScalar();
+        	//segguidestourinvoicescustomers
+                $invoicecustomer=SegGuidestourinvoicescustomers::model()->with('tourinvoice')->count("id_sched=:id_sched AND isPaid=:isPaid",array(":id_sched"=>$sched->idseg_scheduled_tours,":isPaid"=>1));
+
+                $cifra = $invoicecustomer - $gonorar_tour->guest_variable;
+		if($cifra<=0){$cifra=0;}//turists >
+		$gonorar = $gonorar_tour->base_provision+$cifra*$gonorar_tour->guestsMinforVariable;//summa gonorar
+		//$gonorar_vat = $gonorar*$vat/100;
+		
+		$result=$this->renderPartial('info',array(
+			'gonorar_tour'=>$gonorar_tour,
+			'cifra'=>$cifra,
+			'gonorar'=>$gonorar,
+			//'gonorar_vat'=>$gonorar_vat,
+			'vat'=>$vat,
+			'cash'=>$this->cashsum,
+			'cashincome'=>$cashincome,
+			
+			'id_sched'=>$id_sched,
+			'date'=>$date,
+			'time'=>$time,
+			'ajax'=>true,
+		),true);
+				echo CJSON::encode(array(
+					'status'=>'failure', 
+					'div'=>$result));
+	}
+
     public function actionBook($id_sched)
 	{
 		$tour=null;
@@ -1005,16 +1083,21 @@ class GuideController extends Controller
 			$contact->attributes=$_POST['Bookq'];
 			
 			$ticket_array = SegTourroutes::model()->findByPk($scheduled->tourroute_id);
-			
+                        $ticket_count =	$contact->tickets;
+
+/*			
 			$cat_i = $_POST['Bookq']['cat_hidden'];
 			if($cat_i == 1)$ticket_count = $_POST['Bookq']['tickets1'];
 			if($cat_i == 2)$ticket_count = $_POST['Bookq']['tickets2'];
 			if($cat_i == 3)$ticket_count = $_POST['Bookq']['tickets3'];
-			$contact->tickets = $ticket_count; 
-           if($contact->validate()){
+			$contact->tickets = $ticket_count;
+  */
+   
+                        if($contact->validate()){
 								
 				//save contact
 				$user_contact =  new SegContacts;
+    
 				$user_contact->firstname = $_POST['Bookq']['firstname'];
 				$user_contact->surname = $_POST['Bookq']['lastname'];
 				$user_contact->additional_address = $_POST['Bookq']['additional_address'];
@@ -1253,11 +1336,7 @@ class GuideController extends Controller
 		$cashnew1->delta_cash = -$gonorar;
 		$cashnew1->id_type = 2;
 		$cashnew1->save();
-		$command=Yii::app()->db->createCommand();
-        $command->select('SUM(delta_cash) AS sum');
-        $command->from('cashbox_change_requests');
-        $command->where('id_users=:id', array(':id'=>$id_control));
-        $cashnow= $command->queryScalar();	
+                $cashnow=$this->cashsum;
 		//************************************PDF CREATE***************************************************//
 		//$pdf->SetFont('freeserif', '', 14);
 		$printOrders = null;

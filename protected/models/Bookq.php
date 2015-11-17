@@ -28,7 +28,8 @@ class Bookq extends CFormModel
 		return array(
 			array('firstname, lastname, city, country, phone, email', 'required'),
 			array('email','email'),
-			array('tour, language, firstname, lastname, city, country, phone, email, cat_hidden, tickets1, tickets2 , tickets3, street, house, additional_address, postalcode', 'safe'),
+			array('tickets','numerical' ),
+			array('tour, language, firstname, lastname, city, country, phone, email, cat_hidden, tickets, tickets1, tickets2 , tickets3, street, house, additional_address, postalcode', 'safe'),
 		);
 	}
 

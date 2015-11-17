@@ -68,9 +68,9 @@
 				</div>
 				<div class="col-md-4">
 					<div class="t-evro-tour" style="width:95px;border-top: 1px dotted #a7a7a7;border-left:1px dotted #a7a7a7;border-right:1px dotted #a7a7a7;">
-						<div id="price" style="display:none;"><?php echo (isset($tour)) ? $tour->base_price : ""; ?></div>
+						<div id="price" style="display:none;"><?php echo (isset($tour)) ? $tour->base_price : $tours_guide[0]->base_price; ?></div>
 						<div id="new_price" style="float:left;padding-left:20px;">
-							<?php echo (isset($tour)) ? $tour->base_price : "";?>
+							<?php echo (isset($tour)) ? $tour->base_price : $tours_guide[0]->base_price;?>
 						</div>    
 						<div style="float:left;padding-left:10px;">
 							<img src="<?php echo Yii::app()->request->baseUrl; ?>/img/str2/evro.png" />
@@ -116,7 +116,7 @@
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">
-                      <label>Tickets</label>
+                                    <label>Tickets</label>
 						<div style="display:none;" id="ntiket"><?php echo (isset($tour)) ? $tour->TNmax : "";?></div>
 						<div style="display:none;" id="ncat"><?php echo  (isset($tour)) ? $tour->id_tour_categories : "";?></div>
 						<div style="display:none;"><!-- param cat for all-->
@@ -130,7 +130,10 @@
 						<div style="display:none;" id="now_tiket"></div> <!-- begin list tiket categories -->
 
 
-						<?php for($i=1;$i<4;$i++)
+						<?php
+                                                echo $form->textField($contact,'tickets',array('class'=>"form-control", 'id'=>'tickets', 'value'=>'1','onChange'=>'clickTickets(this.value)'));
+                                               /*
+                                                for($i=1;$i<4;$i++)
 						{ 
 						  $list_k=array();
 						  foreach($tours_guide as $item) { 
@@ -146,7 +149,7 @@
 							  echo $form->dropDownList($contact,'tickets'.$i ,$list_k,  array('style'=>'display:none;', 'id'=>'area'.$i, 'onChange'=>'clickTickets(this.value)', 'class'=>"form-control select2"));
 						  } 
 						   echo $form->hiddenField($contact,'cat_hidden', array('id'=>'cathidden','value'=>0)); 
-						   ?>
+*/						   ?>
 						  </div>					
 				</div>
 				<div class="col-md-4">
@@ -257,22 +260,19 @@
 
 <script type="text/javascript">
 	window.onload = function () {
-		//list tiket
 		var ncat = document.getElementById('ncat').innerHTML;
-		//alert(ncat);
-		document.getElementById('area'+ncat).style.display="block";
+//		document.getElementById('area'+ncat).style.display="block";
 		document.getElementById('now_tiket').innerHTML=ncat;
 	
-		document.getElementById('cathidden').value = ncat;
-			//alert(document.getElementById('cathidden').value);
-		//price
+//		document.getElementById('cathidden').value = ncat;
   		var price_base = document.getElementById('new_price').innerHTML;
-		var c = document.getElementById('area'+ncat).value*price_base;
+		var c = document.getElementById('tickets').value*price_base;
+//		var c = document.getElementById('area'+ncat).value*price_base;
 		document.getElementById('new_price').innerHTML=c;
   	}
 	function clickTickets(id){
 		var element=0;
-        var settype = parseInt(document.getElementById('tour_set').innerHTML) ;
+                var settype = parseInt(document.getElementById('tour_set').innerHTML) ;
 		if(settype==0)    element = document.getElementById('tour_area').value ;
 		else element = document.getElementById('tour_area').innerHTML;
         var base_price = document.getElementById('base_price'+element).innerHTML;
@@ -281,17 +281,17 @@
 	}
 	function clickTour(id){
 		//list tiket
-		var newcat = document.getElementById('cat'+parseInt(id)).innerHTML;
-		document.getElementById('area'+parseInt(newcat)).style.display="block";
-		var oldcat = document.getElementById('now_tiket').innerHTML;
-		document.getElementById('now_tiket').innerHTML=newcat;
-		document.getElementById('cathidden').value = newcat;
-		if(oldcat){
-			document.getElementById('area'+parseInt(oldcat)).style.display="none";
-		}
-		//price		
+//		var newcat = document.getElementById('cat'+parseInt(id)).innerHTML;
+//		document.getElementById('area'+parseInt(newcat)).style.display="block";
+//		var oldcat = document.getElementById('now_tiket').innerHTML;
+//		document.getElementById('now_tiket').innerHTML=newcat;
+//		document.getElementById('cathidden').value = newcat;
+//		if(oldcat){
+//			document.getElementById('area'+parseInt(oldcat)).style.display="none";
+//		}
         var base_price = document.getElementById('base_price'+id).innerHTML;
-        var number_ticket = document.getElementById('area'+parseInt(newcat)).value;
+//        var number_ticket = document.getElementById('area'+parseInt(newcat)).value;
+       var number_ticket = document.getElementById('tickets').value;
 		var new_price = base_price*number_ticket;
 		document.getElementById('new_price').innerHTML=new_price;
  	}
