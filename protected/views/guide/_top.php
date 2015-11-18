@@ -82,7 +82,8 @@
                  	<?php echo CHtml::link("Cashbox:", array('cashReport')); ?>
                    </div>
                    <div class="col-xs-6 text-center">
-                   	<?php echo CHtml::link("".number_format($this->cashsum, 2, '.', ' ')."&euro", array('cashReport')); ?>
+                   	<?php echo CHtml::link(CHtml::encode("".number_format($this->cashsum, 2, '.', ' ').""), array('cashReport')); ?>
+					   &euro;
                     </div>
                             </li>
                   <!-- Menu Footer-->

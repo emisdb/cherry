@@ -204,7 +204,15 @@ class OfficeController extends Controller
  			'info'=>$test,
 		));
 	}
-    
+   	public function actionDeleteST($id)
+	{
+		$this->loadST($id)->delete();
+
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax']))
+			$this->redirect(array('schedule'));
+	}
+ 
 	public function actionAdmin()
 	{
 	    $id_control = Yii::app()->user->id;
@@ -379,8 +387,6 @@ class OfficeController extends Controller
 	$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
 
 	$this->render('current',array(
-//					'model'=>$model,
-		'guide'=>$guide,
 		'sched'=>$sched,
 		'id_sched'=>$id_sched,
 		'vat_nds'=>$vat_nds,

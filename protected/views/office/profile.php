@@ -3,10 +3,6 @@
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-			<?php
-			$this->breadcrumbs=array(
-				'Profile',
-			);
 			?>
 			<h1>Profile information user - <?php echo $model->username; ?></h1>
 

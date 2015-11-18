@@ -2,6 +2,7 @@
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
+       <section class="content-header">
 
 <h1>Scheduled Tours</h1>	
        </section>
@@ -48,7 +49,7 @@
 	//	'date_now',
 		array(
 			'class'=>'CButtonColumn',
-            'template'=>'{update}',
+            'template'=>'{update}{delete}{pdf}',
             'buttons' => array(
 				   'update' => array(
 				   
@@ -58,7 +59,19 @@
 //						'visible'=>'$data->openTour!=1',
 //						'visible'=>'$data->tourroute_id > 0 && $data->openTour!=1',
 				   ),
-            ),
+ 				   'delete' => array(
+						'url' => 'array("deleteST","id"=>"$data->idseg_scheduled_tours")',				   
+						'visible'=>'is_null($data->current_subscribers)',
+				   ),
+				   'pdf' => array(
+						'imageUrl'=>'/img/view.png',
+						'url' => 'Yii::app()->createUrl("/filespdf/$data->additional_info2.pdf")',
+					   'options'=>array("target"=>'_blank'),
+						'label'=>'View PDF',
+						'visible'=>'$data->openTour',
+				   ),
+				   
+           ),
 		),
 	),
 )); ?>

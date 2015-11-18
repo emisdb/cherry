@@ -141,7 +141,7 @@ class GuideController extends Controller
 		if(!isset($_GET['ajax']))
 			$this->redirect(array('schedule'));
 	}
-	public function actionDeleteST($id,$date)
+	public function actionDeleteST($id,$date=null)
 	{
 		$this->loadST($id)->delete();
 
@@ -977,14 +977,14 @@ class GuideController extends Controller
 		$id_sched = $_POST['id_sched'];
 		$date = $_POST['date'];
 		$time = $_POST['time'];
+		$sched = SegScheduledTours::model()->findByPk($id_sched);
 
-		$id_control = Yii::app()->user->id;
+		$id_control = $sched->guide1_id;
 		$guide = User::model()->findByPk($id_control);
         $role_control = $guide->id_usergroups;    
 
    
 		//sched
-		$sched = SegScheduledTours::model()->findByPk($id_sched);
 		
 		//tour
 		$tour = SegTourroutes::model()->findByPk($sched->tourroute_id);
