@@ -811,7 +811,7 @@ class GuideController extends Controller
 		{
 			$model->attributes=$_POST['CashboxChangeRequests'];
 			if($model->save())
-				$this->redirect(array('cash'));
+				$this->redirect(array('cashReport'));
 		}
 
 		$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());

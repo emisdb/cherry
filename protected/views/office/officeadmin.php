@@ -49,7 +49,8 @@
 	//	'date_now',
 		array(
 			'class'=>'CButtonColumn',
-            'template'=>'{update}{delete}{pdf}',
+            'template'=>'{edit}{update}{delete}{pdf}',
+			'htmlOptions'=>array("width"=>"80px"),
             'buttons' => array(
 				   'update' => array(
 				   
@@ -62,6 +63,11 @@
  				   'delete' => array(
 						'url' => 'array("deleteST","id"=>"$data->idseg_scheduled_tours")',				   
 						'visible'=>'is_null($data->current_subscribers)',
+				   ),
+				   'edit' => array(
+						'imageUrl'=>'/img/date.png',
+						'url' => "array('sched','id'=>\$data->idseg_scheduled_tours)",
+						'label'=>'Edit tour',
 				   ),
 				   'pdf' => array(
 						'imageUrl'=>'/img/view.png',

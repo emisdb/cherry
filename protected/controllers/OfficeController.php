@@ -35,6 +35,28 @@ class OfficeController extends Controller
 			),
 		);
 	}
+	public function actionCreate()
+	{
+	   $id_control = Yii::app()->user->id;
+         
+		$model=new Bonus;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Bonus']))
+		{
+			$model->attributes=$_POST['Bonus'];
+			if($model->save())
+				$this->redirect(array('bonus'));
+		}
+
+		 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+  	$this->render('create',array(
+			'model'=>$model,
+				'info'=>$test,
+	));
+	}
 
 	/**
 	 * Updates a particular model.
@@ -48,35 +70,31 @@ class OfficeController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
-		if(isset($_POST['Comment']))
+		if(isset($_POST['Bonus']))
 		{
-			$model->attributes=$_POST['Comment'];
+			$model->attributes=$_POST['Bonus'];
 			if($model->save())
-				$this->redirect(array('index'));
+				$this->redirect(array('bonus'));
 		}
-
+	 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+  
 		$this->render('update',array(
 			'model'=>$model,
-		));
+				'info'=>$test,
+	));
 	}
 
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'index' page.
 	 */
-	public function actionDelete()
+	public function actionDelete($id)
 	{
-		if(Yii::app()->request->isPostRequest)
-		{
-			// we only allow deletion via POST request
-			$this->loadModel()->delete();
+		$this->loadModel($id)->delete();
 
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			if(!isset($_POST['ajax']))
-				$this->redirect(array('index'));
-		}
-		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax']))
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('bonus'));
 	}
 
 	/**
@@ -212,7 +230,24 @@ class OfficeController extends Controller
 		if(!isset($_GET['ajax']))
 			$this->redirect(array('schedule'));
 	}
- 
+	public function actionBonus()
+	{
+	   $id_control = Yii::app()->user->id;
+       // $update_user = User::model()->findByPk($id_user);
+   		$model=new Bonus('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Bonus']))
+			$model->attributes=$_GET['Bonus'];
+
+	 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+  
+	$this->render('bonus',array(
+			'model'=>$model,
+				'info'=>$test,
+	));
+	}
+
+	 
 	public function actionAdmin()
 	{
 	    $id_control = Yii::app()->user->id;
@@ -234,6 +269,41 @@ class OfficeController extends Controller
 			'model'=>$model,'role_control'=>$role_control,'usergroups'=>$usergroups,
 			'info'=>$test,
 		));
+	}
+	
+	public function actionSched($id)
+	{
+	    $id_control = Yii::app()->user->id;
+        $role_control = User::model()->findByPk($id_control)->id_usergroups;    
+   		
+		//language list
+		$languages_guide = Languages::model()->findAll();
+		//guide list
+		$criteria_guide = new CDbCriteria;
+        $criteria_guide->condition = 'id_usergroups=:id_usergroups';
+        $criteria_guide->params = array(':id_usergroups' => 5);
+        $guide_list = User::model()->findAll($criteria_guide);
+		
+		$model=$this->loadST($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['SegScheduledTours']))
+		{
+			$model->attributes=$_POST['SegScheduledTours'];
+			if($model->save())
+				$this->redirect(array('schedule'));
+		}
+
+	
+	 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+  	$this->render('sched',array(
+			'model'=>$model,
+			'languages_guide'=>$languages_guide,
+			'guide_list'=>$guide_list,
+				'info'=>$test,
+	));
 	}
 
 	public function actionShow($id)
@@ -1114,7 +1184,7 @@ class OfficeController extends Controller
 		if($this->_model===null)
 		{
 			if(isset($_GET['id']))
-				$this->_model=Comment::model()->findbyPk($_GET['id']);
+				$this->_model=Bonus::model()->findbyPk($_GET['id']);
 			if($this->_model===null)
 				throw new CHttpException(404,'The requested page does not exist.');
 		}

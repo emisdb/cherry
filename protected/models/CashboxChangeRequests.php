@@ -56,8 +56,10 @@ class CashboxChangeRequests extends CActiveRecord
 			}
 			else{
 				if(is_null(SegScheduledTours::model()->find('idseg_scheduled_tours=:idseg_scheduled_tours'),array(':idseg_scheduled_tours'=>$this->sched_user_id)))
+				{
 						$this->addError('id_type', 'Scheduled tour with this number is not found');
 				return false;
+				}
 			}
 		}
 		if(in_array($this->id_type, [3])) {
@@ -68,11 +70,13 @@ class CashboxChangeRequests extends CActiveRecord
 			else{
 //				if(is_null(User::model()->find('id=:idseg_scheduled_tours'),array(':idseg_scheduled_tours'=>$this->sched_user_id)))
 				if(is_null(User::model()->find('id='.$this->sched_user_id)))
+				{
 						$this->addError('id_type', 'The user with this number is not found');
 				return false;
+				}
 			}
-			 return parent::beforeValidate();
 		}
+			 return parent::beforeValidate();
 	
 	}
     		public function behaviors()
