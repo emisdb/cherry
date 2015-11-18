@@ -156,8 +156,8 @@
                 'hoursopacity'=>1,
                 'minutesopacity'=>1,
 			 ),
-         'htmlOptions'      => array('size'=>5,
-					'maxlength'=>5, 
+         'htmlOptions'      => array('size'=>10,
+					'maxlength'=>10, 
 			 )
     ));
 	?> 

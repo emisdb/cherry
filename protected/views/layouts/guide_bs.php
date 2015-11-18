@@ -54,10 +54,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-              <li <?php echo (Yii::app()->controller->action->id=='history') ? "class=\"active\"" : "" ; ?>>
-					<?php echo CHtml::link("<i class='fa fa-money'></i> <span>Cashbox history (old)</span>", array('guide/history','id'=> Yii::app()->user->id)); ?>
-				</li>
-               <li <?php echo (Yii::app()->controller->action->id=='cashReport') ? "class=\"active\"" : "" ; ?>>
+                <li <?php echo (Yii::app()->controller->action->id=='cashReport') ? "class=\"active\"" : "" ; ?>>
 					<?php echo CHtml::link("<i class='fa fa-credit-card'></i> <span>Cashbox history</span>", array('guide/cashReport')); ?>
 				</li>
               <li <?php echo (Yii::app()->controller->action->id=='createCash') ? "class=\"active\"" : "" ; ?>>

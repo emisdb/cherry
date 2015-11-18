@@ -81,7 +81,7 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
 ?>				
 			</div>
 			<div class="col-md-6">
-				<?php echo CHtml::submitButton('Submit'); // submit button ?> 
+				<?php echo CHtml::submitButton('Filter'); // submit button ?> 
 			</div>
 		</div>
 <?php $this->endWidget(); ?>	
@@ -111,7 +111,7 @@ $dataProvider=$model->search();
 		 array(
                         'name'=>'request_date',
                         'type'=>'raw',
-                        'value'=>"Yii::app()->dateFormatter->formatDateTime(\$data->request_date, 'short', null)",
+                        'value'=>"Yii::app()->dateFormatter->format('dd.MM.yyyy HH:mm',\$data->request_date)",
                         'filter'=>false, // Set the filter to false when date range searching
                         'footer'=>'Total:',
 				),

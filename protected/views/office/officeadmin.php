@@ -65,12 +65,12 @@
 						'visible'=>'is_null($data->current_subscribers)',
 				   ),
 				   'edit' => array(
-						'imageUrl'=>'/img/date.png',
+						'imageUrl'=>'/img/view.png',
 						'url' => "array('sched','id'=>\$data->idseg_scheduled_tours)",
 						'label'=>'Edit tour',
 				   ),
 				   'pdf' => array(
-						'imageUrl'=>'/img/view.png',
+						'imageUrl'=>'/img/pdf.png',
 						'url' => 'Yii::app()->createUrl("/filespdf/$data->additional_info2.pdf")',
 					   'options'=>array("target"=>'_blank'),
 						'label'=>'View PDF',
