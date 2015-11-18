@@ -39,14 +39,43 @@ class CashboxChangeRequests extends CActiveRecord
 			array('id_users, id_type, delta_cash', 'required'),
 			array('id_users, id_type, approvedBy', 'numerical', 'integerOnly'=>true),
 			array('delta_cash', 'numerical'),
+//			array('id_type', 'checktype'),
 			array('reason', 'length', 'max'=>255),
-			array('approval_date,id_users,id_type,delta_cash,approvedBy,reason, sched_user_id', 'safe'),
+			array('approval_date,id_users,id_type,delta_cash,approvedBy,reason,sched_user_id', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('idcashbox_change_requests, id_users, id_type, delta_cash, reason, approvedBy, request_date, approval_date', 'safe', 'on'=>'search'),
 		);
 	}
-		public function behaviors()
+	protected function beforeValidate()
+    {
+		if(in_array($this->id_type, [1,2])) {
+			if(is_null($this->sched_user_id)||empty($this->sched_user_id)){
+				$this->addError ('id_type', 'The tour number must be set for this cashbox type');
+				return false;
+			}
+			else{
+				if(is_null(SegScheduledTours::model()->find('idseg_scheduled_tours=:idseg_scheduled_tours'),array(':idseg_scheduled_tours'=>$this->sched_user_id)))
+						$this->addError('id_type', 'Scheduled tour with this number is not found');
+				return false;
+			}
+		}
+		if(in_array($this->id_type, [3])) {
+			if(is_null($this->sched_user_id)||empty($this->sched_user_id)){
+				$this->addError ('id_type', 'The other user must be specified for this cashbox type:'.$this->sched_user_id);
+				return false;
+			}
+			else{
+//				if(is_null(User::model()->find('id=:idseg_scheduled_tours'),array(':idseg_scheduled_tours'=>$this->sched_user_id)))
+				if(is_null(User::model()->find('id='.$this->sched_user_id)))
+						$this->addError('id_type', 'The user with this number is not found');
+				return false;
+			}
+			 return parent::beforeValidate();
+		}
+	
+	}
+    		public function behaviors()
 		{
 			return array(
 			'CTimestampBehavior' => array(
@@ -67,6 +96,7 @@ class CashboxChangeRequests extends CActiveRecord
 			'apuser' => array(self::BELONGS_TO, 'User', 'approvedBy'),	
 			'cashtype' => array(self::BELONGS_TO, 'CashboxType', 'id_type'),	
 			'sched'=>array(self::BELONGS_TO, 'SegScheduledTours', 'sched_user_id'),
+			'tuser'=>array(self::BELONGS_TO, 'User', 'sched_user_id','with'=>'contact_ob'),
 				);
 	}
 
@@ -84,8 +114,15 @@ class CashboxChangeRequests extends CActiveRecord
 			'approvedBy' => 'Approved By',
 			'request_date' => 'Date',
 			'approval_date' => 'Approval Date',
+			'sched_user_id' => 'Guide',
+			
 		);
 	}
+		public function getUserOptions()
+		{
+			$usersArray = CHtml::listData(User::model()->with('contact_ob')->findAll('id_guide>0'), 'id', 'contact_ob.firstname');
+			return $usersArray;
+		}
 		public function getTotals($ids)
         {
                 $ids = implode(",",$ids);
