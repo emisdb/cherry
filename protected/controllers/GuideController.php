@@ -1337,7 +1337,7 @@ class GuideController extends Controller
 		$cashnew1->delta_cash = -$gonorar;
 		$cashnew1->id_type = 2;
 		$cashnew1->save();
-                $cashnow=$this->cashsum;
+        $cashnow=$this->cashsum;
 		//************************************PDF CREATE***************************************************//
 		//$pdf->SetFont('freeserif', '', 14);
 		$printOrders = null;

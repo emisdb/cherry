@@ -117,19 +117,26 @@
 						if($model[$element]->customersName == '') $model[$element]->customersName = $model[$element]->tourinvoice->contact->firstname.' '. $model[$element]->tourinvoice->contact->surname;
 						echo $form->textField($model[$element],'customersName',array('style'=>'width:170px','name'=>'customersName'.$id)); 
 						echo "</td><td>\n";
-						echo $form->dropDownList($model[$element],'discounttype_id',$list_discount,array('empty' => '--','name'=>'discounttype_id'.$id, 'onChange'=>'price(value,this.id)'));
+						echo $form->dropDownList($model[$element],'discounttype_id',$list_discount,array('empty' => '--','name'=>'discounttype_id'.$id, 'onChange'=>'discount(value,this.id)'));
 						echo "</td><td>\n";
-						echo $form->dropDownList($model[$element],'paymentoptionid',$list_pay,array('empty' => '--','name'=>'payoption'.$id, 'onChange'=>'cash()'));
+						echo $form->dropDownList($model[$element],'paymentoptionid',$list_pay,array('empty' => '--','name'=>'payoption'.$id, 'onChange'=>'cash(value,this.id)'));
 						echo "</td><td style='text-align: right;'>\n";
 						$bp = $model[$element]->tourinvoice->sched->tourroute_ob['base_price'];
 						$price_sh=0;
-						if ($model[$element]->price==null){ $price_sh=$bp; } else { $price_sh=$model[$element]->price; } 
+						if ($model[$element]->price==null)
+							{
+								$price_sh=$bp;
+							}
+						else {
+							$price_sh=$model[$element]->price;
+						} 
 						echo '<div id="base_price'.$id.'" style="float:left;">'.$bp.'</div><div style="float:left;"> &euro;</div><div style="clear:both;"></div>';
 						echo "</td><td style='text-align:right;'>\n";
 						echo '<div id="price'.$id.'" style="float:left;">'.$price_sh;
 						echo '</div><div style="float:left;"> &euro;</div>';
 						echo '<div style="clear:both;"></div>';
-						echo '<input type="hidden" id="price_i'.$id.'" name="price'.$id.'" value="'.$price_sh.'" >';
+						echo $form->hiddenField($model[$element],'price',array('name'=>'price'.$id,'id'=>'price_i'.$id)); 
+//						echo '<input type="hidden" id="price_i'.$id.'" name="price'.$id.'" value="'.$price_sh.'" >';
 						echo '</td><td style="width:40px;text-align:right;">';
 						if($model[$element]->price==null){
 									$vat_value = $bp*(1-1/($vat_nds/100+1));
@@ -250,7 +257,7 @@ $(document).ready ( function (){
 });
 
 	 
-function price(id,k){
+function discount(id,k){
 		 var vat_nds = document.getElementById('vat_nds').innerHTML;//НДС
 		 k = parseInt(k.replace(/\D+/g,""));//номер строки
 		 var price,val,type;
@@ -272,7 +279,7 @@ function price(id,k){
 		 }
 		 price = price.toFixed(2);
 		 document.getElementById('price'+k).innerHTML = price;
-		 document.getElementById('price_i'+k).value = price;
+		if(document.getElementById('payoption'+k).value >0)	 document.getElementById('price_i'+k).value = price;
 //		 alert(val+":"+type+":"+base_price);return;
 		 
 		 var vat;
@@ -287,8 +294,34 @@ function price(id,k){
 		 counttotals();
 }
 
-function cash()
+function cash(id,k)
 {
+	if(id>0){
+		 k = parseInt(k.replace(/\D+/g,""));//номер строки
+		 var base_price = parseInt(document.getElementById('base_price'+k).innerHTML);
+		discounttype_id = document.getElementById('discounttype_id'+k).value;
+		 if(discounttype_id==""){
+			val = 0;
+			type = "%";
+		 }
+		 else
+		 {
+		  val = discounts[discounttype_id][0];
+ 		  type = discounts[discounttype_id][1];
+		 }
+		 var base_price = parseInt(document.getElementById('base_price'+k).innerHTML);
+		 if(type=='euro'){
+			price =base_price-val;
+		 }
+		 if(type=='%'){
+			 price = base_price-base_price*val/100;
+		 }
+		document.getElementById('price_i'+k).value = price;
+	}
+	else
+	{
+		document.getElementById('price_i'+k).value = 0;
+	}
 	counttotals();
 }
  function counttotals() {
@@ -315,7 +348,7 @@ function cash()
 		
 				if(discounttype_id!=42){
 					if(pay!=""){
-						price_su = document.getElementById('price'+i).innerHTML;
+						price_su = document.getElementById('price_i'+i).value;
 						price_s = parseFloat(price_s)+parseFloat(price_su);
 						d1 = vat_nds/100+1;
 						d2 = 1- 1/d1;

@@ -129,6 +129,7 @@
 						echo '<div id="price'.$id.'" style="float:left;">'.$price_sh;
 						echo '</div><div style="float:left;"> &euro;</div>';
 						echo '<div style="clear:both;"></div>';
+						echo $form->hiddenField($model[$element],'customersName',array('style'=>'width:170px','name'=>'customersName'.$id)); 
 						echo '<input type="hidden" id="price_i'.$id.'" name="price'.$id.'" value="'.$price_sh.'" >';
 						echo '</td><td style="width:40px;text-align:right;">';
 						if($model[$element]->price==null){

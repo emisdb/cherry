@@ -3,7 +3,6 @@
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-			?>
 			<h1>Profile information user - <?php echo $model->username; ?></h1>
 
 			<div class="create"><a href="<?php echo Yii::app()->createUrl('office/user',array('id'=>$model->id)); ?>">Update profile information</a></div>

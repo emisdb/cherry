@@ -55,10 +55,10 @@ class CashboxChangeRequests extends CActiveRecord
 				return false;
 			}
 			else{
-				if(is_null(SegScheduledTours::model()->find('idseg_scheduled_tours=:idseg_scheduled_tours'),array(':idseg_scheduled_tours'=>$this->sched_user_id)))
+				if(is_null(SegScheduledTours::model()->find('idseg_scheduled_tours='.$this->sched_user_id)))
 				{
 						$this->addError('id_type', 'Scheduled tour with this number is not found');
-				return false;
+					return false;
 				}
 			}
 		}
