@@ -224,7 +224,7 @@ $(document).ready ( function (){
 
 	$("#changebt").click( function(){
 	 <?php echo CHtml::ajax(array(
-            'url'=>array('guide/ajaxInfo'),
+            'url'=>array('ajaxInfo'),
 	         'data'=>  array(
 				 'id_sched'=>$sched->idseg_scheduled_tours,
 				 'date'=>$sched['date'],

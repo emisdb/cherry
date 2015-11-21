@@ -2,7 +2,7 @@
 <?php
 $x1=number_format($gonorar_tour->base_provision, 2, '.', ' ');
 $x2=number_format($gonorar_tour->guestsMinforVariable, 2, '.', ' ');
-$x3=number_format($gonorar, 2, '.', ' ');
+$x3=number_format($gonorar, 2, '.', ' '); 
 ?>
 <table class="table-info-guide">
 	<tr>
@@ -11,7 +11,7 @@ $x3=number_format($gonorar, 2, '.', ' ');
     </tr>
 	<tr>
     <td>Guest Number Variable</td>
-        <td><?php echo $cifra; ?>x</td>
+        <td><?php echo $cifra;?>x</td>
         <td class="table-info-guide-last"><? echo $x2;?>  &euro;</td>
     </tr>
     <tr>
@@ -24,8 +24,7 @@ $x3=number_format($gonorar, 2, '.', ' ');
 </table>
 
 <div class="guide-info-name">Kassa</div>
-<?php if (!empty($cash)){ 
-	$y1=number_format($cash, 2, '.', ' ');
+<?php if (!empty($cash)){  $y1=number_format($cash, 2, '.', ' ');
     $y2=number_format($cashincome, 2, '.', ' ');
     
     $y4=number_format($cashincome - $x3, 2, '.', ' ');

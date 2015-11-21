@@ -1007,7 +1007,7 @@ class GuideController extends Controller
                 $command->where('id_sched=:id_sched', array(':id_sched'=>$sched->idseg_scheduled_tours));
                 $cashincome= $command->queryScalar();
         	//segguidestourinvoicescustomers
-                $invoicecustomer=SegGuidestourinvoicescustomers::model()->with('tourinvoice')->count("id_sched=:id_sched AND isPaid=:isPaid",array(":id_sched"=>$sched->idseg_scheduled_tours,":isPaid"=>1));
+                $invoicecustomer=SegGuidestourinvoicescustomers::model()->with('tourinvoice')->count("id_sched=".$sched->idseg_scheduled_tours." AND isPaid=1");
 
                 $cifra = $invoicecustomer - $gonorar_tour->guest_variable;
 		if($cifra<=0){$cifra=0;}//turists >
@@ -1018,6 +1018,7 @@ class GuideController extends Controller
 			'gonorar_tour'=>$gonorar_tour,
 			'cifra'=>$cifra,
 			'gonorar'=>$gonorar,
+			'invoicecustomer'=>$invoicecustomer,
 			//'gonorar_vat'=>$gonorar_vat,
 			'vat'=>$vat,
 			'cash'=>$this->cashsum,

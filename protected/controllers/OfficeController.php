@@ -1126,6 +1126,75 @@ class OfficeController extends Controller
 	                            return $name_pdf2;
 
 	}
+	       	public function actionAjaxInfo()
+	{
+	if (!Yii::app()->request->isAjaxRequest)
+			{
+				echo CJSON::encode(array(
+					'status'=>'failure', 
+					'div'=>'No Request'));
+//					'div'=>$this->renderPartial('_form', array('model'=>$model), true)));
+				exit;               
+			}
+		$id_sched = $_POST['id_sched'];
+		$date = $_POST['date'];
+		$time = $_POST['time'];
+		$sched = SegScheduledTours::model()->findByPk($id_sched);
+
+		$id_control = $sched->guide1_id;
+		$guide = User::model()->findByPk($id_control);
+        $role_control = $guide->id_usergroups;    
+
+   
+		//sched
+		
+		//tour
+		$tour = SegTourroutes::model()->findByPk($sched->tourroute_id);
+		
+		//tourroutes
+		$criteria_tourroutes = new CDbCriteria;
+		$criteria_tourroutes->condition = 'usersid=:usersid AND tourroutes_id=:tourroutes_id';
+		$criteria_tourroutes->params = array(':usersid'=>$sched->user_ob->id,'tourroutes_id'=>$tour->id_tour_categories);
+		$gonorar_tour = SegGuidesTourroutes::model()->find($criteria_tourroutes);
+		
+		//mainoption
+		$criteria_vat = new CDbCriteria;
+		$criteria_vat->condition = 'name=:name ';
+		$criteria_vat->params = array(':name'=>'Vat');
+		$vat = Mainoptions::model()->find($criteria_vat)->value;
+				
+		$command=Yii::app()->db->createCommand();
+        $command->select('SUM(cashIncome) AS sumk');
+        $command->from('seg_guidestourinvoices');
+        $command->where('id_sched=:id_sched', array(':id_sched'=>$sched->idseg_scheduled_tours));
+        $cashincome= $command->queryScalar();
+        //segguidestourinvoicescustomers
+        $invoicecustomer=SegGuidestourinvoicescustomers::model()->with('tourinvoice')->count("id_sched=:id_sched AND isPaid=:isPaid",array(":id_sched"=>$sched->idseg_scheduled_tours,":isPaid"=>1));
+
+        $cifra = $invoicecustomer - $gonorar_tour->guest_variable;
+		if($cifra<=0){$cifra=0;}//turists >
+		$gonorar = $gonorar_tour->base_provision+$cifra*$gonorar_tour->guestsMinforVariable;//summa gonorar
+		//$gonorar_vat = $gonorar*$vat/100;
+		
+		$result=$this->renderPartial('info',array(
+			'gonorar_tour'=>$gonorar_tour,
+			'cifra'=>$cifra,
+			'gonorar'=>$gonorar,
+			//'gonorar_vat'=>$gonorar_vat,
+			'vat'=>$vat,
+			'cash'=>$this->cashsum,
+			'cashincome'=>$cashincome,
+			
+			'id_sched'=>$id_sched,
+			'date'=>$date,
+			'time'=>$time,
+			'ajax'=>true,
+		),true);
+				echo CJSON::encode(array(
+					'status'=>'failure', 
+					'div'=>$result));
+	}
+
 	protected function sendMail($to,$subject,$body,$att=null)
 	{
 		        Yii::import('ext.yii-mail.YiiMailMessage');
