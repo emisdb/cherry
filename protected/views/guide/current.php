@@ -258,8 +258,8 @@ $(document).ready ( function (){
 
 	 
 function discount(id,k){
-		 var vat_nds = document.getElementById('vat_nds').innerHTML;//НДС
 		 k = parseInt(k.replace(/\D+/g,""));//номер строки
+		if(!(document.getElementById('payoption'+k).value >0)) return;
 		 var price,val,type;
 		 if(id==""){
 			val = 0;
@@ -278,11 +278,16 @@ function discount(id,k){
 			 price = base_price-base_price*val/100;
 		 }
 		 price = price.toFixed(2);
-		 document.getElementById('price'+k).innerHTML = price;
-		if(document.getElementById('payoption'+k).value >0)	 document.getElementById('price_i'+k).value = price;
+			document.getElementById('price'+k).innerHTML = price;
+			document.getElementById('price_i'+k).value = price;
 //		 alert(val+":"+type+":"+base_price);return;
-		 
-		 var vat;
+		 countvat(price,k);
+		 counttotals();
+}
+function countvat(price,k)
+{	
+		 var vat_nds = document.getElementById('vat_nds').innerHTML;//НДС
+		var vat;
 		 var price_vat = price;
 		 var d1,d2;
 		 d1 = vat_nds/100+1;
@@ -291,14 +296,14 @@ function discount(id,k){
 		 vat = price_vat*d2;
 		 vat = vat.toFixed(2);
 		 document.getElementById('vat'+k).innerHTML = vat;
-		 counttotals();
-}
 
+}
 function cash(id,k)
 {
-	if(id>0){
-		 k = parseInt(k.replace(/\D+/g,""));//номер строки
-		 var base_price = parseInt(document.getElementById('base_price'+k).innerHTML);
+	 k = parseInt(k.replace(/\D+/g,""));//номер строки
+		if(id>0){
+		 var base_price = parseFloat(document.getElementById('base_price'+k).innerHTML);
+		 var price;
 		discounttype_id = document.getElementById('discounttype_id'+k).value;
 		 if(discounttype_id==""){
 			val = 0;
@@ -309,7 +314,6 @@ function cash(id,k)
 		  val = discounts[discounttype_id][0];
  		  type = discounts[discounttype_id][1];
 		 }
-		 var base_price = parseInt(document.getElementById('base_price'+k).innerHTML);
 		 if(type=='euro'){
 			price =base_price-val;
 		 }
@@ -317,10 +321,14 @@ function cash(id,k)
 			 price = base_price-base_price*val/100;
 		 }
 		document.getElementById('price_i'+k).value = price;
+		 document.getElementById('price'+k).innerHTML = price;
+		countvat(price,k);
 	}
 	else
 	{
 		document.getElementById('price_i'+k).value = 0;
+		 document.getElementById('vat'+k).innerHTML = "0";
+		 document.getElementById('price'+k).innerHTML = "0";
 	}
 	counttotals();
 }

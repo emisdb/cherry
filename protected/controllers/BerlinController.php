@@ -164,7 +164,8 @@ class BerlinController extends Controller
 				for($j=0;$j<$ticket_count;$j++){
 					$guidestourinvoicescustomers = new SegGuidestourinvoicescustomers;
 					$guidestourinvoicescustomers->customersName = $user_contact->firstname.' '.$user_contact->surname;
-					$guidestourinvoicescustomers->price = $tour->base_price;
+//					$guidestourinvoicescustomers->price = $tour->base_price;
+					$guidestourinvoicescustomers->price = 0;
 					$guidestourinvoicescustomers->cityid = $tour->cityid;
 					
 					$guidestourinvoicescustomers->tourInvoiceid = $id_invoice;
@@ -253,7 +254,7 @@ class BerlinController extends Controller
 				
 				$name_forms = $scheduled->city_ob->seg_cityname;
 				$to = $user_contact->email;
-//				if ($this->sendMail($to, $name_forms, $message))
+				if ($this->sendMail($to, $name_forms, $message))
 				{
 				
 				    $stuttgart_link = Yii::app()->createUrl('thankyou');

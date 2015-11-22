@@ -391,6 +391,7 @@ class OfficeController extends Controller
 		$sched = SegScheduledTours::model()->with(array('guidestourinvoices'=>array('guidestourinvoicescustomers','contact')))->findByPk($id_sched);
 		if(is_null($sched)) 	throw new CHttpException(404,'The requested tour does not exist.');
 //		if($sched->additional_info2) $this->redirect(array('schedule'));
+//		if($sched->additional_info2) $this->redirect(Yii::app()->createUrl("/filespdf/".$sched->additional_info2.".pdf"));
  			$date_format = strtotime($sched->date);
 			$date_bd = date('Y-m-d',$date_format);
 			$dt =$date_bd.' '.$sched->starttime;
@@ -416,24 +417,20 @@ class OfficeController extends Controller
 					$count_cust=0;
 					$overAllIncome=0;
 					$cashIncome=0;
-					$invoice_id =  $invoice->idseg_guidesTourInvoices;
-//			
+					$invoice_id =  $invoice->idseg_guidesTourInvoices;			
 					for($k=0;$k<count($model);$k++)
 					{
-					
 						$kk=$model[$k]->idseg_guidesTourInvoicesCustomers;
 						$count_cust++;
 						$model[$k]->tourInvoiceid = $invoice_id;
 						$model[$k]->customersName = $_POST['customersName'.$kk];
 						$model[$k]->discounttype_id = $_POST['discounttype_id'.$kk];
 						$model[$k]->paymentoptionid = $_POST['payoption'.$kk];
-//						if(!empty($_POST['price'.$kk])) {
-							$model[$k]->price = $_POST['price'.$kk];
-//						}
-						$overAllIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
-						if($model[$k]->paymentoptionid==1) $cashIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
 						$model[$k]->id_invoiceoptions = $_POST['option'.$kk];
 						if($model[$k]->paymentoptionid)$model[$k]->isPaid = 1;
+						if($model[$k]->paymentoptionid)$model[$k]->price = $_POST['price'.$kk];
+						$overAllIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
+						if($model[$k]->paymentoptionid==1) $cashIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
 					
 						$model[$k]->save();
 						
@@ -562,7 +559,7 @@ class OfficeController extends Controller
 				for($j=0;$j<$ticket_count;$j++){
 					$guidestourinvoicescustomers = new SegGuidestourinvoicescustomers;
 					$guidestourinvoicescustomers->customersName = $user_contact->firstname.' '.$user_contact->surname;
-					$guidestourinvoicescustomers->price = $tour->base_price;
+					$guidestourinvoicescustomers->price = 0;
 					$guidestourinvoicescustomers->cityid = $tour->cityid;
 					
 					$guidestourinvoicescustomers->tourInvoiceid = $id_invoice;
@@ -704,7 +701,9 @@ class OfficeController extends Controller
 		$sum_itog=0;
 		$sum_bar=0;
 		$count_cust=0;
-        foreach ($sched->guidestourinvoices as $invoice) 
+        $max= Yii::app()->db->createCommand("SELECT max(InvoiceNumber) from seg_guidestourinvoices where cityid=".$tour->cityid)->queryScalar();
+        $max_i = $max+1;
+      foreach ($sched->guidestourinvoices as $invoice) 
        {
 			$model=$invoice->guidestourinvoicescustomers;
 			$overAllIncome=0;
@@ -713,17 +712,12 @@ class OfficeController extends Controller
 			$invoice_id =  $invoice->idseg_guidesTourInvoices;
             for($k=0;$k<count($model);$k++){
                 $kk=$model[$k]->idseg_guidesTourInvoicesCustomers;
-                $count_cust++;
+				if($model[$k]->isPaid == 1)  $count_cust++;
                 $count_inv++;
-                $overAllIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
-				if($model[$k]->paymentoptionid==1)
-				   $cashIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
-               }
+                }
                $invoice->status = 1;
                $sum_itog += $invoice->overAllIncome;
                $sum_bar += $invoice->cashIncome;
-               $max= Yii::app()->db->createCommand("SELECT max(InvoiceNumber) from seg_guidestourinvoices where cityid=".$tour->cityid)->queryScalar();
-               $max_i = $max+1;
                $invoice->TA_string = 'TA'.$b.$year.'/'.$max_i;
                $invoice->InvoiceNumber =$max_i;
                $invoice->save();
@@ -738,7 +732,7 @@ class OfficeController extends Controller
 		$gonorar = $tourroutes->base_provision+$cifra*$tourroutes->guestsMinforVariable;//summa gonorar
 		$gonorar_vat = $gonorar*(1-1/($vat/100+1));
 		$gonorar_vat = number_format($gonorar_vat, 2, '.', ' ');
-
+		CashboxChangeRequests::model()->deleteAll("(id_type=1 OR id_type=2) AND sched_user_id=:sched_user_id", array(":sched_user_id"=>$sched->idseg_scheduled_tours));
 		$cashnew=new CashboxChangeRequests;
 		$cashnew->id_users=$id_control;
 		$cashnew->approvedBy=$id_control;
@@ -799,12 +793,12 @@ class OfficeController extends Controller
 		if(is_array($invoice)){
 			$is_full=true;
 			$forpdf=$invoice;
-		$txt_num=$sched->idseg_scheduled_tours;
+			if(count($sched->guidestourinvoices)>0) $txt_num=$sched->guidestourinvoices[0]->TA_string;	
 		}
  else {
-		$txt_num=$invoice->TA_string;
-			
-		}
+		$txt_num=$invoice->TA_string;			
+ }
+
 
 		$tbl0 = '<table style="margin:30px;">
                         <tr>
@@ -983,7 +977,7 @@ class OfficeController extends Controller
 				$datename = $date_format_n;
 				
 				$name_pdf2 =str_replace("/", "-", $name_pdf1).'_'.$datename;
-				if($is_full){$name_pdf2=$name_pdf2."_i";}
+				if(!$is_full){$name_pdf2=$name_pdf2."_".$invoice_id;}
 				$files_name1 = __DIR__.'/../../filespdf/'.$name_pdf2.'.pdf';
 				$pdf = Yii::createComponent('application.extensions.tcpdf.ETcPdf', 'P', 'cm', 'A4', true, 'UTF-8');
 				$pdf->SetCreator(PDF_CREATOR);
@@ -1174,15 +1168,20 @@ class OfficeController extends Controller
         $cifra = $invoicecustomer - $gonorar_tour->guest_variable;
 		if($cifra<=0){$cifra=0;}//turists >
 		$gonorar = $gonorar_tour->base_provision+$cifra*$gonorar_tour->guestsMinforVariable;//summa gonorar
-		//$gonorar_vat = $gonorar*$vat/100;
-		
+			$command=Yii::app()->db->createCommand();
+ //               $command->select('SUM(delta_cash) AS sum');
+                 $command->select('SUM(delta_cash)-(SELECT SUM(delta_cash) FROM cashbox_change_requests WHERE sched_user_id='.$sched->idseg_scheduled_tours.') AS sum');
+                $command->from('cashbox_change_requests');
+                $command->where('id_users=:id', array(':id'=>$id_control));
+                $cashsum= $command->queryScalar();
+
 		$result=$this->renderPartial('info',array(
 			'gonorar_tour'=>$gonorar_tour,
 			'cifra'=>$cifra,
 			'gonorar'=>$gonorar,
 			//'gonorar_vat'=>$gonorar_vat,
 			'vat'=>$vat,
-			'cash'=>$this->cashsum,
+			'cash'=>$cashsum,
 			'cashincome'=>$cashincome,
 			
 			'id_sched'=>$id_sched,

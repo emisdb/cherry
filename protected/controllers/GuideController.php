@@ -910,25 +910,26 @@ class GuideController extends Controller
 					$count_cust=0;
 					$overAllIncome=0;
 					$cashIncome=0;
-					$invoice_id =  $invoice->idseg_guidesTourInvoices;
-//			
+					$invoice_id =  $invoice->idseg_guidesTourInvoices;			
 					for($k=0;$k<count($model);$k++)
 					{
-					
 						$kk=$model[$k]->idseg_guidesTourInvoicesCustomers;
 						$count_cust++;
 						$model[$k]->tourInvoiceid = $invoice_id;
 						$model[$k]->customersName = $_POST['customersName'.$kk];
 						$model[$k]->discounttype_id = $_POST['discounttype_id'.$kk];
 						$model[$k]->paymentoptionid = $_POST['payoption'.$kk];
-//						if(!empty($_POST['price'.$kk])) {
-							$model[$k]->price = $_POST['price'.$kk];
-//						}
-						$overAllIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
-						if($model[$k]->paymentoptionid==1) $cashIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
 						$model[$k]->id_invoiceoptions = $_POST['option'.$kk];
-						if($model[$k]->paymentoptionid)$model[$k]->isPaid = 1;
+						if($model[$k]->paymentoptionid)
+						{
+							$model[$k]->isPaid = 1;
+							$model[$k]->price = $_POST['price'.$kk];
+							$overAllIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
+							if($model[$k]->paymentoptionid==1) 
+								$cashIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
 					
+						}
+	
 						$model[$k]->save();
 						
 					}
@@ -1111,9 +1112,7 @@ class GuideController extends Controller
 				$user_contact->phone = $_POST['Bookq']['phone'];
 				$user_contact->email = $_POST['Bookq']['email'];
 				$user_contact->save();
-//			var_dump($_POST['Bookq']); return;
-				
-				//save booking
+
 				$id_user = $user_contact->idcontacts;
 //				$current = new SegBookqings;
 //				$current->customer_id = $id_user;
@@ -1144,7 +1143,8 @@ class GuideController extends Controller
 				for($j=0;$j<$ticket_count;$j++){
 					$guidestourinvoicescustomers = new SegGuidestourinvoicescustomers;
 					$guidestourinvoicescustomers->customersName = $user_contact->firstname.' '.$user_contact->surname;
-					$guidestourinvoicescustomers->price = $tour->base_price;
+//					$guidestourinvoicescustomers->price = $tour->base_price;
+					$guidestourinvoicescustomers->price = 0;
 					$guidestourinvoicescustomers->cityid = $tour->cityid;
 					
 					$guidestourinvoicescustomers->tourInvoiceid = $id_invoice;
@@ -1286,6 +1286,8 @@ class GuideController extends Controller
 		$sum_itog=0;
 		$sum_bar=0;
 		$count_cust=0;
+        $max= Yii::app()->db->createCommand("SELECT max(InvoiceNumber) from seg_guidestourinvoices where cityid=".$tour->cityid)->queryScalar();
+        $max_i = $max+1;
         foreach ($sched->guidestourinvoices as $invoice) 
        {
 			$model=$invoice->guidestourinvoicescustomers;
@@ -1295,17 +1297,12 @@ class GuideController extends Controller
 			$invoice_id =  $invoice->idseg_guidesTourInvoices;
             for($k=0;$k<count($model);$k++){
                 $kk=$model[$k]->idseg_guidesTourInvoicesCustomers;
-                $count_cust++;
+				if($model[$k]->isPaid == 1)  $count_cust++;
                 $count_inv++;
-                $overAllIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
-				if($model[$k]->paymentoptionid==1)
-				   $cashIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
-               }
+                }
                $invoice->status = 1;
                $sum_itog += $invoice->overAllIncome;
                $sum_bar += $invoice->cashIncome;
-               $max= Yii::app()->db->createCommand("SELECT max(InvoiceNumber) from seg_guidestourinvoices where cityid=".$tour->cityid)->queryScalar();
-               $max_i = $max+1;
                $invoice->TA_string = 'TA'.$b.$year.'/'.$max_i;
                $invoice->InvoiceNumber =$max_i;
                $invoice->save();
@@ -1377,12 +1374,13 @@ class GuideController extends Controller
 		if(is_array($invoice)){
 			$is_full=true;
 			$forpdf=$invoice;
-		$txt_num=$sched->idseg_scheduled_tours;
+			if(count($sched->guidestourinvoices)>0) 		$txt_num=$sched->guidestourinvoices[0]->TA_string;	
 		}
  else {
-		$txt_num=$invoice->TA_string;
-			
-		}
+		$txt_num=$invoice->TA_string;			
+ }
+
+
 
 		$tbl0 = '<table style="margin:30px;">
                         <tr>
@@ -1561,7 +1559,7 @@ class GuideController extends Controller
 				$datename = $date_format_n;
 				
 				$name_pdf2 =str_replace("/", "-", $name_pdf1).'_'.$datename;
-				if($is_full){$name_pdf2=$name_pdf2."_i";}
+				if(!$is_full){$name_pdf2=$name_pdf2."_".$invoice_id;}
 				$files_name1 = __DIR__.'/../../filespdf/'.$name_pdf2.'.pdf';
 				$pdf = Yii::createComponent('application.extensions.tcpdf.ETcPdf', 'P', 'cm', 'A4', true, 'UTF-8');
 				$pdf->SetCreator(PDF_CREATOR);
