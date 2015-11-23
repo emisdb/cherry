@@ -34,8 +34,12 @@
                 'buttons' => array(
                 'update' => array(
                      //'imageUrl'=>'/images/system/proc.png',
-                    'url' => 'Yii::app()->createUrl("office/userUpdate", array("id" => $data->id))',
+                    'url' => 'array("userUpdate", "id" => $data->id)',
                     'label'=>'Update',
+               ),
+                'delete' => array(
+                     //'imageUrl'=>'/images/system/proc.png',
+                    'url' => 'array("userDelete", "id" => $data->id)',
                ),
              ),
             ),
