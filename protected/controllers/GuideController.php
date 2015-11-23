@@ -1114,15 +1114,6 @@ class GuideController extends Controller
 				$user_contact->save();
 
 				$id_user = $user_contact->idcontacts;
-//				$current = new SegBookqings;
-//				$current->customer_id = $id_user;
-//				$current->groupsize = $ticket_count;
-//				$current->sched_tourid = $id;
-//				$current->save();
-//
-//				$id_book = $current->idseg_bookings;
-				
-				
 				//save guidestourinvoice
 				$guidestourinvoices = new SegGuidestourinvoices;
 		
@@ -1335,7 +1326,7 @@ class GuideController extends Controller
 		$cashnew1->delta_cash = -$gonorar;
 		$cashnew1->id_type = 2;
 		$cashnew1->save();
-        $cashnow=$this->cashsum;
+            $cashnow=$this->cashsum;
 		//************************************PDF CREATE***************************************************//
 		//$pdf->SetFont('freeserif', '', 14);
 		$printOrders = null;

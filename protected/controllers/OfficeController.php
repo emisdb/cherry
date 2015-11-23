@@ -531,17 +531,23 @@ class OfficeController extends Controller
 			$contact->attributes=$_POST['Bookq'];
 			
 			$ticket_array = SegTourroutes::model()->findByPk($scheduled->tourroute_id);
-			
+                        $ticket_count =	$contact->tickets;
+
+/*			
 			$cat_i = $_POST['Bookq']['cat_hidden'];
 			if($cat_i == 1)$ticket_count = $_POST['Bookq']['tickets1'];
 			if($cat_i == 2)$ticket_count = $_POST['Bookq']['tickets2'];
 			if($cat_i == 3)$ticket_count = $_POST['Bookq']['tickets3'];
-			$contact->tickets = $ticket_count; 
+			$contact->tickets = $ticket_count;
+  */
+   
+
            if($contact->validate()){
 								
 				//save contact
 				$user_contact =  new SegContacts;
-				$user_contact->firstname = $_POST['Bookq']['firstname'];
+
+                                $user_contact->firstname = $_POST['Bookq']['firstname'];
 				$user_contact->surname = $_POST['Bookq']['lastname'];
 				$user_contact->additional_address = $_POST['Bookq']['additional_address'];
 				$user_contact->city = $_POST['Bookq']['city'];
