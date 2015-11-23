@@ -83,6 +83,31 @@ class OfficeController extends Controller
 				'info'=>$test,
 	));
 	}
+	public function actionUserUpdate($id)
+	{
+    		$model=$this->loadUser($id);
+    
+    		// Uncomment the following line if AJAX validation is needed
+    		// $this->performAjaxValidation($model);
+    
+    		if(isset($_POST['User']))
+    		{
+    			$model->attributes=$_POST['User'];
+               // $model->id_usergroups = $_POST['User']['role_ob'];
+    			if($model->save())
+    				if($id==$id_control){
+    				    $this->redirect(array('profile'));
+                    } else {
+                        $this->redirect(array('admin'));
+                    }
+    		}
+    
+ 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+    		$this->render('update_user',array(
+    			'model'=>$model,//,'usergroups'=>$usergroups
+			'info'=>$test,
+		));
+  	}
 
 	/**
 	 * Deletes a particular model.
@@ -276,24 +301,23 @@ class OfficeController extends Controller
 		$model=$this->loadST($id);
 		if(isset($model->guide1_id))
 		{
-           $criteria_tours_link = new CDbCriteria;
-            $criteria_tours_link->condition = 'usersid=:usersid';
-            $criteria_tours_link->params = array(':usersid' => $model->guide1_id);
-            $criteria_tours_link->join = 'LEFT JOIN `seg_guides_tourroutes` ON ((`seg_guides_tourroutes`.`tourroutes_id` = `t`.`id_tour_categories`) AND(`t`.`cityid` = '.$model->city_id.'))';
-            $tours_guide = SegTourroutes::model()->findAll($criteria_tours_link);			
-            $criteria_lan_link = new CDbCriteria;
-            $criteria_lan_link->condition = 'users_id=:users_id';
-            $criteria_lan_link->params = array(':users_id' => $model->guide1_id);
-            $criteria_lan_link->join = 'LEFT JOIN `seg_languages_guides` ON `seg_languages_guides`.`languages_id` = `t`.`id_languages`';
-            $languages_guide = Languages::model()->findAll($criteria_lan_link);
+                    $criteria_tours_link = new CDbCriteria;
+                     $criteria_tours_link->condition = 'usersid=:usersid';
+                     $criteria_tours_link->params = array(':usersid' => $model->guide1_id);
+                     $criteria_tours_link->join = 'LEFT JOIN `seg_guides_tourroutes` ON ((`seg_guides_tourroutes`.`tourroutes_id` = `t`.`id_tour_categories`) AND(`t`.`cityid` = '.$model->city_id.'))';
+                     $tours_guide = SegTourroutes::model()->findAll($criteria_tours_link);			
+                     $criteria_lan_link = new CDbCriteria;
+                     $criteria_lan_link->condition = 'users_id=:users_id';
+                     $criteria_lan_link->params = array(':users_id' => $model->guide1_id);
+                     $criteria_lan_link->join = 'LEFT JOIN `seg_languages_guides` ON `seg_languages_guides`.`languages_id` = `t`.`id_languages`';
+                     $languages_guide = Languages::model()->findAll($criteria_lan_link);
 		}
 		else
 		{
-          $criteria_tours_link = new CDbCriteria;
-          $criteria_tours_link->join = 'LEFT JOIN `seg_guides_tourroutes` ON ((`seg_guides_tourroutes`.`tourroutes_id` = `t`.`id_tour_categories`) AND(`t`.`cityid` = '.$model->city_id.'))';
-          $tours_guide = SegTourroutes::model()->findAll($criteria_tours_link);			
-		$languages_guide = Languages::model()->findAll();
-			
+                    $criteria_tours_link = new CDbCriteria;
+                    $criteria_tours_link->join = 'LEFT JOIN `seg_guides_tourroutes` ON ((`seg_guides_tourroutes`.`tourroutes_id` = `t`.`id_tour_categories`) AND(`t`.`cityid` = '.$model->city_id.'))';
+                    $tours_guide = SegTourroutes::model()->findAll($criteria_tours_link);			
+                    $languages_guide = Languages::model()->findAll();
 		}
 	
 		$criteria_guide = new CDbCriteria;

@@ -1116,8 +1116,6 @@ class GuideController extends Controller
 				$id_user = $user_contact->idcontacts;
 				//save guidestourinvoice
 				$guidestourinvoices = new SegGuidestourinvoices;
-		
-			
 				$guidestourinvoices->creationDate = $scheduled->date;
 				$guidestourinvoices->cityid = $scheduled->city_id;
 				$guidestourinvoices->sched_tourid = $scheduled->tourroute_id;
