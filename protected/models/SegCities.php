@@ -91,11 +91,16 @@ class SegCities extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
+
 		return array(
+			'users' => array(self::MANY_MANY, 'User', 'seg_guides_cities(cities_id, users_id)'),
 		);
 	}
+		public function getUserOptions()
+		{
+				$usersArray = CHtml::listData($this->users, 'id', 'contact_ob.firstname');
+		return $usersArray;
+		}
 
 	/**
 	 * @return array customized attribute labels (name=>label)

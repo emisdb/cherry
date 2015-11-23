@@ -87,7 +87,7 @@ class SegScheduledTours extends CActiveRecord
 			'language_all'=>array(self::HAS_MANY, 'SegLanguagesGuides', array('users_id'=>'guide1_id')),
 			'bookings'=>array(self::HAS_MANY, 'SegBookings', 'sched_tourid'),
 			'guidestourinvoices'=>array(self::HAS_MANY, 'SegGuidestourinvoices', 'id_sched'),
-		);
+				);
 	}
 
 	/**
@@ -97,7 +97,7 @@ class SegScheduledTours extends CActiveRecord
 	{
 		return array(
 			'idseg_scheduled_tours' => 'ID',
-			'tourroute_id' => 'Tour',
+			'tourroute_id' => 'Tour route',
 			'openTour' => 'Open Tour',
 			'TNmax_sched' => 'Tnmax Sched',
 			'duration' => 'Duration (minutes)',
@@ -106,11 +106,11 @@ class SegScheduledTours extends CActiveRecord
 			'current_subscribers' => 'Gueste',//'Current Subscribers',
 			'language_id' => 'ID Language',
 			'language_ob' => 'Language',
-			'guide1_id' => 'Guide',
+			'guide1_id' => 'Guide 1',
             'user_ob' => 'User',
-			'guide2_id' => 'Guide2',
-			'guide3_id' => 'Guide3',
-			'guide4_id' => 'Guide4',
+			'guide2_id' => 'Guide 2',
+			'guide3_id' => 'Guide 3',
+			'guide4_id' => 'Guide 4',
 			'original_starttime' => 'Original Starttime',
 			'additional_info' => 'Additional Info',
 			'visibility' => 'On/Off',
