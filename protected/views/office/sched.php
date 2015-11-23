@@ -8,7 +8,11 @@
         <!-- Main content -->
         <section class="content">
 
-<?php $this->renderPartial('_form_schedo', array('model'=>$model, 'languages_guide'=>$languages_guide,'guide_list'=>$guide_list)); ?>
+<?php $this->renderPartial('_form_schedo',
+		array('model'=>$model, 
+			'tours_guide'=>$tours_guide,
+			'languages_guide'=>$languages_guide,
+			'guide_list'=>$guide_list)); ?>
 		</section><!-- /.content -->
       </div><!-- /.content-wrapper -->
 

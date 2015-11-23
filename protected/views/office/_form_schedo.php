@@ -50,7 +50,11 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 				<?php
 					echo $form->labelEx($model,'tourroute_id'); 
 //					echo $form->textField($model,'tourroute_id');  
-					echo $form->textField($model->tourroute_ob,'name',array('class'=>"form-control",'disabled'=>'true'));
+					if($model->tourroute_id)
+						echo $form->textField($model->tourroute_ob,'name',array('class'=>"form-control",'disabled'=>'true'));
+					else 
+						echo $form->dropDownList($model,'tourroute_id', CHtml::listData ($tours_guide, "idseg_tourroutes", "name"));
+					
 					echo $form->error($model,'tourroute_id');
 				?>
 			</div>
@@ -60,7 +64,10 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 				<?php 
 					echo $form->labelEx($model,'language_id'); 
 //					echo $form->textField($model,'language_id');
-					echo $form->textField($model->language_ob,'englishname',array('class'=>"form-control",'disabled'=>'true'));
+					if($model->language_id)
+						echo $form->textField($model->language_ob,'englishname',array('class'=>"form-control",'disabled'=>'true'));
+					else 
+						echo $form->dropDownList($model,'language_id', CHtml::listData ($languages_guide, "id_languages", "englishname"));
 					echo $form->error($model,'language_id');
 					?>
 			</div>

@@ -273,18 +273,34 @@ class OfficeController extends Controller
 	
 	public function actionSched($id)
 	{
-	    $id_control = Yii::app()->user->id;
-        $role_control = User::model()->findByPk($id_control)->id_usergroups;    
-   		
-		//language list
+		$model=$this->loadST($id);
+		if(isset($model->guide1_id))
+		{
+           $criteria_tours_link = new CDbCriteria;
+            $criteria_tours_link->condition = 'usersid=:usersid';
+            $criteria_tours_link->params = array(':usersid' => $model->guide1_id);
+            $criteria_tours_link->join = 'LEFT JOIN `seg_guides_tourroutes` ON ((`seg_guides_tourroutes`.`tourroutes_id` = `t`.`id_tour_categories`) AND(`t`.`cityid` = '.$model->city_id.'))';
+            $tours_guide = SegTourroutes::model()->findAll($criteria_tours_link);			
+            $criteria_lan_link = new CDbCriteria;
+            $criteria_lan_link->condition = 'users_id=:users_id';
+            $criteria_lan_link->params = array(':users_id' => $model->guide1_id);
+            $criteria_lan_link->join = 'LEFT JOIN `seg_languages_guides` ON `seg_languages_guides`.`languages_id` = `t`.`id_languages`';
+            $languages_guide = Languages::model()->findAll($criteria_lan_link);
+		}
+		else
+		{
+          $criteria_tours_link = new CDbCriteria;
+          $criteria_tours_link->join = 'LEFT JOIN `seg_guides_tourroutes` ON ((`seg_guides_tourroutes`.`tourroutes_id` = `t`.`id_tour_categories`) AND(`t`.`cityid` = '.$model->city_id.'))';
+          $tours_guide = SegTourroutes::model()->findAll($criteria_tours_link);			
 		$languages_guide = Languages::model()->findAll();
-		//guide list
+			
+		}
+	
 		$criteria_guide = new CDbCriteria;
         $criteria_guide->condition = 'id_usergroups=:id_usergroups';
         $criteria_guide->params = array(':id_usergroups' => 5);
         $guide_list = User::model()->findAll($criteria_guide);
 		
-		$model=$this->loadST($id);
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -298,11 +314,12 @@ class OfficeController extends Controller
 
 	
 	 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
-  	$this->render('sched',array(
+			$this->render('sched',array(
 			'model'=>$model,
+			'tours_guide'=>$tours_guide,
 			'languages_guide'=>$languages_guide,
 			'guide_list'=>$guide_list,
-				'info'=>$test,
+			'info'=>$test,
 	));
 	}
 
