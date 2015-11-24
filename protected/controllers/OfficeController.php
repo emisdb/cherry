@@ -327,7 +327,6 @@ class OfficeController extends Controller
                     $tours_guide = SegTourroutes::model()->findAll($criteria_tours_link);			
                     $languages_guide = Languages::model()->findAll();
 		}
-	
 		$criteria_guide = new CDbCriteria;
         $criteria_guide->condition = 'id_usergroups=:id_usergroups';
         $criteria_guide->params = array(':id_usergroups' => 5);
