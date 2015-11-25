@@ -258,8 +258,9 @@ $(document).ready ( function (){
 
 	 
 function discount(id,k){
-		 k = parseInt(k.replace(/\D+/g,""));//номер строки
-		if(!(document.getElementById('payoption'+k).value >0)) return;
+		 k = parseInt(k.replace(/\D+/g,""));//номер строки 
+                var disval=document.getElementById('payoption'+k).value
+		if(!( disval>0)) return;
 		 var price,val,type;
 		 if(id==""){
 			val = 0;
