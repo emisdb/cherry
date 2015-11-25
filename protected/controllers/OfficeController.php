@@ -307,10 +307,10 @@ class OfficeController extends Controller
 	public function actionSched($id)
 	{
 		$model=$this->loadST($id);
-		if(isset($model->guide1_id))
+/*		if(isset($model->guide1_id))
 		{
                     $criteria_tours_link = new CDbCriteria;
-                     $criteria_tours_link->condition = 'usersid=:usersid';
+                    $criteria_tours_link->condition = 'usersid=:usersid';
                      $criteria_tours_link->params = array(':usersid' => $model->guide1_id);
                      $criteria_tours_link->join = 'LEFT JOIN `seg_guides_tourroutes` ON ((`seg_guides_tourroutes`.`tourroutes_id` = `t`.`id_tour_categories`) AND(`t`.`cityid` = '.$model->city_id.'))';
                      $tours_guide = SegTourroutes::model()->findAll($criteria_tours_link);			
@@ -322,16 +322,28 @@ class OfficeController extends Controller
 		}
 		else
 		{
-                    $criteria_tours_link = new CDbCriteria;
-                    $criteria_tours_link->join = 'LEFT JOIN `seg_guides_tourroutes` ON ((`seg_guides_tourroutes`.`tourroutes_id` = `t`.`id_tour_categories`) AND(`t`.`cityid` = '.$model->city_id.'))';
+*/                  $criteria_tours_link = new CDbCriteria;
+                    $criteria_tours_link->with = array('city'=>array('users'=>array('languages')));
+                    $criteria_tours_link->condition = 'cityid=:id_city';
+                    $criteria_tours_link->params = array(':id_city' =>$model->city_id);
                     $tours_guide = SegTourroutes::model()->findAll($criteria_tours_link);			
-                    $languages_guide = Languages::model()->findAll();
-		}
-		$criteria_guide = new CDbCriteria;
-        $criteria_guide->condition = 'id_usergroups=:id_usergroups';
-        $criteria_guide->params = array(':id_usergroups' => 5);
-        $guide_list = User::model()->findAll($criteria_guide);
-		
+//		}
+ 		$criteria_guide = new CDbCriteria;
+                $criteria_guide->condition = 'cities_id=:id_city';
+                $criteria_guide->params = array(':id_city' =>$model->city_id);
+                $criteria_guide->with = array('users'=>array('contact_ob','languages'));
+                $guide_list = SegGuidesCities::model()->findAll($criteria_guide);
+        $routs=array();
+        $languages=array();
+        $guides=array();
+        $i=0;
+	foreach ($tours_guide as $key => $value) {
+        $routs[$i]=array($value['idseg_tourroutes'],$value['name'],array());
+        foreach ($value as $val) {
+            $routs[$i][2]=array();
+            }
+            $i++;
+        }	
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -348,7 +360,7 @@ class OfficeController extends Controller
 			$this->render('sched',array(
 			'model'=>$model,
 			'tours_guide'=>$tours_guide,
-			'languages_guide'=>$languages_guide,
+//			'languages_guide'=>$languages_guide,
 			'guide_list'=>$guide_list,
 			'info'=>$test,
 	));
@@ -1224,7 +1236,7 @@ class OfficeController extends Controller
 		$gonorar = $gonorar_tour->base_provision+$cifra*$gonorar_tour->guestsMinforVariable;//summa gonorar
 			$command=Yii::app()->db->createCommand();
  //               $command->select('SUM(delta_cash) AS sum');
-                 $command->select('SUM(delta_cash)-(SELECT SUM(delta_cash) FROM cashbox_change_requests WHERE sched_user_id='.$sched->idseg_scheduled_tours.') AS sum');
+                $command->select('(SUM(delta_cash)- IFNULL((SELECT SUM(delta_cash) FROM cashbox_change_requests WHERE sched_user_id='.$sched->idseg_scheduled_tours.'),0)) AS sum');
                 $command->from('cashbox_change_requests');
                 $command->where('id_users=:id', array(':id'=>$id_control));
                 $cashsum= $command->queryScalar();

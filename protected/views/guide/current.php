@@ -46,8 +46,6 @@
 
 				<?php
 				$i=0; 
-				if (count($sched->guidestourinvoices)>0) $id_c = $sched->guidestourinvoices[0]->contact->idcontacts;
-				else $id_c=0;
 				 echo $sched->tourroute_ob['name']." "
 						 .$sched['date']." "
 						 .$sched['starttime'];
@@ -259,8 +257,12 @@ $(document).ready ( function (){
 	 
 function discount(id,k){
 		 k = parseInt(k.replace(/\D+/g,""));//номер строки 
-                var disval=document.getElementById('payoption'+k).value
-		if(!( disval>0)) return;
+                var disval=parseInt(document.getElementById('payoption'+k).value);
+//                var disval=document.getElementById('payoption'+k).value;
+		if(!( disval>0)){
+                    counttotals();
+                    return;
+                }
 		 var price,val,type;
 		 if(id==""){
 			val = 0;

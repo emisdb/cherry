@@ -8,11 +8,19 @@
         <!-- Main content -->
         <section class="content">
 
-<?php $this->renderPartial('_form_schedo',
+    <?php 
+        var_dump($tours_guide);
+        echo "<hr>";
+       var_dump($guide_list);
+      echo "<hr>";
+ 
+
+            $this->renderPartial('_form_schedo',
 		array('model'=>$model, 
-			'tours_guide'=>$tours_guide,
-			'languages_guide'=>$languages_guide,
-			'guide_list'=>$guide_list)); ?>
+                    'tours_guide'=>$tours_guide,
+//                    'languages_guide'=>$languages_guide,
+                    'guide_list'=>$guide_list)); 
+    ?>
 		</section><!-- /.content -->
       </div><!-- /.content-wrapper -->
 

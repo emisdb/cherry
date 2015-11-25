@@ -64,7 +64,8 @@ class User extends CActiveRecord
             'role_ob'=>array(self::BELONGS_TO, 'Usergroups', 'id_usergroups'),
             'contact_ob'=>array(self::BELONGS_TO, 'SegContacts', 'id_contact'),
             'guide_ob'=>array(self::BELONGS_TO, 'SegGuidesdata', 'id_guide'),
-            
+            'languages' => array(self::MANY_MANY, 'Languages', 'seg_languages_guides(users_id, languages_id)'),
+           
             //'id_city'=>array(self::BELONGS_TO, 'SegGuidesdata', 'id_guide'),
            // ''
              

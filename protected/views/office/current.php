@@ -30,9 +30,7 @@
 				<li class="active"> Current Subscriber
 				</li>
 			</ol>	
-			<button id="changebt" type="button" class="btn btn-primary cancel" data-toggle="modal" data-target="#guideModal">
-				Guide's info
-			</button>
+			<button id="changebt" type="button" class="btn btn-primary cancel" data-toggle="modal" data-target="#guideModal">Guide's info</button>
 
 		</section>
 
@@ -44,24 +42,21 @@
 			<div class="row">
 			<div class="col-md-8">
 			<div class="row create">
-			<div class="col-md-4 create-left">
+			<div class="col-md-6 create-left">
 
 				<?php
-				$i=0; 
-				if (count($sched->guidestourinvoices)>0) $id_c = $sched->guidestourinvoices[0]->contact->idcontacts;
-				else $id_c=0;
-				 echo $sched->tourroute_ob['name']." "
-						 .$sched['date']." "
-						 .$sched['starttime'];
+				 echo $sched->user_ob->contact_ob["firstname"]." "
+                                        .$sched->user_ob->contact_ob["surname"]."; "
+                                         .$sched->tourroute_ob['name']."; "
+					 .$sched['date']." "
+					 .$sched['starttime'];
 				 $element = 0; $k=0;$i=1;
 				 ?>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<?php // echo CHtml::link("New tourist","javascript:void(0);",array('onclick'=>'newtourist();')); ?>
 				<?php echo CHtml::link("New tourist",array('book','id_sched'=>$id_sched)); ?>
 			</div>	
-		<div class="col-md-4">
-		</div>
 		</div>
 		<div class="row">
 		<div class="col-md-8">
@@ -260,8 +255,13 @@ $(document).ready ( function (){
 
 	 
 function discount(id,k){
-		 k = parseInt(k.replace(/\D+/g,""));//номер строки
-		if(!(document.getElementById('payoption'+k).value >0)) return;
+		 k = parseInt(k.replace(/\D+/g,""));//номер строки 
+                var disval=parseInt(document.getElementById('payoption'+k).value);
+//                var disval=document.getElementById('payoption'+k).value;
+		if(!( disval>0)){
+                    counttotals();
+                    return;
+                }
 		 var price,val,type;
 		 if(id==""){
 			val = 0;

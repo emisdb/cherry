@@ -66,7 +66,7 @@ class SegTourroutes extends CActiveRecord
 		return array(
             'tour_categories'=>array(self::BELONGS_TO, 'TourCategories', 'id_tour_categories'),
             'city'=>array(self::BELONGS_TO, 'SegCities', 'cityid'),
-		);
+ 	);
 	}
 
 	/**

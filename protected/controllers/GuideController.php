@@ -880,7 +880,7 @@ class GuideController extends Controller
 	{
 	
 		$id_control = Yii::app()->user->id;
-        $guide = User::model()->findByPk($id_control);
+                $guide = User::model()->findByPk($id_control);
 		$sched = SegScheduledTours::model()->with(array('guidestourinvoices'=>array('guidestourinvoicescustomers','contact')))->findByPk($id_sched);
 		if(is_null($sched)) 	throw new CHttpException(404,'The requested tour does not exist.');
 		if($sched->additional_info2) $this->redirect(array('schedule'));
@@ -920,14 +920,18 @@ class GuideController extends Controller
 						$model[$k]->discounttype_id = $_POST['discounttype_id'.$kk];
 						$model[$k]->paymentoptionid = $_POST['payoption'.$kk];
 						$model[$k]->id_invoiceoptions = $_POST['option'.$kk];
-						if($model[$k]->paymentoptionid)
+						if(($model[$k]->paymentoptionid) &&($model[$k]->discounttype_id!=42))
 						{
+	
 							$model[$k]->isPaid = 1;
 							$model[$k]->price = $_POST['price'.$kk];
 							$overAllIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
 							if($model[$k]->paymentoptionid==1) 
 								$cashIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
-					
+						}
+                                                else {
+							$model[$k]->isPaid = 0;
+							$model[$k]->price = 0;
 						}
 	
 						$model[$k]->save();
@@ -1250,7 +1254,7 @@ class GuideController extends Controller
 		if((!is_null($guide->contact_ob['surname'])) && $guide->contact_ob['surname']!=''){$ln = $guide->contact_ob['surname']{0};}else{$ln='0';}
 		$c = $tour->city['seg_cityname']{0};
 		$year = date('y',time());
-       $b = $tour->city['seg_cityname']{0};
+                $b = $tour->city['seg_cityname']{0};
  		$num=0;
 		$criteria_i = new CDbCriteria;
 		$criteria_i->condition = 'guide1_id=:guide1_id AND openTour=:openTour';
@@ -1279,15 +1283,15 @@ class GuideController extends Controller
         $max_i = $max+1;
         foreach ($sched->guidestourinvoices as $invoice) 
        {
-			$model=$invoice->guidestourinvoicescustomers;
-			$overAllIncome=0;
-			$cashIncome=0;
-			$count_inv=0;
-			$invoice_id =  $invoice->idseg_guidesTourInvoices;
+            $model=$invoice->guidestourinvoicescustomers;
+            $overAllIncome=0;
+            $cashIncome=0;
+            $count_inv=0;
+            $invoice_id =  $invoice->idseg_guidesTourInvoices;
             for($k=0;$k<count($model);$k++){
                 $kk=$model[$k]->idseg_guidesTourInvoicesCustomers;
-				if($model[$k]->isPaid == 1)  $count_cust++;
-                $count_inv++;
+                    if($model[$k]->isPaid == 1)  $count_cust++;
+                    $count_inv++;
                 }
                $invoice->status = 1;
                $sum_itog += $invoice->overAllIncome;

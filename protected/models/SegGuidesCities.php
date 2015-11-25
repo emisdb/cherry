@@ -41,10 +41,8 @@ class SegGuidesCities extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-            'cities'=>array(self::BELONGS_TO, 'SegCities', 'cities_id'),
-		);
-		return array(
-            'users'=>array(self::BELONGS_TO, 'User', 'users_id'),
+                 'cities'=>array(self::BELONGS_TO, 'SegCities', 'cities_id'),
+                 'users'=>array(self::BELONGS_TO, 'User', 'users_id'),
 		);
 	}
 
@@ -57,7 +55,7 @@ class SegGuidesCities extends CActiveRecord
 			'idseg_guides_cities' => 'Idseg Guides Cities',
 			'users_id' => 'Users',
 			'cities_id' => 'ID Cities',
-            'cities' => 'Cities'
+                        'cities' => 'Cities'
 		);
 	}
 

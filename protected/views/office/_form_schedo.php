@@ -67,13 +67,27 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 					if($model->language_id)
 						echo $form->textField($model->language_ob,'englishname',array('class'=>"form-control",'disabled'=>'true'));
 					else 
-						echo $form->dropDownList($model,'language_id', CHtml::listData ($languages_guide, "id_languages", "englishname"));
+//						echo $form->dropDownList($model,'language_id', CHtml::listData ($languages_guide, "id_languages", "englishname"));
 					echo $form->error($model,'language_id');
 					?>
 			</div>
 		</div>
 		<div class="col-md-4">
 		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<div class="form-group">
+				<?php
+				 echo $form->labelEx($model,'guide1_id',array('style'=>'padding-right:5px'));
+				 echo $form->dropDownList($model,'guide1_id', $model->city_ob->getUserOptions());
+				 echo $form->error($model,'guide1_id'); 
+			 ?>
+			</div>
+		</div>
+		<div class="col-md-8">
+		</div>
+
 	</div>
 	<div class="row">
 		<div class="col-md-4">
@@ -134,44 +148,6 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-3">
-			<div class="form-group">
-				<?php
-				 echo $form->labelEx($model,'guide1_id',array('style'=>'padding-right:5px'));
-				 echo $form->dropDownList($model,'guide1_id', $model->city_ob->getUserOptions());
-				 echo $form->error($model,'guide1_id'); 
-			 ?>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-group">
-				<?php
-				 echo $form->labelEx($model,'guide2_id',array('style'=>'padding-right:5px'));
-				 echo $form->dropDownList($model,'guide2_id', $model->city_ob->getUserOptions(),array('empty'=>'--'));
-				 echo $form->error($model,'guide2_id'); 
-				 ?>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-group">
-				<?php
-				 echo $form->labelEx($model,'guide3_id',array('style'=>'padding-right:5px'));
-				 echo $form->dropDownList($model,'guide3_id', $model->city_ob->getUserOptions(),array('empty'=>'--'));
-				 echo $form->error($model,'guide3_id'); 
-			 ?>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-group">
-				<?php
-				 echo $form->labelEx($model,'guide4_id',array('style'=>'padding-right:5px'));
-				 echo $form->dropDownList($model,'guide4_id', $model->city_ob->getUserOptions(),array('empty'=>'--'));
-				 echo $form->error($model,'guide4_id'); 
-				 ?>
-			</div>
-		</div>
-	</div>
-	<div class="row">
 		<?php echo $form->labelEx($model,'TNmax_sched'); ?>
 		<?php echo $form->textField($model,'TNmax_sched'); ?>
 		<?php echo $form->error($model,'TNmax_sched'); ?>
@@ -224,13 +200,6 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 		<?php echo $form->textField($model,'cancellationAnnotation',array('size'=>60,'maxlength'=>1500)); ?>
 		<?php echo $form->error($model,'cancellationAnnotation'); ?>
 	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'GN_string'); ?>
-		<?php echo $form->textField($model,'GN_string',array('size'=>60,'maxlength'=>200)); ?>
-		<?php echo $form->error($model,'GN_string'); ?>
-	</div>
-
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>

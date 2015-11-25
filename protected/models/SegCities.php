@@ -94,6 +94,7 @@ class SegCities extends CActiveRecord
 
 		return array(
 			'users' => array(self::MANY_MANY, 'User', 'seg_guides_cities(cities_id, users_id)'),
+			'tourrouts' => array(self::HAS_MANY, 'SegTourroutes', 'cityid'),
 		);
 	}
 		public function getUserOptions()
