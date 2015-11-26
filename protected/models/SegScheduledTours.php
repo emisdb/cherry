@@ -185,7 +185,7 @@ class SegScheduledTours extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
- 		$criteria->order = 'date_now ASC';
+		$sort   = new CSort;
                 $criteria->with = array('user_ob','city_ob','language_ob','tourroute_ob');
                 $criteria->compare('user_ob.id',$this->user_ob,true);
                 $criteria->compare('city_ob.city_id',$this->city_ob,true);
@@ -217,9 +217,14 @@ class SegScheduledTours extends CActiveRecord
 		$criteria->compare('canceledBy',$this->canceledBy);
 		$criteria->compare('cancellationAnnotation',$this->cancellationAnnotation,true);
 		$this->daterange($criteria);
+		$sort->defaultOrder= array(
+            'date_now'=>CSort::SORT_ASC,
+        );
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+                   'pagination'=>false,
+                    'criteria'=>$criteria,
+                    'sort'=>$sort,
 		));
 	}
 
