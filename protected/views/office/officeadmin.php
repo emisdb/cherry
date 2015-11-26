@@ -9,6 +9,65 @@
 
         <!-- Main content -->
         <section class="content">
+<?php $form=$this->beginWidget('CActiveForm', array(
+    'id'=>'date-form',
+    'htmlOptions'=>array(
+	'name'=>'date-form',
+    ),
+//  'name'=>'date-form',
+    'enableAjaxValidation'=>true,
+)); ?>
+		<div class="row">
+			<div class="col-md-1">
+				<b>From :</b>				
+			</div>
+			<div class="col-md-2">
+<?php
+$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+ 				  'name'=>'SegScheduledTours[from_date]',
+				  'attribute'=>'from_date', // Model attribute filed which hold user input
+				  'model'=>$model,            // Model name
+//   'name'=>'from_date',  // name of post parameter
+  //   'value'=>Yii::app()->request->cookies['from_date']->value,  
+	// value comes from cookie after submittion
+     'options'=>array(
+        'showAnim'=>'fold',
+        'dateFormat'=>'yy-mm-dd',
+    ),
+    'htmlOptions'=>array(
+        'style'=>'height:20px;'
+    ),
+));
+?>				
+			</div>
+			<div class="col-md-1">
+				<b>to :</b>				
+			</div>
+			<div class="col-md-2">
+
+<?php
+$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+ 				  'name'=>'SegScheduledTours[to_date]',
+				  'attribute'=>'to_date', // Model attribute filed which hold user input
+				  'model'=>$model,            // Model name
+//    'name'=>'to_date',
+ //    'value'=>Yii::app()->request->cookies['to_date']->value,
+     'options'=>array(
+        'showAnim'=>'fold',
+        'dateFormat'=>'yy-mm-dd',
+ 
+    ),
+    'htmlOptions'=>array(
+        'style'=>'height:20px;'
+    ),
+));
+?>				
+			</div>
+			<div class="col-md-6">
+				<?php echo CHtml::submitButton('Filter'); // submit button ?> 
+			</div>
+		</div>
+<?php $this->endWidget(); ?>	
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'officeadmin-grid',

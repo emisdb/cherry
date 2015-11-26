@@ -1,9 +1,7 @@
 <?php
-
 class OfficeController extends Controller
 {
 	public $layout='//layouts/office_bs';
-
 	/**
 	 * @var CActiveRecord the currently loaded data model instance.
 	 */
@@ -243,15 +241,27 @@ class OfficeController extends Controller
    	public function actionSchedule()
 	{
 		$id_control = Yii::app()->user->id;
-        $languages_guide = Languages::model()->findAll();
-    
-        $model=new SegScheduledTours();
- 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+                $model=new SegScheduledTours();
+ 
+		if(empty($_POST))
+		{
+			$model->from_date = Mainoptions::model()->getCvalue('schf_'.$id_control);
+			$model->to_date = Mainoptions::model()->getCvalue('scht_'.$id_control);
+
+		}
+		 else
+		{
+                        Mainoptions::model()->setCvalue('schf_'.$id_control,$_POST['SegScheduledTours']['from_date']);
+			Mainoptions::model()->setCvalue('scht_'.$id_control,$_POST['SegScheduledTours']['to_date']);
+			$model->from_date = $_POST['SegScheduledTours']['from_date'];
+			$model->to_date = $_POST['SegScheduledTours']['to_date'];
+		}
+	
+    		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
   
 		$this->render('officeadmin',array(
 			'model'=>$model,
 			'id_control'=>$id_control,
-			'languages_guide'=>$languages_guide,
  			'info'=>$test,
 		));
 	}
@@ -306,86 +316,72 @@ class OfficeController extends Controller
 	
 	public function actionSched($id)
 	{
+		$id_control = Yii::app()->user->id;
 		$model=$this->loadST($id);
-/*		if(isset($model->guide1_id))
-		{
-                    $criteria_tours_link = new CDbCriteria;
-                    $criteria_tours_link->condition = 'usersid=:usersid';
-                     $criteria_tours_link->params = array(':usersid' => $model->guide1_id);
-                     $criteria_tours_link->join = 'LEFT JOIN `seg_guides_tourroutes` ON ((`seg_guides_tourroutes`.`tourroutes_id` = `t`.`id_tour_categories`) AND(`t`.`cityid` = '.$model->city_id.'))';
-                     $tours_guide = SegTourroutes::model()->findAll($criteria_tours_link);			
-                     $criteria_lan_link = new CDbCriteria;
-                     $criteria_lan_link->condition = 'users_id=:users_id';
-                     $criteria_lan_link->params = array(':users_id' => $model->guide1_id);
-                     $criteria_lan_link->join = 'LEFT JOIN `seg_languages_guides` ON `seg_languages_guides`.`languages_id` = `t`.`id_languages`';
-                     $languages_guide = Languages::model()->findAll($criteria_lan_link);
-		}
-		else
-		{
-*/                  $criteria_tours_link = new CDbCriteria;
-                    $criteria_tours_link->with = array('tour_categories'=>array('guidestourroutes'=>array('contact_ob','languages')));
-                    $criteria_tours_link->condition = 'cityid=:id_city';
-                    $criteria_tours_link->params = array(':id_city' =>$model->city_id);
-                    $tours_guide = SegTourroutes::model()->findAll($criteria_tours_link);			
-//		}
- 		$criteria_guide = new CDbCriteria;
-                $criteria_guide->condition = 'cities_id=:id_city';
-                $criteria_guide->params = array(':id_city' =>$model->city_id);
-                $criteria_guide->with = array('users'=>array('contact_ob','languages'),'cities'=>array('tourrouts'));
-                $guide_list = SegGuidesCities::model()->findAll($criteria_guide);
-        $routs=array();
-        $languages=array();
-        $guides=array();
-        $i=0;
-	foreach ($tours_guide as $value) {
-        $routs[$i]=array($value['idseg_tourroutes'],$value['name']);
-        foreach ($value['tour_categories']['guidestourroutes'] as $val) {
-            $lan=array();
-            foreach ($val['languages'] as $vall) {
-                $lan[]=array($vall['id_languages'],$vall['englishname']);
-                $key = array_search($vall['id_languages'], array_column($languages, 0));
-                if($key===FALSE){
-                    $languages[]=array($vall['id_languages'],$vall['englishname'],array(array($val['id'],$val['contact_ob']['firstname']." ".$val['contact_ob']['surname'])));
-               }
-                else
-                {
-                    $languages[$key][2][]=array($val['id'],$val['contact_ob']['firstname']." ".$val['contact_ob']['surname']);
-                 }
-            }
-                $key = array_search($val['id'], array_column($guides, 0));
-            if($key===FALSE){
-                $guides[]=array($val['id'],$val['contact_ob']['firstname']." ".$val['contact_ob']['surname'],$lan,array(array($value['idseg_tourroutes'],$value['name'])));
-           }
-            else
-            {
-                $guides[$key][3][]=array($value['idseg_tourroutes'],$value['name']);
-             }
-            $routs[$i][2][]=array($val['id'],$val['contact_ob']['firstname']." ".$val['contact_ob']['surname'],$lan);
-        }	
-         $i++;
-    }
+                $criteria_tours_link = new CDbCriteria;
+                $criteria_tours_link->with = array('tour_categories'=>array('guidestourroutes'=>array('contact_ob','languages')));
+                $criteria_tours_link->condition = 'cityid=:id_city';
+                $criteria_tours_link->params = array(':id_city' =>$model->city_id);
+                $tours_guide = SegTourroutes::model()->findAll($criteria_tours_link);			
+                $routs=array();
+                $languages=array();
+                $guides=array();
+                $i=0;
+                foreach ($tours_guide as $value) 
+                    {
+                        $routs[$i]=array($value['idseg_tourroutes'],$value['name'],array(),array());
+                        foreach ($value['tour_categories']['guidestourroutes'] as $val)
+                        {
+                            $lan=array();
+                            if(!in_array($val['id'], $routs[$i][2])) $routs[$i][2][]=$val['id'];
+                            foreach ($val['languages'] as $vall)
+                            {
+                               if(!in_array($vall['id_languages'], $routs[$i][3])) $routs[$i][3][]=$vall['id_languages'];
+                                $lan[]=$vall['id_languages'];
+                                $key = array_search($vall['id_languages'], array_column($languages, 0));
+                                if($key===FALSE)
+                                {
+                                    $languages[]=array($vall['id_languages'],$vall['englishname'],array($val['id']),array($value['idseg_tourroutes']));
+                                }
+                                else
+                                {
+                                    if(!in_array($val['id'], $languages[$key][2]))
+                                        $languages[$key][2][]=$val['id'];
+                                    if(!in_array($value['idseg_tourroutes'], $languages[$key][3]))
+                                        $languages[$key][3][]=$value['idseg_tourroutes'];
+                                }
+                            }
+                            $key = array_search($val['id'], array_column($guides, 0));
+                            if($key===FALSE)
+                            {
+                                $guides[]=array($val['id'],$val['contact_ob']['firstname']." ".$val['contact_ob']['surname'],$lan,array($value['idseg_tourroutes']));
+                            }
+                            else
+                            {
+                                $guides[$key][3][]=$value['idseg_tourroutes'];
+                            }
+                        }	
+                        $i++;
+                    }
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['SegScheduledTours']))
+        	if(isset($_POST['SegScheduledTours']))
 		{
 			$model->attributes=$_POST['SegScheduledTours'];
 			if($model->save())
 				$this->redirect(array('schedule'));
 		}
-
-	
-	 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
-			$this->render('sched',array(
-			'model'=>$model,
-			'routs'=>$routs,
+                $test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+                $this->render('sched',array(
+                'model'=>$model,
+                'routs'=>$routs,
 //			'tours_guide'=>$tours_guide,
-			'languages'=>$languages,
+                'languages'=>$languages,
 //			'guide_list'=>$guide_list,
-			'guides'=>$guides,
-			'info'=>$test,
-	));
+                'guides'=>$guides,
+                'info'=>$test,
+        	));
 	}
 
 	public function actionShow($id)

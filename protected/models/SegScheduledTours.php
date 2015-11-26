@@ -34,7 +34,9 @@
 
 class SegScheduledTours extends CActiveRecord
 {
-    public $tourroute_id_all = array();
+ 	public $from_date;
+	public $to_date;
+   public $tourroute_id_all = array();
    // public $TNmax_sched_all;
   //  public $duration_all;
     public $language_id_all = array();
@@ -78,10 +80,10 @@ class SegScheduledTours extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-            'city_ob'=>array(self::BELONGS_TO, 'SegCities', 'city_id'),
-            'language_ob'=>array(self::BELONGS_TO, 'Languages', 'language_id'),
-            'tourroute_ob'=>array(self::BELONGS_TO, 'SegTourroutes', 'tourroute_id'),
-            'user_ob'=>array(self::BELONGS_TO, 'User', 'guide1_id'),
+                                'city_ob'=>array(self::BELONGS_TO, 'SegCities', 'city_id'),
+                                'language_ob'=>array(self::BELONGS_TO, 'Languages', 'language_id'),
+                                'tourroute_ob'=>array(self::BELONGS_TO, 'SegTourroutes', 'tourroute_id'),
+                                'user_ob'=>array(self::BELONGS_TO, 'User', 'guide1_id'),
 
  			//'tourroute_all'=>array(self::HAS_MANY, 'SegGuidesTourroutes', array('usersid'=>'guide1_id')),
 			'language_all'=>array(self::HAS_MANY, 'SegLanguagesGuides', array('users_id'=>'guide1_id')),
@@ -156,6 +158,25 @@ class SegScheduledTours extends CActiveRecord
             )
 		));
 	}
+
+		private function daterange($criteria)
+	{
+        $txtd='t.date';
+ 		if(!empty($this->from_date) && empty($this->to_date))
+            {
+                $criteria->addCondition($txtd." >= '".date('Y-m-d H:i:s', strtotime($this->from_date))."'");  
+                            // date is database date column field
+            }
+                    elseif(!empty($this->to_date) && empty($this->from_date))
+            {
+                $criteria->addCondition($txtd." <= '".date('Y-m-d H:i:s', strtotime($this->to_date." 23:59:59"))."'");
+            }
+                    elseif(!empty($this->to_date) && !empty($this->from_date))
+            {
+                $criteria->addCondition($txtd."  >= '".date('Y-m-d H:i:s', strtotime($this->from_date))."' and ".$txtd." <= '".date('Y-m-d H:i:s', strtotime($this->to_date." 23:59:59"))."'");
+            }
+	}
+
 	 
 	 
 	public function search()
@@ -164,21 +185,18 @@ class SegScheduledTours extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
- 		$criteria->order = 'date_now DESC';
-        $criteria->with = array('user_ob','city_ob','language_ob','tourroute_ob');
-        $criteria->compare('user_ob.id',$this->user_ob,true);
-		$criteria->compare('city_ob.city_id',$this->city_ob,true);
-		$criteria->compare('language_ob.language_id',$this->language_ob,true);
-        $criteria->compare('tourroute_ob.tourroute_id',$this->tourroute_ob,true);
-
-
+ 		$criteria->order = 'date_now ASC';
+                $criteria->with = array('user_ob','city_ob','language_ob','tourroute_ob');
+                $criteria->compare('user_ob.id',$this->user_ob,true);
+                $criteria->compare('city_ob.city_id',$this->city_ob,true);
+                $criteria->compare('language_ob.language_id',$this->language_ob,true);
+                $criteria->compare('tourroute_ob.tourroute_id',$this->tourroute_ob,true);
 		$criteria->compare('idseg_scheduled_tours',$this->idseg_scheduled_tours);
 		$criteria->compare('tourroute_id',$this->tourroute_id);
 		$criteria->compare('openTour',$this->openTour);
 		$criteria->compare('TNmax_sched',$this->TNmax_sched);
 		$criteria->compare('duration',$this->duration);
 		$criteria->compare('starttime',$this->starttime,true);
-		$criteria->compare('date',$this->date,true);
 		$criteria->compare('current_subscribers',$this->current_subscribers);
 		$criteria->compare('language_id',$this->language_id);
 		$criteria->compare('guide1_id',$this->guide1_id);
@@ -198,6 +216,7 @@ class SegScheduledTours extends CActiveRecord
 		$criteria->compare('cancellationReason',$this->cancellationReason,true);
 		$criteria->compare('canceledBy',$this->canceledBy);
 		$criteria->compare('cancellationAnnotation',$this->cancellationAnnotation,true);
+		$this->daterange($criteria);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -219,29 +238,29 @@ class SegScheduledTours extends CActiveRecord
 		 }
         $criteria->order = 'date_now DESC, starttime DESC';
         
-         $criteria->with = array('city_ob','language_ob','tourroute_ob');
-		$criteria->compare('city_ob.city_id',$this->city_ob,true);
-		$criteria->compare('language_ob.language_id',$this->language_ob,true);
+        $criteria->with = array('city_ob','language_ob','tourroute_ob');
+	$criteria->compare('city_ob.city_id',$this->city_ob,true);
+	$criteria->compare('language_ob.language_id',$this->language_ob,true);
         $criteria->compare('tourroute_ob.tourroute_id',$this->tourroute_ob,true);
-        	$criteria->compare('idseg_scheduled_tours',$this->idseg_scheduled_tours);
-		$criteria->compare('tourroute_id',$this->tourroute_id);
-		$criteria->compare('openTour',$this->openTour);
-		$criteria->compare('TNmax_sched',$this->TNmax_sched);
-		$criteria->compare('duration',$this->duration);
-		$criteria->compare('starttime',$this->starttime);
-		$criteria->compare('date',$this->date,true);
-		$criteria->compare('current_subscribers',$this->current_subscribers);
-		$criteria->compare('language_id',$this->language_id);
-		$criteria->compare('guide1_id',$this->guide1_id);
-		$criteria->compare('guide2_id',$this->guide2_id);
-		$criteria->compare('guide3_id',$this->guide3_id);
-		$criteria->compare('guide4_id',$this->guide4_id);
-		$criteria->compare('original_starttime',$this->original_starttime,true);
-		$criteria->compare('additional_info',$this->additional_info,true);
-		$criteria->compare('visibility',$this->visibility);
-		$criteria->compare('city_id',$this->city_id);
-		$criteria->compare('isInvoiced_guide1',$this->isInvoiced_guide1);
-		$criteria->compare('isInvoiced_guide2',$this->isInvoiced_guide2);
+        $criteria->compare('idseg_scheduled_tours',$this->idseg_scheduled_tours);
+	$criteria->compare('tourroute_id',$this->tourroute_id);
+	$criteria->compare('openTour',$this->openTour);
+	$criteria->compare('TNmax_sched',$this->TNmax_sched);
+	$criteria->compare('duration',$this->duration);
+	$criteria->compare('starttime',$this->starttime);
+	$criteria->compare('date',$this->date,true);
+	$criteria->compare('current_subscribers',$this->current_subscribers);
+	$criteria->compare('language_id',$this->language_id);
+	$criteria->compare('guide1_id',$this->guide1_id);
+	$criteria->compare('guide2_id',$this->guide2_id);
+	$criteria->compare('guide3_id',$this->guide3_id);
+	$criteria->compare('guide4_id',$this->guide4_id);
+	$criteria->compare('original_starttime',$this->original_starttime,true);
+	$criteria->compare('additional_info',$this->additional_info,true);
+	$criteria->compare('visibility',$this->visibility);
+	$criteria->compare('city_id',$this->city_id);
+	$criteria->compare('isInvoiced_guide1',$this->isInvoiced_guide1);
+	$criteria->compare('isInvoiced_guide2',$this->isInvoiced_guide2);
 		$criteria->compare('isInvoiced_guide3',$this->isInvoiced_guide3);
 		$criteria->compare('isInvoiced_guide4',$this->isInvoiced_guide4);
 		$criteria->compare('additional_info2',$this->additional_info2,true);
@@ -249,12 +268,12 @@ class SegScheduledTours extends CActiveRecord
 		$criteria->compare('cancellationReason',$this->cancellationReason,true);
 		$criteria->compare('canceledBy',$this->canceledBy);
 		$criteria->compare('cancellationAnnotation',$this->cancellationAnnotation,true);
-       	
+       			$this->daterange($criteria);
+
            return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
- 			   'pagination'=>array(
-        'pageSize'=>30,
-    ),
+                          'pagination'=>false,
+// 			   'pagination'=>array('pageSize'=>30, ),
   		));
     }
 
