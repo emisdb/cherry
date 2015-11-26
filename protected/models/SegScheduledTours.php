@@ -99,15 +99,15 @@ class SegScheduledTours extends CActiveRecord
 			'idseg_scheduled_tours' => 'ID',
 			'tourroute_id' => 'Tour route',
 			'openTour' => 'Open Tour',
-			'TNmax_sched' => 'Tnmax Sched',
+			'TNmax_sched' => 'Max Tourist Number',
 			'duration' => 'Duration (minutes)',
 			'starttime' => 'Time',
 			'date_now' => 'Date',
 			'current_subscribers' => 'Gueste',//'Current Subscribers',
 			'language_id' => 'ID Language',
 			'language_ob' => 'Language',
-			'guide1_id' => 'Guide 1',
-            'user_ob' => 'User',
+			'guide1_id' => 'Guide',
+                        'user_ob' => 'User',
 			'guide2_id' => 'Guide 2',
 			'guide3_id' => 'Guide 3',
 			'guide4_id' => 'Guide 4',
@@ -124,7 +124,7 @@ class SegScheduledTours extends CActiveRecord
 			'cancellationReason' => 'Cancellation Reason',
 			'canceledBy' => 'Canceled By',
 			'cancellationAnnotation' => 'Cancellation Annotation',
-            'tourroute_ob' =>'Tour route',
+                        'tourroute_ob' =>'Tour route',
 		);
 	}
 

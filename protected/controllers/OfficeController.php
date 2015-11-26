@@ -323,7 +323,7 @@ class OfficeController extends Controller
 		else
 		{
 */                  $criteria_tours_link = new CDbCriteria;
-                    $criteria_tours_link->with = array('city'=>array('users'=>array('languages')));
+                    $criteria_tours_link->with = array('tour_categories'=>array('guidestourroutes'=>array('contact_ob','languages')));
                     $criteria_tours_link->condition = 'cityid=:id_city';
                     $criteria_tours_link->params = array(':id_city' =>$model->city_id);
                     $tours_guide = SegTourroutes::model()->findAll($criteria_tours_link);			
@@ -331,19 +331,39 @@ class OfficeController extends Controller
  		$criteria_guide = new CDbCriteria;
                 $criteria_guide->condition = 'cities_id=:id_city';
                 $criteria_guide->params = array(':id_city' =>$model->city_id);
-                $criteria_guide->with = array('users'=>array('contact_ob','languages'));
+                $criteria_guide->with = array('users'=>array('contact_ob','languages'),'cities'=>array('tourrouts'));
                 $guide_list = SegGuidesCities::model()->findAll($criteria_guide);
         $routs=array();
         $languages=array();
         $guides=array();
         $i=0;
-	foreach ($tours_guide as $key => $value) {
-        $routs[$i]=array($value['idseg_tourroutes'],$value['name'],array());
-        foreach ($value as $val) {
-            $routs[$i][2]=array();
+	foreach ($tours_guide as $value) {
+        $routs[$i]=array($value['idseg_tourroutes'],$value['name']);
+        foreach ($value['tour_categories']['guidestourroutes'] as $val) {
+            $lan=array();
+            foreach ($val['languages'] as $vall) {
+                $lan[]=array($vall['id_languages'],$vall['englishname']);
+                $key = array_search($vall['id_languages'], array_column($languages, 0));
+                if($key===FALSE){
+                    $languages[]=array($vall['id_languages'],$vall['englishname'],array(array($val['id'],$val['contact_ob']['firstname']." ".$val['contact_ob']['surname'])));
+               }
+                else
+                {
+                    $languages[$key][2][]=array($val['id'],$val['contact_ob']['firstname']." ".$val['contact_ob']['surname']);
+                 }
             }
-            $i++;
+                $key = array_search($val['id'], array_column($guides, 0));
+            if($key===FALSE){
+                $guides[]=array($val['id'],$val['contact_ob']['firstname']." ".$val['contact_ob']['surname'],$lan,array(array($value['idseg_tourroutes'],$value['name'])));
+           }
+            else
+            {
+                $guides[$key][3][]=array($value['idseg_tourroutes'],$value['name']);
+             }
+            $routs[$i][2][]=array($val['id'],$val['contact_ob']['firstname']." ".$val['contact_ob']['surname'],$lan);
         }	
+         $i++;
+    }
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -359,9 +379,11 @@ class OfficeController extends Controller
 	 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
 			$this->render('sched',array(
 			'model'=>$model,
-			'tours_guide'=>$tours_guide,
-//			'languages_guide'=>$languages_guide,
-			'guide_list'=>$guide_list,
+			'routs'=>$routs,
+//			'tours_guide'=>$tours_guide,
+			'languages'=>$languages,
+//			'guide_list'=>$guide_list,
+			'guides'=>$guides,
 			'info'=>$test,
 	));
 	}

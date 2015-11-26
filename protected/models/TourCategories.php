@@ -27,8 +27,9 @@ class TourCategories extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-		  
-		);
+          'guidestourroutes'=>array(self::MANY_MANY, 'User', 'seg_guides_tourroutes(tourroutes_id, usersid)'),
+           'tourroutes' => array(self::HAS_MANY, 'SegTourroutes', 'id_tour_categories'),
+ 		);
 	}
 
 	/**

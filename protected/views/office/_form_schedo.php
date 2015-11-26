@@ -53,7 +53,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 					if($model->tourroute_id)
 						echo $form->textField($model->tourroute_ob,'name',array('class'=>"form-control",'disabled'=>'true'));
 					else 
-						echo $form->dropDownList($model,'tourroute_id', CHtml::listData ($tours_guide, "idseg_tourroutes", "name"));
+						echo $form->dropDownList($model,'tourroute_id', CHtml::listData ($routs, 0, 1),
+                                                        array('empty'=>'--','id'=>'route','onChange'=>'do_route(value)'));
 					
 					echo $form->error($model,'tourroute_id');
 				?>
@@ -67,27 +68,23 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 					if($model->language_id)
 						echo $form->textField($model->language_ob,'englishname',array('class'=>"form-control",'disabled'=>'true'));
 					else 
-//						echo $form->dropDownList($model,'language_id', CHtml::listData ($languages_guide, "id_languages", "englishname"));
+                                            echo $form->dropDownList($model,'language_id', CHtml::listData ($languages, 0, 1),
+                                                        array('empty'=>'--','id'=>'language','onChange'=>'do_lang(value)'));
 					echo $form->error($model,'language_id');
 					?>
 			</div>
 		</div>
 		<div class="col-md-4">
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-4">
 			<div class="form-group">
 				<?php
 				 echo $form->labelEx($model,'guide1_id',array('style'=>'padding-right:5px'));
-				 echo $form->dropDownList($model,'guide1_id', $model->city_ob->getUserOptions());
+				 echo $form->dropDownList($model,'guide1_id', CHtml::listData ($guides, 0, 1),
+                                                 array('empty'=>'--','id'=>'guide','onChange'=>'do_guide(value)'));
+			
 				 echo $form->error($model,'guide1_id'); 
 			 ?>
 			</div>
 		</div>
-		<div class="col-md-8">
-		</div>
-
 	</div>
 	<div class="row">
 		<div class="col-md-4">
@@ -148,21 +145,38 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 		</div>
 	</div>
 	<div class="row">
-		<?php echo $form->labelEx($model,'TNmax_sched'); ?>
-		<?php echo $form->textField($model,'TNmax_sched'); ?>
-		<?php echo $form->error($model,'TNmax_sched'); ?>
+		<div class="col-md-4">
+			<div class="form-group">
+                		<?php
+                                echo $form->labelEx($model,'TNmax_sched');
+                                echo $form->textField($model,'TNmax_sched');
+                                echo $form->error($model,'TNmax_sched'); 
+                                ?>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="form-group">
+                		<?php
+                                    echo $form->labelEx($model,'duration');
+                                    echo $form->textField($model,'duration'); 
+                                    echo $form->error($model,'duration'); 
+                                ?>
+			</div>
+		</div>
+                <div class="col-md-4"></div>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'duration'); ?>
-		<?php echo $form->textField($model,'duration'); ?>
-		<?php echo $form->error($model,'duration'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'additional_info'); ?>
-		<?php echo $form->textField($model,'additional_info',array('size'=>60,'maxlength'=>1000)); ?>
-		<?php echo $form->error($model,'additional_info'); ?>
+		<div class="col-md-6">
+			<div class="form-group">
+                		<?php
+                                     echo $form->labelEx($model,'additional_info');
+                                      echo $form->textArea($model,'additional_info',array('size'=>60,'maxlength'=>1000)); 
+                                      echo $form->error($model,'additional_info');
+                                ?>
+			</div>
+		</div>
+               <div class="col-md-6"></div>
 	</div>
 
 	<div class="row">
@@ -187,12 +201,6 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 		<?php echo $form->labelEx($model,'cancellationReason'); ?>
 		<?php echo $form->textField($model,'cancellationReason',array('size'=>60,'maxlength'=>250)); ?>
 		<?php echo $form->error($model,'cancellationReason'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'canceledBy'); ?>
-		<?php echo $form->textField($model,'canceledBy'); ?>
-		<?php echo $form->error($model,'canceledBy'); ?>
 	</div>
 
 	<div class="row">
