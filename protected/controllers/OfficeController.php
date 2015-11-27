@@ -241,7 +241,8 @@ class OfficeController extends Controller
    	public function actionSchedule()
 	{
 		$id_control = Yii::app()->user->id;
-                $model=new SegScheduledTours();
+        $model=new SegScheduledTours('search');
+		$model->unsetAttributes();  // clear any default values
  
 		if(empty($_POST))
 		{
@@ -251,11 +252,14 @@ class OfficeController extends Controller
 		}
 		 else
 		{
-                        Mainoptions::model()->setCvalue('schf_'.$id_control,$_POST['SegScheduledTours']['from_date']);
+            Mainoptions::model()->setCvalue('schf_'.$id_control,$_POST['SegScheduledTours']['from_date']);
 			Mainoptions::model()->setCvalue('scht_'.$id_control,$_POST['SegScheduledTours']['to_date']);
 			$model->from_date = $_POST['SegScheduledTours']['from_date'];
 			$model->to_date = $_POST['SegScheduledTours']['to_date'];
+			$model->attributes=$_POST['SegScheduledTours'];
 		}
+		if(isset($_GET['Exp']))
+			$model->attributes=$_GET['Exp'];
 	
     		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
   
@@ -286,7 +290,7 @@ class OfficeController extends Controller
   
 	$this->render('bonus',array(
 			'model'=>$model,
-				'info'=>$test,
+			'info'=>$test,
 	));
 	}
 

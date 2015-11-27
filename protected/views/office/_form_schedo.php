@@ -45,42 +45,32 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-4">
+		<div class="col-md-3">
 			<div class="form-group">
 				<?php
 					echo $form->labelEx($model,'tourroute_id'); 
-//					echo $form->textField($model,'tourroute_id');  
-					if($model->tourroute_id)
-						echo $form->textField($model->tourroute_ob,'name',array('class'=>"form-control",'disabled'=>'true'));
-					else 
-						echo $form->dropDownList($model,'tourroute_id', CHtml::listData ($routs, 0, 1),
-                                                        array('empty'=>'--','id'=>'route','onChange'=>'do_route(value,0)'));
-					
+					echo $form->dropDownList($model,'tourroute_id', CHtml::listData ($routs, 0, 1),
+	                    array('empty'=>'--','id'=>'route','onChange'=>'do_route(value,0)'));
 					echo $form->error($model,'tourroute_id');
 				?>
 			</div>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-3">
 			<div class="form-group">
 				<?php 
 					echo $form->labelEx($model,'language_id'); 
-//					echo $form->textField($model,'language_id');
-					if($model->language_id)
-						echo $form->textField($model->language_ob,'englishname',array('class'=>"form-control",'disabled'=>'true'));
-					else 
-                                            echo $form->dropDownList($model,'language_id', CHtml::listData ($languages, 0, 1),
-                                                        array('empty'=>'--','id'=>'language','onChange'=>'do_route(value,1)'));
+					echo $form->dropDownList($model,'language_id', CHtml::listData ($languages, 0, 1),
+						array('empty'=>'--','id'=>'language','onChange'=>'do_route(value,1)'));
 					echo $form->error($model,'language_id');
 					?>
 			</div>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-6">
 			<div class="form-group">
 				<?php
 				 echo $form->labelEx($model,'guide1_id',array('style'=>'padding-right:5px'));
 				 echo $form->dropDownList($model,'guide1_id', CHtml::listData ($guides, 0, 1),
-                                                 array('empty'=>'--','id'=>'guide','onChange'=>'do_route(value,2)'));
-			
+                        array('empty'=>'--','id'=>'guide','onChange'=>'do_route(value,2)'));
 				 echo $form->error($model,'guide1_id'); 
 			 ?>
 			</div>
@@ -145,69 +135,92 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-4">
+		<div class="col-md-3">
 			<div class="form-group">
-                		<?php
-                                echo $form->labelEx($model,'TNmax_sched');
-                                echo $form->textField($model,'TNmax_sched');
-                                echo $form->error($model,'TNmax_sched'); 
-                                ?>
+			<?php
+					echo $form->labelEx($model,'TNmax_sched');
+					echo $form->textField($model,'TNmax_sched');
+					echo $form->error($model,'TNmax_sched'); 
+					?>
 			</div>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-3">
 			<div class="form-group">
-                		<?php
-                                    echo $form->labelEx($model,'duration');
-                                    echo $form->textField($model,'duration'); 
-                                    echo $form->error($model,'duration'); 
-                                ?>
+			<?php
+						echo $form->labelEx($model,'duration');
+						echo $form->textField($model,'duration'); 
+						echo $form->error($model,'duration'); 
+					?>
 			</div>
 		</div>
-                <div class="col-md-4"></div>
-	</div>
-
-	<div class="row">
-		<div class="col-md-6">
+        <div class="col-md-3">
 			<div class="form-group">
-                		<?php
-                                     echo $form->labelEx($model,'additional_info');
-                                      echo $form->textArea($model,'additional_info',array('size'=>60,'maxlength'=>1000)); 
-                                      echo $form->error($model,'additional_info');
-                                ?>
+			<?php 
+				echo $form->labelEx($model,'visibility'); 
+				echo $form->textField($model,'visibility'); 
+				echo $form->error($model,'visibility');
+				?>
 			</div>
 		</div>
-               <div class="col-md-6"></div>
+        <div class="col-md-3"></div>
+	</div>
+	<div class="row">
+		<div class="col-md-8">
+			<div class="form-group">
+			<?php
+			echo $form->labelEx($model,'additional_info');
+			 echo $form->textArea($model,'additional_info',array('size'=>60,'maxlength'=>1000)); 
+			 echo $form->error($model,'additional_info');
+			?>
+			</div>
+		</div>
+        <div class="col-md-4"></div>
+	</div>
+	<div class="row">
+		<div class="col-md-8">
+			<div class="form-group">
+			<?php
+			echo $form->labelEx($model,'cancellationAnnotation');
+			 echo $form->textArea($model,'cancellationAnnotation',array('size'=>60,'maxlength'=>1500)); 
+			 echo $form->error($model,'cancellationAnnotation');
+		   ?>
+			</div>
+		</div>
+        <div class="col-md-4"></div>
+	</div>
+	<div class="row">
+		<div class="col-md-2">
+			<div class="form-group">
+				<?php
+					echo $form->labelEx($model,'isCanceled');
+					echo $form->textField($model,'isCanceled');
+					echo $form->error($model,'isCanceled');
+				?>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-group">
+				<?php 
+					echo $form->labelEx($model,'cancelReason'); 
+					echo $form->dropDownList($model,'cancelReason', CHtml::listData(CancellationReason::model()->findAll(),'id', 'name'),
+						array('empty'=>'--','id'=>'canceltype','onChange'=>'clickcr(this.value)'));
+					echo $form->error($model,'cancelReason');
+				?>
+			</div>
+		</div>
+        <div class="col-md-4">
+			<div class="form-group">
+				<?php
+					echo $form->labelEx($model,'cancellationReason');
+					echo $form->textArea($model,'cancellationReason',array('size'=>60,'maxlength'=>250)); 
+					echo $form->error($model,'cancellationReason');
+				?>
+			</div>
+		
+		</div>
+       <div class="col-md-3"></div>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'visibility'); ?>
-		<?php echo $form->textField($model,'visibility'); ?>
-		<?php echo $form->error($model,'visibility'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'additional_info2'); ?>
-		<?php echo $form->textField($model,'additional_info2',array('size'=>60,'maxlength'=>1000)); ?>
-		<?php echo $form->error($model,'additional_info2'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'isCanceled'); ?>
-		<?php echo $form->textField($model,'isCanceled'); ?>
-		<?php echo $form->error($model,'isCanceled'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'cancellationReason'); ?>
-		<?php echo $form->textField($model,'cancellationReason',array('size'=>60,'maxlength'=>250)); ?>
-		<?php echo $form->error($model,'cancellationReason'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'cancellationAnnotation'); ?>
-		<?php echo $form->textField($model,'cancellationAnnotation',array('size'=>60,'maxlength'=>1500)); ?>
-		<?php echo $form->error($model,'cancellationAnnotation'); ?>
-	</div>
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>

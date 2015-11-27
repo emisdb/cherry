@@ -67,26 +67,33 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
 				<?php echo CHtml::submitButton('Filter'); // submit button ?> 
 			</div>
 		</div>
-<?php $this->endWidget(); ?>	
+
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'officeadmin-grid',
+      'ajaxUpdate'=>false,
 	'dataProvider'=>$model->search(),//$model->search_root(),
+    'enablePagination'=>false,
 	'filter'=>$model,
 	'columns'=>array(
     	'idseg_scheduled_tours',
-		array(
+		'guidename',
+/*			'date_now',
+	array(
             'name'=>'user_ob',	
             'value'=>'$data->user_ob["username"]',
             //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
         ),
-        array(
+ */       array(
             'name'=>'date_now',	
             'value'=>'date("d.m.Y",$data->date_now)',
-            //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
+            'filter'=>false,
+             //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
         ),
 		'starttime',
-  
+		'langname',
+		'trname',
+/*  
     	array(
             'name'=>'language_ob',
             'value'=>'$data->language_ob["englishname"]',
@@ -98,13 +105,14 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
             'value'=>'$data->tourroute_ob["name"]',
             //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
         ),
-  
+ 
          array(
             'name'=>'current_subscribers',
             'value'=>'$data->current_subscribers."/".$data->TNmax_sched',  
             //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
         ),
-    // 'current_subscribers',
+ */
+	// 'current_subscribers',
 	//	'date_now',
 		array(
 			'class'=>'CButtonColumn',
@@ -140,5 +148,6 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
 		),
 	),
 )); ?>
-    </section><!-- /.content -->
+ <?php $this->endWidget(); ?>	
+		</section><!-- /.content -->
       </div><!-- /.content-wrapper -->
