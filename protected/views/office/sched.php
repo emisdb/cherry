@@ -27,75 +27,140 @@
         
 $(document).ready ( function (){
 });
-function do_route(val)
+function do_route(val,where)
 {
-    var ix, found, nix, ixx;
-    var rguis, rlans;
-    var guide_i=document.getElementById("guide");
-    var lang_i=document.getElementById("language");
+    var ix, nix, ig,jg,il,jl;
+    var rguis, rlans, x_a;
+	var guide_i;
+    var lang_i;
+	switch(where)
+	{
+		case 0:
+			x_a=routs;
+			guide_i=document.getElementById("guide");
+			lang_i=document.getElementById("language");
+			ig=1; jg=2; il=2; jl=2;
+			break;
+		case 1:
+			x_a=langs;
+			guide_i=document.getElementById("guide");
+			lang_i=document.getElementById("route");
+			ig=0; jg=2; il=2; jl=3;
+			break;
+		case 2:
+			x_a=guides;
+			guide_i=document.getElementById("language");
+			lang_i=document.getElementById("route");
+			ig=0; jg=3; il=1; jl=3;
+			break;
+	}
     var guide_v=guide_i.value;
     var lang_v=lang_i.value;
-     for(ix=0;ix<routs.length;ix++)
+ 	if (val==""){
+	           for (var i=0; i<guide_i.options.length; i++){
+					if(checkarr(ig,jg,guide_i.options[i].value))
+						guide_i.options[i].style.display='block';
+			   }
+            for (var i=0; i<lang_i.options.length; i++){
+					if(checkarr(il,jl,lang_i.options[i].value))
+						lang_i.options[i].style.display='block';
+			   }
+ 	
+	}
+	else{
+     for(ix=0;ix<x_a.length;ix++)
     {
-        if(routs[ix][0]==val)
+        if(x_a[ix][0]==val)
         {
             
-            rguis=routs[ix][2];
-            rlans=routs[ix][3];
+            rguis=x_a[ix][2];
+            rlans=x_a[ix][3];
             for (var i=0; i<guide_i.options.length; i++){
                 if(guide_i.options[i].value==""){
                     nix=i;
                     continue;
                 }
-                found=false;
-                for(ixx=0;ixx<rguis.length;ixx++)
-                {
-                     if(guide_i.options[i].value==rguis[ixx]){
-                         found=true;
-                         break;
-                     }
-                 }
-                 if(found) guide_i.options[i].style.display='block';
-                 else {
-                     guide_i.options[i].style.display='none';
+				if(rguis.indexOf(guide_i.options[i].value)<0)
+				{
+                    guide_i.options[i].style.display='none';
                      if(guide_i.options[i].value==guide_v){
                           guide_i.options[nix].selected=true;
                      }
- 
-                 }
+				}
+				else
+				{
+					if(checkarr(ig,jg,guide_i.options[i].value))
+						guide_i.options[i].style.display='block';
+					else
+					{
+						guide_i.options[i].style.display='none';
+						 if(guide_i.options[i].value==guide_v){
+							  guide_i.options[nix].selected=true;
+						 }
+					}
+				}
+
             }
            for (var i=0; i<lang_i.options.length; i++){
                 if(lang_i.options[i].value==""){
                     nix=i;
                     continue;
                 }
-                found=false;
-                for(ixx=0;ixx<rlans.length;ixx++)
-                {
-                     if(lang_i.options[i].value==rlans[ixx]){
-                         found=true;
-                         break;
-                     }
-                 }
-                 if(found) lang_i.options[i].style.display='block';
-                 else {
-                     lang_i.options[i].style.display='none';
+				if(rlans.indexOf(lang_i.options[i].value)<0)
+				{
+                    lang_i.options[i].style.display='none';
                      if(lang_i.options[i].value==lang_v){
                           lang_i.options[nix].selected=true;
                      }
- 
-                 }
+				}
+				else
+				{
+					if(checkarr(il,jl,lang_i.options[i].value))
+						lang_i.options[i].style.display='block';
+					else
+					{
+						lang_i.options[i].style.display='none';
+						 if(lang_i.options[i].value==lang_v){
+							  lang_i.options[nix].selected=true;
+						 }
+					}
+				}
+
             }
+
             break;
         }
     }
+	}
 }
-function do_lang(val)
+function checkarr(where, oftype, what)
 {
-    alert(val);
+	var x_v, x_a, x;
+	switch(where)
+	{
+		case 0:
+			x_a=routs;
+			x_v=document.getElementById("route").value;
+			break;
+		case 1:
+			x_a=langs;
+			x_v=document.getElementById("language").value;
+			break;
+		case 2:
+			x_a=guides;
+			x_v=document.getElementById("guide").value;
+			break;
+	}
+	if(x_v=="") return true;
+	for(x in x_a)
+	{
+		if (x_a[x][0]==x_v)
+		{
+			if (x_a[x][oftype].indexOf(what)<0) return false;
+			else return true;
+		}
+	}
+	return false;
 }
-function do_guide(val)
-{
-    alert(val);
-}
+
 </script>

@@ -54,7 +54,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 						echo $form->textField($model->tourroute_ob,'name',array('class'=>"form-control",'disabled'=>'true'));
 					else 
 						echo $form->dropDownList($model,'tourroute_id', CHtml::listData ($routs, 0, 1),
-                                                        array('empty'=>'--','id'=>'route','onChange'=>'do_route(value)'));
+                                                        array('empty'=>'--','id'=>'route','onChange'=>'do_route(value,0)'));
 					
 					echo $form->error($model,'tourroute_id');
 				?>
@@ -69,7 +69,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 						echo $form->textField($model->language_ob,'englishname',array('class'=>"form-control",'disabled'=>'true'));
 					else 
                                             echo $form->dropDownList($model,'language_id', CHtml::listData ($languages, 0, 1),
-                                                        array('empty'=>'--','id'=>'language','onChange'=>'do_lang(value)'));
+                                                        array('empty'=>'--','id'=>'language','onChange'=>'do_route(value,1)'));
 					echo $form->error($model,'language_id');
 					?>
 			</div>
@@ -79,7 +79,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 				<?php
 				 echo $form->labelEx($model,'guide1_id',array('style'=>'padding-right:5px'));
 				 echo $form->dropDownList($model,'guide1_id', CHtml::listData ($guides, 0, 1),
-                                                 array('empty'=>'--','id'=>'guide','onChange'=>'do_guide(value)'));
+                                                 array('empty'=>'--','id'=>'guide','onChange'=>'do_route(value,2)'));
 			
 				 echo $form->error($model,'guide1_id'); 
 			 ?>
