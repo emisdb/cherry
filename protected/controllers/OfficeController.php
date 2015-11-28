@@ -349,16 +349,19 @@ class OfficeController extends Controller
 		}
 		 else
 		{
-			Mainoptions::model()->setCvalue('schf_'.$id_control,$_POST['SegScheduledTours']['from_date']);
-			Mainoptions::model()->setCvalue('scht_'.$id_control,$_POST['SegScheduledTours']['to_date']);
-			$newrec=$_POST['newrecord'];
-	
-			if($newrec){
-				$id=$_POST['new_city'];
-						$this->redirect(array('schednew','id'=>$id));
-				return;
+			if(isset($_POST['newrecord']))
+			{
+				$newrec=$_POST['newrecord'];
+
+				if($newrec){
+					$id=$_POST['new_city'];
+							$this->redirect(array('schednew','id'=>$id));
+					return;
+				}
 			}
-			$model->from_date = $_POST['SegScheduledTours']['from_date'];
+				Mainoptions::model()->setCvalue('schf_'.$id_control,$_POST['SegScheduledTours']['from_date']);
+			Mainoptions::model()->setCvalue('scht_'.$id_control,$_POST['SegScheduledTours']['to_date']);
+		$model->from_date = $_POST['SegScheduledTours']['from_date'];
 			$model->to_date = $_POST['SegScheduledTours']['to_date'];
 			$model->attributes=$_POST['SegScheduledTours'];
  		}
@@ -388,7 +391,7 @@ class OfficeController extends Controller
     $guides=array();
 
 		foreach($dataReader as $row) { 
-			if(is_null($routs[$row['tid']]))
+			if(!array_key_exists ($row['tid'],$routs))
 			{
 				$routs[$row['tid']]=array($row['tid'],$row['tnam'],array($row['lid']),array($row['uid']),$row['tmax'],);
 			}
@@ -398,7 +401,7 @@ class OfficeController extends Controller
 				if(!in_array($row['uid'],$routs[$row['tid']][3]))
 						$routs[$row['tid']][3][]=$row['uid'];
 			}
-			if(is_null($languages[$row['lid']]))
+			if(!array_key_exists ($row['lid'],$languages))
 			{
 				$languages[$row['lid']]=array($row['lid'],$row['lnam'],array($row['tid']),array($row['uid']));
 			}
@@ -408,7 +411,7 @@ class OfficeController extends Controller
 				if(!in_array($row['uid'],$languages[$row['lid']][3]))
 						$languages[$row['lid']][3][]=$row['uid'];
 			}
-			if(is_null($guides[$row['uid']]))
+			if(!array_key_exists ($row['uid'],$guides))
 			{
 				$guides[$row['uid']]=array($row['uid'],$row['unam'],array($row['tid']),array($row['lid']));
 			}

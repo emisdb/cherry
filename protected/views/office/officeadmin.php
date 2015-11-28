@@ -15,7 +15,7 @@
 		<input type="hidden" name="newrecord" id="newrecord" value="0">
 		<div class="create" style="text-align: left;">New record for 
 		<?php
-		echo CHtml::dropDownList('new_city',$city, CHtml::listData (SegCities::model()->findAll(), 'idseg_cities', 'seg_cityname'));
+		echo CHtml::dropDownList('new_city',0, CHtml::listData (SegCities::model()->findAll(), 'idseg_cities', 'seg_cityname'));
 		echo CHtml::link("create","javascript:void(0);",array('onclick'=>'newtourist();'));
 		$this->endWidget();
 		?>
