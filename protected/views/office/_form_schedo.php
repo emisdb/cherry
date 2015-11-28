@@ -49,7 +49,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 			<div class="form-group">
 				<?php
 					echo $form->labelEx($model,'tourroute_id'); 
-					echo $form->dropDownList($model,'tourroute_id', CHtml::listData ($routs, 0, 1),
+					echo $form->dropDownList($model,'tourroute_id', CHtml::listData (array_values($arrays[0]), 0, 1),
 	                    array('empty'=>'--','id'=>'route','onChange'=>'do_route(value,0)'));
 					echo $form->error($model,'tourroute_id');
 				?>
@@ -59,7 +59,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 			<div class="form-group">
 				<?php 
 					echo $form->labelEx($model,'language_id'); 
-					echo $form->dropDownList($model,'language_id', CHtml::listData ($languages, 0, 1),
+					echo $form->dropDownList($model,'language_id', CHtml::listData (array_values($arrays[1]), 0, 1),
 						array('empty'=>'--','id'=>'language','onChange'=>'do_route(value,1)'));
 					echo $form->error($model,'language_id');
 					?>
@@ -69,7 +69,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 			<div class="form-group">
 				<?php
 				 echo $form->labelEx($model,'guide1_id',array('style'=>'padding-right:5px'));
-				 echo $form->dropDownList($model,'guide1_id', CHtml::listData ($guides, 0, 1),
+				 echo $form->dropDownList($model,'guide1_id', CHtml::listData (array_values($arrays[2]), 0, 1),
                         array('empty'=>'--','id'=>'guide','onChange'=>'do_route(value,2)'));
 				 echo $form->error($model,'guide1_id'); 
 			 ?>
@@ -139,7 +139,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 			<div class="form-group">
 			<?php
 					echo $form->labelEx($model,'TNmax_sched');
-					echo $form->textField($model,'TNmax_sched');
+					echo $form->textField($model,'TNmax_sched',array("id"=>"maxsched"));
 					echo $form->error($model,'TNmax_sched'); 
 					?>
 			</div>

@@ -105,8 +105,16 @@
                                 <div class="guide-result">
                                     <!-- raschet -->
                                     <!--< $count_tochki = $tour->current_subscribers;?>-->
-                                    <? $count_tochki = $scheduled->tour_i;?>
-                                    <? if($scheduled->TNmax_sched==null){ $count_sched = 0;}else{$count_sched=$scheduled->current_subscribers;}?>
+                                     <?php
+									if($scheduled->TNmax_sched==null)
+										{ $count_sched = 0;
+											$count_tochki = $scheduled->tour_i;
+										}
+										else
+											{$count_sched=$scheduled->current_subscribers;
+											$count_tochki = $scheduled->TNmax_sched;
+											}
+										?>
                                    
                                     <!-- vivod -->
                                     <div style="float: left;margin-right: 20px;">
@@ -288,8 +296,17 @@
                                 </div>
                                 <div class="guide-result">
                                     <!-- raschet -->
-                                    <? $count_tochki = $tour->TNmax;?>
-                                    <? if($scheduled->TNmax_sched==null){ $count_sched = 0;}else{$count_sched=$scheduled->current_subscribers;}?>
+                                     <?php
+									if($scheduled->TNmax_sched==null)
+										{ $count_sched = 0;
+											$count_tochki = $scheduled->tour_i;
+										}
+										else
+											{$count_sched=$scheduled->current_subscribers;
+											$count_tochki = $scheduled->TNmax_sched;
+											}
+										?>
+                                   
                                     <!-- vivod -->
                                     <div style="float: left;margin-right: 20px;">
                                     <? $j=0;
@@ -470,8 +487,17 @@
                                 </div>
                                 <div class="guide-result">
                                     <!-- raschet -->
-                                    <? $count_tochki = $tour->TNmax;?>
-                                    <? if($scheduled->TNmax_sched==null){ $count_sched = 0;}else{$count_sched=$scheduled->current_subscribers;}?>
+                                     <?php
+									if($scheduled->TNmax_sched==null)
+										{ $count_sched = 0;
+											$count_tochki = $scheduled->tour_i;
+										}
+										else
+											{$count_sched=$scheduled->current_subscribers;
+											$count_tochki = $scheduled->TNmax_sched;
+											}
+										?>
+                                   
                                     <!-- vivod -->
                                     <div style="float: left;margin-right: 20px;">
                                     <? $j=0;

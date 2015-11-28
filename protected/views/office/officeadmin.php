@@ -121,13 +121,13 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
             'value'=>'$data->tourroute_ob["name"]',
             //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
         ),
- 
+  */
          array(
             'name'=>'current_subscribers',
             'value'=>'$data->current_subscribers."/".$data->TNmax_sched',  
             //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
         ),
- */
+
 	// 'current_subscribers',
 	//	'date_now',
 		array(

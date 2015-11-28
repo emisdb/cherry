@@ -2,7 +2,7 @@
      <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-<h1>Update ScheduledTours <?php echo $model->idseg_scheduled_tours; ?></h1>
+<h1>Update Scheduled Tour <?php echo $model->idseg_scheduled_tours; ?></h1>
      </section>
 
         <!-- Main content -->
@@ -13,24 +13,30 @@
  
             $this->renderPartial('_form_schedo',
 		array('model'=>$model, 
-                    'routs'=>$routs,
-                    'languages'=>$languages,
-                    'guides'=>$guides)); 
+                    'arrays'=>$arrays,
+ 					)); 
     ?>
 		</section><!-- /.content -->
       </div><!-- /.content-wrapper -->
-    <script type="text/javascript">
+	     <script type="text/javascript">
       <?php
-          echo "var routs=".json_encode($routs).";\n";
-          echo "var langs=".json_encode($languages).";\n";
-          echo "var guides=".json_encode($guides).";\n";
+          echo "var routs=".json_encode($arrays[0]).";\n";
+          echo "var langs=".json_encode($arrays[1]).";\n";
+          echo "var guides=".json_encode($arrays[2]).";\n";
     ?>
-        
+        var mutex=1;
 $(document).ready ( function (){
+	val=document.getElementById("route").value;
+	if (val!="") do_route(val,0);
+	val=document.getElementById("language").value;
+	if (val!="") do_route(val,1);
+	val=document.getElementById("guide").value;
+	if (val!="") do_route(val,2);
+	mutex=0;
 });
 function do_route(val,where)
 {
-    var ix, nix, ig,jg,il,jl;
+    var nix, ig,jg,il,jl;
     var rguis, rlans, x_a;
 	var guide_i;
     var lang_i;
@@ -38,21 +44,21 @@ function do_route(val,where)
 	{
 		case 0:
 			x_a=routs;
-			guide_i=document.getElementById("guide");
-			lang_i=document.getElementById("language");
-			ig=1; jg=2; il=2; jl=2;
+			guide_i=document.getElementById("language");
+			lang_i=document.getElementById("guide");
+			ig=2; jg=3; il=1; jl=3;
 			break;
 		case 1:
 			x_a=langs;
-			guide_i=document.getElementById("guide");
-			lang_i=document.getElementById("route");
-			ig=0; jg=2; il=2; jl=3;
+			guide_i=document.getElementById("route");
+			lang_i=document.getElementById("guide");
+			ig=2; jg=2; il=0; jl=3;
 			break;
 		case 2:
 			x_a=guides;
-			guide_i=document.getElementById("language");
-			lang_i=document.getElementById("route");
-			ig=0; jg=3; il=1; jl=3;
+			guide_i=document.getElementById("route");
+			lang_i=document.getElementById("language");
+			ig=1; jg=2; il=0; jl=2;
 			break;
 	}
     var guide_v=guide_i.value;
@@ -69,13 +75,9 @@ function do_route(val,where)
  	
 	}
 	else{
-     for(ix=0;ix<x_a.length;ix++)
-    {
-        if(x_a[ix][0]==val)
-        {
-            
-            rguis=x_a[ix][2];
-            rlans=x_a[ix][3];
+            rguis=x_a[val][2];
+            rlans=x_a[val][3];
+			if((where==0)&&(mutex==0)){document.getElementById("maxsched").value=x_a[val][4];}
             for (var i=0; i<guide_i.options.length; i++){
                 if(guide_i.options[i].value==""){
                     nix=i;
@@ -129,14 +131,11 @@ function do_route(val,where)
 
             }
 
-            break;
-        }
-    }
 	}
 }
 function checkarr(where, oftype, what)
 {
-	var x_v, x_a, x;
+	var x_v, x_a;
 	switch(where)
 	{
 		case 0:
@@ -153,15 +152,9 @@ function checkarr(where, oftype, what)
 			break;
 	}
 	if(x_v=="") return true;
-	for(x in x_a)
-	{
-		if (x_a[x][0]==x_v)
-		{
-			if (x_a[x][oftype].indexOf(what)<0) return false;
-			else return true;
-		}
-	}
-	return false;
+	if (x_a[x_v][oftype].indexOf(what)<0) return false;
+	else return true;
+
 }
 
 </script>
