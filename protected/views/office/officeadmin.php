@@ -6,6 +6,20 @@
 
 <h1>Scheduled Tours</h1>	
        </section>
+		<?php
+		$this->beginWidget('CActiveForm', array(
+			'id'=>'current-subscriber-form',
+			'enableAjaxValidation'=>false,
+		)); 
+		?>
+		<input type="hidden" name="newrecord" id="newrecord" value="0">
+		<div class="create" style="text-align: left;">New record for 
+		<?php
+		echo CHtml::dropDownList('new_city',$city, CHtml::listData (SegCities::model()->findAll(), 'idseg_cities', 'seg_cityname'));
+		echo CHtml::link("create","javascript:void(0);",array('onclick'=>'newtourist();'));
+		$this->endWidget();
+		?>
+		</div>
 
         <!-- Main content -->
         <section class="content">
@@ -14,7 +28,6 @@
     'htmlOptions'=>array(
 	'name'=>'date-form',
     ),
-//  'name'=>'date-form',
     'enableAjaxValidation'=>true,
 )); ?>
 		<div class="row">
@@ -75,6 +88,9 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
 	'dataProvider'=>$model->search(),//$model->search_root(),
     'enablePagination'=>false,
 	'filter'=>$model,
+   'htmlOptions'=>array(
+	'style'=>'padding-top: 0px;',
+    ),
 	'columns'=>array(
     	'idseg_scheduled_tours',
 		'guidename',
@@ -151,3 +167,9 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
  <?php $this->endWidget(); ?>	
 		</section><!-- /.content -->
       </div><!-- /.content-wrapper -->
+	  <script type="text/javascript">
+	function newtourist() {
+	document.forms['current-subscriber-form']['newrecord'].value=1;
+	document.forms['current-subscriber-form'].submit();
+	}
+</script>

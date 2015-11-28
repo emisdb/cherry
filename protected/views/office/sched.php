@@ -9,6 +9,7 @@
         <section class="content">
 
     <?php 
+		print_r($tours_guide);
  
             $this->renderPartial('_form_schedo',
 		array('model'=>$model, 

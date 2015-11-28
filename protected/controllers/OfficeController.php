@@ -240,6 +240,7 @@ class OfficeController extends Controller
   }
    	public function actionSchedule()
 	{
+		$newrec=0;
 		$id_control = Yii::app()->user->id;
         $model=new SegScheduledTours('search');
 		$model->unsetAttributes();  // clear any default values
@@ -252,15 +253,18 @@ class OfficeController extends Controller
 		}
 		 else
 		{
-            Mainoptions::model()->setCvalue('schf_'.$id_control,$_POST['SegScheduledTours']['from_date']);
+			$newrec=$_POST['newrecord'];
+			if($newrec){
+				$id=$_POST['new_city'];
+				$this->doSched($id);
+				return;
+			}
+           Mainoptions::model()->setCvalue('schf_'.$id_control,$_POST['SegScheduledTours']['from_date']);
 			Mainoptions::model()->setCvalue('scht_'.$id_control,$_POST['SegScheduledTours']['to_date']);
 			$model->from_date = $_POST['SegScheduledTours']['from_date'];
 			$model->to_date = $_POST['SegScheduledTours']['to_date'];
 			$model->attributes=$_POST['SegScheduledTours'];
 		}
-		if(isset($_GET['Exp']))
-			$model->attributes=$_GET['Exp'];
-	
     		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
   
 		$this->render('officeadmin',array(
@@ -268,6 +272,131 @@ class OfficeController extends Controller
 			'id_control'=>$id_control,
  			'info'=>$test,
 		));
+	}
+	public function doSched($id)
+	{
+		$command= Yii::app()->db->createCommand("SELECT seg_tourroutes.idseg_tourroutes AS tid, seg_tourroutes.name AS tnam,
+														seg_guides_tourroutes.usersid AS uid, CONCAT(seg_contacts.firstname,' ',seg_contacts.surname) AS unam,
+														seg_languages_guides.languages_id AS lid, tbl_languages.englishname AS lnam
+													FROM ((((((seg_tourroutes INNER JOIN seg_guides_tourroutes ON seg_tourroutes.id_tour_categories=seg_guides_tourroutes.tourroutes_id)
+														INNER JOIN seg_guides_cities ON seg_guides_tourroutes.usersid=seg_guides_cities.users_id)
+														INNER JOIN seg_languages_guides ON seg_guides_tourroutes.usersid=seg_languages_guides.users_id)
+														INNER JOIN tbl_user ON seg_guides_tourroutes.usersid=tbl_user.id)
+														INNER JOIN seg_contacts ON seg_contacts.idcontacts=tbl_user.id_contact)
+														INNER JOIN tbl_languages ON seg_languages_guides.languages_id=tbl_languages.id_languages)
+												WHERE seg_tourroutes.cityid=".$id." AND seg_guides_cities.cities_id=".$id);
+		$dataReader=$command->queryAll();
+	$routs=array();
+    $languages=array();
+    $guides=array();
+
+		foreach($dataReader as $row) { 
+			if(is_null($routs[$row['tid']]))
+			{
+				$routs[$row['tid']]=array($row['tid'],$row['tnam'],array($row['lid']),array($row['uid']));
+			}
+			else{
+				if(!in_array($row['lid'],$routs[$row['tid']][2]))
+						$routs[$row['tid']][2][]=$row['lid'];
+				if(!in_array($row['uid'],$routs[$row['tid']][3]))
+						$routs[$row['tid']][3][]=$row['uid'];
+			}
+			if(is_null($languages[$row['lid']]))
+			{
+				$languages[$row['lid']]=array($row['lid'],$row['lnam'],array($row['tid']),array($row['uid']));
+			}
+			else{
+				if(!in_array($row['tid'],$languages[$row['lid']][2]))
+						$languages[$row['lid']][2][]=$row['tid'];
+				if(!in_array($row['uid'],$languages[$row['lid']][3]))
+						$languages[$row['lid']][3][]=$row['uid'];
+			}
+			if(is_null($guides[$row['uid']]))
+			{
+				$guides[$row['uid']]=array($row['uid'],$row['unam'],array($row['tid']),array($row['lid']));
+			}
+			else{
+				if(!in_array($row['tid'],$guides[$row['uid']][2]))
+						$guides[$row['uid']][2][]=$row['tid'];
+				if(!in_array($row['lid'],$guides[$row['uid']][3]))
+						$guides[$row['uid']][3][]=$row['lid'];
+			}
+		}
+		$model=array($routs,$languages,$guides);
+            $test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+                $this->render('test',array(
+                'model'=>$model,
+                 'info'=>$test,
+        	));
+
+	}
+	public function doSchedo($id)
+	{
+		$id_control = Yii::app()->user->id;
+		$model= new SegScheduledTours();
+ 		$model->city_id=$id;
+        $criteria_tours_link = new CDbCriteria;
+       $criteria_tours_link->select = 'idseg_tourroutes,name';
+ 		
+        $criteria_tours_link->with = array('tour_categories'=>array('guidestourroutes'=>array('cities','contact_ob','languages')));
+//        $criteria_tours_link->condition = 'cityid=:id_city AND seg_guides_cities.cities_id=:cities_id';
+        $criteria_tours_link->condition = 'cityid=:id_city';
+        $criteria_tours_link->params = array(':id_city' =>$id);
+                $tours_guide = SegTourroutes::model()->findAll($criteria_tours_link);			
+                $routs=array();
+                $languages=array();
+                $guides=array();
+                $i=0;
+                foreach ($tours_guide as $value) 
+                    {
+                        $routs[$i]=array($value['idseg_tourroutes'],$value['name'],array(),array());
+                        foreach ($value['tour_categories']['guidestourroutes'] as $val)
+                        {
+                            $lan=array();
+                            if(!in_array($val['id'], $routs[$i][2])) $routs[$i][2][]=$val['id'];
+                            foreach ($val['languages'] as $vall)
+                            {
+                               if(!in_array($vall['id_languages'], $routs[$i][3])) $routs[$i][3][]=$vall['id_languages'];
+                                $lan[]=$vall['id_languages'];
+                                $key = array_search($vall['id_languages'], array_column($languages, 0));
+                                if($key===FALSE)
+                                {
+                                    $languages[]=array($vall['id_languages'],$vall['englishname'],array($val['id']),array($value['idseg_tourroutes']));
+                                }
+                                else
+                                {
+                                    if(!in_array($val['id'], $languages[$key][2]))
+                                        $languages[$key][2][]=$val['id'];
+                                    if(!in_array($value['idseg_tourroutes'], $languages[$key][3]))
+                                        $languages[$key][3][]=$value['idseg_tourroutes'];
+                                }
+                            }
+                            $key = array_search($val['id'], array_column($guides, 0));
+                            if($key===FALSE)
+                            {
+                                $guides[]=array($val['id'],$val['contact_ob']['firstname']." ".$val['contact_ob']['surname'],$lan,array($value['idseg_tourroutes']));
+                            }
+                            else
+                            {
+                                $guides[$key][3][]=$value['idseg_tourroutes'];
+                            }
+                        }	
+                        $i++;
+                    }
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+                $test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+                $this->render('sched',array(
+                'model'=>$model,
+                'routs'=>$routs,
+//			'tours_guide'=>$tours_guide,
+                'languages'=>$languages,
+//			'guide_list'=>$guide_list,
+                'guides'=>$guides,
+                'info'=>$test,
+        	));
 	}
    	public function actionDeleteST($id)
 	{
@@ -292,6 +421,97 @@ class OfficeController extends Controller
 			'model'=>$model,
 			'info'=>$test,
 	));
+	}
+	public function actionCr()
+	{
+		$model=new CancellationReason('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['CancellationReason']))
+			$model->attributes=$_GET['CancellationReason'];
+	 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+ 
+		$this->render('admin_cr',array(
+			'model'=>$model,
+				'info'=>$test,
+	));
+	}
+	/**
+	 * Creates a new model.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 */
+	public function actionCreatecr()
+	{
+		$model=new CancellationReason;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['CancellationReason']))
+		{
+			$model->attributes=$_POST['CancellationReason'];
+			if($model->save())
+				$this->redirect(array('cr'));
+		}
+	 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+ 
+		$this->render('create_cr',array(
+			'model'=>$model,
+				'info'=>$test,
+	));
+	}
+
+	/**
+	 * Updates a particular model.
+	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id the ID of the model to be updated
+	 */
+	public function actionUpdatecr($id)
+	{
+		$model=$this->loadCR($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['CancellationReason']))
+		{
+			$model->attributes=$_POST['CancellationReason'];
+			if($model->save())
+					$this->redirect(array('cr'));
+	}
+	 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+ 
+		$this->render('update_cr',array(
+			'model'=>$model,
+				'info'=>$test,
+	));
+	}
+
+	/**
+	 * Deletes a particular model.
+	 * If deletion is successful, the browser will be redirected to the 'admin' page.
+	 * @param integer $id the ID of the model to be deleted
+	 */
+	public function actionDeleteCR($id)
+	{
+		$this->loadCR($id)->delete();
+
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax']))
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('cr'));
+	}
+	/**
+	 * Returns the data model based on the primary key given in the GET variable.
+	 * If the data model is not found, an HTTP exception will be raised.
+	 * @param integer $id the ID of the model to be loaded
+	 * @return CancellationReason the loaded model
+	 * @throws CHttpException
+	 */
+	public function loadCR($id)
+	{
+		$model=CancellationReason::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
 	}
 
 	 

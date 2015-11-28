@@ -18,7 +18,6 @@ body{
       font-family: Roman;
       color:#000000	
 }
-
 .t-main-1{
     color:#242527;
     font-family: Lt;
@@ -518,7 +517,7 @@ select::-ms-expand {
 */
  
  
-/****delete голубой обводка******/
+/****delete РіРѕР»СѓР±РѕР№ РѕР±РІРѕРґРєР°******/
 a:active, a:focus { outline: none; }
 
 input, textarea {outline:none;}

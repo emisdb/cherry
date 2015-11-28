@@ -42,10 +42,13 @@
 				<?php echo CHtml::link("<i class='fa fa-laptop'></i> <span>Return to the site</span>", "/"); ?>
             </li>
              <li <?php echo (Yii::app()->controller->action->id=='user') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-table'></i><span>Users</span>", array('admin')); ?>
+				<?php echo CHtml::link("<i class='fa fa-user'></i><span>Users</span>", array('admin')); ?>
             </li>
              <li <?php echo (Yii::app()->controller->action->id=='bonus') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-table'></i><span>Discount</span>", array('bonus')); ?>
+				<?php echo CHtml::link("<i class='fa fa-chevron-down'></i><span>Discount</span>", array('bonus')); ?>
+            </li>
+             <li <?php echo (Yii::app()->controller->action->id=='cr') ? "class=\"active\"" : "" ; ?>>
+				<?php echo CHtml::link("<i class='fa fa-sign-out'></i><span>Cancellation Reason</span>", array('cr')); ?>
             </li>
              <li <?php echo (Yii::app()->controller->action->id=='schedule') ? "class=\"active\"" : "" ; ?>>
 				<?php echo CHtml::link("<i class='fa fa-table'></i><span>Schedule</span>", array('schedule')); ?>
