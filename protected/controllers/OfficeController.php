@@ -216,6 +216,35 @@ class OfficeController extends Controller
   			'info'=>$test,
 				));
   }
+	public function actionUcontact($id,$id_user)
+	{
+	    $id_control = Yii::app()->user->id;
+        $update_user = User::model()->findByPk($id_user);
+            
+        $criteria = new CDbCriteria;
+        	$criteria->condition = 'id=:id';
+        	$criteria->params = array(':id' => $id_user);
+        	$id_contact = User::model()->find($criteria)->id_contact;
+			
+    		$model=$this->loadContact($id_contact);
+    
+    		// Uncomment the following line if AJAX validation is needed
+    		// $this->performAjaxValidation($model);
+    
+    		if(isset($_POST['SegContacts']))
+    		{
+    			$model->attributes=$_POST['SegContacts'];
+           		if($model->save())
+                          $this->redirect(array('profile'));
+    		}
+    		$test=array('guide'=>$model,'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+  
+    		$this->render('contact',array(
+    			'model'=>$model,'id_user'=>$id,
+				'update_user'=>$update_user,
+  			'info'=>$test,
+				));
+        }
    	public function actionDeleteST($id)
 	{
 		$this->loadST($id)->delete();

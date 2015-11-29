@@ -7,6 +7,19 @@
 
         <!-- Main content -->
         <section class="content">
+            
+<?php if($model->id != Yii::app()->user->id) {
+    echo '<div class="create">';
+    echo CHtml::link('Update contact', array('ucontact','id'=>$model->id_contact,'id_user'=>$model->id));
+    echo '</div>';
+    if($model->id_guide!=0){
+        echo '<div class="create">';
+        echo CHtml::link('Update guide info', array('guide','id'=>$model->id_guide,'id_user'=>$model->id));
+        echo '</div>';
+        }
+    }
+    ?>
+
 <?php $this->renderPartial('_form_user', array('model'=>$model)); ?>
 		</section><!-- /.content -->
       </div><!-- /.content-wrapper -->
