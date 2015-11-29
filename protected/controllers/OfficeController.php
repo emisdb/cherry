@@ -211,7 +211,7 @@ class OfficeController extends Controller
   		$test=array('guide'=>$model,'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
   
     		$this->render('contact',array(
-    			'model'=>$model,'id_user'=>$id_user,
+    			'model'=>$model,'id_user'=>$id,
 				'update_user'=>$update_user,
   			'info'=>$test,
 				));

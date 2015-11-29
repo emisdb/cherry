@@ -110,11 +110,7 @@
 
 	<div class="row buttons">
         <button class="btn btn-primary" type="submit"><?php echo 'Save'; ?></button>
-        <?php if($model->idcontacts != Yii::app()->user->id) {?>
-            <button class="btn btn-primary cancel"><a href="<?php echo Yii::app()->request->baseUrl; ?>/user/update/id/<?php echo $id_user;?>"><?php echo 'Cancel'; ?></a></button>
-        <?php }else{?>
-            <button class="btn btn-primary cancel"><a href="<?php echo Yii::app()->request->baseUrl; ?>/user/profile"><?php echo 'Cancel'; ?></a></button>
-        <?php }?>
+ 		<button class="btn btn-primary cancel"><?php echo CHtml::link("Cancel", array("profile")) ?></button>
     </div>
 
 
