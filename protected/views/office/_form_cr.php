@@ -32,7 +32,8 @@
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+        <button class="btn btn-primary" type="submit"><?php echo $model->isNewRecord ? 'New record' : 'Save'; ?></button>
+	<button class="btn btn-primary cancel"><?php echo CHtml::link("Cancel", array("cr")) ?></button>
 	</div>
 
 <?php $this->endWidget(); ?>

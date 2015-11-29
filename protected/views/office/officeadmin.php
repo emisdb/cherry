@@ -1,3 +1,7 @@
+<style>
+	.table_scheduled_pdf,.grid-view table.items tbody tr.table_scheduled_pdf:hover{ background:red;  color:#fff; font-weight: bold; }
+	.table_scheduled{ background:#eeeeee; }
+</style>
  <?php $this->renderPartial('_top', array('info'=>$info)); ?>
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
@@ -82,11 +86,14 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
 		</div>
 
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php 
+    $datetime = time();
+    $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'officeadmin-grid',
       'ajaxUpdate'=>false,
 	'dataProvider'=>$model->search(),//$model->search_root(),
-    'enablePagination'=>false,
+        'rowCssClassExpression' => '$data->openTour || $data->date_now > '.$datetime.' ? "table_scheduled" : "table_scheduled_pdf"', 
+	    'enablePagination'=>false,
 	'filter'=>$model,
    'htmlOptions'=>array(
 	'style'=>'padding-top: 0px;',
@@ -109,6 +116,7 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
 		'starttime',
 		'langname',
 		'trname',
+            'isCanceled',
 /*  
     	array(
             'name'=>'language_ob',

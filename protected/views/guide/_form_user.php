@@ -62,7 +62,7 @@
 
 	<div class="row buttons">
         <button class="btn btn-primary" type="submit"><?php echo $model->isNewRecord ? 'New record' : 'Save'; ?></button>
-		<button class="btn btn-primary cancel"><?php echo CHtml::link("Cancel", array("profile")) ?></button>
+	<button class="btn btn-primary cancel"><?php echo CHtml::link("Cancel", array("profile")) ?></button>
     </div>
 <?php $this->endWidget(); ?>
 

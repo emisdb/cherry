@@ -23,7 +23,7 @@ $datetime = time();
                     <?php
                         $this->widget('zii.widgets.jui.CJuiDatePicker',array(
                             'name'=>'publishDate',
- 								'value'=>date("d.m.Y",strtotime($date)),
+ 			'value'=>date("d.m.Y",strtotime($date)),
                             // additional javascript options for the date picker plugin
                             'options'=>array(
                                'showAnim'=>'fold',
