@@ -86,10 +86,11 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 				  'name'=>'SegScheduledTours[date]',
 				  'attribute'=>'date', // Model attribute filed which hold user input
 				  'model'=>$model,            // Model name
-				  'value'=>$model->isNewRecord ? date('dd.mm.yy') : '',
+//				  'value'=>$model->isNewRecord ? date('dd.mm.yy') : '',
+				  'value'=>$model->isNewRecord ? date('yy-mm-dd') : '',
 					'options'=>array(
 						'showAnim'=>'fold',
-						'dateFormat' => 'dd.mm.yy',
+						'dateFormat' => 'yy-mm-dd',
  					),
 					
 //				  'fontSize'=>'0.8em'

@@ -681,11 +681,19 @@ class OfficeController extends Controller
 						$model[$k]->discounttype_id = $_POST['discounttype_id'.$kk];
 						$model[$k]->paymentoptionid = $_POST['payoption'.$kk];
 						$model[$k]->id_invoiceoptions = $_POST['option'.$kk];
-						if($model[$k]->paymentoptionid)$model[$k]->isPaid = 1;
-						if($model[$k]->paymentoptionid)$model[$k]->price = $_POST['price'.$kk];
-						$overAllIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
-						if($model[$k]->paymentoptionid==1) $cashIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
-					
+						if(($model[$k]->paymentoptionid) &&($model[$k]->discounttype_id!=42))
+						{
+	
+							$model[$k]->isPaid = 1;
+							$model[$k]->price = $_POST['price'.$kk];
+							$overAllIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
+							if($model[$k]->paymentoptionid==1) 
+								$cashIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
+						}
+                                                else {
+							$model[$k]->isPaid = 0;
+							$model[$k]->price = 0;
+						}
 						$model[$k]->save();
 						
 					}
