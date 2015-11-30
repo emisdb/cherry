@@ -245,7 +245,60 @@ class OfficeController extends Controller
   			'info'=>$test,
 				));
         }
-   	public function actionDeleteST($id)
+ 	public function actionGuide($id,$id_user)
+	{
+	    $id_control = Yii::app()->user->id;
+        $update_user = User::model()->findByPk($id_user);
+   		$model=$this->loadGuideData($id);
+		
+		$criteria_user=new CDbCriteria;
+		$criteria_user->condition='id_guide=:id_guide';
+		$criteria_user->params=array(':id_guide'=>$model->idseg_guidesdata);
+		$id_user = User::model()->find($criteria_user)->id;
+
+		$criteria_guidestourroutes=new CDbCriteria;
+        $criteria_guidestourroutes->condition='usersid=:usersid';
+        $criteria_guidestourroutes->params=array(':usersid'=>$id_user);
+  		$istourroutes = count(SegGuidesTourroutes::model()->findAll($criteria_guidestourroutes));
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['SegGuidesdata']))
+		{
+			$model->attributes=$_POST['SegGuidesdata'];
+            $lnk_to_picture_old = $model->lnk_to_picture;
+            $model->image = CUploadedFile::getInstance($model,'image');
+            
+           // print_r( $_POST['SegGuidesdata']);
+            // print_r( $model->image);
+            
+            if($model->image!=""){
+                $name_uniqid = uniqid();
+                //$lnk_to_picture_old = $model->lnk_to_picture;
+                $model->lnk_to_picture = $name_uniqid;
+            }
+			if($model->save()){
+                if($model->image!=""){
+                    if(($lnk_to_picture_old!="")or($lnk_to_picture_old!=NULL))unlink('image/guide/'.$lnk_to_picture_old);
+                    $file = 'image/guide/'.$model->lnk_to_picture;
+                    $model->image->saveAs($file);
+                }
+				$this->redirect(array('userUpdate','id'=>$id_user));
+            }
+		}
+
+	  		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+ 	$this->render('update_gd',array(
+			'model'=>$model,
+			'id_user'=>$id_user,
+			'update_user'=>$update_user,
+			'istourroutes'=>$istourroutes,
+	 		'info'=>$test,
+	));
+	}
+  	public function actionDeleteST($id)
 	{
 		$this->loadST($id)->delete();
 
@@ -896,7 +949,11 @@ class OfficeController extends Controller
 				}
 			}
 		$num = $num+1;
-		$sched->GN_string = $fn.$ln.$c.'/'.$id_control.'/'.$year.'/'.$num;		
+//		$sched->GN_string = $fn.$ln.$c.'/'.$id_control.'/'.$year.'/'.$num;
+		if($sched->GN_string=="")
+		{
+			$sched->GN_string = $fn.$ln.$c.'/'.$year.'/'.$num;	
+		}
 		$sched->openTour = 1;//create pdf
 			//tourroutes
 		$criteria_tourroutes = new CDbCriteria;
@@ -969,13 +1026,14 @@ class OfficeController extends Controller
 		$forpdf['gonorar_vat']=$gonorar_vat;
 		$forpdf['firma']=$firma;
 		$forpdf['cifra']=$cifra;
+		
 		$forpdf['base_provision'] = number_format($tourroutes->base_provision, 2, '.', ' ');
 		$forpdf['guestsMinforVariable'] = number_format($tourroutes->guestsMinforVariable, 2, '.', ' ');
 		$forpdf['gonorar_zero'] = number_format($gonorar, 2, '.', ' ');
 		$forpdf['cashBefore'] = number_format($cashnow+$gonorar-$sum_bar, 2, '.', ' '); 
 		$forpdf['sum_bar_zero'] = number_format($sum_bar, 2, '.', ' '); 
 		$forpdf['cashnow_zero'] = number_format($cashnow, 2, '.', ' '); 
-		$forpdf['delta_cash_zero'] = number_format($cashnew->delta_cash, 2, '.', ' ');
+		$forpdf['delta_cash_zero'] = number_format($sum_bar-$gonorar, 2, '.', ' ');
 		$forpdf['cashnow_enter'] = $forpdf['cashnow_zero']- $forpdf['gonorar_zero'];
 		$name_pdf2=$this->doPDF($sched, $forpdf);
 //		var_dump($mails);return false;
@@ -989,7 +1047,6 @@ class OfficeController extends Controller
 			}
 	        $this->redirect( Yii::app()->createUrl('/filespdf/'.$name_pdf2.'.pdf') );
 	}
-
 	protected function doPDF($sched,$invoice)
 	{
 		$date_format = strtotime($sched->date);
@@ -1287,7 +1344,7 @@ class OfficeController extends Controller
 						  <td style="text-align:right;">'.$forpdf['sum_bar_zero'].'&nbsp;&euro;</td>
 						</tr>
 						<tr>
-						  <td colspan="2" style="font-weight:bold;">von&nbsp;'.$forpdf['cashnow_enter'].'&nbsp;&euro;</td>
+						  <td colspan="2" style="font-weight:bold;">von&nbsp;'.$forpdf['cashnow_zero'].'&nbsp;&euro;</td>
 						  <td>Total fees</td>
 						  <td>&nbsp;</td>
 						  <td style="text-align:right;">'.$forpdf['gonorar_zero'].'&nbsp;&euro;</td>
@@ -1303,7 +1360,7 @@ class OfficeController extends Controller
 						  <td>&nbsp;</td>
 						  <td>&nbsp;</td>
 						  <td colspan="2">Cash new: am '.$date_format.';'.$time_format.'</td>
-						  <td style="text-align:right;">'.$forpdf['cashnow_enter'].'&nbsp;&euro;</td>
+						  <td style="text-align:right;">'.$forpdf['cashnow_zero'].'&nbsp;&euro;</td>
 						</tr>
 						<tr>
 						  <td>&nbsp;</td>
@@ -1427,6 +1484,13 @@ class OfficeController extends Controller
 	public function loadContact($id)
 	{
 		$model=SegContacts::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+	public function loadGuideData($id)
+	{
+		$model=SegGuidesdata::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;

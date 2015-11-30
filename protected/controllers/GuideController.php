@@ -1267,7 +1267,8 @@ class GuideController extends Controller
 				}
 			}
 		$num = $num+1;
-		$sched->GN_string = $fn.$ln.$c.'/'.$id_control.'/'.$year.'/'.$num;		
+//		$sched->GN_string = $fn.$ln.$c.'/'.$id_control.'/'.$year.'/'.$num;		
+		$sched->GN_string = $fn.$ln.$c.'/'.$year.'/'.$num;		
 		$sched->openTour = 1;//create pdf
 			//tourroutes
 		$criteria_tourroutes = new CDbCriteria;
