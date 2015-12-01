@@ -27,6 +27,9 @@ class Bookq extends CFormModel
 	{
 		return array(
 			array('firstname, lastname, city, country, phone, email', 'required'),
+			array('firstname, lastname, phone, additional_address, country, city, house, street', 'length', 'max'=>45),
+			array('email', 'length', 'max'=>100),
+			array('postalcode', 'length', 'max'=>11),
 			array('email','email'),
 			array('tickets','numerical' ),
 			array('tour, language, firstname, lastname, city, country, phone, email, cat_hidden, tickets, tickets1, tickets2 , tickets3, street, house, additional_address, postalcode', 'safe'),
