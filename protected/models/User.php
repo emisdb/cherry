@@ -228,10 +228,10 @@ class User extends CActiveRecord
 			'*',
 			'cityname'=>array('asc'=>'cities.seg_cityname',
 							'desc'=>'cities.seg_cityname DESC', 
-							label=>'City'),
+							'label'=>'City'),
 			'guidename'=>array('asc'=>'contact_ob.firstname, contact_ob.surname',
 							'desc'=>'contact_ob.firstname DESC, contact_ob.surname DESC', 
-							label=>'Guide\'s name'),
+							'label'=>'Guide\'s name'),
 		);
 
 		return new CActiveDataProvider($this, array(
