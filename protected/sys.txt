@@ -39,3 +39,7 @@ For production:
 
 Задачи:
     1. Сделать active в меню
+
+milestone 6:
+1. all labels on the user grid are about guides, but they include other roles.
+2. count the cashbox is erroneous - they include transfer money that are not approved

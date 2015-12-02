@@ -18,17 +18,33 @@
 
     $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'user-grid',
-	'dataProvider'=>$modelsearch,//$model->search_root(),
+      'ajaxUpdate'=>false,
+//	'ajaxUrl'=> Yii::app()->request->getUrl(),
+		'dataProvider'=>$modelsearch,//$model->search_root(),
 	'filter'=>$model,
 	'columns'=>array(
-        array(
+/*
+ *         array(
             'name'=>'role_ob',
             'value'=>'$data->role_ob->groupname',
             'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
             ),
-            'username',
-            'profile',
-            array(
+*/          'guidename',
+		        array(
+            'name'=>'status',
+			'value'=>array($model,'statuslabel'),
+            ),
+		
+            'cityname',
+                              array(
+					'name'=>'paySum',
+					'type'=>'raw',
+//					'header'=>'Опл.',
+					'value'=>"Yii::app()->numberFormatter->formatCurrency(\$data->paySum, '')",
+					'filter'=>true, // Set the filter to false when date range searching
+					'htmlOptions'=>array('style' => 'text-align: right;'),
+				),
+				array(
                 'class'=>'CButtonColumn',
                 'template'=>'{update}{delete}',
                 'buttons' => array(

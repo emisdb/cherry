@@ -13,7 +13,7 @@
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'bonus-grid',
 	'dataProvider'=>$model->search(),
-	//'filter'=>$model,
+//	'filter'=>$model,
 	'columns'=>array(
 	//	'id',
 		'val',

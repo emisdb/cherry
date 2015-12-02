@@ -6,6 +6,19 @@ class OfficeController extends Controller
 	 * @var CActiveRecord the currently loaded data model instance.
 	 */
 	private $_model;
+	 	public $cashsum=0;
+        
+        public function init() {
+                parent::init();
+  		$command=Yii::app()->db->createCommand();
+        $command->select('SUM(delta_cash) AS sum');
+        $command->from('cashbox_change_requests');
+        $command->where('approvedBy IS NOT NULL', array(':id'=>Yii::app()->user->id));
+
+//                $command->where('id_users=:id', array(':id'=>Yii::app()->user->id));
+        $this->cashsum= $command->queryScalar();
+        }
+
 
 	/**
 	 * @return array action filters
@@ -49,7 +62,7 @@ class OfficeController extends Controller
 				$this->redirect(array('bonus'));
 		}
 
-		 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+	$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
   	$this->render('create',array(
 			'model'=>$model,
 				'info'=>$test,
@@ -410,8 +423,10 @@ class OfficeController extends Controller
 		$model->unsetAttributes();  // clear any default values
     	if(isset($_GET['User']))
 			$model->attributes=$_GET['User'];
+//    	if(isset($_POST['User']))
+//			$model->attributes=$_POST['User'];
 			$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
- 	$this->render('user_admin',array(
+			$this->render('user_admin',array(
 			'model'=>$model,'role_control'=>$role_control,'usergroups'=>$usergroups,
 			'info'=>$test,
 		));
@@ -447,6 +462,8 @@ class OfficeController extends Controller
 			$model->to_date = $_POST['SegScheduledTours']['to_date'];
 			$model->attributes=$_POST['SegScheduledTours'];
  		}
+    	if(isset($_GET['SegScheduledTours']))
+			$model->attributes=$_GET['SegScheduledTours'];
     		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
   
 		$this->render('officeadmin',array(
@@ -1511,6 +1528,13 @@ class OfficeController extends Controller
 		return $model;
 	}
 	public function loadTours()
+	{
+ 		$model=CashboxChangeRequests::model()->with('user')->findAll('approvedBy IS NULL');
+		if($model===null)
+			throw new CHttpException(404,'The cashbox model does not exist.');
+		return $model;
+	}
+	public function loadSchedTours()
 	{
  		$model=SegScheduledTours::model()->findAll('date_now>=:date',array(':date'=>strtotime("midnight", time())));
 		if($model===null)

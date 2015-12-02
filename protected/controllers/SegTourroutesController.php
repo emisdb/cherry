@@ -36,7 +36,7 @@ class SegTourroutesController extends Controller
            	array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete','create','update'),
 			//	'users'=>array('root'),
-                'roles'=>array('admin'),                
+                'roles'=>array('office'),                
 			),            
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array(''),

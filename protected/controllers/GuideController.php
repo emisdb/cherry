@@ -16,7 +16,7 @@ class GuideController extends Controller
   		$command=Yii::app()->db->createCommand();
                 $command->select('SUM(delta_cash) AS sum');
                 $command->from('cashbox_change_requests');
-                $command->where('id_users=:id', array(':id'=>Yii::app()->user->id));
+                $command->where('id_users=:id AND approvedBy IS NOT NULL', array(':id'=>Yii::app()->user->id));
                 $this->cashsum= $command->queryScalar();
            }
 	/**

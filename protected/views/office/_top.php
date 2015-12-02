@@ -1,4 +1,4 @@
-      <header class="main-header">
+	<header class="main-header">
         <!-- Logo -->
         <a href="index2.html" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
@@ -21,14 +21,14 @@
                   <span class="label label-warning"><?php echo count($info['tours'])?></span>
                 </a>
                 <ul class="dropdown-menu" style="background-color: #8fdf82;">
-                  <li class="header" style="background-color: #8fdf82;" >You have <?php echo count($info['tours'])?> tours scheduled</li>
+                  <li class="header" style="background-color: #8fdf82;" >You have <?php echo count($info['tours'])?> cashbox records to approve</li>
                   <li>
                    <ul class="menu">
                    <!-- inner menu: contains the actual data -->
 					  <?php
 						foreach ($info['tours'] as $key => $value) {
-							$date_format=date_format(new DateTime($value->date),'d.m.Y');
-						  echo '<li>'.CHtml::link(CHtml::encode(''.($key+1).'. '.$date_format.' '.$value->starttime), array('show','id'=>$value->idseg_scheduled_tours));
+							$date_format=date_format(new DateTime($value->request_date),'d.m.Y');
+						  echo '<li>'.CHtml::link(CHtml::encode(''.($key+1).'. '.$date_format.' '.$value->user['username']).': '.number_format($value->delta_cash, 2, '.', ' '), array('cashrecord','id'=>$value->idcashbox_change_requests));
 						  echo "</li>\n";
 					  }
 					  ?>
@@ -78,13 +78,14 @@
                   <!-- Menu Body -->
                   <li class="user-body">
                     <div class="col-xs-6 text-center">
-                      <a href="#"><?php echo $info['guide']->country ?></a>
+                 	<?php echo CHtml::link("Cashbox:", array('cashReport')); ?>
+                   </div>
+                   <div class="col-xs-6 text-center">
+                   	<?php echo CHtml::link(CHtml::encode("".number_format($this->cashsum, 2, '.', ' ').""), array('cashReport')); ?>
+					   &euro;
                     </div>
-                    <div class="col-xs-6 text-center">
-                      <a href="#"><?php echo $info['guide']->city ?></a>
-                    </div>
-                            </li>
-                  <!-- Menu Footer-->
+                   </li>
+                    <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
 						<?php echo CHtml::link("Profile", array('profile'),array('class'=>'btn btn-default btn-flat')); ?>

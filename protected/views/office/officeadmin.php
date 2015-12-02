@@ -84,7 +84,9 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
 				<?php echo CHtml::submitButton('Filter'); // submit button ?> 
 			</div>
 		</div>
-
+ <?php $this->endWidget(); ?>	
+		<div class="row">
+			<div class="col-md-12">
 
 <?php 
     $datetime = time();
@@ -172,7 +174,9 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
 		),
 	),
 )); ?>
- <?php $this->endWidget(); ?>	
+			</div>
+		</div>
+
 		</section><!-- /.content -->
       </div><!-- /.content-wrapper -->
 	  <script type="text/javascript">

@@ -10,8 +10,34 @@
  */
 class User extends CActiveRecord
 {
-    public $new_password;
+	const TYPE_INACTIVE=0;
+	const TYPE_ACTIVE=1;
+	public $new_password;
     public $new_confirm;
+	private $_use = null;
+	private $_name = null;
+	public function getGuidename(){
+		if ($this->_name === null && $this->contact_ob !== null)
+		{
+			if(count($this->contact_ob)>0)
+			$this->_name = $this->contact_ob->firstname.' '.$this->contact_ob->surname;
+		}
+		return $this->_name;
+	}
+	public function setGuidename($value){
+		$this->_name = $value;
+	}
+	public function getCityname(){
+		if ($this->_use === null && $this->city !== null)
+		{
+			if(count($this->city)>0)
+			$this->_use = $this->city->cities->seg_cityname;
+		}
+		return $this->_use;
+	}
+	public function setCityname($value){
+		$this->_use = $value;
+	}
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -45,10 +71,11 @@ class User extends CActiveRecord
             array('new_password', 'length', 'min'=>6, 'allowEmpty'=>true),
             array('new_confirm', 'compare', 'compareAttribute'=>'new_password', 'message'=>'Passwords do not match'), 
 			array('profile', 'safe'),
-            array('id, id_usergroups, role_ob, username, profile, lastlogin, id_city, id_guide, guide_ob, id_contact, contact_ob,tourcategories_sv', 'safe', 'on'=>'search'),
+//            array('id, id_usergroups, role_ob, username, profile, lastlogin, id_city, id_guide, guide_ob, id_contact, contact_ob,tourcategories_sv', 'safe', 'on'=>'search'),
+            array('id, id_usergroups, role_ob, username,status, profile, lastlogin, id_city, id_guide, guide_ob, id_contact, contact_ob,tourcategories_sv,cityname,guidename', 'safe', 'on'=>'search_office'),
            // array('id, id_usergroups, role_ob, username, profile, lastlogin, id_city, id_guide, guide_ob, id_contact, contact_ob,tourcategories_sv', 'safe', 'on'=>'search_admin'),
           
-            //array('id,username, profile', 'safe', 'on'=>'search_root'),
+//            array('id,username, profile', 'safe', 'on'=>'search_office'),
 		
 		);
 	}
@@ -67,14 +94,10 @@ class User extends CActiveRecord
             'languages' => array(self::MANY_MANY, 'Languages', 'seg_languages_guides(users_id, languages_id)'),
 			 'guidestourroutes'=>array(self::MANY_MANY, 'TourCategories', 'seg_guides_tourroutes(usersid,tourroutes_id)'),
      		'cities' => array(self::HAS_MANY, 'SegGuidesCities', 'users_id'),
-      
-            //'id_city'=>array(self::BELONGS_TO, 'SegGuidesdata', 'id_guide'),
-           // ''
-             
-            //  'tourcategories_sv'=>array(self::HAS_ONE, 'SegGuidesTourroutes', 'usersid'),
-              
-        
-			//'posts' => array(self::HAS_MANY, 'Post', 'author_id'),
+     		'city' => array(self::HAS_ONE, 'SegGuidesCities', 'users_id'),
+//            'city' => array(self::MANY_MANY, 'SegCities', 'seg_guides_cities(users_id, cities_id)'),
+            'paySum'=>array(self::STAT, 'CashboxChangeRequests', 'id_users', 'select'=> 'SUM(delta_cash)','condition'=>'approvedBy IS NOT NULL'),
+       
 		);
 	}
 
@@ -86,20 +109,42 @@ class User extends CActiveRecord
 		return array(
 			'id' => 'Id',
 			'username' => 'Username',
+			'guidename' => 'Guide\'s name',
 			'new_password' => 'Password',
 			'profile' => 'Info',
             'new_confirm' => 'Password repeat',
             'id_usergroups' => 'ID Role',
-            'status' => 'Status',
+            'status' => 'Active',
             'role_ob' => 'Role',
             'lastlogin' => 'Last login',
             'id_city' => 'ID City',
+            'cityname' => 'City',
             'id_contact' => 'ID Contact',
             'contact_ob' =>'Contact info',
             'id_guide' => 'ID Guide',
+           'paySum' => 'Balance',
 		);
 	}
-   /*  public function search()
+	public function getStatusOptions()
+	{
+	return array(
+		self::TYPE_ACTIVE=>'Y',
+		self::TYPE_INACTIVE=>'N',
+		);
+	}
+	public function getStatusText()
+	{
+			$statusOptions=$this->statusOptions;
+			return isset($statusOptions[$this->status]) ?	$statusOptions[$this->status] : "unknown status ({$this->status_id})";
+	}
+ public function statuslabel($data, $row)
+{
+	 			$statusOptions=$this->statusOptions;
+			return isset($statusOptions[$data->status]) ?	$statusOptions[$data->status] : "unknown status ({$data->status})";
+
+
+ }
+	   /*  public function search()
 	{
 		$criteria=new CDbCriteria;
     	$criteria->compare('id',$this->id);
@@ -143,7 +188,7 @@ class User extends CActiveRecord
         $criteria->condition='id_usergroups<>:id_usergroups1 AND id_usergroups<>:id_usergroups2';
         $criteria->params=array(':id_usergroups1'=>1,':id_usergroups2'=>2);
 
-        $criteria->with = array('role_ob','contact_ob','guide_ob');
+        $criteria->with = array('role_ob','contact_ob','guide_ob',array('city'=>'cities'),'paySum');
 		$criteria->compare('role_ob.idusergroups',$this->role_ob);
 		$criteria->compare('contact_ob.idcontacts',$this->contact_ob);
         $criteria->compare('guide_ob.idseg_guidesdata',$this->guide_ob);
@@ -160,21 +205,39 @@ class User extends CActiveRecord
     public function search_office()
 	{
 		$criteria=new CDbCriteria;
+		$sort   = new CSort;
 
         $criteria->condition='id_usergroups<>:id_usergroups1 AND id_usergroups<>:id_usergroups2 AND id_usergroups<>:id_usergroups3';
         $criteria->params=array(':id_usergroups1'=>1,':id_usergroups2'=>2,':id_usergroups3'=>3);
 
-        $criteria->with = array('role_ob','contact_ob','guide_ob');
+        $criteria->with = array('role_ob','contact_ob','guide_ob','city'=>array('with'=>'cities'));
+		$criteria->compare('cities.seg_cityname',$this->cityname,true);
 		$criteria->compare('role_ob.idusergroups',$this->role_ob);
 		$criteria->compare('contact_ob.idcontacts',$this->contact_ob);
-        $criteria->compare('guide_ob.idseg_guidesdata',$this->guide_ob);
+//  		$criteria->compare('contact_ob.firstname',$this->guidename,true,'OR');
+//   		$criteria->compare('contact_ob.surname',$this->guidename,true,'OR');
+		if(strlen($this->guidename)>0)
+		   $criteria->addCondition('contact_ob.firstname LIKE \'%'.$this->guidename.'%\' OR contact_ob.surname LIKE \'%'.$this->guidename.'%\'');
+       $criteria->compare('guide_ob.idseg_guidesdata',$this->guide_ob);
         
        	$criteria->compare('id',$this->id);
+       	$criteria->compare('status',$this->status);
 		$criteria->compare('username',$this->username,true);
 		$criteria->compare('profile',$this->profile,true);
+		$sort->attributes = array(
+			'*',
+			'cityname'=>array('asc'=>'cities.seg_cityname',
+							'desc'=>'cities.seg_cityname DESC', 
+							label=>'City'),
+			'guidename'=>array('asc'=>'contact_ob.firstname, contact_ob.surname',
+							'desc'=>'contact_ob.firstname DESC, contact_ob.surname DESC', 
+							label=>'Guide\'s name'),
+		);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+	             'pagination'=>array('pageSize'=>50),
+                 'criteria'=>$criteria,
+                    'sort'=>$sort,
 		));
 	}
 
