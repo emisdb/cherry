@@ -241,34 +241,6 @@ class User extends CActiveRecord
 		));
 	}
 
- /*   public function search111()
-	{
-		$criteria=new CDbCriteria;
-		
-        
-//        $criteria->condition = 'id_languages=:id_languages';
-  //          $criteria->params = array(':id_languages' => $lancat_item->languages_id);
-         //   $lan_ob = Languages::model()->find($criteria_lani);
-            
-        
-        
-        $criteria->compare('id',$this->id);
-		//$criteria->compare('username',$this->username,true);
-		$criteria->compare('profile',$this->profile,true);
-
-        $criteria->with = array('role_ob','contact_ob','guide_ob');
-		$criteria->compare('role_ob.idusergroups',$this->role_ob);
-		$criteria->compare('contact_ob.idcontacts',$this->contact_ob);
-        $criteria->compare('guide_ob.idseg_guidesdata',$this->guide_ob);
-       //$criteria->compare('tourcategories_sv.idseg_guides_tourrouters',$this->tourcategories_sv);
-   //     $criteria->condition="username<>'root'";
-       // $criteria->params=array(':username'=>1);
-
-
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}*/
 
     protected function beforeSave()
     {
