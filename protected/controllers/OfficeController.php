@@ -235,11 +235,11 @@ class OfficeController extends Controller
         $update_user = User::model()->findByPk($id_user);
             
         $criteria = new CDbCriteria;
-        	$criteria->condition = 'id=:id';
-        	$criteria->params = array(':id' => $id_user);
-        	$id_contact = User::model()->find($criteria)->id_contact;
+        $criteria->condition = 'id=:id';
+        $criteria->params = array(':id' => $id_user);
+        $id_contact = User::model()->find($criteria)->id_contact;
 			
-    		$model=$this->loadContact($id_contact);
+    	$model=$this->loadContact($id_contact);
     
     		// Uncomment the following line if AJAX validation is needed
     		// $this->performAjaxValidation($model);
@@ -253,11 +253,12 @@ class OfficeController extends Controller
     		$test=array('guide'=>$model,'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
   
     		$this->render('contact',array(
-    			'model'=>$model,'id_user'=>$id,
-				'update_user'=>$update_user,
-  			'info'=>$test,
+    		'model'=>$model,'id_user'=>$id,
+		'update_user'=>$update_user,
+  		'info'=>$test,
 				));
         }
+        
  	public function actionGuide($id,$id_user)
 	{
 	    $id_control = Yii::app()->user->id;

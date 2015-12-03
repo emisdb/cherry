@@ -127,14 +127,14 @@ class SegContacts extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-    
+ /*   
     
     protected function afterFind() {
       //  $this->create_time = date('Y-m-d', $this->create_time);
         $this->birthdate = date('d.m.Y',strtotime($this->birthdate));
         parent::afterFind();
     }
-   
+ */  
     protected function beforeSave() {
        $this->birthdate = date('Y-m-d',strtotime($this->birthdate));
       // $this->birthdate = strtotime($this->birthdate);

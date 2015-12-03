@@ -46,12 +46,18 @@
 				),
 				array(
                 'class'=>'CButtonColumn',
-                'template'=>'{update}{delete}',
+                'template'=>'{update}{pwd}{delete}',
+                'htmlOptions' => array('style'=>'width:80px;'),
                 'buttons' => array(
                 'update' => array(
                      //'imageUrl'=>'/images/system/proc.png',
                     'url' => 'array("userUpdate", "id" => $data->id)',
                     'label'=>'Update',
+               ),
+                'pwd' => array(
+                     //'imageUrl'=>'/images/system/proc.png',
+                    'url' => 'array("ucontact","id"=>$data->id_contact,"id_user"=>$data->id)',
+                    'label'=>'<i class="fa fa-user"></i>',
                ),
                 'delete' => array(
                      //'imageUrl'=>'/images/system/proc.png',
