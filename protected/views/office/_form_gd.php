@@ -4,21 +4,6 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="form">
-
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'seg-guidesdata-form',
-	// Please note: When you enable ajax validation, make sure the corresponding
-	// controller action is handling ajax validation correctly.
-	// There is a call to performAjaxValidation() commented in generated controller code.
-	// See class documentation of CActiveForm for details on this.
-	'enableAjaxValidation'=>false,
-    'htmlOptions'=>array('enctype'=>'multipart/form-data'),
-)); ?>
-
-
-
-	<?php echo $form->errorSummary($model); ?>
 
 <!--	<div class="row">
 		<php echo $form->labelEx($model,'base_provision'); ?>
@@ -131,14 +116,3 @@
 		<php echo $form->error($model,'guides_cashbox_account_DTV'); ?>
 	</div>
     -->
-    <div style="padding: 20px;">100x100 px</div>
-
-	<div class="row buttons">
-        <button class="btn btn-primary" type="submit"><?php echo 'Save'; ?></button>
-        <button class="btn btn-primary cancel"><a href="<?php echo Yii::app()->request->baseUrl; ?>/user/update/id/<?php echo $id_user;?>"><?php echo 'Cancel'; ?></a></button>
-    </div>
-
-
-<?php $this->endWidget(); ?>
-
-</div><!-- form -->

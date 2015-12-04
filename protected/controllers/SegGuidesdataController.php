@@ -149,9 +149,6 @@ class SegGuidesdataController extends Controller
 			}
 			
 		}
-
-
-
 		if(isset($_POST['SegGuidesdata']))
 		{
 			$guidesdata->paysUSt = $_POST['SegGuidesdata']['paysUSt'];

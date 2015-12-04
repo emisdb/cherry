@@ -38,7 +38,7 @@ class SegContacts extends CActiveRecord
 			array('firstname, surname, phone, additional_address, country, city, house, street', 'length', 'max'=>45),
 			array('email', 'length', 'max'=>100),
 			array('postalcode', 'length', 'max'=>11),
-			array('birthdate', 'safe'),
+			array('birthdate,postalcode', 'safe'),
 			array('email','email'),
 			//array('email', 'unique', 'allowEmpty'=>true),
 			// The following rule is used by search().
@@ -74,7 +74,7 @@ class SegContacts extends CActiveRecord
 			'country' => 'Country',
 			'city' => 'City',
            // 'city_ob' => 'City',
-            'postalcode' => 'Postalcode',
+             'postalcode' => 'Postal code',
 			'house' => 'House',
 			'street' => 'Street',
 			'birthdate' => 'Birthdate',

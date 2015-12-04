@@ -233,7 +233,7 @@ class OfficeController extends Controller
 	{
 	    $id_control = Yii::app()->user->id;
         $update_user = User::model()->findByPk($id_user);
-            
+         $result=false;   
         $criteria = new CDbCriteria;
         $criteria->condition = 'id=:id';
         $criteria->params = array(':id' => $id_user);
@@ -241,53 +241,59 @@ class OfficeController extends Controller
         $id_guide = User::model()->find($criteria)->id_guide;
 			
     	$model=$this->loadContact($id_contact);
-  		$modelgd=$this->loadGuideData($id_guide);
+  	$modelgd=$this->loadGuideData($id_guide);
  
-		$criteria_guidestourroutes=new CDbCriteria;
+	$criteria_guidestourroutes=new CDbCriteria;
         $criteria_guidestourroutes->condition='usersid=:usersid';
         $criteria_guidestourroutes->params=array(':usersid'=>$id_user);
-  		$istourroutes = count(SegGuidesTourroutes::model()->findAll($criteria_guidestourroutes));
+  	$istourroutes = count(SegGuidesTourroutes::model()->findAll($criteria_guidestourroutes));
    
-    		// Uncomment the following line if AJAX validation is needed
-    		// $this->performAjaxValidation($model);
-    
+     
     		if(isset($_POST['SegContacts']))
     		{
     			$model->attributes=$_POST['SegContacts'];
-           		if(!$model->save())
-                          $this->redirect(array('ucontact','id'=>$id,'id_user'=>$id_user));
+           		if($model->save()) $result=true;
     		}
  		if(isset($_POST['SegGuidesdata']))
 		{
 			$modelgd->attributes=$_POST['SegGuidesdata'];
-            $lnk_to_picture_old = $modelgd->lnk_to_picture;
-            $modelgd->image = CUploadedFile::getInstance($modelgd,'image');
+                        $lnk_to_picture_old = $modelgd->lnk_to_picture;
+                        $modelgd->image = CUploadedFile::getInstance($modelgd,'image');
            
-            if($modelgd->image!=""){
-                $name_uniqid = uniqid();
-                //$lnk_to_picture_old = $model->lnk_to_picture;
-                $modelgd->lnk_to_picture = $name_uniqid;
-            }
+                        if($modelgd->image!=""){
+                            $name_uniqid = uniqid();
+                            //$lnk_to_picture_old = $model->lnk_to_picture;
+                            $modelgd->lnk_to_picture = $name_uniqid;
+                        }
 			if($modelgd->save()){
-                if($modelgd->image!=""){
-                    if(($lnk_to_picture_old!="")or($lnk_to_picture_old!=NULL))unlink('image/guide/'.$lnk_to_picture_old);
-                    $file = 'image/guide/'.$modelgd->lnk_to_picture;
-                    $modelgd->image->saveAs($file);
-                }
-            }
+                            if($modelgd->image!=""){
+                                if(($lnk_to_picture_old!="")or($lnk_to_picture_old!=NULL))unlink('image/guide/'.$lnk_to_picture_old);
+                                $file = 'image/guide/'.$modelgd->lnk_to_picture;
+                                $modelgd->image->saveAs($file);
+                            }
+                            $result=true;
+                        }
 			else
 			{
-                $this->redirect(array('ucontact','id'=>$id,'id_user'=>$id_user));
+                            $result=false;
 			}
 		}
    		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+                if ($result)
+                {
+ 			$this->redirect(array('admin'));                 
+                }
+                else 
+                {
+                    $this->render('contact',array(
+                    'model'=>$model,'modelgd'=>$modelgd,'id_user'=>$id,
+                    'update_user'=>$update_user,
+                    'info'=>$test,
+                                    ));
+
+                }
   
-    		$this->render('contact',array(
-    		'model'=>$model,'modelgd'=>$modelgd,'id_user'=>$id,
-		'update_user'=>$update_user,
-  		'info'=>$test,
-				));
-        }
+         }
         
  	public function actionGuide($id,$id_user)
 	{
