@@ -238,22 +238,52 @@ class OfficeController extends Controller
         $criteria->condition = 'id=:id';
         $criteria->params = array(':id' => $id_user);
         $id_contact = User::model()->find($criteria)->id_contact;
+        $id_guide = User::model()->find($criteria)->id_guide;
 			
     	$model=$this->loadContact($id_contact);
-    
+  		$modelgd=$this->loadGuideData($id_guide);
+ 
+		$criteria_guidestourroutes=new CDbCriteria;
+        $criteria_guidestourroutes->condition='usersid=:usersid';
+        $criteria_guidestourroutes->params=array(':usersid'=>$id_user);
+  		$istourroutes = count(SegGuidesTourroutes::model()->findAll($criteria_guidestourroutes));
+   
     		// Uncomment the following line if AJAX validation is needed
     		// $this->performAjaxValidation($model);
     
     		if(isset($_POST['SegContacts']))
     		{
     			$model->attributes=$_POST['SegContacts'];
-           		if($model->save())
-                          $this->redirect(array('profile'));
+           		if(!$model->save())
+                          $this->redirect(array('ucontact','id'=>$id,'id_user'=>$id_user));
     		}
-    		$test=array('guide'=>$model,'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+ 		if(isset($_POST['SegGuidesdata']))
+		{
+			$modelgd->attributes=$_POST['SegGuidesdata'];
+            $lnk_to_picture_old = $modelgd->lnk_to_picture;
+            $modelgd->image = CUploadedFile::getInstance($modelgd,'image');
+           
+            if($modelgd->image!=""){
+                $name_uniqid = uniqid();
+                //$lnk_to_picture_old = $model->lnk_to_picture;
+                $modelgd->lnk_to_picture = $name_uniqid;
+            }
+			if($modelgd->save()){
+                if($modelgd->image!=""){
+                    if(($lnk_to_picture_old!="")or($lnk_to_picture_old!=NULL))unlink('image/guide/'.$lnk_to_picture_old);
+                    $file = 'image/guide/'.$modelgd->lnk_to_picture;
+                    $modelgd->image->saveAs($file);
+                }
+            }
+			else
+			{
+                $this->redirect(array('ucontact','id'=>$id,'id_user'=>$id_user));
+			}
+		}
+   		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
   
     		$this->render('contact',array(
-    		'model'=>$model,'id_user'=>$id,
+    		'model'=>$model,'modelgd'=>$modelgd,'id_user'=>$id,
 		'update_user'=>$update_user,
   		'info'=>$test,
 				));

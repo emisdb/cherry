@@ -27,5 +27,9 @@ $this->breadcrumbs=array(
 
 
 <?php $this->renderPartial('_form_contact', array('model'=>$model,'id_user'=>$id_user)); ?>
+
+<?php $this->renderPartial('_form_gd', array('model'=>$modelgd,'id_user'=>$id_user)); ?>
+
+		
 		</section><!-- /.content -->
       </div><!-- /.content-wrapper -->

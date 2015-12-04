@@ -54,6 +54,8 @@
 				  'model'=>$model,            // Model name
 //				  'value'=>$model->isNewRecord ? date('dd.mm.yy') : '',
 				  'value'=>$model->isNewRecord ? date('yy-mm-dd') : '',
+				 'htmlOptions'=>array(
+				 'class'=>"form-control"),
 					'options'=>array(
 						'showAnim'=>'fold',
 						'dateFormat' => 'yy-mm-dd',
@@ -78,8 +80,8 @@
                                 </div>
                                 <?php
 					echo $form->textField($model,'phone',array('class'=>'form-control',
-                                                                                'data-inputmask'=>'&quot;mask&quot;: &quot;999(999) 999-9999&quot;',
-                                                                                'data-mask'=>''
+                                                'data-inputmask'=>'"mask": "999(999) 999-9999"',
+                                                 'data-mask'=>''
                                                                                 ));
 					echo $form->error($model,'phone'); 
 				 ?>
@@ -164,7 +166,7 @@
             <div class="col-md-12">
                 <div class="form-group">
 		<?php echo $form->labelEx($model,'additional_address'); ?>
-		<?php echo $form->textField($model,'additional_address',array('size'=>45,'maxlength'=>45)); ?>
+		<?php echo $form->textField($model,'additional_address',array('size'=>45,'maxlength'=>45,'class'=>"form-control")); ?>
 		<?php echo $form->error($model,'additional_address'); ?>
                 </div>
             </div>
