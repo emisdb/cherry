@@ -15,13 +15,13 @@
             <div class="col-md-4">
                 <h4>Languages</h4>
                 <?php 
-                    echo CHtml::checkBoxList('SegGuidesTourroutes[langlist]', $selected_lang_list,$lang_list);
+                    echo CHtml::checkBoxList('SegGuidesOptions[langlist]', $selected_lang_list,$lang_list);
                  ?>
            </div>
             <div class="col-md-4">
                 <h4>Tour categories</h4>
                 <?php 
-                     echo CHtml::checkBoxList('SegGuidesTourroutes[catlist]', $selected_cat_list,$cat_list);
+                     echo CHtml::checkBoxList('SegGuidesOptions[catlist]', $selected_cat_list,$cat_list);
                  ?>
            </div>
  	</div>

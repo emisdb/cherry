@@ -55,7 +55,8 @@ class SegGuidesdata extends CActiveRecord
 			array('cash_box, voucher_cashbox, voucher_provision', 'numerical'),
 			array('guide_shorttext', 'length', 'max'=>50),
 			array('guide_maintext', 'length', 'max'=>500),
-			array('BIC,IBAN', 'safe'),
+			array('BIC,IBAN,image', 'safe'),
+//			array('image', 'file', 'types'=>'jpg,JPG,JPEG','maxSize'=>10*1024*1024),
 			array('lnk_to_picture, taxnumber, taxoffice', 'length', 'max'=>45),
 			array('guides_cashbox_account_DTV', 'length', 'max'=>5),
            

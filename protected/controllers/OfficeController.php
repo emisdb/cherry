@@ -297,13 +297,6 @@ class OfficeController extends Controller
         $criteria->params=array(':users_id'=>$id_user);
         $selected_lang_list=CHtml::listData(SegLanguagesGuides::model()->findAll($criteria),'languages_id','languages_id');
         $lang_list=CHtml::listData(Languages::model()->findAll(),'id_languages','englishname');
-
-        $tours_all=TourCategories::model()->findAll();
-        $criteria=new CDbCriteria;
-        $criteria->condition='usersid=:usersid';
-        $criteria->params=array(':usersid'=>$id_user);
-        $tours = SegGuidesTourroutes::model()->findAll($criteria);
-
         
         $criteria=new CDbCriteria;
         $criteria->condition='usersid=:usersid';
@@ -321,43 +314,73 @@ class OfficeController extends Controller
     		{
     			$model->attributes=$_POST['SegContacts'];
            		if($model->save()) $result=true;
+                        else $result=false;
     		}
- 		if(isset($_POST['SegGuidesdata']))
-		{
-			$modelgd->attributes=$_POST['SegGuidesdata'];
-                        $lnk_to_picture_old = $modelgd->lnk_to_picture;
-                        $modelgd->image = CUploadedFile::getInstance($modelgd,'image');
-           
-                        if($modelgd->image!=""){
-                            $name_uniqid = uniqid();
-                            //$lnk_to_picture_old = $model->lnk_to_picture;
-                            $modelgd->lnk_to_picture = $name_uniqid;
-                        }
-			if($modelgd->save()){
+ 		if($result)
+                {
+                    if(isset($_POST['SegGuidesdata']))
+                    {
+                            $modelgd->attributes=$_POST['SegGuidesdata'];
+                            $lnk_to_picture_old = $modelgd->lnk_to_picture;
+                            $modelgd->image = CUploadedFile::getInstance($modelgd,'image');
+
                             if($modelgd->image!=""){
-                                if(($lnk_to_picture_old!="")or($lnk_to_picture_old!=NULL))unlink('image/guide/'.$lnk_to_picture_old);
-                                $file = 'image/guide/'.$modelgd->lnk_to_picture;
-                                $modelgd->image->saveAs($file);
+                                $name_uniqid = uniqid();
+                                //$lnk_to_picture_old = $model->lnk_to_picture;
+                                $modelgd->lnk_to_picture = $name_uniqid;
                             }
-                            $result=true;
-                        }
-			else
-			{
-                            $result=false;
-			}
-		}
+                            if($modelgd->save()){
+                                if($modelgd->image!=""){
+                                    if(($lnk_to_picture_old!="")or($lnk_to_picture_old!=NULL))unlink('image/guide/'.$lnk_to_picture_old);
+                                    $file = 'image/guide/'.$modelgd->lnk_to_picture;
+                                    $modelgd->image->saveAs($file);
+                                }
+                                $result=true;
+                            }
+                            else
+                            {
+                                $result=false;
+                            }
+                    }
+                }
  		$j=0;
-		if(isset($_POST['SegGuidesTourroutes'])) {
-			foreach($link_tourroutes as $item) {
-				$item->base_provision = $_POST['SegGuidesTourroutes']['base_provision'.$j];
-				$item->guest_variable = $_POST['SegGuidesTourroutes']['guest_variable'.$j];
-				$item->guestsMinforVariable = $_POST['SegGuidesTourroutes']['guestsMinforVariable'.$j];
-				$item->voucher_provision = $_POST['SegGuidesTourroutes']['voucher_provision'.$j];
-				$item->save();
-				$j++;
-			}
-		}
-  		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+		if($result)
+                {
+                    if(isset($_POST['SegGuidesTourroutes'])) {
+                            foreach($link_tourroutes as $item) {
+                                    $item->base_provision = $_POST['SegGuidesTourroutes']['base_provision'.$j];
+                                    $item->guest_variable = $_POST['SegGuidesTourroutes']['guest_variable'.$j];
+                                    $item->guestsMinforVariable = $_POST['SegGuidesTourroutes']['guestsMinforVariable'.$j];
+                                    $item->voucher_provision = $_POST['SegGuidesTourroutes']['voucher_provision'.$j];
+                                    $item->save();
+                                    $j++;
+                            }
+                    }
+                }
+		if($result)
+                {
+                     if(isset($_POST['SegGuidesCities'])) {
+                            $city->attributes=$_POST['SegGuidesCities'];
+           		if($city->save()) $result=true;
+                        else $result=false;
+                        
+                     }
+               
+                }
+ 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+ 		if($result)
+                {
+                     if(isset($_POST['SegGuidesOptions'])) {
+                      $this->render('test',array(
+                    'model'=>$_POST['SegGuidesOptions'],
+ 			'lang_list' => $selected_lang_list,
+			'cat_list' => $selected_cat_list,
+                   'info'=>$test,
+                             ));
+                      return;
+                    }
+               
+                }
                 if ($result)
                 {
  			$this->redirect(array('admin'));                 
