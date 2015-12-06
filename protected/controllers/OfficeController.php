@@ -13,7 +13,7 @@ class OfficeController extends Controller
   		$command=Yii::app()->db->createCommand();
         $command->select('SUM(delta_cash) AS sum');
         $command->from('cashbox_change_requests');
-        $command->where('approvedBy IS NOT NULL', array(':id'=>Yii::app()->user->id));
+        $command->where('approvedBy IS NOT NULL');
 
 //                $command->where('id_users=:id', array(':id'=>Yii::app()->user->id));
         $this->cashsum= $command->queryScalar();
@@ -233,7 +233,7 @@ class OfficeController extends Controller
 	{
 	    $id_control = Yii::app()->user->id;
         $update_user = User::model()->findByPk($id_user);
-         $result=false;   
+        $result=false;   
         $criteria = new CDbCriteria;
         $criteria->condition = 'id=:id';
         $criteria->params = array(':id' => $id_user);

@@ -3,116 +3,48 @@
 /* @var $model SegGuidesdata */
 /* @var $form CActiveForm */
 ?>
-
-
-<!--	<div class="row">
-		<php echo $form->labelEx($model,'base_provision'); ?>
-		<php echo $form->textField($model,'base_provision'); ?>
-		<php echo $form->error($model,'base_provision'); ?>
-	</div>
-
-	<div class="row">
-		<php echo $form->labelEx($model,'cash_box'); ?>
-		<php echo $form->textField($model,'cash_box'); ?>
-		<php echo $form->error($model,'cash_box'); ?>
-	</div>-->
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'guide_shorttext'); ?>
-        <?php echo $form->textArea($model,'guide_shorttext',array('rows'=>6, 'cols'=>50)); ?>
-		<!--<php echo $form->textField($model,'guide_shorttext',array('size'=>50,'maxlength'=>50)); ?>-->
-		<?php echo $form->error($model,'guide_shorttext'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'guide_maintext'); ?>
-        <?php echo $form->textArea($model,'guide_maintext',array('rows'=>12, 'cols'=>50)); ?>
-		<!--<php echo $form->textField($model,'guide_maintext',array('size'=>60,'maxlength'=>500)); ?>-->
-		<?php echo $form->error($model,'guide_maintext'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'lnk_to_picture'); ?>
-        <?php echo $form->FileField($model,'image');?>
-	<!--	<php echo $form->textField($model,'lnk_to_picture',array('size'=>45,'maxlength'=>45)); ?>-->
-		<?php echo $form->error($model,'lnk_to_picture'); ?>
-	</div> 
-    <?php if($model->lnk_to_picture !=""){
-    ?>
-        <div class="row">
-            <img src="<?php echo Yii::app()->request->baseUrl; ?>/image/guide/<?php echo $model->lnk_to_picture;?>" style="height: 100px; width:100px;" >
+   <div class="box box-info" >
+        <div class="box-header with-border">
+            <h4 class="box-title">
+                Presentation
+            </h4>
         </div>
-    <?php }?>  
-
-	<!--<div class="row">
-		<php echo $form->labelEx($model,'guest_variable'); ?>
-		<php echo $form->textField($model,'guest_variable'); ?>
-		<php echo $form->error($model,'guest_variable'); ?>
+        <div class="box-body" >
+ 	<div class="row">
+		<div class="col-md-3">
+			<div class="form-group">
+ 		<?php
+                    echo $form->labelEx($model,'lnk_to_picture',array('style'=>'margin-right:10px;'));
+                     if($model->lnk_to_picture !=""){
+                        echo CHtml::image(Yii::app()->request->baseUrl.'/image/guide/'. $model->lnk_to_picture,'Guide\'s image',array('style'=>'height: 100px; width:100px;'));
+                    }
+                    echo $form->FileField($model,'image');
+                    echo $form->error($model,'lnk_to_picture');
+                  ?>
+ 		</div>
+		</div>
+            <div class="col-md-9">
+			<div class="form-group">
+                            <?php 
+                                echo $form->labelEx($model,'guide_shorttext');
+                                echo $form->textArea($model,'guide_shorttext',array('rows'=>6, 'cols'=>50)); 
+                                echo $form->error($model,'guide_shorttext');
+                            ?>
+			</div>
+		</div>
 	</div>
-
-	<div class="row">
-		<php echo $form->labelEx($model,'paysUSt'); ?>
-		<php echo $form->textField($model,'paysUSt'); ?>
-		<php echo $form->error($model,'paysUSt'); ?>
-	</div>
-
-	<div class="row">
-		<php echo $form->labelEx($model,'guestsMinforVariable'); ?>
-		<php echo $form->textField($model,'guestsMinforVariable'); ?>
-		<php echo $form->error($model,'guestsMinforVariable'); ?>
-	</div>
-
-	<div class="row">
-		<php echo $form->labelEx($model,'taxnumber'); ?>
-		<php echo $form->textField($model,'taxnumber',array('size'=>45,'maxlength'=>45)); ?>
-		<php echo $form->error($model,'taxnumber'); ?>
-	</div>
-
-	<div class="row">
-		<php echo $form->labelEx($model,'taxoffice'); ?>
-		<php echo $form->textField($model,'taxoffice',array('size'=>45,'maxlength'=>45)); ?>
-		<php echo $form->error($model,'taxoffice'); ?>
-	</div>
-
-	<div class="row">
-		<php echo $form->labelEx($model,'invoiceCount2013'); ?>
-		<php echo $form->textField($model,'invoiceCount2013'); ?>
-		<php echo $form->error($model,'invoiceCount2013'); ?>
-	</div>
-
-	<div class="row">
-		<php echo $form->labelEx($model,'invoiceCount2014'); ?>
-		<php echo $form->textField($model,'invoiceCount2014'); ?>
-		<php echo $form->error($model,'invoiceCount2014'); ?>
-	</div>
-
-	<div class="row">
-		<php echo $form->labelEx($model,'inVoiceCount2015'); ?>
-		<php echo $form->textField($model,'inVoiceCount2015'); ?>
-		<php echo $form->error($model,'inVoiceCount2015'); ?>
-	</div>
-
-	<div class="row">
-		<php echo $form->labelEx($model,'voucher_cashbox'); ?>
-		<php echo $form->textField($model,'voucher_cashbox'); ?>
-		<php echo $form->error($model,'voucher_cashbox'); ?>
-	</div>
-
-	<div class="row">
-		<php echo $form->labelEx($model,'voucher_provision'); ?>
-		<php echo $form->textField($model,'voucher_provision'); ?>
-		<php echo $form->error($model,'voucher_provision'); ?>
-	</div>
-
-	<div class="row">
-		<php echo $form->labelEx($model,'immediate_voucher_payment'); ?>
-		<php echo $form->textField($model,'immediate_voucher_payment'); ?>
-		<php echo $form->error($model,'immediate_voucher_payment'); ?>
-	</div>
-
-	<div class="row">
-		<php echo $form->labelEx($model,'guides_cashbox_account_DTV'); ?>
-		<php echo $form->textField($model,'guides_cashbox_account_DTV',array('size'=>5,'maxlength'=>5)); ?>
-		<php echo $form->error($model,'guides_cashbox_account_DTV'); ?>
-	</div>
-    -->
+  	<div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+		<?php
+                    echo $form->labelEx($model,'guide_maintext'); 
+                    echo $form->textArea($model,'guide_maintext',array('rows'=>9, 'cols'=>50));
+                    echo $form->error($model,'guide_maintext'); 
+                  ?>
+                </div>
+            </div>
+ 	</div>
+        
+        </div>
+    </div>
+   </div>

@@ -41,9 +41,12 @@ $this->breadcrumbs=array(
 	<?php echo $form->errorSummary($model); ?>
 
 
-<?php $this->renderPartial('_form_contact', array('model'=>$model,'id_user'=>$id_user, 'form'=>$form)); ?>
-
-<?php $this->renderPartial('_form_gd', array('model'=>$modelgd,'id_user'=>$id_user, 'form'=>$form)); ?>
+<?php 
+    $this->renderPartial('_form_contact', array('model'=>$model,'id_user'=>$id_user, 'form'=>$form)); 
+    $this->renderPartial('_form_gd', array('model'=>$modelgd,'id_user'=>$id_user, 'form'=>$form)); 
+    $this->renderPartial('cashinfo', array('model'=>$modelgd,'id_user'=>$id_user, 'form'=>$form)); 
+    
+?>
 	<div class="row buttons">
         <button class="btn btn-primary" type="submit"><?php echo 'Save'; ?></button>
  		<button class="btn btn-primary cancel"><?php echo CHtml::link("Cancel", array("admin")) ?></button>

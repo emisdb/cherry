@@ -87,7 +87,7 @@ class SegGuidesdata extends CActiveRecord
 			'cash_box' => 'Cash Box',
 			'guide_shorttext' => 'Guide Shorttext',
 			'guide_maintext' => 'Guide Maintext',
-			'lnk_to_picture' => 'Lnk To Picture',
+			'lnk_to_picture' => 'Guide\'s Image',
             'image' => 'Image',
 			'guest_variable' => 'Guest Variable',
 			'paysUSt' => 'Pays Ust',
