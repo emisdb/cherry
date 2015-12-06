@@ -68,7 +68,7 @@ class SegTourroutes extends CActiveRecord
             'city'=>array(self::BELONGS_TO, 'SegCities', 'cityid'),
  	);
 	}
-
+ 
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */

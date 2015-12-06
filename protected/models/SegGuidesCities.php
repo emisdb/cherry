@@ -45,6 +45,11 @@ class SegGuidesCities extends CActiveRecord
                  'users'=>array(self::BELONGS_TO, 'User', 'users_id'),
 		);
 	}
+      public function getCitiesList()
+        {
+            $usersArray = CHtml::listData(SegCities::model()->findAll(), 'idseg_cities', 'seg_cityname');
+            return $usersArray;
+        }
 
 	/**
 	 * @return array customized attribute labels (name=>label)

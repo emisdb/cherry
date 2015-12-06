@@ -55,10 +55,16 @@ class SegGuidesTourroutes extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-           //'tourroutes'=>array(self::HAS_MANY, 'SegTourroutes', array('cityid'=>'', 'id_tour_categories'=>'tourroutes_id')),
+                    'tourroutes'=>array(self::BELONGS_TO, 'SegTourroutes', array( 'id_tour_categories'=>'tourroutes_id')),
+                    'tour_categories'=>array(self::BELONGS_TO, 'TourCategories', 'tourroutes_id'),
 			
 		);
 	}
+        public function getToureCategories()
+        {
+            $usersArray = CHtml::listData($this->tour_categories, 'id_tour_categories', 'name');
+            return $usersArray;
+        }
 
 	/**
 	 * @return array customized attribute labels (name=>label)

@@ -243,11 +243,79 @@ class OfficeController extends Controller
     	$model=$this->loadContact($id_contact);
   	$modelgd=$this->loadGuideData($id_guide);
  
-	$criteria_guidestourroutes=new CDbCriteria;
-        $criteria_guidestourroutes->condition='usersid=:usersid';
-        $criteria_guidestourroutes->params=array(':usersid'=>$id_user);
-  	$istourroutes = count(SegGuidesTourroutes::model()->findAll($criteria_guidestourroutes));
-   
+		$criteria_t=new CDbCriteria;
+		$criteria_t->condition='usersid=:usersid';
+		$criteria_t->params=array(':usersid'=>$id_user);
+		$link_tourroutes = SegGuidesTourroutes::model()->findAll($criteria_t);
+
+		$array_tour = array();
+		$array_tour_link = array();
+		if(isset($link_tourroutes)) {
+			
+			$criteria_a=new CDbCriteria;
+			$criteria_a->condition='users_id=:users_id';
+			$criteria_a->params=array(':users_id'=>$id_user);
+			$a = SegGuidesCities::model()->find($criteria_a)->cities_id;
+			$i=0;
+		
+			foreach($link_tourroutes as $item) {
+				$b = $item->tourroutes_id;
+				$criteria_tour=new CDbCriteria;
+				$criteria_tour->condition='id_tour_categories=:id_tour_categories AND cityid=:cityid';
+				$criteria_tour->params=array(':id_tour_categories'=>$b,'cityid'=>$a);
+				$tourroute = SegTourroutes::model()->find($criteria_tour);
+				$array_tour[$i] = 	$tourroute;
+				$array_tour_link[$i] = $item;
+				
+				if($i==0) {
+					$array_tour_link[$i]->base_provision0 = $item->base_provision;
+					$array_tour_link[$i]->guest_variable0 = $item->guest_variable;
+					$array_tour_link[$i]->guestsMinforVariable0 = $item->guestsMinforVariable;
+					$array_tour_link[$i]->voucher_provision0 = $item->voucher_provision;
+				}
+				if($i==1) {
+					$array_tour_link[$i]->base_provision1 = $item->base_provision;
+					$array_tour_link[$i]->guest_variable1 = $item->guest_variable;
+					$array_tour_link[$i]->guestsMinforVariable1 = $item->guestsMinforVariable;
+					$array_tour_link[$i]->voucher_provision1 = $item->voucher_provision;
+				}
+				if($i==2) {
+					$array_tour_link[$i]->base_provision2 = $item->base_provision;
+					$array_tour_link[$i]->guest_variable2 = $item->guest_variable;
+					$array_tour_link[$i]->guestsMinforVariable2 = $item->guestsMinforVariable;
+					$array_tour_link[$i]->voucher_provision2 = $item->voucher_provision;
+				}
+				
+		
+				
+				$i++;
+			}
+			
+		}
+        $criteria=new CDbCriteria;
+        $criteria->condition='users_id=:users_id';
+        $criteria->params=array(':users_id'=>$id_user);
+        $selected_lang_list=CHtml::listData(SegLanguagesGuides::model()->findAll($criteria),'languages_id','languages_id');
+        $lang_list=CHtml::listData(Languages::model()->findAll(),'id_languages','englishname');
+
+        $tours_all=TourCategories::model()->findAll();
+        $criteria=new CDbCriteria;
+        $criteria->condition='usersid=:usersid';
+        $criteria->params=array(':usersid'=>$id_user);
+        $tours = SegGuidesTourroutes::model()->findAll($criteria);
+
+        
+        $criteria=new CDbCriteria;
+        $criteria->condition='usersid=:usersid';
+        $criteria->params=array(':usersid'=>$id_user);
+        $selected_cat_list=CHtml::listData(SegGuidesTourroutes::model()->findAll($criteria),'tourroutes_id','tourroutes_id');
+        $cat_list=CHtml::listData(TourCategories::model()->findAll(),'id_tour_categories','name');
+ 
+        $criteria=new CDbCriteria;
+        $criteria->condition='users_id=:usersid';
+        $criteria->params=array(':usersid'=>$id_user);
+        $city=$this->loadGuideCity($id_user);
+ 
      
     		if(isset($_POST['SegContacts']))
     		{
@@ -278,7 +346,18 @@ class OfficeController extends Controller
                             $result=false;
 			}
 		}
-   		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+ 		$j=0;
+		if(isset($_POST['SegGuidesTourroutes'])) {
+			foreach($link_tourroutes as $item) {
+				$item->base_provision = $_POST['SegGuidesTourroutes']['base_provision'.$j];
+				$item->guest_variable = $_POST['SegGuidesTourroutes']['guest_variable'.$j];
+				$item->guestsMinforVariable = $_POST['SegGuidesTourroutes']['guestsMinforVariable'.$j];
+				$item->voucher_provision = $_POST['SegGuidesTourroutes']['voucher_provision'.$j];
+				$item->save();
+				$j++;
+			}
+		}
+  		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
                 if ($result)
                 {
  			$this->redirect(array('admin'));                 
@@ -288,7 +367,15 @@ class OfficeController extends Controller
                     $this->render('contact',array(
                     'model'=>$model,'modelgd'=>$modelgd,'id_user'=>$id,
                     'update_user'=>$update_user,
-                    'info'=>$test,
+			'link_tourroutes'=>$link_tourroutes,
+ 			'array_tour' => $array_tour,
+			'array_tour_link' => $array_tour_link,
+ 			'selected_lang_list' => $selected_lang_list,
+			'lang_list' => $lang_list,
+			'selected_cat_list' => $selected_cat_list,
+			'cat_list' => $cat_list,
+ 			'city' => $city,
+                   'info'=>$test,
                                     ));
 
                 }
@@ -1560,6 +1647,16 @@ class OfficeController extends Controller
 	public function loadUser($id)
 	{
 		$model=User::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+	public function loadGuideCity($id_user)
+	{
+            $criteria=new CDbCriteria;
+            $criteria->condition='users_id=:usersid';
+            $criteria->params=array(':usersid'=>$id_user);
+		$model=SegGuidesCities::model()->find($criteria);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;

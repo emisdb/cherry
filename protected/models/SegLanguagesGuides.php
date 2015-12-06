@@ -41,7 +41,7 @@ class SegLanguagesGuides extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-             'languages'=>array(self::BELONGS_TO, 'Languages', 'languages_id'),
+                    'languages'=>array(self::BELONGS_TO, 'Languages', 'languages_id'),
 		);
 	}
 
@@ -56,6 +56,11 @@ class SegLanguagesGuides extends CActiveRecord
 			'languages_id' => 'ID Languages',
             'languages' => 'Languages',
 		);
+	}
+	public function getLanguageOptions()
+	{
+		$usersArray = CHtml::listData($this->languages, 'id_languages', 'englishname');
+		return $usersArray;
 	}
 
 	/**
