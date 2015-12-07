@@ -6,7 +6,8 @@ class OfficeController extends Controller
 	 * @var CActiveRecord the currently loaded data model instance.
 	 */
 	private $_model;
-	 	public $cashsum=0;
+	public $cashsum=0;
+	public $totval=0;
         
         public function init() {
                 parent::init();
@@ -46,6 +47,53 @@ class OfficeController extends Controller
 			),
 		);
 	}
+	protected function adding($data,$row){
+		$this->totval=$this->totval+$data->delta_cash;
+		return Yii::app()->numberFormatter->formatCurrency($this->totval, '') ;
+	}
+		public function actionCashReport($id)
+	{
+		$id_control = Yii::app()->user->id;
+		$model=new CashboxChangeRequests('search');
+		$model->unsetAttributes();  // clear any default values
+		$model->id_users=$id;
+		$user=User::model()->with('contact_ob')->find('id=:id',array(':id'=>$id));
+		 if(empty($_POST))
+		 {
+			$model->from_date = Mainoptions::model()->getCvalue('payf_'.$id_control);
+			$model->to_date = Mainoptions::model()->getCvalue('payt_'.$id_control);
+
+		 }
+		 else
+		  {
+            Mainoptions::model()->setCvalue('payf_'.$id_control,$_POST['CashboxChangeRequests']['from_date']);
+			Mainoptions::model()->setCvalue('payt_'.$id_control,$_POST['CashboxChangeRequests']['to_date']);
+			$model->from_date = $_POST['CashboxChangeRequests']['from_date'];
+			$model->to_date = $_POST['CashboxChangeRequests']['to_date'];
+		}
+		$cashnow=0;
+		if(isset($model->from_date)) 
+		{
+			
+		$command=Yii::app()->db->createCommand();
+        $command->select('SUM(delta_cash) AS sum');
+        $command->from('cashbox_change_requests');
+        $command->where('id_users=:id AND request_date < :rd', array(':id'=>$id,':rd'=>date('Y-m-d H:i:s', strtotime($model->from_date))));
+        $cashnow= $command->queryScalar();
+		$this->totval=$cashnow;
+
+		}
+
+ 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+	$this->render('cash_admin',array(
+				'model'=>$model,
+				'user'=>$user,
+				'cashnow'=>$cashnow,
+				'info'=>$test
+		));
+	}
+
+
 	public function actionCreate()
 	{
 	   $id_control = Yii::app()->user->id;
@@ -68,7 +116,6 @@ class OfficeController extends Controller
 				'info'=>$test,
 	));
 	}
-
 	public function actionUpdate()
 	{
 		$model=$this->loadModel();
@@ -127,7 +174,6 @@ class OfficeController extends Controller
 		'info'=>$test,
 	));
 	}
-
 	public function actionUserUpdate($id)
 	{
     		$model=$this->loadUser($id);
@@ -169,7 +215,6 @@ class OfficeController extends Controller
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
-
 	public function actionIndex()
 	{
 		$dataProvider=new CActiveDataProvider('Comment', array(
@@ -194,7 +239,6 @@ class OfficeController extends Controller
 		else
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
-
 	  public function actionProfile()
 	{
 
@@ -464,8 +508,7 @@ class OfficeController extends Controller
                 }
   
          }
-        
- 	public function actionGuide($id,$id_user)
+  	public function actionGuide($id,$id_user)
 	{
 	    $id_control = Yii::app()->user->id;
         $update_user = User::model()->findByPk($id_user);
@@ -575,7 +618,6 @@ class OfficeController extends Controller
 				'info'=>$test,
 	));
 	}
-
 	public function actionUpdatecr($id)
 	{
 		$model=$this->loadCR($id);
@@ -604,8 +646,6 @@ class OfficeController extends Controller
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('cr'));
 	}
-
-	 
 	public function actionAdmin()
 	{
 	    $id_control = Yii::app()->user->id;

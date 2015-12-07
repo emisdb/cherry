@@ -97,6 +97,7 @@ class User extends CActiveRecord
      		'city' => array(self::HAS_ONE, 'SegGuidesCities', 'users_id'),
 //            'city' => array(self::MANY_MANY, 'SegCities', 'seg_guides_cities(users_id, cities_id)'),
             'paySum'=>array(self::STAT, 'CashboxChangeRequests', 'id_users', 'select'=> 'SUM(delta_cash)','condition'=>'approvedBy IS NOT NULL'),
+            'payNA'=>array(self::STAT, 'CashboxChangeRequests', 'id_users', 'condition'=>'approvedBy IS NULL'),
        
 		);
 	}
@@ -210,7 +211,7 @@ class User extends CActiveRecord
         $criteria->condition='id_usergroups<>:id_usergroups1 AND id_usergroups<>:id_usergroups2 AND id_usergroups<>:id_usergroups3';
         $criteria->params=array(':id_usergroups1'=>1,':id_usergroups2'=>2,':id_usergroups3'=>3);
 
-        $criteria->with = array('role_ob','contact_ob','guide_ob','city'=>array('with'=>'cities'));
+        $criteria->with = array('role_ob','contact_ob','guide_ob','payNA','city'=>array('with'=>'cities'));
 		$criteria->compare('cities.seg_cityname',$this->cityname,true);
 		$criteria->compare('role_ob.idusergroups',$this->role_ob);
 		$criteria->compare('contact_ob.idcontacts',$this->contact_ob);

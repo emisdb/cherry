@@ -1,3 +1,9 @@
+<style>
+	.table_scheduled_pdf,.grid-view table.items tbody tr.table_scheduled_pdf:hover{ background:red;  color:#fff; font-weight: bold; }
+	.table_scheduled{ background:#eeeeee; }
+	.cell_green{ background-color:#46a546 ; }
+	.cell_yellow{ background:#FFE495; }
+</style>
 <?php $this->renderPartial('_top', array('info'=>$info)); ?>
     <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
@@ -23,6 +29,7 @@
       'ajaxUpdate'=>false,
 //	'ajaxUrl'=> Yii::app()->request->getUrl(),
 		'dataProvider'=>$modelsearch,//$model->search_root(),
+        'rowCssClassExpression' => '$data->payNA>0 ? "table_scheduled_pdf" : "table_scheduled"', 
 	'filter'=>$model,
 	'columns'=>array(
 /*
@@ -45,11 +52,12 @@
 					'value'=>"Yii::app()->numberFormatter->formatCurrency(\$data->paySum, '')",
 					'filter'=>true, // Set the filter to false when date range searching
 					'htmlOptions'=>array('style' => 'text-align: right;'),
-				),
+					'cssClassExpression' => '$data->paySum<300 ? "cell_green" : ($data->paySum>1500 ? "cell_yellow" : "")',
+								  ),
 				array(
                 'class'=>'CButtonColumn',
-                'template'=>'{update}{pwd}{delete}',
-                'htmlOptions' => array('style'=>'width:80px;'),
+                'template'=>'{update}{pwd}{cash}{delete}',
+                'htmlOptions' => array('style'=>'width:100px;'),
                 'buttons' => array(
                 'update' => array(
                      //'imageUrl'=>'/images/system/proc.png',
@@ -60,6 +68,11 @@
                      //'imageUrl'=>'/images/system/proc.png',
                     'url' => 'array("ucontact","id"=>$data->id_contact,"id_user"=>$data->id)',
                     'label'=>'<i class="fa fa-user"></i>',
+               ),
+                'cash' => array(
+                     //'imageUrl'=>'/images/system/proc.png',
+                    'url' => 'array("cashReport","id"=>$data->id)',
+                    'label'=>'<i class="fa fa-credit-card"></i>',
                ),
                 'delete' => array(
                      //'imageUrl'=>'/images/system/proc.png',
