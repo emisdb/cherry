@@ -25,7 +25,7 @@
        <!-- Content Header (Page header) -->
         <section class="content-header">
 
-<h1>Cashbox history for user <?php echo $user['contact_ob']['firstname']."".$user['contact_ob']['surname']; ?></h1>
+<h1>Cashbox history for user <?php echo $user['contact_ob']['firstname']." ".$user['contact_ob']['surname']; ?></h1>
       </section>
 
         <!-- Main content -->
