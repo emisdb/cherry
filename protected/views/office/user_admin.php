@@ -67,12 +67,12 @@
                 'pwd' => array(
                      //'imageUrl'=>'/images/system/proc.png',
                     'url' => 'array("ucontact","id"=>$data->id_contact,"id_user"=>$data->id)',
-                    'label'=>'<i class="fa fa-user"></i>',
+                    'label'=>'<i class="fa fa-user" style="padding:0 3px;"></i>',
                ),
                 'cash' => array(
                      //'imageUrl'=>'/images/system/proc.png',
                     'url' => 'array("cashReport","id"=>$data->id)',
-                    'label'=>'<i class="fa fa-credit-card"></i>',
+                    'label'=>'<i class="fa fa-credit-card" style="padding:0 3px;"></i>',
                ),
                 'delete' => array(
                      //'imageUrl'=>'/images/system/proc.png',

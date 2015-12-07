@@ -810,8 +810,21 @@ class GuideController extends Controller
 		if(isset($_POST['CashboxChangeRequests']))
 		{
 			$model->attributes=$_POST['CashboxChangeRequests'];
-			if($model->save())
+			$model->image = CUploadedFile::getInstance($model,'image');
+			if($model->save()){
+				if (is_object($model->image)) {          
+                  $file = 'image/cashdocs/'.$model->image;
+ 					if($model->image->saveAs($file)){
+						$doc=new CashboxChangeRequestDocuments;
+						$doc->link=$model->image;
+						$doc->cashbox_change_requestid=$model->idcashbox_change_requests;
+						$doc->save();						
+					}
+						
+				}  
+				
 				$this->redirect(array('cashReport'));
+			}
 		}
 
 		$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());

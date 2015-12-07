@@ -18,6 +18,7 @@
  */
 class CashboxChangeRequests extends CActiveRecord
 {
+    public $image; 
 	public $from_date;
 	public $to_date;
 	/**
@@ -41,12 +42,16 @@ class CashboxChangeRequests extends CActiveRecord
 			array('delta_cash', 'numerical'),
 //			array('id_type', 'checktype'),
 			array('reason', 'length', 'max'=>255),
-			array('approval_date,id_users,id_type,delta_cash,approvedBy,reason,sched_user_id', 'safe'),
+			array('approval_date,id_users,id_type,delta_cash,approvedBy,reason,sched_user_id,image', 'safe'),
+			array('image', 'file', 'maxSize'=>10*1024*1024),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('idcashbox_change_requests, id_users, id_type, delta_cash, reason, approvedBy, request_date, approval_date', 'safe', 'on'=>'search'),
 		);
 	}
+	/**
+	 * @return array relational rules.
+	 */
 	protected function beforeValidate()
     {
 		if(in_array($this->id_type, [1,2])) {
@@ -100,6 +105,7 @@ class CashboxChangeRequests extends CActiveRecord
 			'apuser' => array(self::BELONGS_TO, 'User', 'approvedBy'),	
 			'cashtype' => array(self::BELONGS_TO, 'CashboxType', 'id_type'),	
 			'sched'=>array(self::BELONGS_TO, 'SegScheduledTours', 'sched_user_id'),
+       		'doc' => array(self::HAS_ONE, 'CashboxChangeRequestDocuments', 'cashbox_change_requestid'),
 			'tuser'=>array(self::BELONGS_TO, 'User', 'sched_user_id','with'=>'contact_ob'),
 				);
 	}
@@ -112,6 +118,7 @@ class CashboxChangeRequests extends CActiveRecord
 		return array(
 			'idcashbox_change_requests' => 'Id',
 			'id_users' => 'Id Users',
+			'image' => 'Upload document',
 			'id_type' => 'Type',
 			'delta_cash' => 'Cash',
 			'reason' => 'Reason',
