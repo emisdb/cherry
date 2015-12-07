@@ -6,7 +6,9 @@
 
 <h1>All users</h1>
 
-<div class="create"><a href="<?php echo Yii::app()->request->baseUrl; ?>/user/create">New record</a></div>
+<div class="create">
+	<?php   echo CHtml::link('New user', array('userCreate')); ?>
+ </div>
 <hr />	
        </section>
 		

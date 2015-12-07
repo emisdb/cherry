@@ -90,6 +90,44 @@ class OfficeController extends Controller
 				'info'=>$test,
 	));
 	}
+	public function actionUserCreate()
+	{
+       $model=new User;
+        $model_contact = new SegContacts;
+        $model_guide = new SegGuidesdata;
+   	    $criteria=new CDbCriteria;
+            $criteria->condition='groupname<>:groupname1 AND groupname<>:groupname2 AND groupname<>:groupname3';
+            $criteria->params=array(':groupname1'=>'root',':groupname2'=>'admin',':groupname3'=>'office');
+            $usergroups = Usergroups::model()->findAll($criteria);
+
+		// Uncomment the following line if AJAX validation is needed
+		//$this->performAjaxValidation($model);
+
+		if(isset($_POST['User']))
+		{
+		    //information profile
+            $model->id_usergroups = $_POST['User']['role_ob'];
+			$model->attributes=$_POST['User'];
+            $model->status =1;  
+
+            if($model_contact->save()){
+                $model->id_contact =  $model_contact->idcontacts;
+                if($model->id_usergroups==5){
+                    if($model_guide->save())
+                        $model->id_guide =  $model_guide->idseg_guidesdata;
+                }
+                if($model->save())
+                    $this->redirect(array('ucontact','id'=>$model->id_contact,'id_user'=>$model->id));
+            }
+		}
+	$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+  	$this->render('create_user',array(
+		'model'=>$model,
+		'usergroups'=>$usergroups,
+		'info'=>$test,
+	));
+	}
+
 	public function actionUserUpdate($id)
 	{
     		$model=$this->loadUser($id);
@@ -234,14 +272,11 @@ class OfficeController extends Controller
 	    $id_control = Yii::app()->user->id;
         $update_user = User::model()->findByPk($id_user);
         $result=false;   
-        $criteria = new CDbCriteria;
-        $criteria->condition = 'id=:id';
-        $criteria->params = array(':id' => $id_user);
-        $id_contact = User::model()->find($criteria)->id_contact;
-        $id_guide = User::model()->find($criteria)->id_guide;
+        $id_contact = $update_user->id_contact;
+        $id_guide = $update_user->id_guide;
 			
     	$model=$this->loadContact($id_contact);
-  	$modelgd=$this->loadGuideData($id_guide);
+		$modelgd=$this->loadGuideData($id_guide);
  
 		$criteria_t=new CDbCriteria;
 		$criteria_t->condition='usersid=:usersid';
@@ -295,20 +330,20 @@ class OfficeController extends Controller
         $criteria=new CDbCriteria;
         $criteria->condition='users_id=:users_id';
         $criteria->params=array(':users_id'=>$id_user);
-        $selected_lang_list=CHtml::listData(SegLanguagesGuides::model()->findAll($criteria),'languages_id','languages_id');
+        $selected_lang_list=CHtml::listData(SegLanguagesGuides::model()->findAll($criteria),'idseg_languages_guides','languages_id');
         $lang_list=CHtml::listData(Languages::model()->findAll(),'id_languages','englishname');
         
         $criteria=new CDbCriteria;
         $criteria->condition='usersid=:usersid';
         $criteria->params=array(':usersid'=>$id_user);
-        $selected_cat_list=CHtml::listData(SegGuidesTourroutes::model()->findAll($criteria),'tourroutes_id','tourroutes_id');
+        $selected_cat_list=CHtml::listData(SegGuidesTourroutes::model()->findAll($criteria),'idseg_guides_tourroutes','tourroutes_id');
         $cat_list=CHtml::listData(TourCategories::model()->findAll(),'id_tour_categories','name');
  
         $criteria=new CDbCriteria;
         $criteria->condition='users_id=:usersid';
         $criteria->params=array(':usersid'=>$id_user);
         $city=$this->loadGuideCity($id_user);
- 
+
      
     		if(isset($_POST['SegContacts']))
     		{
@@ -361,6 +396,7 @@ class OfficeController extends Controller
                 {
                      if(isset($_POST['SegGuidesCities'])) {
                             $city->attributes=$_POST['SegGuidesCities'];
+							$city->users_id=$id_user;
            		if($city->save()) $result=true;
                         else $result=false;
                         
@@ -368,18 +404,42 @@ class OfficeController extends Controller
                
                 }
  		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
- 		if($result)
-                {
-                     if(isset($_POST['SegGuidesOptions'])) {
-                      $this->render('test',array(
-                    'model'=>$_POST['SegGuidesOptions'],
- 			'lang_list' => $selected_lang_list,
-			'cat_list' => $selected_cat_list,
-                   'info'=>$test,
-                             ));
-                      return;
-                    }
-               
+ 		if($result)	{
+			   if(isset($_POST['SegGuidesOptions'])) {
+				   $langs=$_POST['SegGuidesOptions']['langlist'];
+				   $cats=$_POST['SegGuidesOptions']['catlist'];
+				   foreach ($selected_lang_list as $key => $value){
+					   if(!in_array($value, $langs)){
+							$this->loadLang($key)->delete(); 
+					   }
+
+				   }
+				   foreach ($langs as $value) {
+					   if(!in_array($value, $selected_lang_list)){
+							$model_lang = new SegLanguagesGuides;
+							$model_lang->users_id = $id_user;
+							$model_lang->languages_id = $value;
+							$model_lang->save();
+					   }
+
+				   }
+				   foreach ($selected_cat_list as $key => $value){
+					   if(!in_array($value, $cats)){
+							$this->loadGTR($key)->delete(); 
+					   }
+
+				   }
+				   foreach ($cats as $value) {
+					   if(!in_array($value, $selected_cat_list)){
+							$model_lang = new SegGuidesTourroutes;
+							$model_lang->usersid = $id_user;
+							$model_lang->tourroutes_id = $value;
+							$model_lang->save();
+					   }
+
+				   }
+				 }
+
                 }
                 if ($result)
                 {
@@ -543,14 +603,6 @@ class OfficeController extends Controller
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('cr'));
-	}
-	
-	public function loadCR($id)
-	{
-		$model=CancellationReason::model()->findByPk($id);
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
-		return $model;
 	}
 
 	 
@@ -1680,6 +1732,19 @@ class OfficeController extends Controller
             $criteria->condition='users_id=:usersid';
             $criteria->params=array(':usersid'=>$id_user);
 		$model=SegGuidesCities::model()->find($criteria);
+		if (!isset($model)) $model=new SegGuidesCities();
+		return $model;
+	}
+	public function loadGTR($id)
+	{
+		$model=SegGuidesTourroutes::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+	public function loadLang($id)
+	{
+		$model=SegLanguagesGuides::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -1718,4 +1783,13 @@ class OfficeController extends Controller
 		}
 		return $this->_model;
 	}
+		
+	public function loadCR($id)
+	{
+		$model=CancellationReason::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
 }

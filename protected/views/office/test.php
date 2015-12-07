@@ -12,6 +12,7 @@
     echo json_encode($model);
 		echo "<hr>";
     echo json_encode($lang_list);
+    print_r($lang_list);
 		echo "<hr>";
     echo json_encode($cat_list);
 		echo "<hr>";
