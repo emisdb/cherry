@@ -182,7 +182,7 @@ class CashboxChangeRequests extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 		$sort   = new CSort;
-        $criteria->with = array("sched","apuser","cashtype");
+        $criteria->with = array("sched","apuser","cashtype","doc");
 		$criteria->compare('idcashbox_change_requests',$this->idcashbox_change_requests);
 		$criteria->compare('id_users',$this->id_users);
 		$criteria->compare('id_type',$this->id_type);

@@ -162,10 +162,18 @@ $dataProvider=$model->search();
 		array(
 		
 				'class'=>'CButtonColumn',
-				'template'=>'{pdf}',
+				'template'=>'{pdf}{view}',
 				'buttons' => array(
-				   'pdf' => array(
+				   'view' => array(
 						'imageUrl'=>'/img/view.png',
+						'url' => 'Yii::app()->createUrl("/image/cashdocs/".$data->doc->link)',
+//						'url' => '$data->sched->additional_info2',
+					   'options'=>array("target"=>'_blank'),
+						'label'=>'View file',
+						'visible'=>'!is_null($data->doc)',
+				   ),
+				   'pdf' => array(
+						'imageUrl'=>'/img/pdf.png',
 						'url' => 'Yii::app()->createUrl("/filespdf/".$data->sched->additional_info2.".pdf")',
 //						'url' => '$data->sched->additional_info2',
 					   'options'=>array("target"=>'_blank'),

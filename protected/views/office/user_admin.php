@@ -1,8 +1,8 @@
 <style>
 	.table_scheduled_pdf,.grid-view table.items tbody tr.table_scheduled_pdf:hover{ background:red;  color:#fff; font-weight: bold; }
 	.table_scheduled{ background:#eeeeee; }
-	.cell_green{ background-color:#46a546 ; }
-	.cell_yellow{ background:#FFE495; }
+	.cell_green{ background-color:#46a546; color:#000; }
+	.cell_yellow{ background:#FFE495; color:#000; }
 </style>
 <?php $this->renderPartial('_top', array('info'=>$info)); ?>
     <!-- Content Wrapper. Contains page content -->
