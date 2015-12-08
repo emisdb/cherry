@@ -10,7 +10,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
 
-<h1>All users</h1>
+<h1>All guides</h1>
 
 <div class="create">
 	<?php   echo CHtml::link('New user', array('userCreate')); ?>
@@ -67,16 +67,19 @@
                      //'imageUrl'=>'/images/system/proc.png',
                     'url' => 'array("ucontact","id"=>$data->id_contact,"id_user"=>$data->id)',
                     'label'=>'<i class="fa fa-user" style="padding:0 3px;"></i>',
+                    'options'=>array('title'=>'Guide edit'),
                ),
                 'cash' => array(
                      //'imageUrl'=>'/images/system/proc.png',
                     'url' => 'array("cashReport","id"=>$data->id)',
                     'label'=>'<i class="fa fa-credit-card" style="padding:0 3px;"></i>',
+                    'options'=>array('title'=>'Cashbox history'),
                ),
                'cash_ap' => array(
                      //'imageUrl'=>'/images/system/proc.png',
                     'url' => 'array("cashReport","id"=>$data->id,"typo"=>1)',
                     'label'=>'<i class="fa fa-check-square-o" style="padding:0 3px;"></i>',
+                    'options'=>array('title'=>'Cashbox operations'),
                ),
                 'delete' => array(
                      //'imageUrl'=>'/images/system/proc.png',
