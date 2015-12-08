@@ -188,11 +188,7 @@ class OfficeController extends Controller
     			$model->attributes=$_POST['User'];
                // $model->id_usergroups = $_POST['User']['role_ob'];
     			if($model->save())
-    				if($id==$id_control){
-    				    $this->redirect(array('profile'));
-                    } else {
-                        $this->redirect(array('admin'));
-                    }
+                            $this->redirect(array('admin'));
     		}
     
  		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
