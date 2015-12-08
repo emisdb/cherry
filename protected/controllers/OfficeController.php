@@ -51,7 +51,7 @@ class OfficeController extends Controller
 		$this->totval=$this->totval+$data->delta_cash;
 		return Yii::app()->numberFormatter->formatCurrency($this->totval, '') ;
 	}
-		public function actionCashReport($id)
+		public function actionCashReport($id,$typo=0)
 	{
 		$id_control = Yii::app()->user->id;
 		$model=new CashboxChangeRequests('search');
@@ -85,7 +85,9 @@ class OfficeController extends Controller
 		}
 
  		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
-	$this->render('cash_admin',array(
+		if($typo==0) $view='cash_admin';
+		else  $view='cash_admin_1';
+	$this->render($view,array(
 				'model'=>$model,
 				'user'=>$user,
 				'cashnow'=>$cashnow,

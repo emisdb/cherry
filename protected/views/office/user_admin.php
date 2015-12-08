@@ -15,7 +15,6 @@
 <div class="create">
 	<?php   echo CHtml::link('New user', array('userCreate')); ?>
  </div>
-<hr />	
        </section>
 		
         <!-- Main content -->
@@ -56,8 +55,8 @@
 								  ),
 				array(
                 'class'=>'CButtonColumn',
-                'template'=>'{update}{pwd}{cash}{delete}',
-                'htmlOptions' => array('style'=>'width:100px;'),
+                'template'=>'{update}{pwd}{cash}{cash_ap}{delete}',
+                'htmlOptions' => array('style'=>'width:110px;'),
                 'buttons' => array(
                 'update' => array(
                      //'imageUrl'=>'/images/system/proc.png',
@@ -73,6 +72,11 @@
                      //'imageUrl'=>'/images/system/proc.png',
                     'url' => 'array("cashReport","id"=>$data->id)',
                     'label'=>'<i class="fa fa-credit-card" style="padding:0 3px;"></i>',
+               ),
+               'cash_ap' => array(
+                     //'imageUrl'=>'/images/system/proc.png',
+                    'url' => 'array("cashReport","id"=>$data->id,"typo"=>1)',
+                    'label'=>'<i class="fa fa-check-square-o" style="padding:0 3px;"></i>',
                ),
                 'delete' => array(
                      //'imageUrl'=>'/images/system/proc.png',
