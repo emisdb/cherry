@@ -327,7 +327,7 @@ class OfficeController extends Controller
 
         $array_tour = array();
         $array_tour_link = array();
-        if(isset($link_tourroutes)) {
+        if(count($link_tourroutes)>0) {
 
                 $criteria_a=new CDbCriteria;
                 $criteria_a->condition='users_id=:users_id';
@@ -385,9 +385,7 @@ class OfficeController extends Controller
         $criteria->condition='users_id=:usersid';
         $criteria->params=array(':usersid'=>$id_user);
         $city=$this->loadGuideCity($id_user);
-        var_dump($link_tourroutes);
-        return;
-
+ 
      
     		if(isset($_POST['SegContacts']))
     		{
@@ -492,7 +490,7 @@ class OfficeController extends Controller
                 else 
                 {
                     $this->render('contact',array(
-                    'model'=>$model,'modelgd'=>$modelgd,'id_user'=>$id,
+                    'model'=>$model,'modelgd'=>$modelgd,
                     'update_user'=>$update_user,
 			'link_tourroutes'=>$link_tourroutes,
  			'array_tour' => $array_tour,

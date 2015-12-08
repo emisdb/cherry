@@ -42,17 +42,15 @@ $this->breadcrumbs=array(
 
 
 <?php 
-    $this->renderPartial('_form_contact', array('model'=>$model,'id_user'=>$id_user, 'form'=>$form)); 
-    $this->renderPartial('_form_gd', array('model'=>$modelgd,'id_user'=>$id_user, 'form'=>$form)); 
+    $this->renderPartial('_form_contact', array('model'=>$model, 'form'=>$form)); 
+    $this->renderPartial('_form_gd', array('model'=>$modelgd, 'form'=>$form)); 
     $this->renderPartial('cashinfo', array(
                     'model'=>$modelgd,
-                    'id_user'=>$id_user,
                     'form'=>$form)); 
    $this->renderPartial('cashinfo_', array(
  			'link_tourroutes'=>$link_tourroutes,
  			'array_tour' => $array_tour,
 			'array_tour_link' => $array_tour_link,
-                     'id_user'=>$id_user,
                     'form'=>$form)); 
    $this->renderPartial('_contact_settings', array(
 			'selected_lang_list' => $selected_lang_list,
