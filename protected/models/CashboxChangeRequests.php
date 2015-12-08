@@ -46,7 +46,7 @@ class CashboxChangeRequests extends CActiveRecord
 			array('image', 'file', 'maxSize'=>10*1024*1024),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idcashbox_change_requests, id_users, id_type, delta_cash, reason, approvedBy, request_date, approval_date', 'safe', 'on'=>'search'),
+			array('idcashbox_change_requests, id_users, id_type, delta_cash, sched ,reason, approvedBy, request_date, approval_date', 'safe', 'on'=>'search'),
 		);
 	}
 	/**
@@ -104,7 +104,7 @@ class CashboxChangeRequests extends CActiveRecord
 			'user' => array(self::BELONGS_TO, 'User', 'id_users'),	
 			'apuser' => array(self::BELONGS_TO, 'User', 'approvedBy'),	
 			'cashtype' => array(self::BELONGS_TO, 'CashboxType', 'id_type'),	
-			'sched'=>array(self::BELONGS_TO, 'SegScheduledTours', 'sched_user_id'),
+			'sched'=>array(self::BELONGS_TO, 'SegScheduledTours', 'sched_user_id','with'=>'guidestourinvoice'),
        		'doc' => array(self::HAS_ONE, 'CashboxChangeRequestDocuments', 'cashbox_change_requestid'),
 			'tuser'=>array(self::BELONGS_TO, 'User', 'sched_user_id','with'=>'contact_ob'),
 				);
@@ -119,6 +119,7 @@ class CashboxChangeRequests extends CActiveRecord
 			'idcashbox_change_requests' => 'Id',
 			'id_users' => 'Id Users',
 			'image' => 'Upload document',
+                        'sched' => 'Invoice #',
 			'id_type' => 'Type',
 			'delta_cash' => 'Cash',
 			'reason' => 'Reason',
@@ -182,7 +183,7 @@ class CashboxChangeRequests extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 		$sort   = new CSort;
-        $criteria->with = array("sched","apuser","cashtype","doc");
+                $criteria->with = array("sched"=>array("with"=>"guidestourinvoice"),"apuser","cashtype","doc");
 		$criteria->compare('idcashbox_change_requests',$this->idcashbox_change_requests);
 		$criteria->compare('id_users',$this->id_users);
 		$criteria->compare('id_type',$this->id_type);
@@ -193,7 +194,7 @@ class CashboxChangeRequests extends CActiveRecord
 		$criteria->compare('approval_date',$this->approval_date,true);
 		$this->daterange($criteria);
 		$sort->defaultOrder= array(
-            'request_date'=>CSort::SORT_ASC,
+            'request_date'=>CSort::SORT_DESC,
         );
 		return new CActiveDataProvider($this, array(
           'pagination'=>false,

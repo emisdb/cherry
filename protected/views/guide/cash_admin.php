@@ -148,6 +148,13 @@ $dataProvider=$model->search();
 			
 			 ),
 		 array(
+					'name'=>'sched',
+					'type'=>'raw',
+					'value'=>"\$data->id_type<3 ? \$data->sched->tastring : '-'",
+					'filter'=>false, // Set the filter to false when date range searching
+			
+			 ),
+		 array(
 					'name'=>'approvedBy',
 					'type'=>'raw',
 					'value'=>"isset(\$data->apuser) ? \$data->apuser->username : '-'",
