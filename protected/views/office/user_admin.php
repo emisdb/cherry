@@ -65,7 +65,7 @@
                ),
                 'pwd' => array(
                      //'imageUrl'=>'/images/system/proc.png',
-                    'url' => 'array("ucontact","id"=>$data->id_contact,"id_user"=>$data->id)',
+                    'url' => 'array("ucontact","id_user"=>$data->id)',
                     'label'=>'<i class="fa fa-user" style="padding:0 3px;"></i>',
                     'options'=>array('title'=>'Guide edit'),
                ),

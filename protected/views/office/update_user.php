@@ -13,13 +13,8 @@ $this->renderPartial('_top', array('info'=>$info));
             
 <?php if($model->id != Yii::app()->user->id) {
     echo '<div class="create">';
-    echo CHtml::link('Update contact', array('ucontact','id'=>$model->id_contact,'id_user'=>$model->id));
+    echo CHtml::link('Update contact', array('ucontact','id_user'=>$model->id));
     echo '</div>';
-    if($model->id_guide!=0){
-        echo '<div class="create">';
-        echo CHtml::link('Update guide info', array('guide','id'=>$model->id_guide,'id_user'=>$model->id));
-        echo '</div>';
-        }
     }
     ?>
 

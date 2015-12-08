@@ -141,9 +141,9 @@ class OfficeController extends Controller
 	}
 	public function actionUserCreate()
 	{
-       $model=new User;
-        $model_contact = new SegContacts;
-        $model_guide = new SegGuidesdata;
+            $model=new User;
+            $model_contact = new SegContacts;
+            $model_guide = new SegGuidesdata;
    	    $criteria=new CDbCriteria;
             $criteria->condition='groupname<>:groupname1 AND groupname<>:groupname2 AND groupname<>:groupname3';
             $criteria->params=array(':groupname1'=>'root',':groupname2'=>'admin',':groupname3'=>'office');
@@ -152,29 +152,29 @@ class OfficeController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		//$this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
-		{
+            if(isset($_POST['User']))
+            {
 		    //information profile
-            $model->id_usergroups = $_POST['User']['role_ob'];
-			$model->attributes=$_POST['User'];
-            $model->status =1;  
+                $model->id_usergroups = $_POST['User']['role_ob'];
+                            $model->attributes=$_POST['User'];
+                $model->status =1;  
 
-            if($model_contact->save()){
-                $model->id_contact =  $model_contact->idcontacts;
-                if($model->id_usergroups==5){
-                    if($model_guide->save())
-                        $model->id_guide =  $model_guide->idseg_guidesdata;
+                if($model_contact->save()){
+                    $model->id_contact =  $model_contact->idcontacts;
+                    if($model->id_usergroups==5){
+                        if($model_guide->save())
+                            $model->id_guide =  $model_guide->idseg_guidesdata;
+                    }
+                    if($model->save())
+                    $this->redirect(array('ucontact','id_user'=>$model->id));
                 }
-                if($model->save())
-                    $this->redirect(array('ucontact','id'=>$model->id_contact,'id_user'=>$model->id));
             }
-		}
-	$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
-  	$this->render('create_user',array(
-		'model'=>$model,
-		'usergroups'=>$usergroups,
-		'info'=>$test,
-	));
+            $test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+            $this->render('create_user',array(
+                    'model'=>$model,
+                    'usergroups'=>$usergroups,
+                    'info'=>$test,
+            ));
 	}
 	public function actionUserUpdate($id)
 	{
@@ -309,7 +309,7 @@ class OfficeController extends Controller
   			'info'=>$test,
 				));
   }
-	public function actionUcontact($id,$id_user)
+	public function actionUcontact($id_user)
 	{
 	    $id_control = Yii::app()->user->id;
         $update_user = User::model()->findByPk($id_user);
@@ -318,57 +318,57 @@ class OfficeController extends Controller
         $id_guide = $update_user->id_guide;
 			
     	$model=$this->loadContact($id_contact);
-		$modelgd=$this->loadGuideData($id_guide);
+	$modelgd=$this->loadGuideData($id_guide);
  
-		$criteria_t=new CDbCriteria;
-		$criteria_t->condition='usersid=:usersid';
-		$criteria_t->params=array(':usersid'=>$id_user);
-		$link_tourroutes = SegGuidesTourroutes::model()->findAll($criteria_t);
+        $criteria_t=new CDbCriteria;
+        $criteria_t->condition='usersid=:usersid';
+        $criteria_t->params=array(':usersid'=>$id_user);
+        $link_tourroutes = SegGuidesTourroutes::model()->findAll($criteria_t);
 
-		$array_tour = array();
-		$array_tour_link = array();
-		if(isset($link_tourroutes)) {
-			
-			$criteria_a=new CDbCriteria;
-			$criteria_a->condition='users_id=:users_id';
-			$criteria_a->params=array(':users_id'=>$id_user);
-			$a = SegGuidesCities::model()->find($criteria_a)->cities_id;
-			$i=0;
-		
-			foreach($link_tourroutes as $item) {
-				$b = $item->tourroutes_id;
-				$criteria_tour=new CDbCriteria;
-				$criteria_tour->condition='id_tour_categories=:id_tour_categories AND cityid=:cityid';
-				$criteria_tour->params=array(':id_tour_categories'=>$b,'cityid'=>$a);
-				$tourroute = SegTourroutes::model()->find($criteria_tour);
-				$array_tour[$i] = 	$tourroute;
-				$array_tour_link[$i] = $item;
-				
-				if($i==0) {
-					$array_tour_link[$i]->base_provision0 = $item->base_provision;
-					$array_tour_link[$i]->guest_variable0 = $item->guest_variable;
-					$array_tour_link[$i]->guestsMinforVariable0 = $item->guestsMinforVariable;
-					$array_tour_link[$i]->voucher_provision0 = $item->voucher_provision;
-				}
-				if($i==1) {
-					$array_tour_link[$i]->base_provision1 = $item->base_provision;
-					$array_tour_link[$i]->guest_variable1 = $item->guest_variable;
-					$array_tour_link[$i]->guestsMinforVariable1 = $item->guestsMinforVariable;
-					$array_tour_link[$i]->voucher_provision1 = $item->voucher_provision;
-				}
-				if($i==2) {
-					$array_tour_link[$i]->base_provision2 = $item->base_provision;
-					$array_tour_link[$i]->guest_variable2 = $item->guest_variable;
-					$array_tour_link[$i]->guestsMinforVariable2 = $item->guestsMinforVariable;
-					$array_tour_link[$i]->voucher_provision2 = $item->voucher_provision;
-				}
-				
-		
-				
-				$i++;
-			}
-			
-		}
+        $array_tour = array();
+        $array_tour_link = array();
+        if(isset($link_tourroutes)) {
+
+                $criteria_a=new CDbCriteria;
+                $criteria_a->condition='users_id=:users_id';
+                $criteria_a->params=array(':users_id'=>$id_user);
+                $a = SegGuidesCities::model()->find($criteria_a)->cities_id;
+                $i=0;
+
+                foreach($link_tourroutes as $item) {
+                        $b = $item->tourroutes_id;
+                        $criteria_tour=new CDbCriteria;
+                        $criteria_tour->condition='id_tour_categories=:id_tour_categories AND cityid=:cityid';
+                        $criteria_tour->params=array(':id_tour_categories'=>$b,'cityid'=>$a);
+                        $tourroute = SegTourroutes::model()->find($criteria_tour);
+                        $array_tour[$i] = 	$tourroute;
+                        $array_tour_link[$i] = $item;
+
+                        if($i==0) {
+                                $array_tour_link[$i]->base_provision0 = $item->base_provision;
+                                $array_tour_link[$i]->guest_variable0 = $item->guest_variable;
+                                $array_tour_link[$i]->guestsMinforVariable0 = $item->guestsMinforVariable;
+                                $array_tour_link[$i]->voucher_provision0 = $item->voucher_provision;
+                        }
+                        if($i==1) {
+                                $array_tour_link[$i]->base_provision1 = $item->base_provision;
+                                $array_tour_link[$i]->guest_variable1 = $item->guest_variable;
+                                $array_tour_link[$i]->guestsMinforVariable1 = $item->guestsMinforVariable;
+                                $array_tour_link[$i]->voucher_provision1 = $item->voucher_provision;
+                        }
+                        if($i==2) {
+                                $array_tour_link[$i]->base_provision2 = $item->base_provision;
+                                $array_tour_link[$i]->guest_variable2 = $item->guest_variable;
+                                $array_tour_link[$i]->guestsMinforVariable2 = $item->guestsMinforVariable;
+                                $array_tour_link[$i]->voucher_provision2 = $item->voucher_provision;
+                        }
+
+
+
+                        $i++;
+                }
+
+        }
         $criteria=new CDbCriteria;
         $criteria->condition='users_id=:users_id';
         $criteria->params=array(':users_id'=>$id_user);
@@ -385,6 +385,8 @@ class OfficeController extends Controller
         $criteria->condition='users_id=:usersid';
         $criteria->params=array(':usersid'=>$id_user);
         $city=$this->loadGuideCity($id_user);
+        var_dump($link_tourroutes);
+        return;
 
      
     		if(isset($_POST['SegContacts']))
