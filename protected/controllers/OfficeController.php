@@ -303,8 +303,8 @@ class OfficeController extends Controller
     		}
   		$test=array('guide'=>$model,'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
   
-    		$this->render('contact',array(
-    			'model'=>$model,'id_user'=>$id,
+    		$this->render('contact_',array(
+    			'model'=>$model,
 				'update_user'=>$update_user,
   			'info'=>$test,
 				));

@@ -41,7 +41,8 @@
 		        array(
             'name'=>'status',
 			'value'=>array($model,'statuslabel'),
-            ),
+ 				'footer'=>'Total:',
+           ),
 		
             'cityname',
                               array(
@@ -52,10 +53,14 @@
 					'filter'=>true, // Set the filter to false when date range searching
 					'htmlOptions'=>array('style' => 'text-align: right;'),
 					'cssClassExpression' => '$data->paySum<300 ? "cell_green" : ($data->paySum>1500 ? "cell_yellow" : "")',
+                        'footer'=>$model->getTotals($model->search_office()->getKeys()),
+                       'footerHtmlOptions'=>array(
+                           'style'=>'font-style:normal; color:#000;text-align:right;'
+                     ),
 								  ),
 				array(
                 'class'=>'CButtonColumn',
-                'template'=>'{update}{pwd}{cash}{cash_ap}{delete}',
+                'template'=>'{update}{pwd}{cash}{cash_ap}',
                 'htmlOptions' => array('style'=>'width:110px;'),
                 'buttons' => array(
                 'update' => array(

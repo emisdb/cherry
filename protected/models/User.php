@@ -16,6 +16,7 @@ class User extends CActiveRecord
     public $new_confirm;
 	private $_use = null;
 	private $_name = null;
+	private $_sum = 0;
 	public function getGuidename(){
 		if ($this->_name === null && $this->contact_ob !== null)
 		{
@@ -37,6 +38,16 @@ class User extends CActiveRecord
 	}
 	public function setCityname($value){
 		$this->_use = $value;
+	}
+	public function getPaysum(){
+		if ($this->_sum === null && $this->paySum !== null)
+		{
+			$this->_sum = $this->paySum;
+		}
+		return $this->_sum;
+	}
+	public function setCPaysum($value){
+		$this->_sum = $value;
 	}
 
 	/**
@@ -72,7 +83,7 @@ class User extends CActiveRecord
             array('new_confirm', 'compare', 'compareAttribute'=>'new_password', 'message'=>'Passwords do not match'), 
 			array('profile', 'safe'),
 //            array('id, id_usergroups, role_ob, username, profile, lastlogin, id_city, id_guide, guide_ob, id_contact, contact_ob,tourcategories_sv', 'safe', 'on'=>'search'),
-            array('id, id_usergroups, role_ob, username,status, profile, lastlogin, id_city, id_guide, guide_ob, id_contact, contact_ob,tourcategories_sv,cityname,guidename', 'safe', 'on'=>'search_office'),
+            array('username,status, paysum, paySum, payNA, cityname, guidename', 'safe', 'on'=>'search_office'),
            // array('id, id_usergroups, role_ob, username, profile, lastlogin, id_city, id_guide, guide_ob, id_contact, contact_ob,tourcategories_sv', 'safe', 'on'=>'search_admin'),
           
 //            array('id,username, profile', 'safe', 'on'=>'search_office'),
@@ -210,21 +221,16 @@ class User extends CActiveRecord
 
         $criteria->condition='id_usergroups<>:id_usergroups1 AND id_usergroups<>:id_usergroups2 AND id_usergroups<>:id_usergroups3';
         $criteria->params=array(':id_usergroups1'=>1,':id_usergroups2'=>2,':id_usergroups3'=>3);
-
-        $criteria->with = array('role_ob','contact_ob','guide_ob','payNA','city'=>array('with'=>'cities'));
+//		$criteria->select="t.*, SUM(delta_cash) AS paysum ";
+//		$citeria->join="LEFT JOIN cashbox_change_requests  ON cashbox_change_requests.id_users = t.id";
+//        $citeria->condition = "approvedBy IS NOT NULL";
+//        $citeria->group = 't.id';
+        $criteria->with = array('contact_ob'=>array('select'=>'firstname,surname'),'city'=>array('with'=>'cities'),'payNA','paySum');
 		$criteria->compare('cities.seg_cityname',$this->cityname,true);
-		$criteria->compare('role_ob.idusergroups',$this->role_ob);
-		$criteria->compare('contact_ob.idcontacts',$this->contact_ob);
-//  		$criteria->compare('contact_ob.firstname',$this->guidename,true,'OR');
-//   		$criteria->compare('contact_ob.surname',$this->guidename,true,'OR');
 		if(strlen($this->guidename)>0)
 		   $criteria->addCondition('contact_ob.firstname LIKE \'%'.$this->guidename.'%\' OR contact_ob.surname LIKE \'%'.$this->guidename.'%\'');
-       $criteria->compare('guide_ob.idseg_guidesdata',$this->guide_ob);
-        
-       	$criteria->compare('id',$this->id);
+//       	$criteria->compare('paysum',$this->paysum);
        	$criteria->compare('status',$this->status);
-		$criteria->compare('username',$this->username,true);
-		$criteria->compare('profile',$this->profile,true);
 		$sort->attributes = array(
 			'*',
 			'cityname'=>array('asc'=>'cities.seg_cityname',
@@ -233,6 +239,9 @@ class User extends CActiveRecord
 			'guidename'=>array('asc'=>'contact_ob.firstname, contact_ob.surname',
 							'desc'=>'contact_ob.firstname DESC, contact_ob.surname DESC', 
 							'label'=>'Guide\'s name'),
+//			'paysum'=>array('asc'=>'paysum',
+//							'desc'=>'paysum DESC', 
+//							'label'=>'Balance'),
 		);
 
 		return new CActiveDataProvider($this, array(
@@ -242,6 +251,16 @@ class User extends CActiveRecord
 		));
 	}
 
+		public function getTotals($ids)
+        {
+                $ids = implode(",",$ids);
+               if(strlen($ids)==0)  return Yii::app()->numberFormatter->formatCurrency(0,'');
+                
+                $connection=Yii::app()->db;
+                 $command=$connection->createCommand("SELECT SUM(delta_cash)
+                                                     FROM `cashbox_change_requests` WHERE id_users IN (".$ids.") AND approvedBy IS NOT NULL");
+                return Yii::app()->numberFormatter->formatCurrency($command->queryScalar(),'');
+        }
 
     protected function beforeSave()
     {
