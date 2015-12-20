@@ -54,7 +54,7 @@ class OfficeController extends Controller
 		public function actionCashReport($id,$typo=0)
 	{
 		$id_control = Yii::app()->user->id;
-		$model=new CashboxChangeRequests('search');
+		$model=new CashboxChangeRequests();
 		$model->unsetAttributes();  // clear any default values
 		$model->id_users=$id;
 		$user=User::model()->with('contact_ob')->find('id=:id',array(':id'=>$id));

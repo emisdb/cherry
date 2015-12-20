@@ -60,7 +60,7 @@
 								  ),
 				array(
                 'class'=>'CButtonColumn',
-                'template'=>'{update}{pwd}{cash}{cash_ap}',
+                'template'=>'{update}{pwd}{cash}{cash_ap}{cash_give}',
                 'htmlOptions' => array('style'=>'width:110px;'),
                 'buttons' => array(
                 'update' => array(
@@ -89,6 +89,12 @@
                 'delete' => array(
                      //'imageUrl'=>'/images/system/proc.png',
                     'url' => 'array("userDelete", "id" => $data->id)',
+               ),
+               'cash_give' => array(
+                     //'imageUrl'=>'/images/system/proc.png',
+                    'url' => 'array("cashGive","id"=>$data->id)',
+                    'label'=>'<i class="fa fa-arrow-circle-left" style="padding:0 3px;"></i>',
+                    'options'=>array('title'=>'Send money'),
                ),
              ),
             ),

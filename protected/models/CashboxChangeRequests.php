@@ -177,7 +177,7 @@ class CashboxChangeRequests extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($guide=0)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
@@ -192,6 +192,9 @@ class CashboxChangeRequests extends CActiveRecord
 		$criteria->compare('approvedBy',$this->approvedBy);
 		$criteria->compare('request_date',$this->request_date,true);
 		$criteria->compare('approval_date',$this->approval_date,true);
+		if($guide>0)
+			$criteria->compare ("id_type", 3);
+//			$criteria->addNotInCondition ("id_type", array(1,2));
 		$this->daterange($criteria);
 		$sort->defaultOrder= array(
             'request_date'=>CSort::SORT_DESC,

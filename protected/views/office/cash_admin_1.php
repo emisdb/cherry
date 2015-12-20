@@ -25,7 +25,7 @@
        <!-- Content Header (Page header) -->
         <section class="content-header">
 
-<h1>Cashbox history for user <?php echo $user['contact_ob']['firstname']." ".$user['contact_ob']['surname']; ?></h1>
+<h1>Cashbox requests for user <?php echo $user['contact_ob']['firstname']." ".$user['contact_ob']['surname']; ?></h1>
       </section>
 
         <!-- Main content -->
@@ -94,7 +94,7 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
 
 
 <?php
-$dataProvider=$model->search();
+$dataProvider=$model->search(1);
 
  $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'pay-grid',
@@ -150,24 +150,20 @@ $dataProvider=$model->search();
 		array(
 		
 				'class'=>'CButtonColumn',
-				'template'=>'{pdf}{view}',
+				'template'=>'{approve}{reject}',
 				'buttons' => array(
-				   'view' => array(
-						'imageUrl'=>'/img/view.png',
-						'url' => 'Yii::app()->createUrl("/image/cashdocs/".$data->doc->link)',
-//						'url' => '$data->sched->additional_info2',
-					   'options'=>array("target"=>'_blank'),
-						'label'=>'View file',
-						'visible'=>'!is_null($data->doc)',
-				   ),
-				   'pdf' => array(
-						'imageUrl'=>'/img/pdf.png',
-						'url' => 'Yii::app()->createUrl("/filespdf/".$data->sched->additional_info2.".pdf")',
-//						'url' => '$data->sched->additional_info2',
-					   'options'=>array("target"=>'_blank'),
-						'label'=>'View PDF',
-						'visible'=>'$data->id_type==1 OR $data->id_type==2',
-				   ),
+               'approve' => array(
+                     //'imageUrl'=>'/images/system/proc.png',
+                    'url' => 'array("cashApprove","id"=>$data->idcashbox_change_requests)',
+                    'label'=>'<i class="fa fa-check-square-o" style="padding:0 3px;"></i>',
+                    'options'=>array('title'=>'Approve'),
+               ),
+              'reject' => array(
+                     //'imageUrl'=>'/images/system/proc.png',
+                    'url' => 'array("cashReject","id"=>$data->idcashbox_change_requests)',
+                    'label'=>'<i class="fa fa-square-o" style="padding:0 3px;"></i>',
+                    'options'=>array('title'=>'Reject'),
+               ),
 				   
 				),
 		),	
