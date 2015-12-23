@@ -24,7 +24,24 @@
 		 </div>
        <!-- Content Header (Page header) -->
         <section class="content-header">
+<?php
+$this->breadcrumbs=array(
+    'Users'=>array('admin'),
+	$user['username']=>array('userUpdate','id'=>$user['id']),
+	'Cashbox requests',
+);
+ $this->widget('zii.widgets.CBreadcrumbs', array(
+        'links'=>$this->breadcrumbs,
+        'homeLink'=>false,
+        'tagName'=>'ul',
+        'separator'=>'',
+        'activeLinkTemplate'=>'<li><a href="{url}">{label}</a></li>',
+        'inactiveLinkTemplate'=>'<li><span>{label}</span></li>',
+        'htmlOptions'=>array ('class'=>'breadcrumb')
+    ));
 
+
+?>
 <h1>Cashbox requests for user <?php echo $user['contact_ob']['firstname']." ".$user['contact_ob']['surname']; ?></h1>
       </section>
 

@@ -2,23 +2,30 @@
      <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-<?php if($model->idcontacts != Yii::app()->user->id) {?>
-<?php
+<?php if($model->idcontacts != Yii::app()->user->id) {
 $this->breadcrumbs=array(
-    'Users'=>array('user/admin'),
-	$update_user->username=>array('user/update/id/'.$update_user->id),
-	//$model->idcontacts=>array('view','id'=>$model->idcontacts),
+    'Users'=>array('admin'),
+	$update_user->username=>array('userUpdate','id'=>$update_user->id),
 	'Update contact',
 );
-?>
-<?php }else{?>
-<?php
+ }else{
 $this->breadcrumbs=array(
     'Profile'=>array('user/profile'),
 	'Update profile contact',
 );
-?>
-<?php }?>
+ }
+ $this->widget('zii.widgets.CBreadcrumbs', array(
+        'links'=>$this->breadcrumbs,
+        'homeLink'=>false,
+        'tagName'=>'ul',
+        'separator'=>'',
+        'activeLinkTemplate'=>'<li><a href="{url}">{label}</a></li>',
+        'inactiveLinkTemplate'=>'<li><span>{label}</span></li>',
+        'htmlOptions'=>array ('class'=>'breadcrumb')
+    ));
+
+
+ ?>
 <h1>Update contact - <?php echo $update_user->username; ?></h1>
        </section>
 

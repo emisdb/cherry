@@ -5,6 +5,23 @@ $this->renderPartial('_top', array('info'=>$info));
      <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
+			<?php
+$this->breadcrumbs=array(
+    'Users'=>array('admin'),
+	'Update user',
+);
+
+ $this->widget('zii.widgets.CBreadcrumbs', array(
+        'links'=>$this->breadcrumbs,
+        'homeLink'=>false,
+        'tagName'=>'ul',
+        'separator'=>'',
+        'activeLinkTemplate'=>'<li><a href="{url}">{label}</a></li>',
+        'inactiveLinkTemplate'=>'<li><span>{label}</span></li>',
+        'htmlOptions'=>array ('class'=>'breadcrumb')
+    ));
+			
+			?>
         <h1>Update user - <?php echo $model->username; ?> (<?php echo $model->role_ob->groupname; ?> )</h1>
      </section>
 

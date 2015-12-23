@@ -94,6 +94,21 @@ class OfficeController extends Controller
 				'info'=>$test
 		));
 	}
+	public function actionCashAdmin()
+	{
+		$model=new CashboxChangeRequests('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['CashboxChangeRequests']))
+			$model->attributes=$_GET['CashboxChangeRequests'];
+ 			$cashnow=0;
+	$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+		$this->render('admin_cash',array(
+			'model'=>$model,
+			'cashnow'=>$cashnow,
+			'info'=>$test
+	));
+	}
+
 		public function actionCashFull()
 	{
 		$id_control = Yii::app()->user->id;
