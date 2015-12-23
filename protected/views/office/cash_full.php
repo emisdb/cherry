@@ -88,36 +88,34 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
 				<?php echo CHtml::submitButton('Filter'); // submit button ?> 
 			</div>
 		</div>
-<?php $this->endWidget(); ?>	
-
-
-
+ 
+		<?php $this->endWidget(); ?>	
 
 <?php
-$dataProvider=$model->search();
+$dataProvider=$model->search_full();
 
  $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'pay-grid',
 	'dataProvider'=>$dataProvider,
    'rowCssClassExpression' => 'is_null($data->approvedBy) ? "table_scheduled_pdf" : "table_scheduled"', 
     'summaryText' => "Starting balance:".Yii::app()->numberFormatter->formatCurrency($cashnow, ''),
-//      'ajaxUpdate'=>false,
-//	'filter'=>$model,
+		'ajaxUpdate'=>true,
+		'filter'=>$model,
         'htmlOptions'=>array(
-        'style'=>'width:900px;'
+        'style'=>'width:1000px;'
     ),
 	'columns'=>array(
 		 array(
 					'name'=>'idcashbox_change_requests',
 					'type'=>'raw',
 					'value'=>"'<a name=\"p_'.\$data->idcashbox_change_requests.'\">'.\$data->idcashbox_change_requests.'</a>'",
-					'filter'=>false, // Set the filter to false when date range searching
+					'filter'=>true, // Set the filter to false when date range searching
 				),
 			 array(
 					'name'=>'sched',
 					'type'=>'raw',
 					'value'=>"\$data->id_type<3 ? \$data->sched->tastring : '-'",
-					'filter'=>false, // Set the filter to false when date range searching
+					'filter'=>true, // Set the filter to false when date range searching
 			
 			 ),
 		'cityname',
@@ -125,7 +123,7 @@ $dataProvider=$model->search();
                         'name'=>'request_date',
                         'type'=>'raw',
                         'value'=>"Yii::app()->dateFormatter->format('dd.MM.yyyy',\$data->request_date)",
-                        'filter'=>false, // Set the filter to false when date range searching
+                        'filter'=>true, // Set the filter to false when date range searching
 				),
 	 array(
                         'name'=>'request_date',
@@ -153,16 +151,17 @@ $dataProvider=$model->search();
 					'name'=>'id_type',
 					'type'=>'raw',
 					'value'=>"isset(\$data->cashtype) ? \$data->cashtype->name : '-'",
-					'filter'=>false, // Set the filter to false when date range searching
+					'filter'=>true, // Set the filter to false when date range searching
 			
 			 ),
-		 array(
+/*		 array(
 					'name'=>'approvedBy',
 					'type'=>'raw',
 					'value'=>"isset(\$data->apuser) ? \$data->apuser->username : '-'",
 					'filter'=>false, // Set the filter to false when date range searching
 			
 			 ),
+*/
 		array(
 		
 				'class'=>'CButtonColumn',
@@ -191,7 +190,7 @@ $dataProvider=$model->search();
 		),	
 	       array(
             'name'=>'delta_cash',
-             'filter'=>false, // Set the filter to false when date range searching
+             'filter'=>true, // Set the filter to false when date range searching
                 'type'=>'raw',
             'value'=>"Yii::app()->numberFormatter->formatCurrency(\$data->delta_cash, '')",
  // 			'filter'=>false, Set the filter to false when date range searching
@@ -205,6 +204,9 @@ $dataProvider=$model->search();
 ));
 
  ?>
-     </section><!-- /.content -->
+
+
+
+</section><!-- /.content -->
       </div><!-- /.content-wrapper -->
 

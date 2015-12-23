@@ -64,11 +64,12 @@ class CashboxChangeRequests extends CActiveRecord
 			array('delta_cash', 'numerical'),
 //			array('id_type', 'checktype'),
 			array('reason', 'length', 'max'=>255),
-			array('approval_date,id_users,id_type,delta_cash,approvedBy,reason,sched_user_id,image', 'safe'),
+			array('approval_date,id_users,id_type,delta_cash,approvedBy,reason,sched_user_id,image, from_date, to_date', 'safe'),
 			array('image', 'file', 'maxSize'=>10*1024*1024),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('idcashbox_change_requests, id_users, id_type, delta_cash, sched ,reason, approvedBy, request_date, approval_date', 'safe', 'on'=>'search'),
+			array('idcashbox_change_requests, id_users, id_type, delta_cash, sched ,reason, approvedBy, request_date, approval_date, guidename, cityname', 'safe', 'on'=>'search_full'),
 		);
 	}
 	/**
@@ -141,9 +142,11 @@ class CashboxChangeRequests extends CActiveRecord
 			'idcashbox_change_requests' => 'Id',
 			'id_users' => 'Id Users',
 			'image' => 'Upload document',
-                        'sched' => 'Invoice #',
+            'sched' => 'Invoice #',
 			'id_type' => 'Type',
 			'delta_cash' => 'Cash',
+			'guidename' => 'Guide',
+			'cityname' => 'City',
 			'reason' => 'Reason',
 			'approvedBy' => 'Approved By',
 			'request_date' => 'Date',
@@ -217,6 +220,32 @@ class CashboxChangeRequests extends CActiveRecord
 		if($guide>0)
 			$criteria->compare ("id_type", 3);
 //			$criteria->addNotInCondition ("id_type", array(1,2));
+		$this->daterange($criteria);
+		$sort->defaultOrder= array(
+            'request_date'=>CSort::SORT_DESC,
+        );
+		return new CActiveDataProvider($this, array(
+          'pagination'=>false,
+            'criteria'=>$criteria,
+            'sort'=>$sort,
+		));
+	}
+	public function search_full()
+	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
+
+		$criteria=new CDbCriteria;
+		$sort   = new CSort;
+        $criteria->with = array("sched"=>array("with"=>"guidestourinvoice"),"apuser","user","cashtype","doc");
+		$criteria->compare('idcashbox_change_requests',$this->idcashbox_change_requests);
+		$criteria->compare('id_users',$this->id_users);
+		$criteria->compare('user.username',$this->guidename,true);
+		$criteria->compare('id_type',$this->id_type);
+		$criteria->compare('delta_cash',$this->delta_cash);
+		$criteria->compare('reason',$this->reason,true);
+		$criteria->compare('approvedBy',$this->approvedBy);
+		$criteria->compare('request_date',$this->request_date,true);
+		$criteria->compare('approval_date',$this->approval_date,true);
 		$this->daterange($criteria);
 		$sort->defaultOrder= array(
             'request_date'=>CSort::SORT_DESC,

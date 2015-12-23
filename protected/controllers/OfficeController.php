@@ -99,6 +99,8 @@ class OfficeController extends Controller
 		$id_control = Yii::app()->user->id;
 		$model=new CashboxChangeRequests();
 		$model->unsetAttributes();  // clear any default values
+    	if(isset($_POST['CashboxChangeRequests']))
+			$model->attributes=$_POST['CashboxChangeRequests'];
 		 if(empty($_POST))
 		 {
 			$model->from_date = Mainoptions::model()->getCvalue('payf_'.$id_control);

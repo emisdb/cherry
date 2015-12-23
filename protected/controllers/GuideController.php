@@ -7,7 +7,7 @@ class GuideController extends Controller
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/guide_bs';
-        public $defaultActon='schedule';
+    public $defaultActon='schedule';
 	public $totval=0;
  	public $cashsum=0;
         
