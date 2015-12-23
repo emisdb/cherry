@@ -94,6 +94,45 @@ class OfficeController extends Controller
 				'info'=>$test
 		));
 	}
+		public function actionCashFull()
+	{
+		$id_control = Yii::app()->user->id;
+		$model=new CashboxChangeRequests();
+		$model->unsetAttributes();  // clear any default values
+		 if(empty($_POST))
+		 {
+			$model->from_date = Mainoptions::model()->getCvalue('payf_'.$id_control);
+			$model->to_date = Mainoptions::model()->getCvalue('payt_'.$id_control);
+
+		 }
+		 else
+		  {
+            Mainoptions::model()->setCvalue('payf_'.$id_control,$_POST['CashboxChangeRequests']['from_date']);
+			Mainoptions::model()->setCvalue('payt_'.$id_control,$_POST['CashboxChangeRequests']['to_date']);
+			$model->from_date = $_POST['CashboxChangeRequests']['from_date'];
+			$model->to_date = $_POST['CashboxChangeRequests']['to_date'];
+		}
+		$cashnow=0;
+		if(isset($model->from_date)) 
+		{
+			
+		$command=Yii::app()->db->createCommand();
+        $command->select('SUM(delta_cash) AS sum');
+        $command->from('cashbox_change_requests');
+        $command->where('request_date < :rd', array(':rd'=>date('Y-m-d H:i:s', strtotime($model->from_date))));
+        $cashnow= $command->queryScalar();
+		$this->totval=$cashnow;
+
+		}
+
+ 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+		$view='cash_full';
+	$this->render($view,array(
+				'model'=>$model,
+				'cashnow'=>$cashnow,
+				'info'=>$test
+		));
+	}
 
 
 	public function actionCreate()

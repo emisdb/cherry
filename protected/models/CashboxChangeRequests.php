@@ -21,6 +21,28 @@ class CashboxChangeRequests extends CActiveRecord
     public $image; 
 	public $from_date;
 	public $to_date;
+	private $_cli = null;
+	private $_city = null;
+	public function getCityname(){
+		if ($this->_city === null && $this->sched !== null)
+		{
+			$this->_city = $this->sched->city_ob->seg_cityname;
+		}
+		return $this->_city;
+	}
+	public function setCityname($value){
+		$this->_city = $value;
+	}
+	public function getGuidename(){
+		if ($this->_cli === null && $this->user !== null)
+		{
+			$this->_cli = $this->user->username;
+		}
+		return $this->_cli;
+	}
+	public function setGuidename($value){
+		$this->_cli = $value;
+	}
 	/**
 	 * @return string the associated database table name
 	 */
@@ -52,6 +74,20 @@ class CashboxChangeRequests extends CActiveRecord
 	/**
 	 * @return array relational rules.
 	 */
+	public function relations()
+	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
+		return array(
+			'user' => array(self::BELONGS_TO, 'User', 'id_users'),	
+			'apuser' => array(self::BELONGS_TO, 'User', 'approvedBy'),	
+			'cashtype' => array(self::BELONGS_TO, 'CashboxType', 'id_type'),	
+			'sched'=>array(self::BELONGS_TO, 'SegScheduledTours', 'sched_user_id','with'=>'guidestourinvoice'),
+       		'doc' => array(self::HAS_ONE, 'CashboxChangeRequestDocuments', 'cashbox_change_requestid'),
+			'tuser'=>array(self::BELONGS_TO, 'User', 'sched_user_id','with'=>'contact_ob'),
+				);
+	}
+
 	protected function beforeValidate()
     {
 		if(in_array($this->id_type, [1,2])) {
@@ -96,20 +132,6 @@ class CashboxChangeRequests extends CActiveRecord
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'user' => array(self::BELONGS_TO, 'User', 'id_users'),	
-			'apuser' => array(self::BELONGS_TO, 'User', 'approvedBy'),	
-			'cashtype' => array(self::BELONGS_TO, 'CashboxType', 'id_type'),	
-			'sched'=>array(self::BELONGS_TO, 'SegScheduledTours', 'sched_user_id','with'=>'guidestourinvoice'),
-       		'doc' => array(self::HAS_ONE, 'CashboxChangeRequestDocuments', 'cashbox_change_requestid'),
-			'tuser'=>array(self::BELONGS_TO, 'User', 'sched_user_id','with'=>'contact_ob'),
-				);
-	}
-
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -183,7 +205,7 @@ class CashboxChangeRequests extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 		$sort   = new CSort;
-                $criteria->with = array("sched"=>array("with"=>"guidestourinvoice"),"apuser","cashtype","doc");
+        $criteria->with = array("sched"=>array("with"=>"guidestourinvoice"),"apuser","user","cashtype","doc");
 		$criteria->compare('idcashbox_change_requests',$this->idcashbox_change_requests);
 		$criteria->compare('id_users',$this->id_users);
 		$criteria->compare('id_type',$this->id_type);
