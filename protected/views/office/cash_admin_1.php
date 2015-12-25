@@ -174,12 +174,14 @@ $dataProvider=$model->search(1);
                     'url' => 'array("cashApprove","id"=>$data->idcashbox_change_requests)',
                     'label'=>'<i class="fa fa-check-square-o" style="padding:0 3px;"></i>',
                     'options'=>array('title'=>'Approve'),
+					 'visible' => '(is_null($data->approvedBy)&&($data->reject==0))', 
                ),
               'reject' => array(
                      //'imageUrl'=>'/images/system/proc.png',
                     'url' => 'array("cashReject","id"=>$data->idcashbox_change_requests)',
                     'label'=>'<i class="fa fa-square-o" style="padding:0 3px;"></i>',
                     'options'=>array('title'=>'Reject'),
+					 'visible' => '(is_null($data->approvedBy)&&($data->reject==0))', 
                ),
 				   
 				),
