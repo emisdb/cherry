@@ -28,7 +28,11 @@ class SegGuidesdata extends CActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
-    public $image; 
+	const REMINDER_NONE=0;
+	const REMINDER_MAIL=1;
+	const REMINDER_SMS=2;
+	const REMINDER_BOTH=3;
+	public $image; 
 	public function tableName()
 	{
 		return 'seg_guidesdata';
@@ -96,8 +100,8 @@ class SegGuidesdata extends CActiveRecord
 			'guestsMinforVariable' => 'Guests Minfor Variable',
 			'taxnumber' => 'Taxnumber',
 			'taxoffice' => 'Taxoffice',
-			'invoiceCount2013' => 'Invoice Count2013',
-			'invoiceCount2014' => 'Invoice Count2014',
+			'invoiceCount2013' => 'Reminder type',
+			'invoiceCount2014' => 'Reminder',
 			'inVoiceCount2015' => 'In Voice Count2015',
 			'voucher_cashbox' => 'Voucher Cashbox',
 			'voucher_provision' => 'Voucher Provision',
@@ -157,5 +161,14 @@ class SegGuidesdata extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	public function getReminderOptions()
+	{
+		return array(
+	 self::REMINDER_NONE=>'None',
+	 self::REMINDER_SMS=>'SMS',
+	 self::REMINDER_MAIL=>'Mail',
+	 self::REMINDER_BOTH=>'Both',
+		);
 	}
 }

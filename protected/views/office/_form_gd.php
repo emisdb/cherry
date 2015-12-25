@@ -6,6 +6,37 @@
    <div class="box box-info" >
         <div class="box-header with-border">
             <h4 class="box-title">
+                Reminder
+            </h4>
+        </div>
+        <div class="box-body" >
+ 	<div class="row">
+		<div class="col-md-4">
+			<div class="form-group">
+				<?php
+					echo $form->labelEx($model,'invoiceCount2013')."<p>"; 
+					echo $form->radioButtonList($model,'invoiceCount2013', $model->getReminderOptions());
+					echo $form->error($model,'invoiceCount2013'); 
+				 ?>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="form-group">
+				<?php
+					echo $form->labelEx($model,'invoiceCount2014'); 
+					echo $form->textField($model,'invoiceCount2014',array('class'=>"form-control"));
+					echo $form->error($model,'invoiceCount2014'); 
+				 ?>
+			</div>
+		</div>
+		<div class="col-md-4">
+		</div>
+	</div>
+        </div>
+    </div>
+   <div class="box box-info" >
+        <div class="box-header with-border">
+            <h4 class="box-title">
                 Presentation
             </h4>
         </div>

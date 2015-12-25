@@ -29,7 +29,7 @@
 				 ?>
 			</div>
 		</div>
-		<div class="col-md-3">
+		<div class="col-md-4">
 			<div class="form-group">
                     <?php 
 			echo $form->labelEx($model,'birthdate');  
