@@ -1,12 +1,7 @@
 	<header class="main-header">
         <!-- Logo -->
-        <a href="index2.html" class="logo">
-          <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini">Office</span>
-          <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Office</b> desk</span>
-        </a>
-        <!-- Header Navbar: style can be found in header.less -->
+ 		<?php echo CHtml::link('<span class="logo-mini">Office</span><span class="logo-lg"><b>Office</b> desk</span>', array('admin'),array('class'=>'logo')); ?>
+         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
           <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">

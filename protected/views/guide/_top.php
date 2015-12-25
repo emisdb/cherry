@@ -1,11 +1,6 @@
       <header class="main-header">
         <!-- Logo -->
-        <a href="index2.html" class="logo">
-          <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini">Guide</span>
-          <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Guide</b> desk</span>
-        </a>
+ 		<?php echo CHtml::link('<span class="logo-mini">Guide</span><span class="logo-lg"><b>Guide</b> desk</span>', array('schedule'),array('class'=>'logo')); ?>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
