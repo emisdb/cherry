@@ -26,8 +26,8 @@
         <section class="content-header">
 <?php
 $this->breadcrumbs=array(
-    'Users'=>array('admin'),
-	$user['username']=>array('userUpdate','id'=>$user['id']),
+    'Guides'=>array('admin'),
+	$user['username']=>array('ucontact','id'=>$user['id']),
 	'Cashbox requests',
 );
  $this->widget('zii.widgets.CBreadcrumbs', array(

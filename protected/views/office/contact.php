@@ -4,7 +4,7 @@
         <section class="content-header">
 <?php if($model->idcontacts != Yii::app()->user->id) {
 $this->breadcrumbs=array(
-    'Users'=>array('admin'),
+    'Guides'=>array('admin'),
 	$update_user->username=>array('userUpdate','id'=>$update_user->id),
 	'Update contact',
 );

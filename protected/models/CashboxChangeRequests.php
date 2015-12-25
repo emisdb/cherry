@@ -22,16 +22,22 @@ class CashboxChangeRequests extends CActiveRecord
 	public $from_date;
 	public $to_date;
 	private $_cli = null;
+	private $_ct = null;
 	private $_city = null;
 	public function getCityname(){
-		if ($this->_city === null && $this->sched !== null)
+		if(in_array($this->id_type,array(1,2)))
 		{
-			$this->_city = $this->sched->city_ob->seg_cityname;
+		if ($this->_city === null && $this->schedo !== null)
+		{
+			$this->_city = $this->schedo->city_ob->seg_cityname;
 		}
+		}
+
 		return $this->_city;
 	}
 	public function setCityname($value){
-		$this->_city = $value;
+
+			$this->_city = $value;
 	}
 	public function getGuidename(){
 		if ($this->_cli === null && $this->user !== null)
@@ -42,6 +48,16 @@ class CashboxChangeRequests extends CActiveRecord
 	}
 	public function setGuidename($value){
 		$this->_cli = $value;
+	}
+	public function getTypename(){
+		if ($this->_ct === null && $this->cashtype !== null)
+		{
+			$this->_ct = $this->cashtype->name;
+		}
+		return $this->_ct;
+	}
+	public function setTypename($value){
+		$this->_ct = $value;
 	}
 	/**
 	 * @return string the associated database table name
@@ -64,12 +80,12 @@ class CashboxChangeRequests extends CActiveRecord
 			array('delta_cash', 'numerical'),
 //			array('id_type', 'checktype'),
 			array('reason', 'length', 'max'=>255),
-			array('approval_date,id_users,id_type,delta_cash,approvedBy,reason,sched_user_id,image, from_date, to_date', 'safe'),
-			array('image', 'file', 'maxSize'=>10*1024*1024),
+			array('approval_date,id_users,id_type,delta_cash,approvedBy,reason,sched_user_id,image, from_date, to_date, guidename, cityname', 'safe'),
+			array('image', 'file', 'maxSize'=>10*1024*1024, 'allowEmpty'=>true, 'safe'=>false),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('idcashbox_change_requests, id_users, id_type, delta_cash, sched ,reason, approvedBy, request_date, approval_date', 'safe', 'on'=>'search'),
-			array('idcashbox_change_requests, id_users, id_type, delta_cash, sched ,reason, approvedBy, request_date, approval_date, guidename, cityname', 'safe', 'on'=>'search_full'),
+			array('idcashbox_change_requests, id_users, id_type, delta_cash, sched ,reason, approvedBy, request_date, approval_date, guidename, cityname, typename', 'safe', 'on'=>'search_full'),
 		);
 	}
 	/**
@@ -84,6 +100,8 @@ class CashboxChangeRequests extends CActiveRecord
 			'apuser' => array(self::BELONGS_TO, 'User', 'approvedBy'),	
 			'cashtype' => array(self::BELONGS_TO, 'CashboxType', 'id_type'),	
 			'sched'=>array(self::BELONGS_TO, 'SegScheduledTours', 'sched_user_id','with'=>'guidestourinvoice'),
+ //      		'schedo'=>array(self::BELONGS_TO, 'SegScheduledTours', 'sched_user_id','with'=>'city_ob'),
+       		'schedo'=>array(self::BELONGS_TO, 'SegScheduledTours', 'sched_user_id','with'=>'city_ob', 'on'=>'id_type in (1,2)'),
        		'doc' => array(self::HAS_ONE, 'CashboxChangeRequestDocuments', 'cashbox_change_requestid'),
 			'tuser'=>array(self::BELONGS_TO, 'User', 'sched_user_id','with'=>'contact_ob'),
 				);
@@ -127,6 +145,7 @@ class CashboxChangeRequests extends CActiveRecord
 			'CTimestampBehavior' => array(
 			'class' => 'zii.behaviors.CTimestampBehavior',
 			'createAttribute' => 'request_date',
+			'updateAttribute' =>null,
 			),
 			);
 		}
@@ -236,10 +255,13 @@ class CashboxChangeRequests extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 		$sort   = new CSort;
-        $criteria->with = array("sched"=>array("with"=>"guidestourinvoice"),"apuser","user","cashtype","doc");
+        $criteria->with = array("schedo"=>array("with"=>"city_ob"),"apuser","user","cashtype","doc");
+//        $criteria->with = array("schedo"=>array("with"=>"city_ob"),"apuser","user","cashtype","doc");
 		$criteria->compare('idcashbox_change_requests',$this->idcashbox_change_requests);
 		$criteria->compare('id_users',$this->id_users);
 		$criteria->compare('user.username',$this->guidename,true);
+		$criteria->compare('cashtype.name',$this->typename,true);
+		$criteria->compare('city_ob.seg_cityname',$this->cityname,true);
 		$criteria->compare('id_type',$this->id_type);
 		$criteria->compare('delta_cash',$this->delta_cash);
 		$criteria->compare('reason',$this->reason,true);
@@ -250,6 +272,19 @@ class CashboxChangeRequests extends CActiveRecord
 		$sort->defaultOrder= array(
             'request_date'=>CSort::SORT_DESC,
         );
+		$sort->attributes = array(
+			'*',
+			'cityname'=>array('asc'=>'city_ob.seg_cityname',
+							'desc'=>'city_ob.seg_cityname DESC', 
+							'label'=>'City'),
+			'guidename'=>array('asc'=>'user.username',
+							'desc'=>'user.username DESC', 
+							'label'=>'Guide'),
+			'typename'=>array('asc'=>'cashtype.name',
+							'desc'=>'cashtype.name DESC', 
+							'label'=>'Type'),
+
+		);
 		return new CActiveDataProvider($this, array(
           'pagination'=>false,
             'criteria'=>$criteria,

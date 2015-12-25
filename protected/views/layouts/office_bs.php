@@ -45,7 +45,7 @@
 				<?php echo CHtml::link("<i class='fa fa-user'></i><span>Guides</span>", array('admin')); ?>
             </li>
              <li <?php echo (Yii::app()->controller->action->id=='cashFull') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-credit-card'></i><span>Cashbox history</span>", array('cashFull')); ?>
+				<?php echo CHtml::link("<i class='fa fa-credit-card'></i><span>Cashbox history</span>", array('cashAdmin')); ?>
             </li>
    			<li class="treeview <?php echo (in_array(Yii::app()->controller->action->id,array('bonus','cr'))) ? "active" : "" ; ?>">
               <a href="#">

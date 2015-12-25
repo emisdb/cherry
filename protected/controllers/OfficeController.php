@@ -96,11 +96,35 @@ class OfficeController extends Controller
 	}
 	public function actionCashAdmin()
 	{
-		$model=new CashboxChangeRequests('search');
+		$model=new CashboxChangeRequests('search_full');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['CashboxChangeRequests']))
 			$model->attributes=$_GET['CashboxChangeRequests'];
- 			$cashnow=0;
+		 if(empty($_POST))
+		 {
+			$model->from_date = Mainoptions::model()->getCvalue('payf_'.$id_control);
+			$model->to_date = Mainoptions::model()->getCvalue('payt_'.$id_control);
+
+		 }
+		 else
+		  {
+            Mainoptions::model()->setCvalue('payf_'.$id_control,$_POST['CashboxChangeRequests']['from_date']);
+			Mainoptions::model()->setCvalue('payt_'.$id_control,$_POST['CashboxChangeRequests']['to_date']);
+			$model->from_date = $_POST['CashboxChangeRequests']['from_date'];
+			$model->to_date = $_POST['CashboxChangeRequests']['to_date'];
+		}
+		$cashnow=0;
+		if(isset($model->from_date)) 
+		{
+			
+		$command=Yii::app()->db->createCommand();
+        $command->select('SUM(delta_cash) AS sum');
+        $command->from('cashbox_change_requests');
+        $command->where('request_date < :rd', array(':rd'=>date('Y-m-d H:i:s', strtotime($model->from_date))));
+        $cashnow= $command->queryScalar();
+		$this->totval=$cashnow;
+
+		}
 	$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
 		$this->render('admin_cash',array(
 			'model'=>$model,
@@ -281,17 +305,6 @@ class OfficeController extends Controller
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
-	}
-	public function actionApprove()
-	{
-		if(Yii::app()->request->isPostRequest)
-		{
-			$comment=$this->loadModel();
-			$comment->approve();
-			$this->redirect(array('index'));
-		}
-		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 	  public function actionProfile()
 	{
@@ -700,9 +713,47 @@ class OfficeController extends Controller
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('cr'));
 	}
+	public function actionCashApprove($id)
+	{
+		$id_control = Yii::app()->user->id;
+		$model=$this->loadCash($id);
+		$model->approvedBy=$id_control;
+		$model->approval_date = date('Y-m-d H:i:s', time());
+		if($model->save()){
+			$cash_model=new CashboxChangeRequests();
+			$cash_model->approvedBy=$id_control;
+			$cash_model->approval_date = date('Y-m-d H:i:s', time());
+			$cash_model->id_type=3;
+			$cash_model->id_users=$model->sched_user_id;
+			$cash_model->delta_cash = -$model->delta_cash;
+			$cash_model->sched_user_id = $model->id_users;
+			$cash_model->save();
+		}
+		
+		$this->redirect(array('cashReport','id'=>$model->id_users,'typo'=>1));
+
+		
+	}
 	public function actionAdmin()
 	{
-	    $id_control = Yii::app()->user->id;
+		$cash_model=new CashboxChangeRequests;
+		$id_control = Yii::app()->user->id;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['CashboxChangeRequests']))
+		{
+			$cash_model->attributes=$_POST['CashboxChangeRequests'];
+			$cash_model->approvedBy=$id_control;
+			$cash_model->approval_date = date('Y-m-d H:i:s', time());
+//			$cash_model->request_date = date('Y-m-d H:i:s', time());
+			$cash_model->id_type=5;
+//			var_dump($cash_model);return;
+			if($cash_model->save()){
+				$cash_model=new CashboxChangeRequests;
+			}
+		}
 
      		$model=new User('search_office');
             $criteria=new CDbCriteria;
@@ -720,7 +771,10 @@ class OfficeController extends Controller
 //			$model->attributes=$_POST['User'];
 			$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
 			$this->render('user_admin',array(
-			'model'=>$model,'role_control'=>$role_control,'usergroups'=>$usergroups,
+			'model'=>$model,
+			'cash_model'=>$cash_model,
+			'role_control'=>$role_control,
+			'usergroups'=>$usergroups,
 			'info'=>$test,
 		));
 	}
@@ -1843,9 +1897,16 @@ class OfficeController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
+	public function loadCash($id)
+	{
+		$model=CashboxChangeRequests::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
 	public function loadTours()
 	{
- 		$model=CashboxChangeRequests::model()->with('user')->findAll('approvedBy IS NULL');
+ 		$model=CashboxChangeRequests::model()->with('user')->findAll('(approvedBy IS NULL) AND (reject=0)');
 		if($model===null)
 			throw new CHttpException(404,'The cashbox model does not exist.');
 		return $model;

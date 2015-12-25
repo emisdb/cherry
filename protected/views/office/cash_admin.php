@@ -26,8 +26,8 @@
         <section class="content-header">
 <?php
 $this->breadcrumbs=array(
-    'Users'=>array('admin'),
-	$user['username']=>array('userUpdate','id'=>$user['id']),
+    'Guides'=>array('admin'),
+	$user['username']=>array('ucontact','id'=>$user['id']),
 	'Cashbox history',
 );
  $this->widget('zii.widgets.CBreadcrumbs', array(
@@ -137,6 +137,13 @@ $dataProvider=$model->search();
                         'filter'=>false, // Set the filter to false when date range searching
                         'footer'=>'Total:',
 				),
+			 array(
+					'name'=>'sched',
+					'type'=>'raw',
+					'value'=>"\$data->id_type<3 ? \$data->sched->tastring : '-'",
+					'filter'=>true, // Set the filter to false when date range searching
+			
+			 ),
 	       array(
             'name'=>'delta_cash',
              'filter'=>false, // Set the filter to false when date range searching
