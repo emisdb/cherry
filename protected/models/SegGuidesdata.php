@@ -101,7 +101,7 @@ class SegGuidesdata extends CActiveRecord
 			'taxnumber' => 'Taxnumber',
 			'taxoffice' => 'Taxoffice',
 			'invoiceCount2013' => 'Reminder type',
-			'invoiceCount2014' => 'Reminder',
+			'invoiceCount2014' => 'Reminder (hrs.)',
 			'inVoiceCount2015' => 'In Voice Count2015',
 			'voucher_cashbox' => 'Voucher Cashbox',
 			'voucher_provision' => 'Voucher Provision',
