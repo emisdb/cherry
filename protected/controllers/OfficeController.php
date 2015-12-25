@@ -96,6 +96,7 @@ class OfficeController extends Controller
 	}
 	public function actionCashAdmin()
 	{
+		$id_control = Yii::app()->user->id;
 		$model=new CashboxChangeRequests('search_full');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['CashboxChangeRequests']))
@@ -731,8 +732,16 @@ class OfficeController extends Controller
 		}
 		
 		$this->redirect(array('cashReport','id'=>$model->id_users,'typo'=>1));
-
-		
+	}
+	public function actionCashReject($id)
+	{
+		$id_control = Yii::app()->user->id;
+		$model=$this->loadCash($id);
+		$model->reject=true;
+		$model->approval_date = date('Y-m-d H:i:s', time());
+		if($model->save()){
+		}
+		$this->redirect(array('cashReport','id'=>$model->id_users,'typo'=>1));
 	}
 	public function actionAdmin()
 	{

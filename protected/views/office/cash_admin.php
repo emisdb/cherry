@@ -27,7 +27,7 @@
 <?php
 $this->breadcrumbs=array(
     'Guides'=>array('admin'),
-	$user['username']=>array('ucontact','id'=>$user['id']),
+	'Requests for '.$user['username']=>array('cashReport','id'=>$user['id'],'typo'=>1),
 	'Cashbox history',
 );
  $this->widget('zii.widgets.CBreadcrumbs', array(
@@ -116,7 +116,7 @@ $dataProvider=$model->search();
  $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'pay-grid',
 	'dataProvider'=>$dataProvider,
-   'rowCssClassExpression' => 'is_null($data->approvedBy) ? "table_scheduled_pdf" : "table_scheduled"', 
+   'rowCssClassExpression' => '(is_null($data->approvedBy)&&($data->reject==0))? "table_scheduled_pdf" : "table_scheduled"', 
     'summaryText' => "Initial sum:".Yii::app()->numberFormatter->formatCurrency($cashnow, ''),
 //      'ajaxUpdate'=>false,
 //	'filter'=>$model,
