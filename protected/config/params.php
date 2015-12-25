@@ -6,6 +6,7 @@ return array(
 	'title'=>'My Yii Blog',
 	// this is used in error pages
 	'adminEmail'=>'berlin@cherrytours.com',
+	'mailPWD'=>'123',
 	// number of posts displayed per page
 	'postsPerPage'=>10,
 	// maximum number of comments that can be displayed in recent comments portlet

@@ -78,7 +78,7 @@ class SegGuidesdata extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-           'user_ob'=>array(self::BELONGS_TO, 'User', 'guide1_id'),
+           'user_ob'=>array(self::HAS_ONE, 'User', 'id_guide'),
 		);
 	}
 

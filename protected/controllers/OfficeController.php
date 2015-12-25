@@ -1839,6 +1839,30 @@ class OfficeController extends Controller
 					'div'=>$result));
 	}
 
+        public function actionDispatch($pwd)
+	{
+		if(Yii::app()->params['mailPWD']==$pwd)
+		{
+			
+	        $guides = SegGuidesdata::model()->with(array('user_ob.contact_ob'=>array('select'=>'email,phone'),'user_ob.scheds'=>array('condition'=>'isInvoiced_guide1=0','select'=>'date_now')))
+					->findAll(array('condition'=>'invoiceCount2013>0','select'=>'idseg_guidesdata,invoiceCount2013,invoiceCount2014'));
+			foreach($guides as $item){
+			var_dump($item);echo "<hr>";
+			}
+			return;
+			$criteria = new CDbCriteria;
+			$criteria->condition = 'isInvoiced_guide1<0';
+			$schedall = SegScheduledTours::model()->findAll($criteria);
+			foreach($schedall as $item){
+				$year_item = date('y',$item->date_now);
+				if($year_item == $year){
+					$num++;
+				}
+			}
+		
+
+		}
+	}
 	protected function sendMail($to,$subject,$body,$att=null)
 	{
 		        Yii::import('ext.yii-mail.YiiMailMessage');
