@@ -51,6 +51,23 @@ class OfficeController extends Controller
 		$this->totval=$this->totval+$data->delta_cash;
 		return Yii::app()->numberFormatter->formatCurrency($this->totval, '') ;
 	}
+		public function actionCashRecord($id)
+	{
+			$id_control = Yii::app()->user->id;
+			$model=$this->loadCash($id);
+			$model->from_date = Mainoptions::model()->getCvalue('payf_'.$id_control);
+			$model->to_date = Mainoptions::model()->getCvalue('payt_'.$id_control);
+			if($model->request_date<$model->from_date)
+			{
+				Mainoptions::model()->setCvalue('payf_'.$id_control,date("Y-m-d",strtotime($model->request_date)));
+			}
+			elseif ($model->request_date>$model->to_date) {
+				Mainoptions::model()->setCvalue('payt_'.$id_control,date("Y-m-d",strtotime($model->request_date)));
+			}
+            $this->redirect(array('cashReport','id'=>$model->id_users,'typo'=>1));
+			
+		
+	}
 		public function actionCashReport($id,$typo=0)
 	{
 		$id_control = Yii::app()->user->id;
