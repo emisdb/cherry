@@ -1843,24 +1843,25 @@ class OfficeController extends Controller
 	{
 		if(Yii::app()->params['mailPWD']==$pwd)
 		{
-			
-	        $guides = SegGuidesdata::model()->with(array('user_ob.contact_ob'=>array('select'=>'email,phone'),'user_ob.scheds'=>array('condition'=>'isInvoiced_guide1=0','select'=>'date_now')))
+			echo "<h1>".date("Y-m-d H:i:s")."</h1>";
+        $guides = SegGuidesdata::model()->with(array('user_ob.contact_ob'=>array('select'=>'email,phone,firstname,surname'),'user_ob.scheds'=>array('condition'=>'isInvoiced_guide1=0','select'=>'date,starttime')))
 					->findAll(array('condition'=>'invoiceCount2013>0','select'=>'idseg_guidesdata,invoiceCount2013,invoiceCount2014'));
 			foreach($guides as $item){
-			var_dump($item);echo "<hr>";
-			}
-			return;
-			$criteria = new CDbCriteria;
-			$criteria->condition = 'isInvoiced_guide1<0';
-			$schedall = SegScheduledTours::model()->findAll($criteria);
-			foreach($schedall as $item){
-				$year_item = date('y',$item->date_now);
-				if($year_item == $year){
-					$num++;
+				foreach($item['user_ob']['scheds'] as $it){
+					$date_f=$it['date']."T".$it['starttime'];
+					$diff=floor((strtotime($date_f)-time())/3600) ;
+					if(($diff<=$item->invoiceCount2014)&&($diff>=0)){
+						if(in_array($item->invoiceCount2013,[1,3])&&(strlen($item['user_ob']['contact_ob']['email'])>0))
+							if($this->sendMail($item['user_ob']['contact_ob']['email'],"Tour at ".$it['starttime'],
+									"Dear ".$item['user_ob']['contact_ob']['firstname']." ".$item['user_ob']['contact_ob']['surname'].". You have a tour scheduled at ".$it['date']." ".$it['starttime']."."))
+							{
+								$it->isInvoiced_guide1=1;
+								$it->save();
+							}
+								
+					}
 				}
 			}
-		
-
 		}
 	}
 	protected function sendMail($to,$subject,$body,$att=null)
