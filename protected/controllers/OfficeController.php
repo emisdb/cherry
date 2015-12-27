@@ -734,18 +734,29 @@ class OfficeController extends Controller
 	public function actionCashApprove($id)
 	{
 		$id_control = Yii::app()->user->id;
+		$guide=$this->loadContact(Yii::app()->user->cid);
 		$model=$this->loadCash($id);
 		$model->approvedBy=$id_control;
 		$model->approval_date = date('Y-m-d H:i:s', time());
 		if($model->save()){
-			$cash_model=new CashboxChangeRequests();
-			$cash_model->approvedBy=$id_control;
-			$cash_model->approval_date = date('Y-m-d H:i:s', time());
-			$cash_model->id_type=3;
-			$cash_model->id_users=$model->sched_user_id;
-			$cash_model->delta_cash = -$model->delta_cash;
-			$cash_model->sched_user_id = $model->id_users;
-			$cash_model->save();
+			if($model->id_type==3)
+			{
+				$cash_model=new CashboxChangeRequests();
+				$cash_model->approvedBy=$id_control;
+				$cash_model->approval_date = date('Y-m-d H:i:s', time());
+				$cash_model->id_type=3;
+				$cash_model->id_users=$model->sched_user_id;
+				$cash_model->delta_cash = -$model->delta_cash;
+				$cash_model->sched_user_id = $model->id_users;
+				$cash_model->save();
+				if(strlen($model->user->contact_ob->email)>0){
+					$this->sendMail($model->user->contact_ob->email,"CR approval for ".$model->idcashbox_change_requests,
+						"Dear ".$model->user->contact_ob->firstname." ".$model->user->contact_ob->surname.
+							". Your CR from ".$model->request_date." for  :".$model->user->contact_ob.
+							" in ammount ".$model->user->delta_cash."euro has been approved by ".
+							$guide->firstname." ".$guide->surname.". Date ".$model->approval_date." .");
+				}
+			}
 		}
 		
 		$this->redirect(array('cashReport','id'=>$model->id_users,'typo'=>1));
@@ -753,10 +764,18 @@ class OfficeController extends Controller
 	public function actionCashReject($id)
 	{
 		$id_control = Yii::app()->user->id;
+		$guide=$this->loadContact(Yii::app()->user->cid);
 		$model=$this->loadCash($id);
 		$model->reject=true;
 		$model->approval_date = date('Y-m-d H:i:s', time());
 		if($model->save()){
+				if(strlen($model->user->contact_ob->email)>0){
+					$this->sendMail($model->user->contact_ob->email,"CR rejection for ".$model->idcashbox_change_requests,
+						"Dear ".$model->user->contact_ob->firstname." ".$model->user->contact_ob->surname.
+							". Your CR from ".$model->request_date." for  :".$model->user->contact_ob.
+							" in ammount ".$model->user->delta_cash."euro has been rejected by ".
+							$guide->firstname." ".$guide->surname.". Date ".$model->approval_date." .");
+				}
 		}
 		$this->redirect(array('cashReport','id'=>$model->id_users,'typo'=>1));
 	}

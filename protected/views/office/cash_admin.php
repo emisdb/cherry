@@ -177,6 +177,12 @@ $dataProvider=$model->search();
 			
 			 ),
 		 array(
+					'name'=>'sched_user_id',
+					'type'=>'raw',
+					'value'=>"isset(\$data->tuser) ? \$data->tuser->contact_ob->firstname.' '.\$data->tuser->contact_ob->firstname : '-'",
+					'filter'=>false, // Set the filter to false when date range searching
+			 ),
+		 array(
 					'name'=>'approvedBy',
 					'type'=>'raw',
 					'value'=>"isset(\$data->apuser) ? \$data->apuser->username : '-'",

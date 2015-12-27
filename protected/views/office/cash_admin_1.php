@@ -142,13 +142,20 @@ $dataProvider=$model->search(1);
 					'filter'=>false, // Set the filter to false when date range searching
 			
 			 ),
+//		 array(
+//					'name'=>'id_type',
+//					'type'=>'raw',
+//					'value'=>"isset(\$data->cashtype) ? \$data->cashtype->name : '-'",
+//					'filter'=>false, // Set the filter to false when date range searching
+//				'footer'=>'Total:',
+//			 ),
+		'typename',
 		 array(
-					'name'=>'id_type',
+					'name'=>'sched_user_id',
 					'type'=>'raw',
-					'value'=>"isset(\$data->cashtype) ? \$data->cashtype->name : '-'",
+					'value'=>"isset(\$data->tuser) ? \$data->tuser->contact_ob->firstname.' '.\$data->tuser->contact_ob->firstname : '-'",
 					'filter'=>false, // Set the filter to false when date range searching
 				'footer'=>'Total:',
-			
 			 ),
 		'reason',
        array(
@@ -164,6 +171,21 @@ $dataProvider=$model->search(1);
                      ),
 			   ),
 
+		array(
+		
+				'class'=>'CButtonColumn',
+				'template'=>'{view}',
+				'buttons' => array(
+				   'view' => array(
+						'imageUrl'=>'/img/view.png',
+						'url' => 'Yii::app()->createUrl("/image/cashdocs/".$data->doc->link)',
+//						'url' => '$data->sched->additional_info2',
+					   'options'=>array("target"=>'_blank'),
+						'label'=>'View file',
+						'visible'=>'!is_null($data->doc)',
+				   ),
+				),
+		),
 		array(
 		
 				'class'=>'CButtonColumn',

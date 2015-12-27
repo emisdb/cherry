@@ -167,7 +167,7 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
             'value'=>"Yii::app()->numberFormatter->formatCurrency(\$data->delta_cash, '')",
  // 			'filter'=>false, Set the filter to false when date range searching
 			'htmlOptions'=>array('style' => 'text-align: right;'),
-                        'footer'=>$model->getTotals($model->search()->getKeys()),
+                        'footer'=>$model->getTotals($model->search_full()->getKeys()),
                        'footerHtmlOptions'=>array(
                            'style'=>'font-style:normal; color:#000;text-align:right;'
                      ),

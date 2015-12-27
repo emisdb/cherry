@@ -25,12 +25,9 @@ class CashboxChangeRequests extends CActiveRecord
 	private $_ct = null;
 	private $_city = null;
 	public function getCityname(){
-		if(in_array($this->id_type,array(1,2)))
+		if ($this->_city === null && $this->user !== null)
 		{
-		if ($this->_city === null && $this->schedo !== null)
-		{
-			$this->_city = $this->schedo->city_ob->seg_cityname;
-		}
+			$this->_city = $this->user->cityname;
 		}
 
 		return $this->_city;
@@ -102,8 +99,8 @@ class CashboxChangeRequests extends CActiveRecord
 			'sched'=>array(self::BELONGS_TO, 'SegScheduledTours', 'sched_user_id','with'=>'guidestourinvoice'),
  //      		'schedo'=>array(self::BELONGS_TO, 'SegScheduledTours', 'sched_user_id','with'=>'city_ob'),
        		'schedo'=>array(self::BELONGS_TO, 'SegScheduledTours', 'sched_user_id','with'=>'city_ob', 'on'=>'id_type in (1,2)'),
+			'tuser'=>array(self::BELONGS_TO, 'User', 'sched_user_id','with'=>'contact_ob', 'on'=>'id_type=3'),
        		'doc' => array(self::HAS_ONE, 'CashboxChangeRequestDocuments', 'cashbox_change_requestid'),
-			'tuser'=>array(self::BELONGS_TO, 'User', 'sched_user_id','with'=>'contact_ob'),
 				);
 	}
 
@@ -227,7 +224,7 @@ class CashboxChangeRequests extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 		$sort   = new CSort;
-        $criteria->with = array("sched"=>array("with"=>"guidestourinvoice"),"apuser","user","cashtype","doc");
+        $criteria->with = array("sched"=>array("with"=>"guidestourinvoice"),"apuser","user","tuser","cashtype","doc");
 		$criteria->compare('idcashbox_change_requests',$this->idcashbox_change_requests);
 		$criteria->compare('id_users',$this->id_users);
 		$criteria->compare('id_type',$this->id_type);
@@ -237,8 +234,7 @@ class CashboxChangeRequests extends CActiveRecord
 		$criteria->compare('request_date',$this->request_date,true);
 		$criteria->compare('approval_date',$this->approval_date,true);
 		if($guide>0)
-			$criteria->compare ("id_type", 3);
-//			$criteria->addNotInCondition ("id_type", array(1,2));
+			$criteria->addInCondition ("id_type", array(3,4));
 		$this->daterange($criteria);
 		$sort->defaultOrder= array(
             'request_date'=>CSort::SORT_DESC,
@@ -255,13 +251,14 @@ class CashboxChangeRequests extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 		$sort   = new CSort;
-        $criteria->with = array("schedo"=>array("with"=>"city_ob"),"apuser","user","cashtype","doc");
+        $criteria->with = array("apuser","user"=>array("with"=>array("city"=>array("with"=>"cities"))),"cashtype","doc");
+//        $criteria->with = array("schedo"=>array("with"=>"city_ob"),"apuser","user","cashtype","doc");
 //        $criteria->with = array("schedo"=>array("with"=>"city_ob"),"apuser","user","cashtype","doc");
 		$criteria->compare('idcashbox_change_requests',$this->idcashbox_change_requests);
 		$criteria->compare('id_users',$this->id_users);
 		$criteria->compare('user.username',$this->guidename,true);
 		$criteria->compare('cashtype.name',$this->typename,true);
-		$criteria->compare('city_ob.seg_cityname',$this->cityname,true);
+		$criteria->compare('cities.seg_cityname',$this->cityname,true);
 		$criteria->compare('id_type',$this->id_type);
 		$criteria->compare('delta_cash',$this->delta_cash);
 		$criteria->compare('reason',$this->reason,true);
@@ -274,9 +271,12 @@ class CashboxChangeRequests extends CActiveRecord
         );
 		$sort->attributes = array(
 			'*',
-			'cityname'=>array('asc'=>'city_ob.seg_cityname',
-							'desc'=>'city_ob.seg_cityname DESC', 
+			'cityname'=>array('asc'=>'cities.seg_cityname',
+							'desc'=>'cities.seg_cityname DESC', 
 							'label'=>'City'),
+//			'cityname'=>array('asc'=>'city_ob.seg_cityname',
+//							'desc'=>'city_ob.seg_cityname DESC', 
+//							'label'=>'City'),
 			'guidename'=>array('asc'=>'user.username',
 							'desc'=>'user.username DESC', 
 							'label'=>'Guide'),
