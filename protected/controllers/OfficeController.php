@@ -752,8 +752,8 @@ class OfficeController extends Controller
 				if(strlen($model->user->contact_ob->email)>0){
 					$this->sendMail($model->user->contact_ob->email,"CR approval for ".$model->idcashbox_change_requests,
 						"Dear ".$model->user->contact_ob->firstname." ".$model->user->contact_ob->surname.
-							". Your CR from ".$model->request_date." for  :".$model->user->contact_ob.
-							" in ammount ".$model->user->delta_cash."euro has been approved by ".
+							". Your CR at ".$model->request_date." for  ".$model->reason.
+							" in ammount ".$model->delta_cash." euro has been approved by ".
 							$guide->firstname." ".$guide->surname.". Date ".$model->approval_date." .");
 				}
 			}
@@ -772,8 +772,8 @@ class OfficeController extends Controller
 				if(strlen($model->user->contact_ob->email)>0){
 					$this->sendMail($model->user->contact_ob->email,"CR rejection for ".$model->idcashbox_change_requests,
 						"Dear ".$model->user->contact_ob->firstname." ".$model->user->contact_ob->surname.
-							". Your CR from ".$model->request_date." for  :".$model->user->contact_ob.
-							" in ammount ".$model->user->delta_cash."euro has been rejected by ".
+							". Your CR at ".$model->request_date." for  ".$model->reason.
+							" in ammount ".$model->delta_cash."euro has been rejected by ".
 							$guide->firstname." ".$guide->surname.". Date ".$model->approval_date." .");
 				}
 		}

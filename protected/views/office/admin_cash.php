@@ -104,13 +104,14 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
     ),
 	'columns'=>array(
 		'idcashbox_change_requests',
-			 array(
-					'name'=>'sched',
-					'type'=>'raw',
-					'value'=>"\$data->id_type<3 ? \$data->sched->tastring : '-'",
-					'filter'=>true, // Set the filter to false when date range searching
-			
-			 ),
+//			 array(
+//					'name'=>'sched',
+//					'type'=>'raw',
+//					'value'=>"\$data->id_type<3 ? \$data->sched->tastring : '-'",
+//					'filter'=>true, // Set the filter to false when date range searching
+//			
+//			 ),
+		'ttastring',
 		'cityname',
 	 array(
                         'name'=>'request_date',

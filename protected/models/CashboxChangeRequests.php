@@ -24,6 +24,7 @@ class CashboxChangeRequests extends CActiveRecord
 	private $_cli = null;
 	private $_ct = null;
 	private $_city = null;
+	private $_tstr = null;
 	public function getCityname(){
 		if ($this->_city === null && $this->user !== null)
 		{
@@ -45,6 +46,22 @@ class CashboxChangeRequests extends CActiveRecord
 	}
 	public function setGuidename($value){
 		$this->_cli = $value;
+	}
+	public function getTtastring(){
+		if($this->id_type<3){
+		if ($this->_tstr === null && $this->sched !== null)
+			{
+//				$this->_tstr = $this->sched->tastring;
+				$this->_tstr = $this->sched->guidestourinvoice->TA_string;
+			}
+		
+		}
+		return $this->_tstr;
+	}
+	public function setTtastring($value){
+		if($this->id_type<3){
+		$this->_tstr = $value;
+		}
 	}
 	public function getTypename(){
 		if ($this->_ct === null && $this->cashtype !== null)
@@ -82,7 +99,7 @@ class CashboxChangeRequests extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('idcashbox_change_requests, id_users, id_type, delta_cash, sched ,reason, approvedBy, request_date, approval_date', 'safe', 'on'=>'search'),
-			array('idcashbox_change_requests, id_users, id_type, delta_cash, sched ,reason, approvedBy, request_date, approval_date, guidename, cityname, typename', 'safe', 'on'=>'search_full'),
+			array('idcashbox_change_requests, id_users, id_type, delta_cash, sched ,reason, approvedBy, request_date, approval_date, guidename, cityname,ttastring, typename', 'safe', 'on'=>'search_full'),
 		);
 	}
 	/**
@@ -251,13 +268,15 @@ class CashboxChangeRequests extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 		$sort   = new CSort;
-        $criteria->with = array("apuser","user"=>array("with"=>array("city"=>array("with"=>"cities"))),"cashtype","doc");
+        $criteria->with = array("apuser","user"=>array("with"=>array("city"=>array("with"=>"cities"))),"cashtype","doc","sched"=>array("with"=>"guidestourinvoice"));
 //        $criteria->with = array("schedo"=>array("with"=>"city_ob"),"apuser","user","cashtype","doc");
 //        $criteria->with = array("schedo"=>array("with"=>"city_ob"),"apuser","user","cashtype","doc");
 		$criteria->compare('idcashbox_change_requests',$this->idcashbox_change_requests);
 		$criteria->compare('id_users',$this->id_users);
 		$criteria->compare('user.username',$this->guidename,true);
 		$criteria->compare('cashtype.name',$this->typename,true);
+		$criteria->compare('guidestourinvoice.TA_string',$this->ttastring,true);
+//		$criteria->compare('sched.tastring',$this->ttastring,true);
 		$criteria->compare('cities.seg_cityname',$this->cityname,true);
 		$criteria->compare('id_type',$this->id_type);
 		$criteria->compare('delta_cash',$this->delta_cash);
@@ -280,6 +299,9 @@ class CashboxChangeRequests extends CActiveRecord
 			'guidename'=>array('asc'=>'user.username',
 							'desc'=>'user.username DESC', 
 							'label'=>'Guide'),
+			'ttastring'=>array('asc'=>'guidestourinvoice.TA_string',
+							'desc'=>'guidestourinvoice.TA_string DESC', 
+							'label'=>'Invoice'),
 			'typename'=>array('asc'=>'cashtype.name',
 							'desc'=>'cashtype.name DESC', 
 							'label'=>'Type'),
