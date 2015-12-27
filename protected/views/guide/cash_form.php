@@ -29,7 +29,7 @@
 	<div class="col-md-3">
 
 		<?php echo $form->labelEx($model,'id_type'); ?>
-	<?php echo $form->dropDownList($model,'id_type', CHtml::listData(CashboxType::model()->findAll(),'id', 'name'),array('id'=>'cashtype','onChange'=>'clickType(this.value)')); ?>
+	<?php echo $form->dropDownList($model,'id_type', CHtml::listData(CashboxType::model()->findAll("id in (3,4)"),'id', 'name'),array('id'=>'cashtype','onChange'=>'clickType(this.value)')); ?>
 		<?php echo $form->error($model,'id_type'); ?>
 		</div>
 	<div class="col-md-4" id="guide_div">
