@@ -73,10 +73,10 @@
                   <!-- Menu Body -->
                   <li class="user-body">
                     <div class="col-xs-6 text-center">
-                 	<?php echo CHtml::link("Cashbox:", array('cashReport')); ?>
+                 	<?php echo CHtml::link("Cashbox:", array('cashAdmin')); ?>
                    </div>
                    <div class="col-xs-6 text-center">
-                   	<?php echo CHtml::link(CHtml::encode("".number_format($this->cashsum, 2, '.', ' ').""), array('cashReport')); ?>
+                   	<?php echo CHtml::link(CHtml::encode("".number_format($this->cashsum, 2, '.', ' ').""), array('cashAdmin')); ?>
 					   &euro;
                     </div>
                    </li>
