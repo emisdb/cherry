@@ -122,6 +122,10 @@ class SegScheduledToursController extends Controller
 
 	//GUIDE begin
 	
+	public function action()
+	{
+	
+	}
 	public function actionResult()
 	{
 		if(isset($_POST['Seachmain']['date'])){
