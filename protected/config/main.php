@@ -88,7 +88,8 @@ return array(
 			'rules'=>array(
             	'/' => 'main/index',
 				'/admin' => 'site/login',
-				'/berlin' => 'segscheduledtours/city/berlin',
+//				'/berlin' => 'segScheduledTours/city/id/berlin',
+//				'/segScheduledTours/city/<id:\d+>' => 'segScheduledTours/city',
 			
 				'post/<id:\d+>/<title:.*?>'=>'post/view',
 				'posts/<tag:.*?>'=>'post/index',

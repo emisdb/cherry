@@ -285,6 +285,60 @@ class SegScheduledTours extends CActiveRecord
                     'sort'=>$sort,
 		));
 	}
+	public function search_f()
+	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$sort   = new CSort;
+                $criteria->with = array('user_ob','city_ob','language_ob','tourroute_ob','guidestourinvoice');
+//                $criteria->compare('user_ob.id',$this->user_ob,true);
+//                $criteria->compare('city_ob.city_id',$this->city_ob,true);
+//                $criteria->compare('language_ob.language_id',$this->language_ob,true);
+//                $criteria->compare('tourroute_ob.tourroute_id',$this->tourroute_ob,true);
+		$criteria->compare('idseg_scheduled_tours',$this->idseg_scheduled_tours);
+		$criteria->compare('tourroute_id',$this->tourroute_id);
+		$criteria->compare('openTour',$this->openTour);
+		$criteria->compare('TNmax_sched',$this->TNmax_sched);
+		$criteria->compare('duration',$this->duration);
+		$criteria->compare('starttime',$this->starttime,true);
+		$criteria->compare('current_subscribers',$this->current_subscribers);
+		$criteria->compare('language_id',$this->language_id);
+		$criteria->compare('guide1_id',$this->guide1_id);
+		$criteria->compare('additional_info',$this->additional_info,true);
+		$criteria->compare('visibility',$this->visibility);
+		$criteria->compare('city_id',$this->city_id);
+		$criteria->compare('isInvoiced_guide1',$this->isInvoiced_guide1);
+		$criteria->compare('additional_info2',$this->additional_info2,true);
+		$criteria->compare('isCanceled',$this->isCanceled);
+		$criteria->compare('cancellationReason',$this->cancellationReason,true);
+		$criteria->compare('cancelReason',$this->cancelReason,true);
+		$criteria->compare('canceledBy',$this->canceledBy);
+		$criteria->compare('cancellationAnnotation',$this->cancellationAnnotation,true);
+		$criteria->compare('language_ob.englishname', $this->langname, true);
+		$criteria->compare('guidestourinvoice.TA_string', $this->tastring, true);
+		$criteria->compare('tourroute_ob.name', $this->trname, true);
+		$criteria->compare('user_ob.username', $this->guidename, true);
+		$sort->attributes = array(
+			'*',
+			'langname'=>'language_ob.englishname',
+			'trname'=>'tourroute_ob.name',
+			'guidename'=>'user_ob.username',
+			'tastring'=>array('asc'=>'guidestourinvoice.TA_string',
+					'desc'=>'guidestourinvoice.TA_string DESC', 
+					'label'=>'Invoice #'),
+		);
+		$sort->defaultOrder= array(
+            'date_now'=>CSort::SORT_DESC,
+        );
+
+		return new CActiveDataProvider($this, array(
+                   'pagination'=>false,
+                    'criteria'=>$criteria,
+                    'sort'=>$sort,
+		));
+	}
 
 	public function search_s($guide1_id, $date=null)
 	{

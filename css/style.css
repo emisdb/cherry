@@ -1,4 +1,5 @@
 /****** ALL *****/
+/*
 @font-face {
     font-family: Lt;
     src: local(Lt), url('/fonts/HelveticaNeueLTW1G-Lt.otf');
@@ -11,12 +12,25 @@
     font-family: Th;
     src: local(Th), url('/fonts//HelveticaNeueLTW1G-Th.otf');
 }  
-
+*/
+@font-face {
+    font-family: Roman;
+    src: local(Roman), url('/fonts//GOTHAMROUNDED-MEDIUM.OTF');
+}
+@font-face {
+    font-family: Lt;
+    src: local(Lt), url('/fonts//GOTHAMROUNDED-MEDIUM.OTF');
+}
+@font-face {
+    font-family: Th;
+    src: local(Th), url('/fonts//GOTHAMROUNDED-BOLD.OTF');
+}  
 /******* TEXT ******/
 body{
 	  font-size:14px;
       font-family: Roman;
-      color:#000000	
+      color:#000000;	
+          background-color: #eeeeee;
 }
 .t-main-1{
     color:#242527;

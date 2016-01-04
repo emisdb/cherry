@@ -1,6 +1,7 @@
 <?php
 class SegScheduledToursController extends Controller
 {
+	public $layout='//layouts/front_bs';
 	public function filters()
 	{
 		return array(
@@ -13,7 +14,7 @@ class SegScheduledToursController extends Controller
 	{
 		return array(
             array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('result'),
+				'actions'=>array('result','city'),
 	       		'users'=>array('*'),  
 			),
 		    array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -122,8 +123,18 @@ class SegScheduledToursController extends Controller
 
 	//GUIDE begin
 	
-	public function action()
+	public function actionCity()
 	{
+        $model=new SegScheduledTours('search');
+  
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['SegScheduledTours']))
+			$model->attributes=$_GET['SegScheduledTours'];
+
+		$this->render('city',array(
+			'id'=>$id,
+			'model'=>$model
+		));
 	
 	}
 	public function actionResult()

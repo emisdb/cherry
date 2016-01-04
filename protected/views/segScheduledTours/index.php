@@ -12,7 +12,8 @@ $this->menu=array(
 );
 ?>
 
-<h1>Seg Scheduled Tours</h1>
+<h1>Seg Scheduled Tours for <?php echo $id; ?></h1>
+<?php echo "ref:".chtml::link("there", array("city","id"=>"munchen")); ?>
 
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,
