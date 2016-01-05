@@ -3,49 +3,70 @@
 /* @var $data SegScheduledTours */
 ?>
 
-<div class="view">
+<div class="row" style="border-bottom: #002a80 inset thin;">
 
+	<div class="col-md-1">
 	<b><?php echo CHtml::encode($data->getAttributeLabel('idseg_scheduled_tours')); ?>:</b>
 	<?php echo CHtml::link(CHtml::encode($data->idseg_scheduled_tours), array('view', 'id'=>$data->idseg_scheduled_tours)); ?>
-	<br />
+	</div>
+	<div class="col-md-1">
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('tourroute_id')); ?>:</b>
 	<?php echo CHtml::encode($data->tourroute_id); ?>
-	<br />
+	</div>
+	<div class="col-md-1">
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('openTour')); ?>:</b>
 	<?php echo CHtml::encode($data->openTour); ?>
-	<br />
+	</div>
+	<div class="col-md-1">
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('TNmax_sched')); ?>:</b>
 	<?php echo CHtml::encode($data->TNmax_sched); ?>
-	<br />
+	</div>
+	<div class="col-md-1">
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('duration')); ?>:</b>
 	<?php echo CHtml::encode($data->duration); ?>
-	<br />
+	</div>
+	<div class="col-md-1">
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('starttime')); ?>:</b>
 	<?php echo CHtml::encode($data->starttime); ?>
-	<br />
+	</div>
+	<div class="col-md-1">
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('date')); ?>:</b>
 	<?php echo CHtml::encode($data->date); ?>
-	<br />
+	</div>
+	<div class="col-md-1">
 
-	<?php /*
 	<b><?php echo CHtml::encode($data->getAttributeLabel('current_subscribers')); ?>:</b>
 	<?php echo CHtml::encode($data->current_subscribers); ?>
-	<br />
+	</div>
+	<div class="col-md-1">
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('language_id')); ?>:</b>
 	<?php echo CHtml::encode($data->language_id); ?>
-	<br />
+	</div>
+	<div class="col-md-1">
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('guide1_id')); ?>:</b>
 	<?php echo CHtml::encode($data->guide1_id); ?>
-	<br />
+	</div>
+	<div class="col-md-1">
+	<b><?php echo CHtml::encode($data->getAttributeLabel('original_starttime')); ?>:</b>
+	<?php echo CHtml::encode($data->original_starttime); ?>
 
+	</div>
+	<div class="col-md-1">
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('city_id')); ?>:</b>
+	<?php echo CHtml::encode($data->city_id); ?>
+
+	</div>
+
+	<?php /*
 	<b><?php echo CHtml::encode($data->getAttributeLabel('guide2_id')); ?>:</b>
 	<?php echo CHtml::encode($data->guide2_id); ?>
 	<br />
@@ -58,9 +79,6 @@
 	<?php echo CHtml::encode($data->guide4_id); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('original_starttime')); ?>:</b>
-	<?php echo CHtml::encode($data->original_starttime); ?>
-	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('additional_info')); ?>:</b>
 	<?php echo CHtml::encode($data->additional_info); ?>
@@ -68,10 +86,6 @@
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('visibility')); ?>:</b>
 	<?php echo CHtml::encode($data->visibility); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('city_id')); ?>:</b>
-	<?php echo CHtml::encode($data->city_id); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('isInvoiced_guide1')); ?>:</b>

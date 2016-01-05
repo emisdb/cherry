@@ -111,6 +111,7 @@ class SegScheduledTours extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('from_date, to_date, city_ob, language_ob, langname, trname, guidename, cancelReason, tourroute_ob, idseg_scheduled_tours, tourroute_id, openTour, TNmax_sched, duration, starttime, date, current_subscribers, language_id, guide1_id, guide2_id,  additional_info, visibility, city_id, isInvoiced_guide1, additional_info2, isCanceled, cancellationReason, tastring, canceledBy, cancellationAnnotation', 'safe', 'on'=>'search'),
+			array('from_date, to_date, city_ob, language_ob, langname, trname, guidename, cancelReason, tourroute_ob, idseg_scheduled_tours, tourroute_id, openTour, TNmax_sched, duration, starttime, date, current_subscribers, language_id, guide1_id, guide2_id,  additional_info, visibility, city_id, isInvoiced_guide1, additional_info2, isCanceled, cancellationReason, tastring, canceledBy, cancellationAnnotation', 'safe', 'on'=>'search_f'),
 			
 		array('user_ob,city_ob, language_ob, langname, trname, guidename, cancelReason, tourroute_ob, idseg_scheduled_tours, tourroute_id, openTour, TNmax_sched, duration, starttime, date, current_subscribers, language_id, guide1_id, guide2_id, guide3_id, guide4_id, original_starttime, additional_info, visibility, city_id, isInvoiced_guide1, isInvoiced_guide2, isInvoiced_guide3, isInvoiced_guide4, additional_info2, isCanceled, cancellationReason, canceledBy, cancellationAnnotation', 'safe', 'on'=>'search_s'),
 	
@@ -319,7 +320,7 @@ class SegScheduledTours extends CActiveRecord
 		$criteria->compare('language_ob.englishname', $this->langname, true);
 		$criteria->compare('guidestourinvoice.TA_string', $this->tastring, true);
 		$criteria->compare('tourroute_ob.name', $this->trname, true);
-		$criteria->compare('user_ob.username', $this->guidename, true);
+		$criteria->addCondition("date>='".date('Y-m-d',strtotime($this->date))."'");
 		$sort->attributes = array(
 			'*',
 			'langname'=>'language_ob.englishname',

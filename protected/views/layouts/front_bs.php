@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="language" content="de" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" href="<?php echo Yii::app()->request->baseUrl; ?>/fav.ico" type="image/x-icon">
 
     <title><?php echo CHtml::encode(Yii::t('main','Control system - root')); ?></title>
@@ -18,7 +19,7 @@
 </head>
 
   <body>
-    <div class="wrapper">
+    <div class="container">
       <!-- Left side column. contains the logo and sidebar -->
         <?php echo $content; ?>
          <footer class="main-footer">

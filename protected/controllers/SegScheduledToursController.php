@@ -18,7 +18,7 @@ class SegScheduledToursController extends Controller
 	       		'users'=>array('*'),  
 			),
 		    array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('weeks','take','show','admin','spontan','current'),
+				'actions'=>array('weeks','take','show','admin','admins','spontan','current'),
                 'roles'=>array('guide'),
 			),            
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -130,6 +130,9 @@ class SegScheduledToursController extends Controller
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['SegScheduledTours']))
 			$model->attributes=$_GET['SegScheduledTours'];
+		if(is_null($model->date)) {
+			$model->setAttribute("date", date("d-m-Y",time()));
+		}
 
 		$this->render('city',array(
 			'id'=>$id,
@@ -600,6 +603,17 @@ class SegScheduledToursController extends Controller
 	/**
 	 * Manages all models.
 	 */
+	public function actionAdmins()
+	{
+		$model=new SegScheduledTours('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['SegScheduledTours']))
+			$model->attributes=$_GET['SegScheduledTours'];
+
+		$this->render('admin',array(
+			'model'=>$model,
+		));
+	}
 	public function actionAdmin()
 	{
 	   $id_control = Yii::app()->user->id;

@@ -17,7 +17,8 @@ $datetime = time();?>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'sss-grid',
-	'dataProvider'=>$model->search_s($id_control),//$model->search_root(),
+//	'dataProvider'=>$model->search_s($id_control),//$model->search_root(),
+	'dataProvider'=>$model->search_f(),//$model->search_root(),
 //	'filter'=>$model,
 	'rowCssClassExpression' => '$data->openTour || $data->date_now > '.$datetime.' ? "table_scheduled" : "table_scheduled_pdf"', 
 	//'rowCssClassExpression' => '$date->openTour ? "table_scheduled" : "table_scheduled_pdf"', 
