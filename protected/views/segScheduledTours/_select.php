@@ -54,14 +54,14 @@
 	<div class="row-filter">
 				<?php
 				echo $form->dropDownList($model,'language_id', CHtml::listData (Languages::model()->findAll(),'id_languages', 'germanname'),
-					array('empty'=>'Sprache','id'=>'picktime','onChange'=>'do_city(value,0)'));
+					array('empty'=>'Sprache','id'=>'picklang','onChange'=>'do_city(value,0)'));
 			?>
 	</div>
 	<div class="row-filter">
 				<?php
 					$gui=new User('search_gn');
 					echo $form->dropDownList($model,'guide1_id',CHtml::listData($gui->search_gn(),'id','guidename'),
-					array('empty'=>'Guide','id'=>'picktime','onChange'=>'do_city(value,0)'));
+					array('empty'=>'Guide','id'=>'pickguide','onChange'=>'do_city(value,0)'));
 			?>
 	</div>
 

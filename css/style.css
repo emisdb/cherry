@@ -994,12 +994,23 @@ li:hover .tour-vkladka:hover{
 	/*border-radius:10px;*/
 	width:200px;
 	background-color:#ffffff;
-	background-image: url('/img/str.png');
+	/*background-image: url('/img/str.png');*/
+	background-image: url('/img/svg/svg-export_find.svg');
+        background-size: contain;
     background-position: right center;
     background-repeat: no-repeat;
     -webkit-appearance: none;
 	/*color:#0277bd;*/
 }
+.row-filter select#picktime {
+    	background-image: url('/img/svg/svg-export_time.svg');
+ }
+ .row-filter select#picklang {
+    	background-image: url('/img/svg/svg-export_language.svg');
+ }
+  .row-filter select#pickguide {
+    	background-image: url('/img/svg/svg-export_guide.svg');
+ }
 button.but-filter{
 	border:3px solid #0277bd;
 	padding:12px;
@@ -1014,7 +1025,9 @@ button.but-filter{
 .form-control-date-filter{
   width: 200px;
   height:44px;
-  background-image: url('/img/date.png');
+  /*background-image: url('/img/date.png');*/
+    background-image: url('/img/svg/svg-export_calendar.svg');
+       background-size: contain;
   background-position: right center;
   background-repeat: no-repeat;
   /*border-radius:8px;*/
