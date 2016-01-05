@@ -84,6 +84,7 @@ class User extends CActiveRecord
 			array('profile', 'safe'),
 //            array('id, id_usergroups, role_ob, username, profile, lastlogin, id_city, id_guide, guide_ob, id_contact, contact_ob,tourcategories_sv', 'safe', 'on'=>'search'),
             array('username,status, paysum, paySum, payNA, cityname, guidename', 'safe', 'on'=>'search_office'),
+            array('id, guidename, id_guide,username', 'safe', 'on'=>'search_gn'),
            // array('id, id_usergroups, role_ob, username, profile, lastlogin, id_city, id_guide, guide_ob, id_contact, contact_ob,tourcategories_sv', 'safe', 'on'=>'search_admin'),
           
 //            array('id,username, profile', 'safe', 'on'=>'search_office'),
@@ -170,6 +171,19 @@ class User extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}*/
+	public function search_gn()
+	{
+		$criteria=new CDbCriteria;
+		$criteria->condition='id_guide>0';
+       $criteria->with = array('contact_ob'=>array('select'=>'firstname,surname'));
+		$dp= new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+		$data = $dp->getData();
+		return $data;
+
+
+	}
 
 
     public function search_root()

@@ -162,6 +162,20 @@ class SegGuidesdata extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	public function getGuideNames()
+	{
+		   $criteria=new CDbCriteria;
+		   $criteria->with=array('user_ob'=>array('select'=>array('user_ob.id','user_ob.username'),'with'=>
+//								array('contact_ob'=>array('select'=>array('contact_ob.firstname+" "+contact_ob.surname'))) ));
+//								array('contact_ob'=>array('select'=>array('contact_ob.firstname', 'contact_ob.surname'))) ));
+								array('contact_ob'=>array('select'=>array('contact_ob.firstname','contact_ob.surname','CONCAT(contact_ob.firstname,  " ", contact_ob.surname ) as operator'))) ));
+		   $criteria->select=array('idseg_guidesdata');
+//		   $criteria->with=array('user_ob'=>array('contact_ob'));
+//		   $criteria->select=new CDbExpression('user_ob.id as uid, CONCAT( contact_ob.firstname,  " ", contact_ob.surname ) as operator');
+//		   $criteria->select=array('*','user_ob.id as uid', 'CONCAT( contact_ob.firstname,  " ", contact_ob.surname ) as operator');
+//			return SegGuidesdata::model()->with(array('user_ob'=>array('contact_ob')))->findAll($criteria);
+			return $this->findAll($criteria);
+	}
 	public function getReminderOptions()
 	{
 		return array(

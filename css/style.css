@@ -985,13 +985,13 @@ li:hover .tour-vkladka:hover{
 
 /*filter*/
 .row-filter{
-	padding-bottom:15px;
+	/*padding-bottom:15px;*/
 }
 .row-filter select {
 	border:1px solid #ddd;
 	padding:10px;
 	/*background:#ffffff;*/
-	border-radius:10px;
+	/*border-radius:10px;*/
 	width:200px;
 	background-color:#ffffff;
 	background-image: url('/img/str.png');
@@ -1008,13 +1008,17 @@ button.but-filter{
 	border-radius:8px;
 	width:200px;
 }
+.form-group{
+        margin-bottom: 1px;
+}
 .form-control-date-filter{
   width: 200px;
+  height:44px;
   background-image: url('/img/date.png');
   background-position: right center;
   background-repeat: no-repeat;
-  border-radius:8px;
-  padding:10px;
+  /*border-radius:8px;*/
+  /*padding:10px;*/
   border:1px solid #ddd;
   }
 .row-form input{
