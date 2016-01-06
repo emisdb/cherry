@@ -66,7 +66,8 @@
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Search'); ?>
+	         	<button class="but-filter" type="submit"><?php echo 'FIND TOUR'; ?></button>
+   	<?php // echo CHtml::submitButton('Search'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
