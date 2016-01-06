@@ -128,11 +128,22 @@ class SegScheduledToursController extends Controller
         $model=new SegScheduledTours('search');
   
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['SegScheduledTours']))
-			$model->attributes=$_GET['SegScheduledTours'];
+		if(isset($_POST['SegScheduledTours']))
+			$model->attributes=$_POST['SegScheduledTours'];
 		if(is_null($model->date)) {
 			$model->setAttribute("date", date("d-m-Y",time()));
 		}
+		if(is_null($model->starttime)) {
+			$time_bd = date('H:i:s', time()); // now time in hosting
+		}
+		else {
+			$criteria_time = new CDbCriteria;
+			$criteria_time->condition = 'idseg_starttimes=:idseg_starttimes';
+			$criteria_time->params = array(':idseg_starttimes' => $model->starttime);
+			$time_bd = SegStarttimes::model()->find($criteria_time)->timevalue;		
+			
+		}
+		$model->from_date=date("Y-m-d", strtotime($model->date))." ".$time_bd;
 
 		$this->render('city',array(
 			'id'=>$id,

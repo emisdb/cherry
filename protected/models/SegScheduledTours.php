@@ -228,6 +228,18 @@ class SegScheduledTours extends CActiveRecord
                 $criteria->addCondition($txtd."  >= '".date('Y-m-d H:i:s', strtotime($this->from_date))."' and ".$txtd." <= '".date('Y-m-d H:i:s', strtotime($this->to_date." 23:59:59"))."'");
             }
 	}
+		private function datefrom($criteria)
+	{
+ 		if(empty($this->from_date) )
+            {
+                $criteria->addCondition("Concat(date,' ',starttime)>= '".date('Y-m-d H:i:s', time())."'");  
+                            // date is database date column field
+            }
+			else {
+                $criteria->addCondition("Concat(date,' ',starttime) >= '".date('Y-m-d H:i:s', strtotime($this->from_date))."'");  			
+ 				
+			}
+  	}
 
 	 
 	 
@@ -303,7 +315,7 @@ class SegScheduledTours extends CActiveRecord
 		$criteria->compare('openTour',$this->openTour);
 		$criteria->compare('TNmax_sched',$this->TNmax_sched);
 		$criteria->compare('duration',$this->duration);
-		$criteria->compare('starttime',$this->starttime,true);
+//		$criteria->compare('starttime',$this->starttime,true);
 		$criteria->compare('current_subscribers',$this->current_subscribers);
 		$criteria->compare('language_id',$this->language_id);
 		$criteria->compare('guide1_id',$this->guide1_id);
@@ -320,7 +332,8 @@ class SegScheduledTours extends CActiveRecord
 		$criteria->compare('language_ob.englishname', $this->langname, true);
 		$criteria->compare('guidestourinvoice.TA_string', $this->tastring, true);
 		$criteria->compare('tourroute_ob.name', $this->trname, true);
-		$criteria->addCondition("date>='".date('Y-m-d',strtotime($this->date))."'");
+//		$criteria->addCondition("date>='".date('Y-m-d',strtotime($this->date))."'");
+      	$this->datefrom($criteria);
 		$sort->attributes = array(
 			'*',
 			'langname'=>'language_ob.englishname',
@@ -331,7 +344,8 @@ class SegScheduledTours extends CActiveRecord
 					'label'=>'Invoice #'),
 		);
 		$sort->defaultOrder= array(
-            'date_now'=>CSort::SORT_DESC,
+            'date'=>CSort::SORT_DESC,
+             'starttime'=>CSort::SORT_DESC,
         );
 
 		return new CActiveDataProvider($this, array(
