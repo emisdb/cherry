@@ -125,7 +125,7 @@ class SegScheduledToursController extends Controller
 	
 	public function actionCity()
 	{
-        $model=new SegScheduledTours('search');
+        $model=new SegScheduledTours('search_f');
   
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_POST['SegScheduledTours']))

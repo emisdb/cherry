@@ -14,7 +14,7 @@
 		<div class="form-group">
 				<?php
 				echo $form->dropDownList($model,'city_id', CHtml::listData (SegCities::model()->findAll(),'idseg_cities', 'seg_cityname'),
-					array('empty'=>'city','id'=>'pickcity','onChange'=>'do_city(value,0)'));
+					array('empty'=>'Stadt','id'=>'pickcity','onChange'=>'do_city(value,0)'));
 			?>
 		</div>
 	</div>
@@ -47,21 +47,21 @@
 		<div class="form-group">
 				<?php
 				echo $form->dropDownList($model,'starttime', CHtml::listData (SegStarttimes::model()->findAll(),'idseg_starttimes', 'timevalue'),
-					array('empty'=>'Uhrzeit','id'=>'picktime','onChange'=>'do_city(value,0)'));
+					array('empty'=>'Uhrzeit','id'=>'picktime'));
 			?>
 		</div>
 		</div>
 	<div class="row-filter">
 				<?php
 				echo $form->dropDownList($model,'language_id', CHtml::listData (Languages::model()->findAll(),'id_languages', 'germanname'),
-					array('empty'=>'Sprache','id'=>'picklang','onChange'=>'do_city(value,0)'));
+					array('empty'=>'Sprache','id'=>'picklang'));
 			?>
 	</div>
 	<div class="row-filter">
 				<?php
 					$gui=new User('search_gn');
 					echo $form->dropDownList($model,'guide1_id',CHtml::listData($gui->search_gn(),'id','guidename'),
-					array('empty'=>'Guide','id'=>'pickguide','onChange'=>'do_city(value,0)'));
+					array('empty'=>'Guide','id'=>'pickguide'));
 			?>
 	</div>
 

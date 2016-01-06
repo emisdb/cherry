@@ -298,7 +298,7 @@ class SegScheduledTours extends CActiveRecord
                     'sort'=>$sort,
 		));
 	}
-	public function search_f()
+	public function search_f($tour_type)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
@@ -332,6 +332,7 @@ class SegScheduledTours extends CActiveRecord
 		$criteria->compare('language_ob.englishname', $this->langname, true);
 		$criteria->compare('guidestourinvoice.TA_string', $this->tastring, true);
 		$criteria->compare('tourroute_ob.name', $this->trname, true);
+		$criteria->addCondition ('t.tourroute_id IS NULL OR tourroute_ob.id_tour_categories = '.$tour_type);
 //		$criteria->addCondition("date>='".date('Y-m-d',strtotime($this->date))."'");
       	$this->datefrom($criteria);
 		$sort->attributes = array(
@@ -344,8 +345,8 @@ class SegScheduledTours extends CActiveRecord
 					'label'=>'Invoice #'),
 		);
 		$sort->defaultOrder= array(
-            'date'=>CSort::SORT_DESC,
-             'starttime'=>CSort::SORT_DESC,
+            'date'=>CSort::SORT_ASC,
+            'starttime'=>CSort::SORT_ASC,
         );
 
 		return new CActiveDataProvider($this, array(

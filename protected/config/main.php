@@ -76,12 +76,12 @@ return array(
 			'charset' => 'utf8',
 			'tablePrefix' => 'tbl_',
 		),
-		
+/*		
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
 		),
-		'urlManager'=>array(
+*/		'urlManager'=>array(
 			'urlFormat'=>'path',
             'showScriptName'=>false,
 		

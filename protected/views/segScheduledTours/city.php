@@ -30,9 +30,21 @@
 	</div>
 	<div class="col-md-9">
 <?php
+	echo "<h4>Classic</h4>";
+$this->widget('zii.widgets.CListView', array(
+	'dataProvider'=>$model->search_f(1),
+	'itemView'=>'_view',
+));
+	echo "<h4>Historical</h4>";
 
 $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$model->search_f(),
+	'dataProvider'=>$model->search_f(2),
+	'itemView'=>'_view',
+));
+	echo "<h4>Special</h4>";
+
+$this->widget('zii.widgets.CListView', array(
+	'dataProvider'=>$model->search_f(3),
 	'itemView'=>'_view',
 ));
 ?>		

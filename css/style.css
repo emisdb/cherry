@@ -1031,7 +1031,7 @@ button.but-filter{
   background-position: right center;
   background-repeat: no-repeat;
   /*border-radius:8px;*/
-  /*padding:10px;*/
+  padding-left:15px;
   border:1px solid #ddd;
   }
 .row-form input{
