@@ -14,7 +14,7 @@
 		<div class="form-group">
 				<?php
 				echo $form->dropDownList($model,'city_id', CHtml::listData (SegCities::model()->findAll(),'idseg_cities', 'seg_cityname'),
-					array('empty'=>'Stadt','id'=>'pickcity','onChange'=>'do_city(value,0)'));
+					array('id'=>'pickcity','onChange'=>'do_city(value,0)'));
 			?>
 		</div>
 	</div>

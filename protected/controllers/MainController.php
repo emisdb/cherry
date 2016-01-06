@@ -13,7 +13,7 @@ class MainController extends Controller
 	{
 		return array(
             array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','index1','index2','index3'),
+				'actions'=>array('index','index1','index0','index2','index3'),
 	       		'users'=>array('*'),  
               //   'roles'=>a//rray('guede'),                
 			),
@@ -205,6 +205,11 @@ class MainController extends Controller
 	}
 
 
+	public function actionIndex0()//variant bez display
+	{
+              $this->layout = "test";
+  		$this->render('index');
+	}
 	public function actionIndex1()//variant bez display
 	{
         if(Yii::app()->user->isGuest){

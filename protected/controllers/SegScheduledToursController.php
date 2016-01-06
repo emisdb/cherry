@@ -123,16 +123,24 @@ class SegScheduledToursController extends Controller
 
 	//GUIDE begin
 	
-	public function actionCity()
+	public function actionCity($city=null)
 	{
         $model=new SegScheduledTours('search_f');
   
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_POST['SegScheduledTours']))
 			$model->attributes=$_POST['SegScheduledTours'];
+		if(!is_null($city))
+			$model->setAttribute("city_id", $city);
+		if(empty($model->city_id)) $this->redirect(array("main/index0"));
+//			 throw new CHttpException(403,'Must specify a city before performing this action.');
+		$tours=new SegTourroutes('search');
+		$tours->setAttribute("cityid", $model->city_id);
+
 		if(is_null($model->date)) {
 			$model->setAttribute("date", date("d-m-Y",time()));
 		}
+  
 		if(is_null($model->starttime)) {
 			$time_bd = date('H:i:s', time()); // now time in hosting
 		}
@@ -147,7 +155,8 @@ class SegScheduledToursController extends Controller
 
 		$this->render('city',array(
 			'id'=>$id,
-			'model'=>$model
+			'model'=>$model,
+			'tours'=>$tours,
 		));
 	
 	}

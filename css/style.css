@@ -1012,10 +1012,10 @@ li:hover .tour-vkladka:hover{
     	background-image: url('/img/svg/svg-export_guide.svg');
  }
 button.but-filter{
-	border:1px solid #0277bd;
+	border:1px solid #777;
 	padding:12px;
-	color:#0277bd;
-	background:#ffffff;
+	color:#777;
+	background:#dcdcdc;
 	/*border-radius:8px;*/
 	width:200px;
 }

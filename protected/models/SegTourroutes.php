@@ -52,7 +52,7 @@ class SegTourroutes extends CActiveRecord
              ),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idseg_tourroutes, tour_categories, name, maintext, shorttext, TNmin, TNmax, inDevelopment, image_big, image, image_icon, route_bigpic, route_pic, pic_icon, pdf_path, pdf_file, base_price, standard_duration, city, cityid', 'safe', 'on'=>'search'),
+			array('idseg_tourroutes, id_tour_categories, tour_categories, name, maintext, shorttext, TNmin, TNmax, inDevelopment, image_big, image, image_icon, route_bigpic, route_pic, pic_icon, pdf_path, pdf_file, base_price, standard_duration, cityid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -117,10 +117,8 @@ class SegTourroutes extends CActiveRecord
 		$criteria=new CDbCriteria;
         
         $criteria->with = array('tour_categories','city');
-		$criteria->compare('tour_categories.id_tour_categories',$this->tour_categories);
-		$criteria->compare('city.idseg_cities',$this->city);
-
 		$criteria->compare('idseg_tourroutes',$this->idseg_tourroutes);
+		$criteria->compare('id_tour_categories',$this->id_tour_categories);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('maintext',$this->maintext,true);
 		$criteria->compare('shorttext',$this->shorttext,true);
