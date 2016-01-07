@@ -41,7 +41,11 @@
 		{
 			echo	'<div id="tab'.$ii.'" class="tab-pane fade '.(($ii==0) ? 'in active' : '').'">';
 			echo	'<div class="panel panel-default">';
-			echo	'<div class="panel-heading"><div class="row"><div class="col-md-9">'.$value['maintext'].'</div>';
+			echo	'<div class="panel-heading"><div class="row"><div class="col-md-9">';
+			echo	'<div class="row" >	'.
+					CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_info.svg','info',array('style'=>'height: 50px; width:50px;')).
+					$value['shorttext'].'</div>';
+			echo	'<div class="row" style="font-size:.7em; margin-top:5px;padding-left:50px;">	'.$value['maintext'].'</div></div>';
 			echo	'<div class="col-md-3">';
 			echo	'<div class="row">'.
 					CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_duration.svg','duration',array('style'=>'height: 50px; width:50px;')).
@@ -49,6 +53,9 @@
 			echo	'<div class="row">'.
 					CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_euro.svg','duration',array('style'=>'height: 50px; width:50px;')).
 					number_format($value['base_price'], 2, '.', ' ').' inkl. Mvst.</div>';
+			echo	'<div class="row">'.
+					CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_pin.svg','duration',array('style'=>'height: 50px; width:50px;')).
+					$value['route_pic'].' </div>';
 			echo '</div></div></div>';
 			echo	'<div class="panel-body">';
 				$this->widget('zii.widgets.CListView', array(

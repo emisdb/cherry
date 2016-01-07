@@ -43,3 +43,7 @@ For production:
 milestone 6:
 1. all labels on the user grid are about guides, but they include other roles.
 2. count the cashbox is erroneous - they include transfer money that are not approved
+
+Front end
+1.место встречи -откуда берется
+2.координаты точки на карте
