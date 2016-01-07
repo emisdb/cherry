@@ -132,6 +132,10 @@ class SegTourroutes extends CActiveRecord
 		$criteria->compare('base_price',$this->base_price,true);
 		$criteria->compare('standard_duration',$this->standard_duration);
 		$criteria->compare('cityid',$this->cityid);
+		$sort   = new CSort;
+		$sort->defaultOrder= array(
+            'id_tour_categories'=>CSort::SORT_ASC,
+        );
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
