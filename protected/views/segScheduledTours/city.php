@@ -95,6 +95,7 @@
 				$this->widget('zii.widgets.CListView', array(
 				'dataProvider'=>$model->search_f($value['id_tour_categories']),
 				'itemView'=>'_view',
+				'viewData'=>array('tnmax'=>$value['TNmax']),
 			));
 			echo '</div></div></div>';
 			$ii++;

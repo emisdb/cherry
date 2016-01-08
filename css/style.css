@@ -934,7 +934,15 @@ div.items>div.row
 {
           background-color: #fff; 
           border-bottom: #eee solid 4px;
+ }
+div.items>div.row>div
+{
+           border-bottom:  #ccc solid 1px;
 }
+div.items>div.row>div.bordered
+{
+           border-right:  #ccc solid 1px;
+ 
 div.items>div.row:hover
 {
           background-color: #eef9ff; 

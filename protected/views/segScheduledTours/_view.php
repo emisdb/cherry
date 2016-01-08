@@ -4,12 +4,12 @@
 ?>
 
 <div class="row" >
-	<div class="col-md-2">
-       <?php echo CHtml::image(Yii::app()->request->baseUrl."/image/guide/".$data->user_ob->guidepic, "User Image", array("class"=>"img-circle")) ; ?>
-	</div>
-	<div class="col-md-2" style="padding:10px 3px;">
+	<div class="col-md-3 bordered">
+
+       <?php echo CHtml::image(Yii::app()->request->baseUrl."/image/guide/".$data->user_ob->guidepic, "User Image", array("class"=>"img-circle",'height'=>'90px')) ; ?>
+		<span>
 		<?php echo CHtml::encode($data->user_ob->guidename); ?>
-		<div style="margin-top: 10px;">
+			<div>
 		<?php
 		if($data->language_id==null) {
 			foreach ($data->user_ob->languages as $value) {
@@ -20,9 +20,10 @@
 			 echo CHtml::image(Yii::app()->request->baseUrl."/img/lan/".$data->language_ob->flagpic, "Language", array("class"=>"img-circle")) ; 
 		}
 		?>
+			</div>
+		</span>
 	</div>
-	</div>
-	<div class="col-md-4">
+	<div class="col-md-4 bordered">
        	<?php
 		echo CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_calendar.svg','calendar',array('style'=>'height: 40px;'));
 		echo CHtml::encode(date('l, d F Y',$data->date_now));
@@ -35,9 +36,10 @@
 			
 		</div>
    	</div>
-	<div class="col-md-2">
+ 	<div class="col-md-3 bordered">
+		<?php echo $tnmax; ?>
 	</div>
-	<div class="col-md-2" style="padding-top: 20px;">
+	<div class="col-md-2" style="padding: 28px;">
 		<button class="btn btn-success"><?php echo CHtml::link("AUSW&Auml;LEN", array('show','id'=>$data->idseg_scheduled_tours),array('style'=>'color:#fff;')) ?></button>
 	</div>
 	<?php /*

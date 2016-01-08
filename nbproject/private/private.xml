@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="7"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="8">
+        <file>
+            <url>protected/controllers/OfficeController.php</url>
+            <bookmark id="8">
+                <name/>
+                <line>938</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/OpenServer/domains/cherry/protected/views/guide/_top.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/models/User.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/models/SegCities.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/sys.txt</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/models/SegScheduledTours.php</file>
             <file>file:/C:/OpenServer/domains/cherry/protected/controllers/SegScheduledToursController.php</file>
-            <file>file:/C:/OpenServer/domains/cherry/protected/controllers/OfficeController.php</file>
             <file>file:/C:/OpenServer/domains/cherry/protected/config/main.php</file>
-            <file>file:/C:/OpenServer/domains/cherry/protected/views/segScheduledTours/index.php</file>
-            <file>file:/C:/OpenServer/domains/cherry/protected/views/layouts/font_bs.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/controllers/SegScheduledToursoController.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/views/segScheduledTours/_view.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/controllers/BerlinController.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/css/style.css</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/models/SegTourroutes.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/views/segScheduledTours/city.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/views/berlin/indexn.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/views/office/current.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/views/segScheduledTours/_select.php</file>
         </group>
     </open-files>
 </project-private>
