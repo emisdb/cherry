@@ -16,6 +16,7 @@ class User extends CActiveRecord
     public $new_confirm;
 	private $_use = null;
 	private $_name = null;
+	private $_pic = null;
 	private $_sum = 0;
 	public function getGuidename(){
 		if ($this->_name === null && $this->contact_ob !== null)
@@ -27,6 +28,17 @@ class User extends CActiveRecord
 	}
 	public function setGuidename($value){
 		$this->_name = $value;
+	}
+	public function getGuidepic(){
+		if ($this->_pic === null && $this->guide_ob !== null)
+		{
+			if(count($this->guide_ob)>0)
+			$this->_pic = $this->guide_ob->lnk_to_picture;
+		}
+		return $this->_pic;
+	}
+	public function setGuidepic($value){
+		$this->_pic = $value;
 	}
 	public function getCityname(){
 		if ($this->_use === null && $this->city !== null)

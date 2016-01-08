@@ -922,3 +922,20 @@ ul.nav-pills, ul.nav-pills>li>a
     color: #fff;
     background-color: #d39aa9;
 }
+.nav-pills>li>a.nohover, .nav-pills>li>a.nohover:focus, .nav-pills>li>a.nohover:hover {
+    color: #fff;
+    background-color: #983157;
+}
+.panel-body
+{
+       background-color: #eee;
+}
+div.items>div.row
+{
+          background-color: #fff; 
+          border-bottom: #eee solid 4px;
+}
+div.items>div.row:hover
+{
+          background-color: #eef9ff; 
+ }

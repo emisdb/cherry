@@ -317,7 +317,7 @@ class SegScheduledTours extends CActiveRecord
 		$criteria->compare('duration',$this->duration);
 //		$criteria->compare('starttime',$this->starttime,true);
 		$criteria->compare('current_subscribers',$this->current_subscribers);
-		$criteria->compare('language_id',$this->language_id);
+//		$criteria->compare('language_id',$this->language_id);
 		$criteria->compare('guide1_id',$this->guide1_id);
 		$criteria->compare('additional_info',$this->additional_info,true);
 		$criteria->compare('visibility',$this->visibility);
@@ -329,15 +329,17 @@ class SegScheduledTours extends CActiveRecord
 		$criteria->compare('cancelReason',$this->cancelReason,true);
 		$criteria->compare('canceledBy',$this->canceledBy);
 		$criteria->compare('cancellationAnnotation',$this->cancellationAnnotation,true);
-		$criteria->compare('language_ob.englishname', $this->langname, true);
+//		$criteria->compare('language_ob.englishname', $this->langname, true);
 		$criteria->compare('guidestourinvoice.TA_string', $this->tastring, true);
-		$criteria->compare('tourroute_ob.name', $this->trname, true);
+//		$criteria->compare('tourroute_ob.name', $this->trname, true);
+		if(!empty($this->language_id))
+			$criteria->addCondition ('t.language_id IS NULL OR t.language_id = '.$this->language_id);
 		$criteria->addCondition ('t.tourroute_id IS NULL OR tourroute_ob.id_tour_categories = '.$tour_type);
 //		$criteria->addCondition("date>='".date('Y-m-d',strtotime($this->date))."'");
       	$this->datefrom($criteria);
 		$sort->attributes = array(
 			'*',
-			'langname'=>'language_ob.englishname',
+//			'langname'=>'language_ob.englishname',
 			'trname'=>'tourroute_ob.name',
 			'guidename'=>'user_ob.username',
 			'tastring'=>array('asc'=>'guidestourinvoice.TA_string',
@@ -350,7 +352,8 @@ class SegScheduledTours extends CActiveRecord
         );
 
 		return new CActiveDataProvider($this, array(
-                   'pagination'=>false,
+//                   'pagination'=>false,
+ 			   'pagination'=>array('pageSize'=>10, ),
                     'criteria'=>$criteria,
                     'sort'=>$sort,
 		));

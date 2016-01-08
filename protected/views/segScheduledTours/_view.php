@@ -3,11 +3,46 @@
 /* @var $data SegScheduledTours */
 ?>
 
-<div class="row" style="border-bottom: #002a80 inset thin;">
-
+<div class="row" >
+	<div class="col-md-2">
+       <?php echo CHtml::image(Yii::app()->request->baseUrl."/image/guide/".$data->user_ob->guidepic, "User Image", array("class"=>"img-circle")) ; ?>
+	</div>
+	<div class="col-md-2" style="padding:10px 3px;">
+		<?php echo CHtml::encode($data->user_ob->guidename); ?>
+		<div style="margin-top: 10px;">
+		<?php
+		if($data->language_id==null) {
+			foreach ($data->user_ob->languages as $value) {
+				 echo CHtml::image(Yii::app()->request->baseUrl."/img/lan/".$value['flagpic'], "Language", array("class"=>"img-circle")) ; 
+			}
+		}
+		else {
+			 echo CHtml::image(Yii::app()->request->baseUrl."/img/lan/".$data->language_ob->flagpic, "Language", array("class"=>"img-circle")) ; 
+		}
+		?>
+	</div>
+	</div>
+	<div class="col-md-4">
+       	<?php
+		echo CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_calendar.svg','calendar',array('style'=>'height: 40px;'));
+		echo CHtml::encode(date('l, d F Y',$data->date_now));
+		?>
+		<div style="margin-top: 10px;">
+       	<?php
+		echo CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_time.svg','time',array('style'=>'height: 40px;'));
+		echo CHtml::encode(substr_replace($data->starttime, '', 5));
+		?>
+			
+		</div>
+   	</div>
+	<div class="col-md-2">
+	</div>
+	<div class="col-md-2" style="padding-top: 20px;">
+		<button class="btn btn-success"><?php echo CHtml::link("AUSW&Auml;LEN", array('show','id'=>$data->idseg_scheduled_tours),array('style'=>'color:#fff;')) ?></button>
+	</div>
+	<?php /*
 	<div class="col-md-1">
 	<b><?php echo CHtml::encode($data->getAttributeLabel('idseg_scheduled_tours')); ?>:</b>
-	<?php echo CHtml::link(CHtml::encode($data->idseg_scheduled_tours), array('view', 'id'=>$data->idseg_scheduled_tours)); ?>
 	</div>
 	<div class="col-md-1">
 
@@ -66,7 +101,7 @@
 
 	</div>
 
-	<?php /*
+
 	<b><?php echo CHtml::encode($data->getAttributeLabel('guide2_id')); ?>:</b>
 	<?php echo CHtml::encode($data->guide2_id); ?>
 	<br />

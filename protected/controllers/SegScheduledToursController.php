@@ -123,6 +123,10 @@ class SegScheduledToursController extends Controller
 
 	//GUIDE begin
 	
+	public function actionBook($id)
+	{
+		
+	}
 	public function actionCity($city=null)
 	{
         $model=new SegScheduledTours('search_f');
