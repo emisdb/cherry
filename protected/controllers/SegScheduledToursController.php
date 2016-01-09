@@ -14,7 +14,7 @@ class SegScheduledToursController extends Controller
 	{
 		return array(
             array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('result','city'),
+				'actions'=>array('result','city','ajaxLoad'),
 	       		'users'=>array('*'),  
 			),
 		    array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -140,29 +140,64 @@ class SegScheduledToursController extends Controller
 //			 throw new CHttpException(403,'Must specify a city before performing this action.');
 		$tours=new SegTourroutes('search');
 		$tours->setAttribute("cityid", $model->city_id);
+		$cur_date=0;
+		$cur_time=0;
 
 		if(is_null($model->date)) {
 			$model->setAttribute("date", date("d-m-Y",time()));
+			$cur_date=1;
 		}
   
 		if(is_null($model->starttime)) {
 			$time_bd = date('H:i:s', time()); // now time in hosting
+			$cur_time=1;
 		}
 		else {
-			$criteria_time = new CDbCriteria;
-			$criteria_time->condition = 'idseg_starttimes=:idseg_starttimes';
-			$criteria_time->params = array(':idseg_starttimes' => $model->starttime);
-			$time_bd = SegStarttimes::model()->find($criteria_time)->timevalue;		
-			
+//			$criteria_time = new CDbCriteria;
+//			$criteria_time->condition = 'idseg_starttimes=:idseg_starttimes';
+//			$criteria_time->params = array(':idseg_starttimes' => $model->starttime);
+//			$time_bd = SegStarttimes::model()->find($criteria_time)->timevalue;		
+			$time_bd=$model->starttime;
 		}
-		$model->from_date=date("Y-m-d", strtotime($model->date))." ".$time_bd;
-
+		if(($cur_time==1)&&($cur_date==0))
+			$model->from_date=date("Y-m-d", strtotime($model->date))." 00:00:00";
+		else
+			$model->from_date=date("Y-m-d", strtotime($model->date))." ".$time_bd;
 		$this->render('city',array(
 			'id'=>$id,
 			'model'=>$model,
 			'tours'=>$tours,
 		));
+//		}
+
 	
+	}
+	public function actionAjaxLoad()
+	{
+		echo 'results:';
+		$val1 = $_POST;
+		$model=new SegScheduledTours('search_f');
+		$arr=json_decode($val1['arrdata']);
+		if(!empty($arr->city_id)) $model->setAttribute('city_id',$arr->city_id);
+		if(!empty($arr->starttime)) $model->setAttribute('starttime',$arr->starttime);
+		if(!empty($arr->guide1_id)) $model->setAttribute('guide1_id',$arr->guide1_id);
+		if(!empty($arr->date)) $model->setAttribute('date',$arr->date);
+		if(!empty($arr->language_id)) $model->setAttribute('language_id',$arr->language_id);
+		$cur_time=0;$dt="";
+		$date_bd=date('Y-m-d',strtotime($arr->date));
+		if(is_null($model->starttime)) {
+			$time_bd = date('H:i:s', time()); // now time in hosting
+			if ($date_bd!=date('Y-m-d'))	$dt =$date_bd.' 00:00:00';
+		}
+		else {
+			$time_bd=$model->starttime;
+		}
+		if (strlen($dt)==0)	$dt =$date_bd.' '.$time_bd;
+		$model->from_date=$dt;
+		$dp=$model->search_f($val1['type']);
+		$dp->pagination->currentPage=1;
+		print_r ($model->search_f($val1['type'])->getKeys());
+        Yii::app()->end();
 	}
 	public function actionResult()
 	{

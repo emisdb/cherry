@@ -111,7 +111,7 @@ class SegScheduledTours extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('from_date, to_date, city_ob, language_ob, langname, trname, guidename, cancelReason, tourroute_ob, idseg_scheduled_tours, tourroute_id, openTour, TNmax_sched, duration, starttime, date, current_subscribers, language_id, guide1_id, guide2_id,  additional_info, visibility, city_id, isInvoiced_guide1, additional_info2, isCanceled, cancellationReason, tastring, canceledBy, cancellationAnnotation', 'safe', 'on'=>'search'),
-			array('from_date, to_date, city_ob, language_ob, langname, trname, guidename, cancelReason, tourroute_ob, idseg_scheduled_tours, tourroute_id, openTour, TNmax_sched, duration, starttime, date, current_subscribers, language_id, guide1_id, guide2_id,  additional_info, visibility, city_id, isInvoiced_guide1, additional_info2, isCanceled, cancellationReason, tastring, canceledBy, cancellationAnnotation', 'safe', 'on'=>'search_f'),
+			array('from_date, to_date, city_ob, language_ob, langname, trname, guidename, tourroute_ob, idseg_scheduled_tours, tourroute_id, openTour, TNmax_sched, duration, starttime, date, current_subscribers, language_id, guide1_id, guide2_id,  additional_info, city_id, isInvoiced_guide1, additional_info2, isCanceled, tastring', 'safe', 'on'=>'search_f'),
 			
 		array('user_ob,city_ob, language_ob, langname, trname, guidename, cancelReason, tourroute_ob, idseg_scheduled_tours, tourroute_id, openTour, TNmax_sched, duration, starttime, date, current_subscribers, language_id, guide1_id, guide2_id, guide3_id, guide4_id, original_starttime, additional_info, visibility, city_id, isInvoiced_guide1, isInvoiced_guide2, isInvoiced_guide3, isInvoiced_guide4, additional_info2, isCanceled, cancellationReason, canceledBy, cancellationAnnotation', 'safe', 'on'=>'search_s'),
 	
@@ -325,16 +325,12 @@ class SegScheduledTours extends CActiveRecord
 		$criteria->compare('isInvoiced_guide1',$this->isInvoiced_guide1);
 		$criteria->compare('additional_info2',$this->additional_info2,true);
 		$criteria->compare('isCanceled',$this->isCanceled);
-		$criteria->compare('cancellationReason',$this->cancellationReason,true);
-		$criteria->compare('cancelReason',$this->cancelReason,true);
-		$criteria->compare('canceledBy',$this->canceledBy);
-		$criteria->compare('cancellationAnnotation',$this->cancellationAnnotation,true);
 //		$criteria->compare('language_ob.englishname', $this->langname, true);
 		$criteria->compare('guidestourinvoice.TA_string', $this->tastring, true);
 //		$criteria->compare('tourroute_ob.name', $this->trname, true);
 		if(!empty($this->language_id))
 			$criteria->addCondition ('((t.language_id IS NULL) AND (t.guide1_id IN (SELECT users_id FROM seg_languages_guides WHERE languages_id='.$this->language_id.'))) OR t.language_id = '.$this->language_id);
-		$criteria->addCondition ('t.tourroute_id IS NULL OR tourroute_ob.id_tour_categories = '.$tour_type);
+		$criteria->addCondition ('t.visibility=1 AND t.tourroute_id IS NULL OR tourroute_ob.id_tour_categories = '.$tour_type);
 //		$criteria->addCondition("date>='".date('Y-m-d',strtotime($this->date))."'");
       	$this->datefrom($criteria);
 		$sort->attributes = array(
@@ -353,7 +349,7 @@ class SegScheduledTours extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 //                   'pagination'=>false,
- 			   'pagination'=>array('pageSize'=>10, ),
+ 			   'pagination'=>array('pageSize'=>5, ),
                     'criteria'=>$criteria,
                     'sort'=>$sort,
 		));

@@ -10,6 +10,8 @@
 	?>
 	<div style="width:100%; font-size:1.7em; color:#fff; font-weight:bold; letter-spacing: 5px; position: absolute; top: 26%; text-transform: uppercase; text-align: center;" >CHERRYTOURS</div>
 	<div style="width:100%; font-size:1.7em; color:#fff; font-weight:bold; letter-spacing: 5px; position: absolute; top: 38%; text-transform: uppercase; text-align: center; " ><?php echo $model->city_ob->seg_cityname ?></div>
+
+</div>
 	<?php
 /*	echo "Date".date('Y-m-d',strtotime($model->date));  
 	echo "from: ".$model->from_date ;
@@ -17,11 +19,9 @@
 	echo "start: ".is_null($model->starttime) ? "NULL" : "NOT".":".date('H:i:s',time()) ;
 	echo "city: ".$model->city_id ;
  */
-
+//var_dump($model);
 //		var_dump(CHtml::listData($gui->search_gn(),'id','guidename'));
 		?>
-</div>
-
 <div class="row">
 	<div class="col-md-3" style="padding: 0;">
  <ul class="nav nav-pills nav-justified hidden-sm hidden-xs">
@@ -92,12 +92,41 @@
 					$value['route_pic'].' </div>';
 			echo '</div></div></div>';
 			echo	'<div class="panel-body">';
-				$this->widget('zii.widgets.CListView', array(
-				'dataProvider'=>$model->search_f($value['id_tour_categories']),
-				'itemView'=>'_view',
-				'viewData'=>array('tnmax'=>$value['TNmax']),
-			));
-			echo '</div></div></div>';
+			$dp=$model->search_f($value['id_tour_categories']);
+			 $this->renderPartial('_loop', array('dataProvider'=>$dp,
+								'tnmax'=>$value['TNmax']));
+		echo '</div>';
+		echo '<div class="panel-footer">';
+		echo $dp->totalItemCount.' > '.$dp->pagination->pageSize;
+		 if ($dp->totalItemCount  > $dp->pagination->pageSize){
+			 echo '<div id="req_res_loading'.$ii.'">...</div>';
+			 echo '<div class="row" style="margin: 10px 0; padding:10px;">
+                            <div class="span9" style="text-align:center;">
+                                <p id="loading_classic'.$ii.'" style="display:none">';
+			 echo CHtml::image(Yii::app()->request->baseUrl.'/img/loader.gif','loading');
+					 echo '</p></div></div>';
+			 echo '<div class="row" style="position:relative;top:0;width:197px;margin:0 auto;">';
+    echo CHtml::ajaxButton(
+    'MEHR ANZEIGEN',          // the link body (it will NOT be HTML-encoded.)
+    array('ajaxLoad'), // the URL for the AJAX request. If empty, it is assumed to be the current URL.
+    array(
+//        'data'=>array('arrdata'=>'js:$("#yw0").serialize();'),
+        'data'=>array('arrdata'=> json_encode($model->attributes),'type'=>$value['id_tour_categories']),
+        'type'=>'POST',
+       'update'=>'#req_res_loading'.$ii,
+        'beforeSend' => 'function() {           
+           $("#loading_classic'.$ii.'").show();
+        }',
+        'complete' => 'function() {
+          $("#loading_classic'.$ii.'").hide();
+        }',        
+			 ),
+			array('class'=>'btn btn-default')
+		);
+             echo '</div>';
+		 }
+  		echo '</div>';
+		echo '</div></div>';
 			$ii++;
 		}
 	?>	

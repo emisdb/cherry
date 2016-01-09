@@ -46,7 +46,7 @@
 	<div class="row-filter">
 		<div class="form-group">
 				<?php
-				echo $form->dropDownList($model,'starttime', CHtml::listData (SegStarttimes::model()->findAll(),'idseg_starttimes', 'timevalue'),
+				echo $form->dropDownList($model,'starttime', CHtml::listData (SegStarttimes::model()->findAll(),/*'idseg_starttimes'*/'timevalue', 'timevalue'),
 					array('empty'=>'Uhrzeit','id'=>'picktime'));
 			?>
 		</div>
