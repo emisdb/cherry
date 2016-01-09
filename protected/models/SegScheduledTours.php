@@ -333,7 +333,7 @@ class SegScheduledTours extends CActiveRecord
 		$criteria->compare('guidestourinvoice.TA_string', $this->tastring, true);
 //		$criteria->compare('tourroute_ob.name', $this->trname, true);
 		if(!empty($this->language_id))
-			$criteria->addCondition ('t.language_id IS NULL OR t.language_id = '.$this->language_id);
+			$criteria->addCondition ('((t.language_id IS NULL) AND (t.guide1_id IN (SELECT users_id FROM seg_languages_guides WHERE languages_id='.$this->language_id.'))) OR t.language_id = '.$this->language_id);
 		$criteria->addCondition ('t.tourroute_id IS NULL OR tourroute_ob.id_tour_categories = '.$tour_type);
 //		$criteria->addCondition("date>='".date('Y-m-d',strtotime($this->date))."'");
       	$this->datefrom($criteria);

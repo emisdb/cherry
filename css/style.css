@@ -942,8 +942,17 @@ div.items>div.row>div
 div.items>div.row>div.bordered
 {
            border-right:  #ccc solid 1px;
- 
+} 
 div.items>div.row:hover
 {
           background-color: #eef9ff; 
  }
+ div.manline
+ {
+     margin-bottom:4px;
+     text-align: center;
+  }
+  div.manline img
+ {
+     margin-right:5px;
+  }

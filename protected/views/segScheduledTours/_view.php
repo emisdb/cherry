@@ -4,31 +4,32 @@
 ?>
 
 <div class="row" >
-	<div class="col-md-3 bordered">
+	<div class="col-md-3 bordered" >
 
-       <?php echo CHtml::image(Yii::app()->request->baseUrl."/image/guide/".$data->user_ob->guidepic, "User Image", array("class"=>"img-circle",'height'=>'90px')) ; ?>
-		<span>
+       <?php echo CHtml::image(Yii::app()->request->baseUrl."/image/guide/".$data->user_ob->guidepic, "User Image", array("class"=>"img-circle",'height'=>'70px','style'=>'float:left;')) ; ?>
+		<div style="padding:5px 0 5px 5px; margin-left:70px;">
 		<?php echo CHtml::encode($data->user_ob->guidename); ?>
-			<div>
-		<?php
-		if($data->language_id==null) {
-			foreach ($data->user_ob->languages as $value) {
-				 echo CHtml::image(Yii::app()->request->baseUrl."/img/lan/".$value['flagpic'], "Language", array("class"=>"img-circle")) ; 
-			}
-		}
-		else {
-			 echo CHtml::image(Yii::app()->request->baseUrl."/img/lan/".$data->language_ob->flagpic, "Language", array("class"=>"img-circle")) ; 
-		}
-		?>
+			<div style="margin-top:30px;">
+				<?php
+				if($data->language_id==null) {
+					foreach ($data->user_ob->languages as $value) {
+						 echo CHtml::image(Yii::app()->request->baseUrl."/img/lan/".$value['flagpic'], "Language", array("class"=>"img-circle")) ; 
+					}
+				}
+				else {
+					 echo CHtml::image(Yii::app()->request->baseUrl."/img/lan/".$data->language_ob->flagpic, "Language", array("class"=>"img-circle")) ; 
+				}
+				?>
 			</div>
-		</span>
+
+	</div>
 	</div>
 	<div class="col-md-4 bordered">
        	<?php
 		echo CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_calendar.svg','calendar',array('style'=>'height: 40px;'));
 		echo CHtml::encode(date('l, d F Y',$data->date_now));
 		?>
-		<div style="margin-top: 10px;">
+		<div>
        	<?php
 		echo CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_time.svg','time',array('style'=>'height: 40px;'));
 		echo CHtml::encode(substr_replace($data->starttime, '', 5));
@@ -36,10 +37,27 @@
 			
 		</div>
    	</div>
- 	<div class="col-md-3 bordered">
-		<?php echo $tnmax; ?>
+ 	<div class="col-md-3 bordered" style="padding:6px 5px;">
+		<?php 
+		if($tnmax>0)
+		{
+			$iibreak=round($tnmax/2);
+			echo '<div class="manline">'; 
+			for($ii=0;$ii<$tnmax;$ii++){
+			if($ii==$iibreak) echo '</div><div class="manline">';
+			if($ii<$data->current_subscribers)
+				 echo CHtml::image(Yii::app()->request->baseUrl."/img/man_y.png", "yes man") ; 
+			else
+				 echo CHtml::image(Yii::app()->request->baseUrl."/img/man_n.png", "no man") ; 
+		}
+		if($ii>6) echo "</div>";
+		$rest=$tnmax;
+			if($data->current_subscribers>0) $rest=$tnmax-$data->current_subscribers;
+			echo '<div style="margin-top:4px;text-align: center;width:100%">'.$rest." freie Pl&auml;tze</div>"; 
+			}	
+		?>
 	</div>
-	<div class="col-md-2" style="padding: 28px;">
+	<div class="col-md-2" style="padding: 23px;">
 		<button class="btn btn-success"><?php echo CHtml::link("AUSW&Auml;LEN", array('show','id'=>$data->idseg_scheduled_tours),array('style'=>'color:#fff;')) ?></button>
 	</div>
 	<?php /*
