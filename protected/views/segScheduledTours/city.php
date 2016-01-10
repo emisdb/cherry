@@ -95,30 +95,38 @@
 			$dp=$model->search_f($value['id_tour_categories']);
 			 $this->renderPartial('_loop', array('dataProvider'=>$dp,
 								'tnmax'=>$value['TNmax']));
+			echo '<div id="req_res_loading'.$ii.'"></div>';
 		echo '</div>';
 		echo '<div class="panel-footer">';
-		echo $dp->totalItemCount.' > '.$dp->pagination->pageSize;
+//		echo $dp->totalItemCount.' > '.$dp->pagination->pageSize;
 		 if ($dp->totalItemCount  > $dp->pagination->pageSize){
-			 echo '<div id="req_res_loading'.$ii.'">...</div>';
 			 echo '<div class="row" style="margin: 10px 0; padding:10px;">
                             <div class="span9" style="text-align:center;">
                                 <p id="loading_classic'.$ii.'" style="display:none">';
 			 echo CHtml::image(Yii::app()->request->baseUrl.'/img/loader.gif','loading');
 					 echo '</p></div></div>';
-			 echo '<div class="row" style="position:relative;top:0;width:197px;margin:0 auto;">';
+			 echo '<div id="showbutton'.$ii.'" class="row" style="position:relative;top:0;width:197px;margin:0 auto;">';
     echo CHtml::ajaxButton(
     'MEHR ANZEIGEN',          // the link body (it will NOT be HTML-encoded.)
     array('ajaxLoad'), // the URL for the AJAX request. If empty, it is assumed to be the current URL.
     array(
 //        'data'=>array('arrdata'=>'js:$("#yw0").serialize();'),
-        'data'=>array('arrdata'=> json_encode($model->attributes),'type'=>$value['id_tour_categories']),
+        'data'=>array('arrdata'=> json_encode($model->attributes),
+											'type'=>$value['id_tour_categories'],
+											'tnmax'=>$value['TNmax'],
+											'page'=>'js:pageN['.$ii.']',
+					),
         'type'=>'POST',
-       'update'=>'#req_res_loading'.$ii,
+//       'update'=>'#req_res_loading'.$ii,
         'beforeSend' => 'function() {           
            $("#loading_classic'.$ii.'").show();
-        }',
-        'complete' => 'function() {
+       }',
+        'success' => 'function(data) {
           $("#loading_classic'.$ii.'").hide();
+			$("#req_res_loading'.$ii.'").append(data);
+ 			 pageN['.$ii.']++;
+			 if(pageN['.$ii.']*'.$dp->pagination->pageSize.'>='.$dp->totalItemCount.')
+		      $("#showbutton'.$ii.'").hide();
         }',        
 			 ),
 			array('class'=>'btn btn-default')
@@ -133,7 +141,8 @@
 	</div>
 	</div>
 </div>
-<script>
+<script type="text/javascript">
+	  var pageN=[<?php for($vi=0;$vi<$ii;$vi++) echo "1,"; ?>];
 function initialize() {
   var mapProp = {
     center:new google.maps.LatLng(52.518343, 13.342357),
@@ -142,6 +151,7 @@ function initialize() {
 	mapTypeId:google.maps.MapTypeId.ROADMAP
   };
   var map=new google.maps.Map(document.getElementById("googleMap"), mapProp);
+
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>	

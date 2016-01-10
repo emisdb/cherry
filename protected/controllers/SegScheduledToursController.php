@@ -174,9 +174,10 @@ class SegScheduledToursController extends Controller
 	}
 	public function actionAjaxLoad()
 	{
-		echo 'results:';
 		$val1 = $_POST;
 		$model=new SegScheduledTours('search_f');
+//		print_r($val1);
+//		return;
 		$arr=json_decode($val1['arrdata']);
 		if(!empty($arr->city_id)) $model->setAttribute('city_id',$arr->city_id);
 		if(!empty($arr->starttime)) $model->setAttribute('starttime',$arr->starttime);
@@ -195,8 +196,11 @@ class SegScheduledToursController extends Controller
 		if (strlen($dt)==0)	$dt =$date_bd.' '.$time_bd;
 		$model->from_date=$dt;
 		$dp=$model->search_f($val1['type']);
-		$dp->pagination->currentPage=1;
-		print_r ($model->search_f($val1['type'])->getKeys());
+		$dp->pagination->currentPage=$val1['page'];
+		echo "-".($val1['page']+1)."-";
+			 $this->renderPartial('_loop', array('dataProvider'=>$dp,
+								'tnmax'=>$val1['tnmax']));
+//		print_r ($model->search_f($val1['type'])->getKeys());
         Yii::app()->end();
 	}
 	public function actionResult()
