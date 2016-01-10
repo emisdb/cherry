@@ -956,3 +956,29 @@ div.items>div.row:hover
  {
      margin-right:5px;
   }
+  footer.main-footer
+  {
+     color: #737373;
+      background-color: #373737;
+  }
+   footer.main-footer hr
+   {
+      color: #737373;
+      
+   }
+ 
+  div.bottom-menu a,   div.bottom-menu select
+  {
+       color: #fdfdfd;
+      margin: 40px 50px;
+      font-size: 1.2em;
+  }
+  div.bottom-menu select
+  {
+      background-color: #555;
+  }
+  div.bottom-menu
+  {
+      width:100%;
+      text-align: center;
+  }

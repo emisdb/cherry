@@ -22,11 +22,32 @@
     <div class="container">
       <!-- Left side column. contains the logo and sidebar -->
         <?php echo $content; ?>
-         <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-          <b>Version</b> 2.3.0
-        </div>
-        <strong>Copyright &copy; 2015 <a href="http://cherrytours.com">Cherry Tours</a>.</strong> All rights reserved.
+     <footer class="main-footer">
+		 <div class="bottom-menu">
+			 <?php
+				echo CHtml::link("&Uuml;ber Uns",array("main/about"));
+				echo CHtml::link("Presse",array("main/about"));
+				echo CHtml::link("AGB’s und Datenschut",array("main/about"));
+				echo CHtml::link("Kontakt",array("main/about"));
+				echo CHtml::dropDownList('sitelanguage', $select_lang, 
+              array(0 => 'Deutch', 1 => 'English'),array('style'=>"border:0; padding:10px;"));
+			 ?>
+			 <div>
+			<?php
+				echo	CHtml::image(Yii::app()->request->baseUrl.'/img/logo_grey.png','info',array('style'=>'height: 50px; margin-top:50px;'));
+			?>
+			 </div>
+			<div style="width:100%; margin-bottom:30px; font-size:1.7em; font-weight:bold; letter-spacing: 5px; text-transform: uppercase; text-align: center;" >CHERRYTOURS</div>
+			<hr>
+			<div style="padding-bottom:30px;">
+			<?php
+				echo	CHtml::link(CHtml::image(Yii::app()->request->baseUrl.'/img/facebook.png','info',array('style'=>'height: 50px; margin-top:50px;')),"http://facebook.com");
+				echo	CHtml::link(CHtml::image(Yii::app()->request->baseUrl.'/img/twitter.png','info',array('style'=>'height: 50px; margin-top:50px;')),"http://twitter.com");
+				echo	CHtml::link(CHtml::image(Yii::app()->request->baseUrl.'/img/camera.png','info',array('style'=>'height: 50px; margin-top:50px;')),"http://instagram.com");
+			?>
+
+			</div>
+		 </div>
       </footer>
 
      </div><!-- ./wrapper -->
