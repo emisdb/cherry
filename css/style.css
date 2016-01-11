@@ -811,8 +811,8 @@ li:hover .tour-vkladka:hover{
 button.but-filter{
 	border:1px solid #777;
 	padding:12px;
-	color:#777;
-	background:#dcdcdc;
+	color:#fff;
+	background:#983157;
 	/*border-radius:8px;*/
 	width:200px;
 }
@@ -982,3 +982,65 @@ div.items>div.row:hover
       width:100%;
       text-align: center;
   }
+  div#top
+  {
+     background-image: url('/img/top.jpg');
+     background-repeat: no-repeat;
+     background-size: cover;
+  }
+ div#top_start
+  {
+     background: url('/img/top_start.jpg')  no-repeat, -webkit-linear-gradient(top, #000, #fff); 
+     /*background: url('/img/top_start.jpg')  no-repeat;*/ 
+     /*background-image:-webkit-gradient(top, #000, #fff), url('/img/top_start.jpg');*/
+     background-repeat: no-repeat;
+     background-size: cover;
+     position:  relative;
+  }
+  div#top div,  div#top_start div
+  {
+      margin: 20px 0;
+  }
+  div.gradient
+  {
+      position: absolute;
+      width:100%;
+      height: 100%;
+     background:  -webkit-linear-gradient(top, #000, #fff); 
+  }
+  div.teaser
+  {
+      width:250px;
+      height:280px;
+      background-image: url('/img/berlin-teaser.jpg');
+      background-size: cover;
+     background-repeat: no-repeat;
+     margin-right:20px;
+    display: inline-block;
+ }
+ div.munchen
+ {
+      background-image: url('/img/munchen-teaser.jpg');
+     
+ }
+  div.berlin
+ {
+      background-image: url('/img/berlin-teaser.jpg');
+     
+ } 
+ div.hamburg
+ {
+      background-image: url('/img/hamburg-teaser.jpg');
+      background-position-y: bottom; /* Положение фона */
+     
+ }
+ div.frontlabel
+ {
+     width:100%;
+     font-size:1.7em;
+     color:#fff;
+     font-weight:bold;
+     letter-spacing: 5px;
+     text-transform: uppercase;
+     text-align: center;  
+ }

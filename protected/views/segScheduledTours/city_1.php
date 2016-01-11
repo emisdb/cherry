@@ -3,13 +3,13 @@
 /* @var $dataProvider CActiveDataProvider */
  Yii::app()->clientScript->registerScriptFile('http://maps.googleapis.com/maps/api/js',CClientScript::POS_HEAD);
  ?>
-<div class="row" id="top">
+<div class="row" id="top" style="position:relative;">
 	<?php	
-//		echo	CHtml::image(Yii::app()->request->baseUrl.'/img/top.jpg','info',array('style'=>'width: 100%;'));
+		echo	CHtml::image(Yii::app()->request->baseUrl.'/img/cherrytours_icon_white_rgb.png','info',array('style'=>'height: 50px; position: absolute; top: 5%; left: 48%'));
+		echo	CHtml::image(Yii::app()->request->baseUrl.'/img/top.jpg','info',array('style'=>'width: 100%;'));
 	?>
-	<div style="width:100%;  text-align: center;" ><?php	echo	CHtml::image(Yii::app()->request->baseUrl.'/img/cherrytours_icon_white_rgb.png','info',array('style'=>'height: 50px; ')); ?></div>
-	<div style="width:100%; font-size:1.7em; color:#fff; font-weight:bold; letter-spacing: 5px; text-transform: uppercase; text-align: center;" >CHERRYTOURS</div>
-	<div style="width:100%; font-size:1.7em; color:#fff; font-weight:bold; letter-spacing: 5px;  text-transform: uppercase; text-align: center; margin-bottom:40px;" ><?php echo $model->city_ob->seg_cityname ?></div>
+	<div style="width:100%; font-size:1.7em; color:#fff; font-weight:bold; letter-spacing: 5px; position: absolute; top: 26%; text-transform: uppercase; text-align: center;" >CHERRYTOURS</div>
+	<div style="width:100%; font-size:1.7em; color:#fff; font-weight:bold; letter-spacing: 5px; position: absolute; top: 38%; text-transform: uppercase; text-align: center; " ><?php echo $model->city_ob->seg_cityname ?></div>
 
 </div>
 	<?php

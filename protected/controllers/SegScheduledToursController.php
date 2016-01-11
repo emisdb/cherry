@@ -14,7 +14,7 @@ class SegScheduledToursController extends Controller
 	{
 		return array(
             array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('result','city','ajaxLoad'),
+				'actions'=>array('result','city','ajaxLoad', 'index'),
 	       		'users'=>array('*'),  
 			),
 		    array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -127,6 +127,14 @@ class SegScheduledToursController extends Controller
 	{
 		
 	}
+	public function actionIndex()
+	{
+	       $model=new SegScheduledTours('search_f');
+ 			$model->setAttribute("date", date("d-m-Y",time()));
+	$this->render('front',array(
+				'model'=>$model,
+	));
+	}
 	public function actionCity($city=null)
 	{
         $model=new SegScheduledTours('search_f');
@@ -136,7 +144,7 @@ class SegScheduledToursController extends Controller
 			$model->attributes=$_POST['SegScheduledTours'];
 		if(!is_null($city))
 			$model->setAttribute("city_id", $city);
-		if(empty($model->city_id)) $this->redirect(array("main/index0"));
+		if(empty($model->city_id)) $this->redirect(array("index"));
 //			 throw new CHttpException(403,'Must specify a city before performing this action.');
 		$tours=new SegTourroutes('search');
 		$tours->setAttribute("cityid", $model->city_id);
@@ -655,13 +663,7 @@ class SegScheduledToursController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
-	{
-		$dataProvider=new CActiveDataProvider('SegScheduledTours');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
+
 
 	/**
 	 * Manages all models.
