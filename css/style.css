@@ -15,15 +15,15 @@
 */
 @font-face {
     font-family: Roman;
-    src: local(Roman), url('/fonts//GOTHAMROUNDED-MEDIUM.OTF');
+    src: local(Roman), url('/fonts/GOTHAMROUNDED-MEDIUM.OTF');
 }
 @font-face {
     font-family: Lt;
-    src: local(Lt), url('/fonts//GOTHAMROUNDED-MEDIUM.OTF');
+    src: local(Lt), url('/fonts/GOTHAMROUNDED-MEDIUM.OTF');
 }
 @font-face {
     font-family: Th;
-    src: local(Th), url('/fonts//GOTHAMROUNDED-BOLD.OTF');
+    src: local(Th), url('/fonts/GOTHAMROUNDED-BOLD.OTF');
 }  
 /******* TEXT ******/
 body{

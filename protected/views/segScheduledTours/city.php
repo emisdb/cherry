@@ -94,6 +94,7 @@
 			echo	'<div class="panel-body">';
 			$dp=$model->search_f($value['id_tour_categories']);
 			 $this->renderPartial('_loop', array('dataProvider'=>$dp,
+								'tid'=>$value['id_tour_categories'],
 								'tnmax'=>$value['TNmax']));
 			echo '<div id="req_res_loading'.$ii.'"></div>';
 		echo '</div>';

@@ -14,7 +14,7 @@ class SegScheduledToursController extends Controller
 	{
 		return array(
             array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('result','city','ajaxLoad', 'index'),
+				'actions'=>array('result','city','ajaxLoad', 'index','book'),
 	       		'users'=>array('*'),  
 			),
 		    array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -123,9 +123,15 @@ class SegScheduledToursController extends Controller
 
 	//GUIDE begin
 	
-	public function actionBook($id)
+	public function actionBook($id,$cat)
 	{
+		$model=$this->loadModel($id);
+		$tour=$this->loadTR($model->city_id,$cat);
 		
+		$this->render('book',array(
+			'model'=>$model,
+			'tour'=>$tour,
+		));
 	}
 	public function actionIndex()
 	{
@@ -172,7 +178,6 @@ class SegScheduledToursController extends Controller
 		else
 			$model->from_date=date("Y-m-d", strtotime($model->date))." ".$time_bd;
 		$this->render('city',array(
-			'id'=>$id,
 			'model'=>$model,
 			'tours'=>$tours,
 		));
@@ -745,7 +750,14 @@ class SegScheduledToursController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
-
+	public function loadTR($id,$cat)
+	{
+		$model=SegTourroutes::model()->findByAttributes(array('cityid'=>$id,'id_tour_categories'=>$cat));
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+	
 	/**
 	 * Performs the AJAX validation.
 	 * @param SegScheduledTours $model the model to be validated

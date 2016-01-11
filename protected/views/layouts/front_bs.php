@@ -25,6 +25,7 @@
      <footer class="main-footer">
 		 <div class="bottom-menu">
 			 <?php
+				$select_lang=0;
 				echo CHtml::link("&Uuml;ber Uns",array("main/about"));
 				echo CHtml::link("Presse",array("main/about"));
 				echo CHtml::link("AGB’s und Datenschut",array("main/about"));

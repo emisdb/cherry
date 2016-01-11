@@ -1,7 +1,6 @@
 <?php
 /* @var $this SegScheduledToursController */
 /* @var $dataProvider CActiveDataProvider */
- Yii::app()->clientScript->registerScriptFile('http://maps.googleapis.com/maps/api/js',CClientScript::POS_HEAD);
  ?>
 <div class="row" id="top_start">
 	<?php	

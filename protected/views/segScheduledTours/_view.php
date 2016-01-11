@@ -60,7 +60,7 @@
 		?>
 	</div>
 	<div class="col-md-2 col-sm-4" style="padding: 23px;">
-		<button class="btn btn-success"><?php echo CHtml::link("AUSW&Auml;LEN", array('show','id'=>$data->idseg_scheduled_tours),array('style'=>'color:#fff;')) ?></button>
+		<button class="btn btn-success"><?php echo CHtml::link("AUSW&Auml;LEN", array('book','id'=>$data->idseg_scheduled_tours,'cat'=>$tid),array('style'=>'color:#fff;')) ?></button>
 	</div>
 	<?php /*
 	<div class="col-md-1">
