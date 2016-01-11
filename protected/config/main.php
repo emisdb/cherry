@@ -86,10 +86,11 @@ return array(
             'showScriptName'=>false,
 		
 			'rules'=>array(
-            	'/' => 'main/index',
+            	'/' => 'segScheduledTours/index',
 				'/admin' => 'site/login',
-//				'/berlin' => 'segScheduledTours/city/id/berlin',
-//				'/segScheduledTours/city/<id:\d+>' => 'segScheduledTours/city',
+				'/berlin' => 'segScheduledTours/city/city/1',
+				'/munchen' => 'segScheduledTours/city/city/2',
+				'/segScheduledTours/city/<city:\d+>' => 'segScheduledTours/city/city/<city:\d+>',
 			
 				'post/<id:\d+>/<title:.*?>'=>'post/view',
 				'posts/<tag:.*?>'=>'post/index',
