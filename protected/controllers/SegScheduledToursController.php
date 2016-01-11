@@ -212,6 +212,7 @@ class SegScheduledToursController extends Controller
 		$dp->pagination->currentPage=$val1['page'];
 		echo "-".($val1['page']+1)."-";
 			 $this->renderPartial('_loop', array('dataProvider'=>$dp,
+								'tid'=>$val1['type'],
 								'tnmax'=>$val1['tnmax']));
 //		print_r ($model->search_f($val1['type'])->getKeys());
         Yii::app()->end();
