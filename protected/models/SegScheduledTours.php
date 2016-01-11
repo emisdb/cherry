@@ -305,32 +305,35 @@ class SegScheduledTours extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$sort   = new CSort;
-                $criteria->with = array('user_ob','city_ob','language_ob','tourroute_ob','guidestourinvoice');
+                $criteria->with = array('user_ob','city_ob','language_ob','tourroute_ob');
 //                $criteria->compare('user_ob.id',$this->user_ob,true);
 //                $criteria->compare('city_ob.city_id',$this->city_ob,true);
 //                $criteria->compare('language_ob.language_id',$this->language_ob,true);
 //                $criteria->compare('tourroute_ob.tourroute_id',$this->tourroute_ob,true);
-		$criteria->compare('idseg_scheduled_tours',$this->idseg_scheduled_tours);
-		$criteria->compare('tourroute_id',$this->tourroute_id);
-		$criteria->compare('openTour',$this->openTour);
-		$criteria->compare('TNmax_sched',$this->TNmax_sched);
-		$criteria->compare('duration',$this->duration);
-//		$criteria->compare('starttime',$this->starttime,true);
-		$criteria->compare('current_subscribers',$this->current_subscribers);
-//		$criteria->compare('language_id',$this->language_id);
-		$criteria->compare('guide1_id',$this->guide1_id);
-		$criteria->compare('additional_info',$this->additional_info,true);
-		$criteria->compare('visibility',$this->visibility);
-		$criteria->compare('city_id',$this->city_id);
-		$criteria->compare('isInvoiced_guide1',$this->isInvoiced_guide1);
-		$criteria->compare('additional_info2',$this->additional_info2,true);
-		$criteria->compare('isCanceled',$this->isCanceled);
-//		$criteria->compare('language_ob.englishname', $this->langname, true);
-		$criteria->compare('guidestourinvoice.TA_string', $this->tastring, true);
-//		$criteria->compare('tourroute_ob.name', $this->trname, true);
+//		$criteria->compare('idseg_scheduled_tours',$this->idseg_scheduled_tours);
+//		$criteria->compare('tourroute_id',$this->tourroute_id);
+//		$criteria->compare('openTour',$this->openTour);
+//		$criteria->compare('TNmax_sched',$this->TNmax_sched);
+//		$criteria->compare('duration',$this->duration);
+////		$criteria->compare('starttime',$this->starttime,true);
+//		$criteria->compare('current_subscribers',$this->current_subscribers);
+////		$criteria->compare('language_id',$this->language_id);
+//		$criteria->compare('guide1_id',$this->guide1_id);
+//		$criteria->compare('additional_info',$this->additional_info,true);
+//		$criteria->compare('visibility',$this->visibility);
+//		$criteria->compare('city_id',$this->city_id);
+//		$criteria->compare('isInvoiced_guide1',$this->isInvoiced_guide1);
+//		$criteria->compare('additional_info2',$this->additional_info2,true);
+//		$criteria->compare('isCanceled',$this->isCanceled);
+////		$criteria->compare('language_ob.englishname', $this->langname, true);
+//		$criteria->compare('guidestourinvoice.TA_string', $this->tastring, true);
+////		$criteria->compare('tourroute_ob.name', $this->trname, true);
+		if(!empty($this->city_id))
+			$criteria->addCondition ('t.city_id='.$this->city_id);
 		if(!empty($this->language_id))
 			$criteria->addCondition ('((t.language_id IS NULL) AND (t.guide1_id IN (SELECT users_id FROM seg_languages_guides WHERE languages_id='.$this->language_id.'))) OR t.language_id = '.$this->language_id);
-		$criteria->addCondition ('t.visibility=1 AND t.tourroute_id IS NULL OR tourroute_ob.id_tour_categories = '.$tour_type);
+		$criteria->addCondition ('t.visibility=1');
+		$criteria->addCondition ('t.tourroute_id IS NULL OR tourroute_ob.id_tour_categories = '.$tour_type);
 //		$criteria->addCondition("date>='".date('Y-m-d',strtotime($this->date))."'");
       	$this->datefrom($criteria);
 		$sort->attributes = array(

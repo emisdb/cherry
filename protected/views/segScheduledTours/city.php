@@ -93,13 +93,14 @@
 			echo '</div></div></div>';
 			echo	'<div class="panel-body">';
 			$dp=$model->search_f($value['id_tour_categories']);
+//			var_dump($dp->getData());
 			 $this->renderPartial('_loop', array('dataProvider'=>$dp,
 								'tid'=>$value['id_tour_categories'],
 								'tnmax'=>$value['TNmax']));
 			echo '<div id="req_res_loading'.$ii.'"></div>';
 		echo '</div>';
 		echo '<div class="panel-footer">';
-//		echo $dp->totalItemCount.' > '.$dp->pagination->pageSize;
+		echo $dp->totalItemCount.' > '.$dp->pagination->pageSize.'>'.$dp->itemCount;
 		 if ($dp->totalItemCount  > $dp->pagination->pageSize){
 			 echo '<div class="row" style="margin: 10px 0; padding:10px;">
                             <div class="span9" style="text-align:center;">
