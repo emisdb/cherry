@@ -1023,6 +1023,10 @@ div.items>div.row:hover
      margin-right:20px;
     display: inline-block;
  }
+   ul.teaserhold li
+   {
+       display: inline-block;    
+   }
  div.munchen
  {
       background-image: url('/img/munchen-teaser.jpg');
@@ -1088,6 +1092,15 @@ div.items>div.row:hover
      background-color: #efefef;
      color:#983157;
 
+ }
+ div.booking-form label
+ {
+     color:#983157;
+     text-align: left;
+ }
+  div.booking-form div.form-group
+ {
+      text-align: left;
  }
  div.frontform
  {

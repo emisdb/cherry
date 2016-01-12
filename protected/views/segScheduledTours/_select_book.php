@@ -45,38 +45,86 @@
 
 		</div>
 		<div class="col-md-9">
-			
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="input_city" class="control-label">Stadt</label>
+						<input type="text" id="input_city" class="form-control" disabled="true" value="<?php echo $model->city_ob->seg_cityname; ?>">
+					  </div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="input_tour" class="control-label">Tour</label>
+						  <input type="text" id="input_tour" class="form-control" disabled="true" value="<?php echo $tour->tour_categories->name."".$model->openTour; ?>">
+					  </div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="input_date" class="control-label">Date</label>
+						  <input type="text" id="input_date" class="form-control" disabled="true" value="<?php echo $model->date; ?>">
+					  </div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="input_time" class="control-label">Zeit</label>
+						  <input type="text" id="input_time" class="form-control" disabled="true" value="<?php echo $model->starttime; ?>">
+					  </div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="pick_lang" class="control-label">Sprache</label>
+						<?php
+							if(is_null($model->language_id)){
+									echo $form->dropDownList($model,'language_id', CHtml::listData (Languages::model()->findAll(),'id_languages', 'germanname'),
+										array('id'=>'pick_lang', 'class'=>'form-control'));
+								
+							}
+							 else 
+							{
+									echo '<input type="text" id="pick_lang" disabled="true" class="form-control" value="'.$model->language_ob->germanname.'">';
+							}
+						?>
+					  </div>
+				</div>
+			</div>
+				
+ 			
 		</div>
 	</div>
-	<div class="row-filter">
-				<?php
-				echo $form->dropDownList($model,'city_id', CHtml::listData (SegCities::model()->findAll(),'idseg_cities', 'seg_cityname'),
-					array('empty'=>'Wo geht es hin?','id'=>'pickcity','onChange'=>'do_city(value,0)'));
-			?>
-		<?php 
-			 $this->widget('zii.widgets.jui.CJuiDatePicker',
-			 array(
-				  'name'=>'SegScheduledTours[date]',
-				  'attribute'=>'date', // Model attribute filed which hold user input
-				  'model'=>$model,            // Model name
-//				  'value'=>$model->isNewRecord ? date('dd.mm.yy') : '',
-//				  'value'=>$model->isNewRecord ? date('dd-mm-yy') : '',
-					'options'=>array(
-						'showAnim'=>'fold',
-						'dateFormat' => 'dd.mm.yy',
-					),
-					'htmlOptions'=>array(
-						'class'=>'form-control-date-filter',
- 					),				
-//				  'fontSize'=>'0.8em'
-				 )
-			  );	
-	
-//			echo $form->textField($model,'date'); 
-			?>
-	         	<button class="but-filter" type="submit"><?php echo 'SUCHE'; ?></button>
-   	<?php // echo CHtml::submitButton('Search'); ?>
+	<div class="row title">
+		<div class="col-md-2">2.</div>
+		<div class="col-md-10">DATEN EINGEBEN</div>
 	</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="input_name" class="control-label">Vor- und Nachname</label>
+						<input type="text" id="input_name" class="form-control" placeholder="John Livingstone">
+					  </div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="input_country" class="control-label">Land</label>
+						  <input type="text" id="input_country" class="form-control" placeholder="United States">
+					  </div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="input_address" class="control-label">Stra&szlig;e, House-Nr.</label>
+						<input type="text" id="input_address" class="form-control">
+					  </div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="input_tel" class="control-label">Telefon</label>
+						  <input type="text" id="input_tel" class="form-control">
+					  </div>
+				</div>
+			</div>
 
 <?php $this->endWidget(); ?>
 

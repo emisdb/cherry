@@ -17,23 +17,29 @@
 </div>
 	<div class="row frontlabel" style="font-size:1.7em; color:#555; margin:30px 0;" >EROBERE DEINE STADT</div>
 	<div class="row" style="text-align: center; margin:auto;">
-		<ul class="teaserhold">
-			<li><?php echo CHtml::link('<div class="teaser berlin"><div>'
-					.CHtml::image(Yii::app()->request->baseUrl.'/img/icon-museum.png','info',array('style'=>'height: 40px; margin-top:60px; '))
-					.'</div><div class="frontlabel">CLASSIC BERLIN</div></div>',array('/berlin'));	
-			?>
-			</li>
-			<li><?php echo CHtml::link('<div class="teaser munchen"><div>'
-					.CHtml::image(Yii::app()->request->baseUrl.'/img/icon-castle.png','info',array('style'=>'height: 40px; margin-top:60px; '))
-					.'</div><div class="frontlabel">HISTORICAL M&Uuml;NCHEN</div></div>',array('/munchen'));	
-			?>
-			</li>
-			<li><?php echo CHtml::link('<div class="teaser hamburg"><div>'
-					.CHtml::image(Yii::app()->request->baseUrl.'/img/icon-museum.png','info',array('style'=>'height: 40px; margin-top:60px; '))
-					.'</div><div class="frontlabel">SPECIAL HAMBURG</div></div>',array('/hamburg'));	
-			?>
-			</li>
-		</ul>
+	<div style="text-align: center; margin:20px 30px;">
+		<div class="teaser berlin">
+		<div style="width:100%;  text-align: center;" >
+			<?php	echo	CHtml::image(Yii::app()->request->baseUrl.'/img/icon-museum.png','info',array('style'=>'height: 40px; margin-top:60px; ')); ?>
+		</div>
+			<div class="frontlabel" >
+				CLASSIC BERLIN
+			</div>
+		</div>
+		<div class="teaser munchen">
+			<?php	echo	CHtml::image(Yii::app()->request->baseUrl.'/img/icon-castle.png','info',array('style'=>'height: 40px; margin-top:60px;' )); ?>
+			<div class="frontlabel" >
+				HISTORICAL M&Uuml;NCHEN
+			</div>
+			
+		</div>
+		<div class="teaser hamburg">
+			<?php	echo	CHtml::image(Yii::app()->request->baseUrl.'/img/icon-food.png','info',array('style'=>'height: 40px; margin-top:60px;')); ?>
+			<div class="frontlabel" >
+				SPECIAL HAMBURG
+			</div>
+		</div>
+	</div>
 	</div>
 	
 

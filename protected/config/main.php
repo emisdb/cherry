@@ -90,6 +90,8 @@ return array(
 				'/admin' => 'site/login',
 				'/berlin' => 'segScheduledTours/city/city/1',
 				'/munchen' => 'segScheduledTours/city/city/2',
+				'/munich' => 'segScheduledTours/city/city/2',
+				'/hamburg' => 'segScheduledTours/city/city/3',
 				'/segScheduledTours/city/<city:\d+>' => 'segScheduledTours/city/city/<city:\d+>',
 			
 				'post/<id:\d+>/<title:.*?>'=>'post/view',

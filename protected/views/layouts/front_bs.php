@@ -19,7 +19,7 @@
 </head>
 
   <body>
-    <div class="container">
+    <div class="container-fluid">
       <!-- Left side column. contains the logo and sidebar -->
         <?php echo $content; ?>
      <footer class="main-footer">
@@ -47,7 +47,6 @@
 				echo	CHtml::link(CHtml::image(Yii::app()->request->baseUrl.'/img/twitter.png','info',array('style'=>'height: 50px; margin-top:50px;')),"http://twitter.com");
 				echo	CHtml::link(CHtml::image(Yii::app()->request->baseUrl.'/img/camera.png','info',array('style'=>'height: 50px; margin-top:50px;')),"http://instagram.com");
 			?>
-
 		 </div>
       </footer>
 
@@ -55,4 +54,3 @@
 
 </body>
 </html>
-
