@@ -967,17 +967,22 @@ div.items>div.row:hover
       
    }
  
-  div.bottom-menu a,   div.bottom-menu select
+  footer>div>div
+  {
+        margin-top: 40px;
+    
+  }
+  footer a,   footer select
   {
        color: #fdfdfd;
-      margin: 40px 50px;
+      margin: 0px 50px;
       font-size: 1.2em;
   }
-  div.bottom-menu select
+  footer select
   {
       background-color: #555;
   }
-  div.bottom-menu
+  footer
   {
       width:100%;
       text-align: center;
@@ -1043,4 +1048,50 @@ div.items>div.row:hover
      letter-spacing: 5px;
      text-transform: uppercase;
      text-align: center;  
+ }
+ div.top-menus
+ {
+     /*height: 30px;*/
+     width:100%;
+     background-color: #983157;
+     padding: 10px;
+     color:#fff;
+
+ }
+  div.top-menus div.title
+ {
+     width:100%;
+     font-weight:bold;
+     letter-spacing: 5px;
+    text-align:  center;
+ }
+  div.top-menus a
+ {
+         color:#fff; 
+ }
+
+ div#top_start div.booking-form div
+ {
+        margin: 0; 
+        padding: 5px;
+ } 
+ div.booking-form
+ {
+     background-color: #fff;
+     margin: auto;
+     display: inline-block;
+     color:#777;
+
+ }
+ div.booking-form div.title
+ {
+     background-color: #efefef;
+     color:#983157;
+
+ }
+ div.frontform
+ {
+     width:100%;
+     text-align: center;
+     margin:30px 0 150px;
  }
