@@ -989,7 +989,7 @@ div.items>div.row:hover
   }
   div#top
   {
-     background-image: url('/img/top.jpg');
+     background:linear-gradient(to top,rgba(128,128,128, 0.3) , rgba(255,255, 255, 0.3) ), url('/img/top.jpg');
      background-repeat: no-repeat;
      background-size: cover;
   }
@@ -1023,23 +1023,31 @@ div.items>div.row:hover
      margin-right:20px;
     display: inline-block;
  }
+ div.teaser img
+ {
+   height: 40px;
+   margin-top:60px;
+ }
    ul.teaserhold li
    {
        display: inline-block;    
    }
  div.munchen
  {
-      background-image: url('/img/munchen-teaser.jpg');
+       background:linear-gradient(to top, rgba(255,255, 255, 0.3),rgba(128,128,128, 0.3)  ),url('/img/munchen-teaser.jpg') no-repeat ;
+       background-size: cover;
      
  }
   div.berlin
  {
-      background-image: url('/img/berlin-teaser.jpg');
-     
+      background:linear-gradient(to top, rgba(255,255, 255, 0.3),rgba(128,128,128, 0.3)  ),url('/img/berlin-teaser.jpg') no-repeat ;
+       background-size: cover;
+   
  } 
  div.hamburg
  {
-      background-image: url('/img/hamburg-teaser.jpg');
+     background:linear-gradient(to top, rgba(255,255, 255, 0.5),rgba(128,128,128, 0.5)  ),url('/img/hamburg-teaser.jpg') no-repeat ;
+       background-size: cover;
       background-position-y: bottom; /* Положение фона */
      
  }

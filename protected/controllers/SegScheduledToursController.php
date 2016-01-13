@@ -14,7 +14,7 @@ class SegScheduledToursController extends Controller
 	{
 		return array(
             array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('result','city','ajaxLoad', 'index','book'),
+				'actions'=>array('result','city','ajaxLoad', 'index','book','test'),
 	       		'roles'=>array('root','guide','office','admin'),  
 			),
 		    array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -139,6 +139,15 @@ class SegScheduledToursController extends Controller
  			$model->setAttribute("date", date("d-m-Y",time()));
 	$this->render('front',array(
 				'model'=>$model,
+	));
+	}
+	public function actionTest()
+	{
+	       $model=new SegScheduledTours('search_f');
+ 			$model->setAttribute("date", date("d-m-Y",time()));
+	$this->render('result',array(
+				'model'=>$model,
+				'date'=>date("Y-m-d-n-w"),
 	));
 	}
 	public function actionCity($city=null)

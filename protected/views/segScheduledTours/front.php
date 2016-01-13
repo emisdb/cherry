@@ -19,7 +19,7 @@
 	<div class="row" style="text-align: center; margin:auto;">
 		<ul class="teaserhold">
 			<li><?php echo CHtml::link('<div class="teaser berlin"><div>'
-					.CHtml::image(Yii::app()->request->baseUrl.'/img/icon-museum.png','info',array('style'=>'height: 40px; margin-top:60px; '))
+					.CHtml::image(Yii::app()->request->baseUrl.'/img/icon-museum.png','info')
 					.'</div><div class="frontlabel">CLASSIC BERLIN</div></div>',array('/berlin'));	
 			?>
 			</li>
