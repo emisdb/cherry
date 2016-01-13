@@ -15,7 +15,7 @@ class SegScheduledToursController extends Controller
 		return array(
             array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('result','city','ajaxLoad', 'index','book'),
-	       		'users'=>array('*'),  
+	       		'roles'=>array('root','guide','office','admin'),  
 			),
 		    array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('weeks','take','show','admin','admins','spontan','current'),

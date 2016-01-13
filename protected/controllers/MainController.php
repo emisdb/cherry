@@ -57,7 +57,8 @@ class MainController extends Controller
 		     
         }//root
         if($model->id_usergroups == 2) {
-              $this->layout = "admin";
+   				$this->redirect('main/system');
+           $this->layout = "admin";
 		   
         }//root   
                 if($model->id_usergroups == 3) {
