@@ -77,7 +77,7 @@
 						<label for="pick_lang" class="control-label">Sprache</label>
 						<?php
 							if(is_null($model->language_id)){
-									echo $form->dropDownList($model,'language_id', CHtml::listData (Languages::model()->findAll(),'id_languages', 'germanname'),
+									echo $form->dropDownList($model,'language_id', CHtml::listData (SegLanguagesGuides::model()->with('languages')->findAll('users_id='.$model->guide1_id),'languages_id', 'languages.germanname'),
 										array('id'=>'pick_lang', 'class'=>'form-control'));
 								
 							}
@@ -98,34 +98,144 @@
 		<div class="col-md-10">DATEN EINGEBEN</div>
 	</div>
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<div class="form-group">
-						<label for="input_name" class="control-label">Vor- und Nachname</label>
-						<input type="text" id="input_name" class="form-control" placeholder="John Livingstone">
+						<?php
+							echo $form->labelEx($contact,'firstname',array('class'=>'control-label')); 
+							echo $form->textField($contact,'firstname',array('class'=>'form-control','placeholder'=>'John',));
+							echo $form->error($contact,'firstname'); 
+						 ?>
 					  </div>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<div class="form-group">
-						<label for="input_country" class="control-label">Land</label>
-						  <input type="text" id="input_country" class="form-control" placeholder="United States">
+						<?php
+							echo $form->labelEx($contact,'surname',array('class'=>'control-label')); 
+							echo $form->textField($contact,'surname',array('class'=>'form-control','placeholder'=>'Livingstone',));
+							echo $form->error($contact,'surname'); 
+						 ?>
 					  </div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<?php
+							echo $form->labelEx($contact,'country',array('class'=>'control-label')); 
+							echo $form->textField($contact,'country',array('class'=>'form-control',));
+							echo $form->error($contact,'country'); 
+						 ?>
+					  </div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<?php
+							echo $form->labelEx($contact,'street',array('class'=>'control-label')); 
+							echo $form->textField($contact,'street',array('class'=>'form-control'));
+							echo $form->error($contact,'street'); 
+						 ?>
+					  </div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<?php
+							echo $form->labelEx($contact,'phone',array('class'=>'control-label')); 
+							echo $form->textField($contact,'phone',array('class'=>'form-control',
+												'data-inputmask'=>'"mask": "999(999) 999-9999"',
+                                                 'data-mask'=>''));
+							echo $form->error($contact,'phone'); 
+						 ?>
+					  </div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+	<?php
+							echo $form->labelEx($contact,'postalcode',array('class'=>'control-label')); 
+							echo $form->textField($contact,'postalcode',array('class'=>'form-control'));
+							echo $form->error($contact,'postalcode'); 
+						 ?>
+									  </div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<div class="form-group">
-						<label for="input_address" class="control-label">Stra&szlig;e, House-Nr.</label>
-						<input type="text" id="input_address" class="form-control">
+						<?php
+							echo $form->labelEx($contact,'city',array('class'=>'control-label')); 
+							echo $form->textField($contact,'city',array('class'=>'form-control'));
+							echo $form->error($contact,'city'); 
+						 ?>
 					  </div>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<div class="form-group">
-						<label for="input_tel" class="control-label">Telefon</label>
-						  <input type="text" id="input_tel" class="form-control">
+						<?php
+							echo $form->labelEx($contact,'email',array('class'=>'control-label')); 
+							echo $form->textField($contact,'email',array('class'=>'form-control'));
+							echo $form->error($contact,'email'); 
+						 ?>
 					  </div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<?php
+							echo $form->labelEx($contact,'additional_address',array('class'=>'control-label')); 
+							echo $form->textField($contact,'additional_address',array('size'=>45,'maxlength'=>45,'class'=>"form-control"));
+							echo $form->error($contact,'additional_address'); 
+						 ?>
+					</div>
 				</div>
 			</div>
+	<div class="row title">
+		<div class="col-md-2">3.</div>
+		<div class="col-md-10">TOUR BUCHEN</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<div class="form-group">
+				<?php
+				$arr=array();
+				for($ii=0;$ii<$rest;$ii++) $arr[$ii+1]=$ii+1;
+					echo $form->labelEx($model,'current_subscribers',array('class'=>'control-label')); 
+					echo $form->dropDownList($model,'current_subscribers', $arr,
+					array('class'=>'form-control','onchange'=>'clickTickets()'));
+				?>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<?php
+				echo	'<div>St&uuml;ck zu je.</div><div>'.
+					CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_euro.svg','euro',array('style'=>'height: 30px; width:50px;')).
+					'<span id="base_price">'.number_format($tour->base_price, 2, '.', ' ').'</span></div>';
+		?>
+		</div>
+		<div class="col-md-3">
+			<?php
+				echo	'<div>Gesamt inkl. Mvst.</div><div>'.
+					CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_euro.svg','euro',array('style'=>'height: 30px; width:50px;')).
+					'<span id="total_price">'.number_format($tour->base_price, 2, '.', ' ').'</span></div>';
+		?>
+			
+		</div>
+		<div class="col-md-3">
+		<?php echo CHtml::submitButton('JETZT BUCHEN',array('class'=>'btn btn-success','style'=>'color:#fff;')); ?>
+		</div>
+	
+	</div>
 
 <?php $this->endWidget(); ?>
 
 </div><!-- search-form -->
+<script type="text/javascript">
+
+	function clickTickets(){
+        var element = document.getElementById('SegScheduledTours_current_subscribers').value ;
+		//  alert(element);
+        var base_price = document.getElementById('base_price').innerHTML;
+		//alert(base_price);
+		
+        var new_price = base_price*element;
+		document.getElementById('total_price').innerHTML=new_price.toFixed(2);
+	}
+</script> 

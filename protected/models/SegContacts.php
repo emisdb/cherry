@@ -66,6 +66,21 @@ class SegContacts extends CActiveRecord
 	{
 		return array(
 			'idcontacts' => 'Idcontacts',
+			'firstname' => 'Vorname',
+			'surname' => 'Nachname',
+			'phone' => 'Telefon',
+			'email' => 'E-Mail',
+			'additional_address' => 'Firmenname',
+			'country' => 'Land',
+			'city' => 'Stadt',
+           // 'city_ob' => 'City',
+             'postalcode' => 'Postleitzahl',
+			'house' => 'House',
+			'street' => 'Stra&szlig;e, Haus-Nr',
+			'birthdate' => 'Birthdate',
+		);
+/*		return array(
+			'idcontacts' => 'Idcontacts',
 			'firstname' => 'Firstname',
 			'surname' => 'Surname',
 			'phone' => 'Phone',
@@ -79,7 +94,7 @@ class SegContacts extends CActiveRecord
 			'street' => 'Street',
 			'birthdate' => 'Birthdate',
 		);
-	}
+*/	}
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.

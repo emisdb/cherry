@@ -25,8 +25,10 @@
 	<div class="frontform">
 	   <?php  
 	   $this->renderPartial('_select_book', array(
-													   'model'=>$model,
-														'tour'=>$tour,));
+				'contact'=>$contact,
+			   'model'=>$model,
+				'tour'=>$tour,
+		   ));
 	   ?>
 	</div>
 
