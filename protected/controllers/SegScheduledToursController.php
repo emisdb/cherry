@@ -131,10 +131,18 @@ class SegScheduledToursController extends Controller
 		$contact =  new SegContacts;
 		if(isset($_POST['SegScheduledTours']))
 		{
-		$this->render('result',array(
-			'post'=>$_POST,
-		));
-			return;
+			$model->tourroute_id = $cat;
+			if(isset($_POST['SegScheduledTours']['language_id']))
+				$model->language_id = $_POST['Book']['language_id'];
+			if(isset($_POST['SegScheduledTours']['current_subscribers']))
+			{
+				if(isnull($model->current_subscribers)) $model->current_subscribers=0;
+				$model->current_subscribers += $_POST['SegScheduledTours']['current_subscribers'];
+			}
+				$this->render('result',array(
+					'post'=>$_POST,
+				));
+				return;
 		}
 		
 		$this->render('book',array(

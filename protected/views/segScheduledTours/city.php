@@ -47,10 +47,10 @@
 			elseif ($value['id_tour_categories']==2) $img=CHtml::image(Yii::app()->request->baseUrl.'/img/icon-castle.png','historical',array('style'=>'height: 45px;'));
 			elseif ($value['id_tour_categories']==3)
 			{
-				if ($value['cityid']==2)
+			if ($value['cityid']==2)
 					$img=CHtml::image(Yii::app()->request->baseUrl.'/img/beer.png','special',array('style'=>'height: 45px;'));
 				else 
-					$img=CHtml::image(Yii::app()->request->baseUrl.'/img/icon-food.png','special',array('style'=>'height: 45px;'));
+				$img=CHtml::image(Yii::app()->request->baseUrl.'/img/icon-food.png','special',array('style'=>'height: 45px;'));
 			}
 			$str='<li '.(($ii==0) ? 'class="active"' : '').'><a data-toggle="tab" href="#tab'.$ii.'">'
 					.$img
