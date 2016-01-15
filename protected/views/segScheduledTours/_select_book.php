@@ -196,6 +196,7 @@
 			<div class="form-group">
 				<?php
 				$arr=array();
+				$model->current_subscribers=1;
 				for($ii=0;$ii<$rest;$ii++) $arr[$ii+1]=$ii+1;
 					echo $form->labelEx($model,'current_subscribers',array('class'=>'control-label')); 
 					echo $form->dropDownList($model,'current_subscribers', $arr,

@@ -133,14 +133,116 @@ class SegScheduledToursController extends Controller
 		{
 			$model->tourroute_id = $cat;
 			if(isset($_POST['SegScheduledTours']['language_id']))
-				$model->language_id = $_POST['Book']['language_id'];
+				$model->language_id = $_POST['SegScheduledTours']['language_id'];
 			if(isset($_POST['SegScheduledTours']['current_subscribers']))
 			{
-				if(isnull($model->current_subscribers)) $model->current_subscribers=0;
+				if(is_null($model->current_subscribers)) $model->current_subscribers=0;
 				$model->current_subscribers += $_POST['SegScheduledTours']['current_subscribers'];
+			}
+  			$model->save();
+			if($contact->validate()){
+				$contact->attributes=$_POST['SegContacts'];
+				$contact->save();
+				
+				//save booking
+				$id_user = $contact->idcontacts;
+				//save guidestourinvoice
+				$guidestourinvoices = new SegGuidestourinvoices;
+		
+			
+				$guidestourinvoices->creationDate = $model->date;
+				$guidestourinvoices->cityid = $model->city_id;
+				$guidestourinvoices->sched_tourid = $model->tourroute_id;
+				$guidestourinvoices->guideNr = $model->guide1_id;
+				$guidestourinvoices->status = 0;
+				$guidestourinvoices->contacts_id = $id_user;
+				$guidestourinvoices->id_sched = $model->idseg_scheduled_tours;
+				$guidestourinvoices->save();	
+				
+			
+				
+				//save guidestourinvoicecustomers
+				$id_invoice = $guidestourinvoices->idseg_guidesTourInvoices;
+				for($j=0;$j<$ticket_count;$j++){
+					$guidestourinvoicescustomers = new SegGuidestourinvoicescustomers;
+					$guidestourinvoicescustomers->customersName = $contact->firstname.' '.$contact->surname;
+//					$guidestourinvoicescustomers->price = $tour->base_price;
+					$guidestourinvoicescustomers->price = 0;
+					$guidestourinvoicescustomers->cityid = $model->city_id;
+					
+					$guidestourinvoicescustomers->tourInvoiceid = $id_invoice;
+					
+					//$guidestourinvoicescustomers->CustomeInvoicNumber = ;
+					$b = $tour->city['seg_cityname']{0};
+					$year = date('y',time());
+					$max= Yii::app()->db->createCommand("SELECT max(CustomerInvoiceNumber) from seg_guidestourinvoicescustomers where cityid=".$tour->cityid)->queryScalar();
+					$max_i = $max+1;
+					
+					$guidestourinvoicescustomers->KA_string = 'KA'.$b.$year.'/'.$max_i;
+					$guidestourinvoicescustomers->CustomerInvoiceNumber = $max_i;
+					$guidestourinvoicescustomers->isPaid = 0;
+//					$guidestourinvoicescustomers->origin_booking = $id_book;
+					
+					
+					$guidestourinvoicescustomers->save();
+				}
+				$date_ex = date('d/m/Y',$_POST['Book']['date_ex']);
+				$x1 = strtotime($_POST['Book']['time_ex']) - strtotime("00:00:00");
+				$x2 = $tour->standard_duration*60;
+				$x3 = $x1+$x2;
+				$x4 = $x3+strtotime("00:00:00");
+				$x5 = date('H:i:s',$x4);
+				$tourend = $x5;
+				
+				$guidename = $model->user_ob->contact_ob->firstname;
+				$guidemnr = $model->user_ob->contact_ob->phone;
+				
+				$message="Thank you for booking your city tour with Cherry Tours ".$model->city_ob->seg_cityname;
+				$message.="\n";
+				$message.="\nWe have just reserved the following tour date for you:";
+				$message.="\n".$date_ex;
+				$message.="\nTour start: ".$model->starttime." (Please show up at the assigned meeting point about 10 minutes before tour start.)";
+				$message.="\n";
+				$message.="\nEnd of tour: ".$tourend;
+				$message.="\nTour route: ".$model->tourroute_ob->name;
+				$message.="\nTour language: ".$model->language_ob->englishname;
+				$message.="\nTour guide: ".$guidename;
+				$message.="\nGuide phone: ".$guidemnr."(for last-minute requests regarding weather or meeting point)";
+				
+				$message.="\nFurthermore we recommend:";
+				$message.="\n- comfortable shoes, no high heels";
+				$message.="\n- adequate clothing (below 15 degrees centigrade, we especially recommend wearing warm clothes and gloves)";
+				$message.="\n- sunglasses, if necessary sun protection etc.";
+				$message.="\n";
+				$message.="\nPayment:";
+				$message.="\n- On site";
+				$message.="\n";
+				$message.="\nWe accept the following methods of payment:";
+				$message.="\n- Cash in EUR";
+				$message.="\n- EC";
+				$message.="\n- Credit cards (Visa, Master Card, American Express, JCB Cards, Union Pay)";
+				$message.="\n- Vouchers purchased at Cherry Tours";
+				$message.="\n";
+				
+				$message.="\nWeather:";
+				$message.="\nIf the weather forecast shows a high chance of rain at the tour date, we will contact you near-term via email, SMS or phone and inform you if the tour has to be cancelled.";
+				$message.="\nIf it rains despite a positive weather forecast, the tour guide will decide on-site if the tour can take place. Generally, the tour is arranged along a route where you can always take cover in case of a short rain shower."; 
+				$message.="\n";
+				$message.="\n";
+				
+				$name_forms = $model->city_ob->seg_cityname;
+				$to = $contact->email;
+				if ($this->sendMail($to, $name_forms, $message))
+				{
+				
+				    $stuttgart_link = Yii::app()->createUrl('thankyou');
+//				    header( 'Location: '.$stuttgart_link.'?id=1' );
+				}
 			}
 				$this->render('result',array(
 					'post'=>$_POST,
+					'contacts'=>$contact->attributes,
+					'model'=>$model->attributes,
 				));
 				return;
 		}
@@ -798,4 +900,15 @@ class SegScheduledToursController extends Controller
 			Yii::app()->end();
 		}
 	}
+		protected function sendMail($to,$subject,$body)
+	{
+		        Yii::import('ext.yii-mail.YiiMailMessage');
+                $message = new YiiMailMessage;
+                $message->setBody($body);
+                $message->subject = $subject;
+                $message->addTo($to);
+                $message->from = Yii::app()->params['adminEmail'];
+               return Yii::app()->mail->send($message);
+		}
+
 }
