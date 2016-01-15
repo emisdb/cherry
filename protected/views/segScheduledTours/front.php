@@ -29,8 +29,8 @@
 			?>
 			</li>
 			<li><?php echo CHtml::link('<div class="teaser hamburg"><div>'
-					.CHtml::image(Yii::app()->request->baseUrl.'/img/icon-museum.png','info',array('style'=>'height: 40px; margin-top:60px; '))
-					.'</div><div class="frontlabel">SPECIAL HAMBURG</div></div>',array('/hamburg'));	
+					.CHtml::image(Yii::app()->request->baseUrl.'/img/icon-food.png','info',array('style'=>'height: 40px; margin-top:60px; '))
+					.'</div><div class="frontlabel">SPECIAL M&Uuml;NCHEN</div></div>',array('/munchen'));	
 			?>
 			</li>
 		</ul>

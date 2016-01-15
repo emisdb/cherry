@@ -65,7 +65,7 @@
 			?>
 	</div>
 
-	<div class="row buttons">
+	<div class="row-filter">
 	         	<button class="but-filter" type="submit"><?php echo 'SUCHE'; ?></button>
    	<?php // echo CHtml::submitButton('Search'); ?>
 	</div>

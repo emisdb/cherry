@@ -7,9 +7,9 @@
 	<?php	
 //		echo	CHtml::image(Yii::app()->request->baseUrl.'/img/top.jpg','info',array('style'=>'width: 100%;'));
 	?>
-	<div style="width:100%;  text-align: center;" ><?php	echo	CHtml::image(Yii::app()->request->baseUrl.'/img/cherrytours_icon_white_rgb.png','info',array('style'=>'height: 50px; ')); ?></div>
-	<div style="width:100%; font-size:1.7em; color:#fff; font-weight:bold; letter-spacing: 5px; text-transform: uppercase; text-align: center;" >CHERRYTOURS</div>
-	<div style="width:100%; font-size:1.7em; color:#fff; font-weight:bold; letter-spacing: 5px;  text-transform: uppercase; text-align: center; margin-bottom:40px;" ><?php echo $model->city_ob->seg_cityname ?></div>
+	<div style="width:100%;  text-align: center;" ><?php	echo	CHtml::image(Yii::app()->request->baseUrl.'/img/cherrytours_icon_white_rgb.png','info',array('style'=>'height: 40px; ')); ?></div>
+	<div style="width:100%; font-size:1.4em; color:#fff; font-weight:bold; letter-spacing: 5px; text-transform: uppercase; text-align: center;" >CHERRYTOURS</div>
+	<div style="width:100%; font-size:1.1em; color:#fff; font-weight:bold; letter-spacing: 5px;  text-transform: uppercase; text-align: center; margin-bottom:130px;" ><?php echo $model->city_ob->seg_cityname ?></div>
 
 </div>
 	<?php
@@ -24,35 +24,37 @@
 		?>
 <div class="row">
 	<div class="col-md-3" style="padding: 0;">
- <ul class="nav nav-pills nav-justified hidden-sm hidden-xs">
-    <li><a href="#" class="nohover"><div style="min-height: 50px;"></div></a></li>
-  </ul>
-	<div id="googleMap" style="width:100%;height:210px; margin-bottom: 5px;"></div>
-   <?php       $this->renderPartial('_select', array('model'=>$model)) ;?>
+		<ul class="nav nav-pills nav-justified hidden-sm hidden-xs">
+			<li><a href="#" class="nohover"><div style="min-height: 65px;"></div></a></li>
+		</ul>
+		<div id="googleMap" style="width:100%;height:210px; margin-bottom: 5px;"></div>
+		<div style=" text-align: right;">
+			<?php       $this->renderPartial('_select', array('model'=>$model)) ;?>
+		</div>
 	</div>
 	<div class="col-md-9" style="padding: 0;">
-<?php
-	$data = $tours->search()->getData();
-?>	
+		<?php
+			$data = $tours->search()->getData();
+		?>	
 
-	<ul class="nav nav-pills">
-	<?php
+		<ul class="nav nav-pills">
+		<?php
 		$ii=0;
 		foreach($data as $value)
 		{
 			$img;
-			if ($value['id_tour_categories']==1) $img=CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_classic.svg','classic',array('style'=>'height: 50px; width:50px;'));
-			elseif ($value['id_tour_categories']==2) $img=CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_historical.svg','historical',array('style'=>'height: 50px; width:50px;'));
+			if ($value['id_tour_categories']==1) $img=CHtml::image(Yii::app()->request->baseUrl.'/img/icon-museum.png','classic',array('style'=>'height: 45px;'));
+			elseif ($value['id_tour_categories']==2) $img=CHtml::image(Yii::app()->request->baseUrl.'/img/icon-castle.png','historical',array('style'=>'height: 45px;'));
 			elseif ($value['id_tour_categories']==3)
 			{
 				if ($value['cityid']==2)
-					$img=CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_special_munich.svg','special',array('style'=>'height: 50px; width:50px;'));
+					$img=CHtml::image(Yii::app()->request->baseUrl.'/img/beer.png','special',array('style'=>'height: 45px;'));
 				else 
-					$img=CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_special.svg','special',array('style'=>'height: 50px; width:50px;'));
+					$img=CHtml::image(Yii::app()->request->baseUrl.'/img/icon-food.png','special',array('style'=>'height: 45px;'));
 			}
 			$str='<li '.(($ii==0) ? 'class="active"' : '').'><a data-toggle="tab" href="#tab'.$ii.'">'
 					.$img
-					.$value['name'].'</a></li>';
+					.'<div>'.$value['name'].'</div></a></li>';
 			echo $str;
 			$ii++;
 		}
@@ -68,10 +70,10 @@
 			echo	'<div class="panel panel-default">';
 			echo	'<div class="panel-heading">'
 						.'<div class="row">'
-							.'<div class="col-md-9">';
+							.'<div class="col-md-9 bordered">';
 						echo	'<div class="row">'
 									.'<div class="col-md-1">'.
-					CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_info.svg','info',array('style'=>'height: 50px; width:50px;')).
+					CHtml::image(Yii::app()->request->baseUrl.'/img/info.png','info',array('style'=>'height:30px;')).
 									'</div>'
 									.'<div class="col-md-11">'.$value['shorttext'].
 									'</div>'
@@ -82,13 +84,13 @@
 							.'</div>';
 			echo	'<div class="col-md-3">';
 			echo	'<div class="row">'.
-					CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_duration.svg','duration',array('style'=>'height: 50px; width:50px;')).
+					CHtml::image(Yii::app()->request->baseUrl.'/img/hourglass.png','duration',array('style'=>'margin-right:15px;')).
 					$value['standard_duration'].' min</div>';
 			echo	'<div class="row">'.
-					CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_euro.svg','euro',array('style'=>'height: 50px; width:50px;')).
+					CHtml::image(Yii::app()->request->baseUrl.'/img/euro.png','euro').
 					number_format($value['base_price'], 2, '.', ' ').' inkl. Mvst.</div>';
 			echo	'<div class="row">'.
-					CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_pin.svg','pin',array('style'=>'height: 50px; width:50px;')).
+					CHtml::image(Yii::app()->request->baseUrl.'/img/location.png','pin').
 					$value['route_pic'].' </div>';
 			echo '</div></div></div>';
 			echo	'<div class="panel-body">';

@@ -26,11 +26,11 @@
 			 <div class="row">
 			 <?php
 				$select_lang=0;
-				echo '<div class="col-md-2 col-md-offset-1">'.CHtml::link("&Uuml;ber Uns",array("main/about"))."</div>";
-				echo '<div class="col-md-1">'.CHtml::link("Presse",array("main/about"))."</div>";
-				echo '<div class="col-md-3">'.CHtml::link("AGB’s und Datenschut",array("main/about"))."</div>";
+				echo '<div class="col-md-2 col-md-offset-1 col-sm-6">'.CHtml::link("&Uuml;ber Uns",array("main/about"),array('style'=>"margin-right:0;"))."</div>";
+				echo '<div class="col-md-1">'.CHtml::link("Presse",array("main/about"),array('style'=>"margin:0 20px 0 0;"))."</div>";
+				echo '<div class="col-md-3 col-sm-6" >'.CHtml::link("AGB’s und Datenschut",array("main/about"),array('style'=>"margin:0 10px;"))."</div>";
 				echo '<div class="col-md-2">'.CHtml::link("Kontakt",array("main/about"))."</div>";
-				echo '<div class="col-md-2">'.CHtml::dropDownList('sitelanguage', $select_lang, 
+				echo '<div class="col-md-2 col-sm-12" style="margin-top:35px;">'.CHtml::dropDownList('sitelanguage', $select_lang, 
               array(0 => 'Deutch', 1 => 'English'),array('style'=>"border:0; padding:10px;")).'</div><div class="col-md-1"></div>';
 			 ?>
 			 </div>
