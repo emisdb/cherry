@@ -17,6 +17,7 @@
 </div>
 <div class="row" id="top_start">
 	<?php	
+	 var_dump($post);
 //		echo	CHtml::image(Yii::app()->request->baseUrl.'/img/top.jpg','info',array('style'=>'width: 100%;'));
 	?>
 	<!--<div class="gradient"><div>-->

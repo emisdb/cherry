@@ -7,6 +7,7 @@
 <div class="wide-form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'search-form',
 	'action'=>Yii::app()->createUrl($this->route),
 	'method'=>'post',
 )); ?>

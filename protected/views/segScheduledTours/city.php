@@ -146,7 +146,12 @@
 	</div>
 </div>
 <script type="text/javascript">
-	  var pageN=[<?php for($vi=0;$vi<$ii;$vi++) echo "1,"; ?>];
+
+	function book(id,cat) {
+		document.forms['search-form']['newrecord'].value=1;
+		document.forms['search-form'].submit();
+	}
+
 function initialize() {
   var mapProp = {
     center:new google.maps.LatLng(52.518343, 13.342357),
@@ -158,6 +163,8 @@ function initialize() {
 
 }
 google.maps.event.addDomListener(window, 'load', initialize);
+ var pageN=[<?php for($vi=0;$vi<$ii;$vi++) echo "1,"; ?>];
+
 </script>	
 
 

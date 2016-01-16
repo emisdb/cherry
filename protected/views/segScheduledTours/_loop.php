@@ -7,4 +7,6 @@
 				'template'=>"{items}",
 				'viewData'=>array('tnmax'=>$tnmax,'tid'=>$tid),
 			));
+//				var_dump($dataProvider->getKeys());
+
 	?>

@@ -37,7 +37,7 @@ class SegScheduledToursoController extends Controller
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
+				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -135,6 +135,7 @@ class SegScheduledToursoController extends Controller
 	{
 		$model=new SegScheduledTours('search');
 		$model->unsetAttributes();  // clear any default values
+		$model->from_date= '01/01/2016';
 		if(isset($_GET['SegScheduledTours']))
 			$model->attributes=$_GET['SegScheduledTours'];
 

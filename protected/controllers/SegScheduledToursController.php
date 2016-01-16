@@ -129,15 +129,17 @@ class SegScheduledToursController extends Controller
 		$model=$this->loadModel($id);
 		$tour=$this->loadTR($model->city_id,$cat);
 		$contact =  new SegContacts;
+		$ticket_count=0;
 		if(isset($_POST['SegScheduledTours']))
 		{
-			$model->tourroute_id = $cat;
+			$model->tourroute_id = $tour->idseg_tourroutes;
 			if(isset($_POST['SegScheduledTours']['language_id']))
 				$model->language_id = $_POST['SegScheduledTours']['language_id'];
 			if(isset($_POST['SegScheduledTours']['current_subscribers']))
 			{
+				$ticket_count=(int)$_POST['SegScheduledTours']['current_subscribers'];
 				if(is_null($model->current_subscribers)) $model->current_subscribers=0;
-				$model->current_subscribers += $_POST['SegScheduledTours']['current_subscribers'];
+				$model->current_subscribers += $ticket_count;
 			}
   			$model->save();
 			if($contact->validate()){
@@ -248,6 +250,7 @@ class SegScheduledToursController extends Controller
 		}
 		
 		$this->render('book',array(
+			'post'=>$_POST,
 			'model'=>$model,
 			'contact'=>$contact,
 			'tour'=>$tour,
