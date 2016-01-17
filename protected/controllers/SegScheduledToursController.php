@@ -188,8 +188,8 @@ class SegScheduledToursController extends Controller
 					
 					$guidestourinvoicescustomers->save();
 				}
-				$date_ex = date('d/m/Y',$_POST['Book']['date_ex']);
-				$x1 = strtotime($_POST['Book']['time_ex']) - strtotime("00:00:00");
+				$date_ex = date('d/m/Y',$model->date_now);
+				$x1 = strtotime($model->starttime) - strtotime("00:00:00");
 				$x2 = $tour->standard_duration*60;
 				$x3 = $x1+$x2;
 				$x4 = $x3+strtotime("00:00:00");

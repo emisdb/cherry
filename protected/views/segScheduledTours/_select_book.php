@@ -229,14 +229,10 @@
 
 </div><!-- search-form -->
 <script type="text/javascript">
-
 	function clickTickets(){
         var element = document.getElementById('SegScheduledTours_current_subscribers').value ;
-		//  alert(element);
-        var base_price = document.getElementById('base_price').innerHTML;
-		//alert(base_price);
-		
-        var new_price = base_price*element;
+       var base_price = document.getElementById('base_price').innerHTML;
+       var new_price = base_price*element;
 		document.getElementById('total_price').innerHTML=new_price.toFixed(2);
 	}
 </script> 

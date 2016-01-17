@@ -1013,8 +1013,8 @@ div.items>div.row:hover
   }
  div#top_start
   {
-     background: url('/img/top_start.jpg')  no-repeat, -webkit-linear-gradient(top, #000, #fff); 
-     /*background: url('/img/top_start.jpg')  no-repeat;*/ 
+      /*  background: url('/img/top_start.jpg')  no-repeat, -webkit-linear-gradient(top, #000, #fff); */ 
+  background: url('/img/top_start.jpg')  no-repeat;
      /*background-image:-webkit-gradient(top, #000, #fff), url('/img/top_start.jpg');*/
      background-repeat: no-repeat;
      background-size: cover;
