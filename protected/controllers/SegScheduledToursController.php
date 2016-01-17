@@ -14,7 +14,7 @@ class SegScheduledToursController extends Controller
 	{
 		return array(
             array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('result','city','ajaxLoad', 'index','book','test'),
+				'actions'=>array('result','city','ajaxLoad', 'index','book','test','dispatch'),
 	       		'roles'=>array('root','guide','office','admin'),  
 //				'users'=>array('*'),
 			),
@@ -273,13 +273,39 @@ class SegScheduledToursController extends Controller
 				'date'=>date("Y-m-d-n-w"),
 	));
 	}
+	public function actionDispatch()
+	{
+		if(isset($_POST['SegScheduledTours']))
+		{
+			$post=$_POST['SegScheduledTours'];
+			if(empty($post['city_id'])) $this->redirect(array("index"));
+			$city=SegCities::model()->findByPk($post['city_id']);
+			$url=$this->createUrl("city",array('city'=>$city->webadress_en));
+//			$url=Yii::app()->request->baseUrl."/".$city->webadress_en;
+//			var_dump($url);
+			Yii::app()->user->setState('city_data',json_encode($post));
+			header("Location:".$url);
+		}
+		else
+			 $this->redirect(array("index"));
+
+	}
 	public function actionCity($city=null)
 	{
         $model=new SegScheduledTours('search_f');
-  
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_POST['SegScheduledTours']))
-			$model->attributes=$_POST['SegScheduledTours'];
+		if(Yii::app()->user->hasState("city_data"))
+		{
+			$postdata=  get_object_vars(json_decode(Yii::app()->user->getState("city_data")));
+			$model->setAttributes($postdata);
+//			var_dump($postdata);
+//			echo "<hr>";
+//			var_dump($model->attributes);
+//			return;
+//			$model->setAttribute("city_data",$postdata['date'] );
+			Yii::app()->user->setState('city_data', null);
+		}
+  
 		if(!is_null($city))
 			$model->setAttribute("city_id", $city);
 		if(empty($model->city_id)) $this->redirect(array("index"));
@@ -299,10 +325,6 @@ class SegScheduledToursController extends Controller
 			$cur_time=1;
 		}
 		else {
-//			$criteria_time = new CDbCriteria;
-//			$criteria_time->condition = 'idseg_starttimes=:idseg_starttimes';
-//			$criteria_time->params = array(':idseg_starttimes' => $model->starttime);
-//			$time_bd = SegStarttimes::model()->find($criteria_time)->timevalue;		
 			$time_bd=$model->starttime;
 		}
 		if(($cur_time==1)&&($cur_date==0))

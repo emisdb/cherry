@@ -318,7 +318,7 @@ class SegScheduledTours extends CActiveRecord
 ////		$criteria->compare('starttime',$this->starttime,true);
 //		$criteria->compare('current_subscribers',$this->current_subscribers);
 ////		$criteria->compare('language_id',$this->language_id);
-//		$criteria->compare('guide1_id',$this->guide1_id);
+		$criteria->compare('guide1_id',$this->guide1_id);
 //		$criteria->compare('additional_info',$this->additional_info,true);
 //		$criteria->compare('visibility',$this->visibility);
 //		$criteria->compare('city_id',$this->city_id);

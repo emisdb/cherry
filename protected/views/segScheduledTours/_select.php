@@ -8,7 +8,7 @@
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'search-form',
-	'action'=>Yii::app()->createUrl($this->route),
+	'action'=>array("dispatch"),
 	'method'=>'post',
 )); ?>
 	<div class="row-filter">

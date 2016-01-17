@@ -89,11 +89,12 @@ return array(
             	'/' => 'segScheduledTours/index',
 				'/admin' => 'site/login',
 				'/berlin' => 'segScheduledTours/city/city/1',
+				'/dresden' => 'segScheduledTours/city/city/3',
 				'/munchen' => 'segScheduledTours/city/city/2',
 				'/munich' => 'segScheduledTours/city/city/2',
 				'/hamburg' => 'segScheduledTours/city/city/3',
-				'/segScheduledTours/city/<city:\d+>' => 'segScheduledTours/city/city/<city:\d+>',
-			
+				'/<city>' => 'segScheduledTours/city',
+/**/			
 				'post/<id:\d+>/<title:.*?>'=>'post/view',
 				'posts/<tag:.*?>'=>'post/index',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',

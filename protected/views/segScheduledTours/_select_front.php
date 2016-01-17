@@ -2,17 +2,20 @@
 /* @var $this SegScheduledToursController */
 /* @var $model SegScheduledTours */
 /* @var $form CActiveForm */
+//echo chtml::link("Go", $this->createUrl("city",array('city'=>'munchen')));
 ?>
 
 <div class="wide-form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'action'=>array("city"),
+	'action'=>array("dispatch"),
+	'id'=>'front-form',
 	'method'=>'post',
 )); ?>
 	<div class="row-filter">
 				<?php
-				echo $form->dropDownList($model,'city_id', CHtml::listData (SegCities::model()->findAll(),'idseg_cities', 'seg_cityname'),
+				$cities=SegCities::model()->findAll(array('select'=>'idseg_cities,seg_cityname,webadress_en'));
+				echo $form->dropDownList($model,'city_id', CHtml::listData ($cities,'idseg_cities', 'seg_cityname'),
 					array('empty'=>'Wo geht es hin?','id'=>'pickcity','onChange'=>'do_city(value,0)'));
 			?>
 		<?php 
@@ -35,8 +38,9 @@
 			  );	
 	
 //			echo $form->textField($model,'date'); 
-			?>
-	         	<button class="but-filter" type="submit"><?php echo 'SUCHE'; ?></button>
+//		?>
+		<button class="but-filter" type="submit"><?php echo 'SUCHE';?></button>
+		<?php // echo CHtml::submitButton('SUCHE',array('class'=>'but-filter','type'=>'submit')); ?>
    	<?php // echo CHtml::submitButton('Search'); ?>
 	</div>
 
