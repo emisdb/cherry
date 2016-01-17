@@ -4,8 +4,8 @@
 ?>
 
 <div class="row" >
-	<div class="col-md-3 col-sm-5 bordered" >
-
+	<div class="col-md-3 col-sm-5 bordered">
+		<a class="changebt" data-toggle="modal" data-target="#guideModal">
        <?php echo CHtml::image(Yii::app()->request->baseUrl."/image/guide/".$data->user_ob->guidepic, "User Image", array("class"=>"img-circle",'height'=>'70px','style'=>'float:left; margin:5px 0;')) ; ?>
 		<div style="padding:5px 0 5px 5px; margin-left:70px;height:100%;">
 			<div style="height:50px;">
@@ -24,7 +24,8 @@
 				?>
 			</div>
 
-	</div>
+		</div>
+	</a>
 	</div>
 	<div class="col-md-4 cl-sm-7 bordered">
        	<?php

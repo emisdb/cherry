@@ -3,6 +3,24 @@
 /* @var $dataProvider CActiveDataProvider */
  Yii::app()->clientScript->registerScriptFile('http://maps.googleapis.com/maps/api/js',CClientScript::POS_HEAD);
  ?>
+		 <div class="modal modal-info fade" id="guideModal" role="dialog">
+		   <div class="modal-dialog modal-md">
+			 <div class="modal-content">
+			   <div class="modal-header">
+				 <button type="button" class="close" data-dismiss="modal" aria-label="close">
+					 <span aria-hidden="true">&times;</span></button>
+				 <h4 class="modal-title">Guides info</h4>
+			   </div>
+			   <div class="modal-body">
+				 <div id="modal-data">This is the guide's info.</div>
+			   </div>
+			   <div class="modal-footer">
+					<button  type="button" class="btn btn-outline pull-right btn-default" data-dismiss="modal">Close</button>
+			   </div>
+			 </div>
+		   </div>
+		 </div>
+
 <div class="row" id="top">
 	<?php	
 //		echo	CHtml::image(Yii::app()->request->baseUrl.'/img/top.jpg','info',array('style'=>'width: 100%;'));
@@ -143,14 +161,11 @@
 		}
 	?>	
 	</div>
+
 	</div>
 </div>
 <script type="text/javascript">
 
-	function book(id,cat) {
-		document.forms['search-form']['newrecord'].value=1;
-		document.forms['search-form'].submit();
-	}
 
 function initialize() {
   var mapProp = {
