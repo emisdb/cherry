@@ -277,10 +277,12 @@ class SegScheduledToursController extends Controller
 				if(is_null($model->current_subscribers)) $model->current_subscribers=0;
 				$model->current_subscribers += $ticket_count;
 			}
-  			$model->save();
+ 		if(isset($_POST['SegContacts']))	{
 			$contact->attributes=$_POST['SegContacts'];
+
 			if($contact->validate()){
 				$contact->save();
+			Yii::app()->user->setState('book_data', null);
 				
 				//save booking
 				$id_user = $contact->idcontacts;
@@ -296,7 +298,8 @@ class SegScheduledToursController extends Controller
 				$guidestourinvoices->contacts_id = $id_user;
 				$guidestourinvoices->id_sched = $model->idseg_scheduled_tours;
 				$guidestourinvoices->save();	
-				
+				$model->save();
+
 			
 				
 				//save guidestourinvoicecustomers
@@ -323,7 +326,7 @@ class SegScheduledToursController extends Controller
 					
 					
 					$guidestourinvoicescustomers->save();
-				}
+		}				
 				$date_ex = date('d/m/Y',$model->date_now);
 				$x1 = strtotime($model->starttime) - strtotime("00:00:00");
 				$x2 = $tour->standard_duration*60;
@@ -376,14 +379,14 @@ class SegScheduledToursController extends Controller
 				    $stuttgart_link = Yii::app()->createUrl('thankyou');
 //				    header( 'Location: '.$stuttgart_link.'?id=1' );
 				}
-			}
+//			}
 				$this->render('result',array(
 					'post'=>$_POST,
 					'contacts'=>$contact->attributes,
 					'model'=>$model->attributes,
 				));
 				return;
-		}
+		}}}
 		
 		$this->render('book',array(
 			'post'=>$_POST,

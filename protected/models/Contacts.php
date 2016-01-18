@@ -36,7 +36,7 @@ class Contacts extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('firstname, surname, phone, additional_address, country, city, house, street', 'length', 'max'=>45),
-			array('firstname, surname, phone, email', 'required'),
+			array('firstname, surname, phone, email, country', 'required'),
 			array('email','email'),
 			array('email', 'length', 'max'=>100),
 			array('postalcode', 'length', 'max'=>11),
