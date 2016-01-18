@@ -14,7 +14,7 @@ class SegScheduledToursController extends Controller
 	{
 		return array(
             array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('result','city','ajaxLoad', 'index','book','test','dispatch'),
+				'actions'=>array('result','city','ajaxLoad','ajaxGuide', 'index','book','test','dispatch'),
 	       		'roles'=>array('root','guide','office','admin'),  
 //				'users'=>array('*'),
 			),
@@ -338,6 +338,26 @@ class SegScheduledToursController extends Controller
 //		}
 
 	
+	}
+	public function actionAjaxGuide()
+	{
+		if (!Yii::app()->request->isAjaxRequest)
+			{
+				echo CJSON::encode(array(
+					'status'=>'failure', 
+					'div'=>'No Request'));
+				exit;               
+			}
+		$vali = $_POST['id'];
+		if(!empty($vali)){ $sid=  substr ($vali, 4);
+		$id=(int) $sid;
+		$rec=  User::model()->with(array('guide_ob','contact_ob'))->findByPk($id);
+		$img=CHtml::image(Yii::app()->request->baseUrl."/image/guide/".$rec->guidepic, "User Image", array("height"=>"150px;"));
+						echo CJSON::encode(array(
+					'status'=>$rec->guidename, 
+					'div'=>"<div>".$img."</div><div style='margin:10px 5px;'>".$rec->guide_ob->guide_shorttext."</div><div style='font-size:.8em;'>".$rec->guide_ob->guide_maintext."</div>"));
+		}
+		
 	}
 	public function actionAjaxLoad()
 	{

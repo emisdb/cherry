@@ -5,27 +5,45 @@
 
 <div class="row" >
 	<div class="col-md-3 col-sm-5 bordered">
-		<a class="changebt" data-toggle="modal" data-target="#guideModal">
-       <?php echo CHtml::image(Yii::app()->request->baseUrl."/image/guide/".$data->user_ob->guidepic, "User Image", array("class"=>"img-circle",'height'=>'70px','style'=>'float:left; margin:5px 0;')) ; ?>
-		<div style="padding:5px 0 5px 5px; margin-left:70px;height:100%;">
-			<div style="height:50px;">
-		<?php echo CHtml::encode($data->user_ob->guidename); ?>
-				</div>
-			<div style="vertical-align: bottom;">
-				<?php
+      <?php 
+			$first_cell=CHtml::image(Yii::app()->request->baseUrl."/image/guide/".$data->user_ob->guidepic, "User Image", array("class"=>"img-circle")).
+			   "<div><div>".CHtml::encode($data->user_ob->guidename)."</div><div>";
 				if($data->language_id==null) {
 					foreach ($data->user_ob->languages as $value) {
-						 echo CHtml::image(Yii::app()->request->baseUrl."/img/lan/".$value['flagpic'], "Language", array("class"=>"img-circle")) ; 
+						 $first_cell.=CHtml::image(Yii::app()->request->baseUrl."/img/lan/".$value['flagpic'], "Language", array("class"=>"img-circle")) ; 
 					}
 				}
 				else {
-					 echo CHtml::image(Yii::app()->request->baseUrl."/img/lan/".$data->language_ob->flagpic, "Language", array("class"=>"img-circle")) ; 
+					 $first_cell.=CHtml::image(Yii::app()->request->baseUrl."/img/lan/".$data->language_ob->flagpic, "Language", array("class"=>"img-circle")) ; 
 				}
-				?>
-			</div>
+				$first_cell.="</div></div>";
+				echo CHtml::ajaxLink(
+             $first_cell,
+             $url=array('ajaxGuide'),
+             $ajaxOptions= array(
+            'data'=>array('id'=>'js:$(this).attr("href")'),
+             'type'=>'POST',
+//             'update'=>'#modal-data',
+            'dataType'=>'json',
+		 'success' => "function(data) { 
+				 if (data.status == 'failure')
+                {
+                    $('#modal-data').html(data.div);
+                 }
+                else
+                {
+                   $('#modal-title').html(data.status);
+                   $('#modal-data').html(data.div);
+                }
 
-		</div>
-	</a>
+				 $('#guideModal').modal();  }"),
+	 
+             $htmlOptions=array('href'=>'gid='.$data->user_ob->id.';',
+				 "class"=>"guideclick", "data-toggle"=>"modal", "data-target"=>"#guideModal"
+                 )
+			 );
+//				echo CHtml::link($first_cell, 'js:gid='.$data->user_ob->id.';', array("class"=>"guideclick", "data-toggle"=>"modal", "data-target"=>"#guideModal"));
+		?>
 	</div>
 	<div class="col-md-4 cl-sm-7 bordered">
        	<?php

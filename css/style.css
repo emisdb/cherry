@@ -974,6 +974,26 @@ div.items>div.row:hover
  {
      margin-right:5px;
   }
+  div.items a.guideclick>div
+  {
+      padding:5px 0 5px 5px;
+      margin-left:70px;
+      height:100%;
+  }
+  div.items a.guideclick>div>div:first-child
+  {
+      height:50px;
+  }
+  div.items a.guideclick>div>div:last-child
+  {
+      vertical-align: bottom;
+  }
+  div.items a.guideclick>img
+  {
+      height:70px;
+      float:left;
+      margin:5px 0;
+  }
   footer.main-footer
   {
      color: #737373;
@@ -1133,4 +1153,9 @@ div.items>div.row:hover
      width:100%;
      text-align: center;
      margin:30px 0 150px;
+ }
+ div.modal-dialog>div.modal-content>div.modal-header
+ {
+    color: #fff;
+     background-color: #983157;
  }
