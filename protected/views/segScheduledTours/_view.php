@@ -79,9 +79,10 @@
 		?>
 	</div>
 	<div class="col-md-2 col-sm-4" style="padding: 23px;">
-		<button class="btn btn-success"><?php echo CHtml::link("AUSW&Auml;LEN", '#',array('style'=>'color:#fff;','onclick'=>'submitdata('.$data->idseg_scheduled_tours.','.$tid.');',)) ?></button>
+		<button class="btn btn-success" style="color:#fff;" onclick="submitdata(<?php echo $data->idseg_scheduled_tours.",".$tid ?>)">AUSW&Auml;LEN</button>
 	</div>
 	<?php /*
+		<button class="btn btn-success"><?php echo CHtml::link("AUSW&Auml;LEN", '#',array('style'=>'color:#fff;','onclick'=>'submitdata('.$data->idseg_scheduled_tours.','.$tid.');',)) ?></button>
 
 	 		<button class="btn btn-success"><?php echo CHtml::link("AUSW&Auml;LEN", array('book','id'=>$data->idseg_scheduled_tours,'cat'=>$tid),array('style'=>'color:#fff;')) ?></button>
 

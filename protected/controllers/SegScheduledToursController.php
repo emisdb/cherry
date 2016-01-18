@@ -278,8 +278,8 @@ class SegScheduledToursController extends Controller
 				$model->current_subscribers += $ticket_count;
 			}
   			$model->save();
+			$contact->attributes=$_POST['SegContacts'];
 			if($contact->validate()){
-				$contact->attributes=$_POST['SegContacts'];
 				$contact->save();
 				
 				//save booking
