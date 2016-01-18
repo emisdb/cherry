@@ -1900,20 +1900,6 @@ class OfficeController extends Controller
 			}
 		}
 	}
-	protected function sendMail($to,$subject,$body,$att=null)
-	{
-		        Yii::import('ext.yii-mail.YiiMailMessage');
-                $message = new YiiMailMessage;
-				$message->setBody($body);
-                $message->subject = $subject;
-               $message->addTo($to);
-                $message->from = Yii::app()->params['adminEmail'];
-  				if($att){
-					$swiftAttachment = Swift_Attachment::fromPath($att); 
-					$message->attach($swiftAttachment);
-				}
-               return Yii::app()->mail->send($message);
-		}
 
 
 	 public function loadST($id)

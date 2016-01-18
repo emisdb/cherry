@@ -40,7 +40,18 @@
 <div class="row">
 	<div class="col-md-3" style="padding: 0;">
 		<ul class="nav nav-pills nav-justified hidden-sm hidden-xs">
-			<li><a href="#" class="nohover"><div style="min-height: 65px;"></div></a></li>
+			<li><a href="#" class="nohover"><div style="min-height: 65px;">
+	<?php $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'book-form',
+	'action'=>array("booking"),
+	'method'=>'post',
+)); 
+	echo CHtml::hiddenField("book-params");
+	echo CHtml::hiddenField("search-params");
+	$this->endWidget();
+	?>			
+						
+					</div></a></li>
 		</ul>
 		<div id="googleMap" style="width:100%;height:210px; margin-bottom: 5px;"></div>
 		<div style=" text-align: right;">
@@ -173,6 +184,19 @@ function initialize() {
   };
   var map=new google.maps.Map(document.getElementById("googleMap"), mapProp);
 
+}
+function submitdata(sid,tid)
+{
+	document.forms['book-form'].elements['book-params'].value=JSON.stringify({"sid":sid,"tid":tid});
+	var arr=$("#search-form").serializeArray();
+	var parr={};
+	$.each(arr,
+    function(i, v) {
+		var vname=v.name.slice(v.name.indexOf("[")+1,v.name.indexOf("]"))
+        parr[vname] = v.value;
+    });
+	document.forms['book-form'].elements['search-params'].value=JSON.stringify(parr);
+    document.forms['book-form'].submit();
 }
 google.maps.event.addDomListener(window, 'load', initialize);
  var pageN=[<?php for($vi=0;$vi<$ii;$vi++) echo "1,"; ?>];

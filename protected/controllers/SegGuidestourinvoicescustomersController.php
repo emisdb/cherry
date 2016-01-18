@@ -711,7 +711,7 @@ class SegGuidestourinvoicescustomersController extends Controller
 				$sched->save();
 				
 				foreach ($mails as $value) {
-					$this->sendMail($value, $files_name2);
+					$this->sendMail($value,"The invoice from Cherry tours","Dear sirs, \n The invoice from Cherry tours.", $files_name2);
 			}
 	          $this->redirect( Yii::app()->createUrl('/filespdf/'.$name_pdf2.'.pdf') );
 
@@ -728,20 +728,6 @@ class SegGuidestourinvoicescustomersController extends Controller
 		//}
 
 	}
-	protected function sendMail($to,$att)
-	{
-		        Yii::import('ext.yii-mail.YiiMailMessage');
-                $message = new YiiMailMessage;
-                $message->setBody("Dear sirs, \n The invoice from Cherry tours.");
-                $message->subject = "The invoice from Cherry tours";
-                $message->addTo($to);
-//                $message->addTo(Yii::app()->params['adminEmail']);
-                $message->from = Yii::app()->params['adminEmail'];
-//                $pathto=Yii::app()->params['load_xml_pdf'].$filename;
-                $swiftAttachment = Swift_Attachment::fromPath($att); 
-               $message->attach($swiftAttachment);
-               return Yii::app()->mail->send($message);
-		}
 	
 	public function actionCurrent($id_sched=null,$date=null,$time=null)
 	{

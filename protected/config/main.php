@@ -88,12 +88,15 @@ return array(
 			'rules'=>array(
             	'/' => 'segScheduledTours/index',
 				'/admin' => 'site/login',
+				'/berlin/book' => 'segScheduledTours/book/id/1',
+				'/munchen/book' => 'segScheduledTours/book/id/2',
 				'/berlin' => 'segScheduledTours/city/city/1',
 				'/dresden' => 'segScheduledTours/city/city/3',
 				'/munchen' => 'segScheduledTours/city/city/2',
 				'/munich' => 'segScheduledTours/city/city/2',
 				'/hamburg' => 'segScheduledTours/city/city/3',
 				'/<city>' => 'segScheduledTours/city',
+				'/<book>/book' => 'segScheduledTours/book',
 /**/			
 				'post/<id:\d+>/<title:.*?>'=>'post/view',
 				'posts/<tag:.*?>'=>'post/index',

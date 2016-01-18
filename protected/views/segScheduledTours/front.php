@@ -25,12 +25,12 @@
 			</li>
 			<li><?php echo CHtml::link('<div class="teaser munchen"><div>'
 					.CHtml::image(Yii::app()->request->baseUrl.'/img/icon-castle.png','info',array('style'=>'height: 40px; margin-top:60px; '))
-					.'</div><div class="frontlabel">HISTORICAL M&Uuml;NCHEN</div></div>',array('/munchen'));	
+					.'</div><div class="frontlabel">CLASSIC M&Uuml;NCHEN</div></div>',array('/munchen'));	
 			?>
 			</li>
 			<li><?php echo CHtml::link('<div class="teaser hamburg"><div>'
 					.CHtml::image(Yii::app()->request->baseUrl.'/img/icon-food.png','info',array('style'=>'height: 40px; margin-top:60px; '))
-					.'</div><div class="frontlabel">SPECIAL M&Uuml;NCHEN</div></div>',array('/munchen'));	
+					.'</div><div class="frontlabel">HISTORICAL M&Uuml;NCHEN</div></div>',array('/munchen'));	
 			?>
 			</li>
 		</ul>

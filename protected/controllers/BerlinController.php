@@ -271,20 +271,7 @@ class BerlinController extends Controller
         $this->render('book',array('scheduled'=>$scheduled,'contact'=>$contact,'tour'=>$tour,'tours_guide'=>$tours_guide,'languages_guide'=>$languages_guide,'cat_item'=>$cat_item));
        
     } 
-	protected function sendMail($to,$subject,$body)
-	{
-		        Yii::import('ext.yii-mail.YiiMailMessage');
-                $message = new YiiMailMessage;
-                $message->setBody($body);
-                $message->subject = $subject;
-                $message->addTo($to);
-//                $message->addTo(Yii::app()->params['adminEmail']);
-                $message->from = Yii::app()->params['adminEmail'];
-//                $pathto=Yii::app()->params['load_xml_pdf'].$filename;
-//                $swiftAttachment = Swift_Attachment::fromPath($pathto); 
-//               $message->attach($swiftAttachment);
-               return Yii::app()->mail->send($message);
-		}
+
     
 	public function actionIndex($city=null, $date=null, $time=null, $language=null, $guide=null)
 	{

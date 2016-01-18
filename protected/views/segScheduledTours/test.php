@@ -37,5 +37,16 @@
 
         </div>
     </div>
-<div><?php echo $model->city_ob->seg_cityname;?></div>
-<div><?php echo $date;?></div>
+<div style="border: #efefef ridge 5px; margin-top: 70px;">
+	RESULT: 
+		<?php 
+		echo "url:".$url."<hr>";
+		$citydata=  get_object_vars(json_decode(Yii::app()->user->getState("city_data")));
+		$bookdata=  get_object_vars(json_decode(Yii::app()->user->getState("book_data")));
+
+		var_dump($bookdata);
+		echo "<hr>";
+		var_dump($citydata);
+		;?>
+<div><?php echo $date;?></div> 
+</div>

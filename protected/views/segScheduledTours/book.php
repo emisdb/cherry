@@ -4,7 +4,7 @@
  ?>
 <div class="row top-menus">
 	<div class="col-md-1">
-		<?php echo CHtml::link("< zur&uuml;ck", array("/berlin") ); ?>
+		<?php echo CHtml::link("< zur&uuml;ck", "/".$model->city_ob->webadress_en ); ?>
 		<?php // echo CHtml::link("< zur&uuml;ck", array("city",'city'=>$model->city_id) ); ?>
 	</div>
 	<div class="col-md-10">
