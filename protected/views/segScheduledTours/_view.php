@@ -45,14 +45,16 @@
 //				echo CHtml::link($first_cell, 'js:gid='.$data->user_ob->id.';', array("class"=>"guideclick", "data-toggle"=>"modal", "data-target"=>"#guideModal"));
 		?>
 	</div>
-	<div class="col-md-4 cl-sm-7 bordered">
-       	<?php
-		echo CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_calendar.svg','calendar',array('style'=>'height: 40px;'));
-		echo CHtml::encode(date('l, d F Y',$data->date_now));
-		?>
+	<div class="col-md-4 cl-sm-7 bordered item-dates">
 		<div>
        	<?php
-		echo CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_time.svg','time',array('style'=>'height: 40px;'));
+		echo CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_calendar.svg','calendar',array('style'=>'height: 35px;margin:5px 0 5px;'));
+		echo '<div style="padding-top:5px; display:inline-block;">'.CHtml::encode(date('l, d F Y',$data->date_now))."</div>";
+		?>
+		</div>
+		<div>
+       	<?php
+		echo CHtml::image(Yii::app()->request->baseUrl.'/img/svg/svg-export_time.svg','time',array('style'=>'height: 35px;'));
 		echo CHtml::encode(substr_replace($data->starttime, '', 5));
 		?>
 			
@@ -79,7 +81,9 @@
 		?>
 	</div>
 	<div class="col-md-2 col-sm-4" style="padding: 23px;">
+		<?php if($data->current_subscribers<$tnmax) {?>
 		<button class="btn btn-success" style="color:#fff;" onclick="submitdata(<?php echo $data->idseg_scheduled_tours.",".$tid ?>)">AUSW&Auml;LEN</button>
+		<?php }?>
 	</div>
 	<?php /*
 		<button class="btn btn-success"><?php echo CHtml::link("AUSW&Auml;LEN", '#',array('style'=>'color:#fff;','onclick'=>'submitdata('.$data->idseg_scheduled_tours.','.$tid.');',)) ?></button>

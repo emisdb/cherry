@@ -970,6 +970,12 @@ div.items>div.row
 div.items>div.row>div
 {
            border-bottom:  #ccc solid 1px;
+           padding-right: 0px;
+           padding-left: 5px;
+}
+div.items>div.row>div.item-dates
+{
+           padding-left: 0px;
 }
 div.items>div.row>div.bordered, .panel-default>div.panel-heading>div.row>div.bordered
 {
