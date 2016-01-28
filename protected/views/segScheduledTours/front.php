@@ -35,12 +35,7 @@
 				<?php echo CHtml::link('<div class="teaser hamburg"><div>'
 					.CHtml::image(Yii::app()->request->baseUrl.'/img/icon-food.png','info',array('style'=>'height: 40px; margin-top:60px; '))
 					.'</div><div class="frontlabel">HISTORICAL<p> M&Uuml;NCHEN</div></div>',array('/munchen'));	
-			?>
-				
-	<?php /* echo CHtml::link('<div class="teaser berlin"><div>'
-					.CHtml::image(Yii::app()->request->baseUrl.'/img/icon-museum.png','info')
-					.'</div><div class="frontlabel">CLASSIC<p>BERLIN</div></div>',array('/berlin'));	
-	*/		?>			
+			?>		
 			</li>
 		</ul>
 	</div>
