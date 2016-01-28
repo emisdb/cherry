@@ -15,7 +15,7 @@
 </div>
 
 </div>
-	<div class="row frontlabel" style="font-size:1.3em; color:#555; margin:30px 0;" >EROBERE DEINE STADT</div>
+	<div class="row frontlabel" style="font-size:1.4em; color:#555; margin:30px 0;" >EROBERE DEINE STADT</div>
 	<div class="row" style="text-align: center; margin:auto;">
 		<ul class="teaserhold">
 			<li>
