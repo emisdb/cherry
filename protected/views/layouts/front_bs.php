@@ -43,7 +43,7 @@
 				echo	CHtml::image(Yii::app()->request->baseUrl.'/img/logo_grey.png','info',array('style'=>'height: 35px; margin-top:50px;'));
 			?>
 			 </div>
-			<div style="width:100%; margin-bottom:30px; font-size:1.em; font-weight:bold; letter-spacing: 5px; text-transform: uppercase; text-align: center;" >CHERRYTOURS</div>
+			<div style="width:100%; margin-bottom:30px; font-size:1.2em; font-weight:bold; letter-spacing: 5px; text-transform: uppercase; text-align: center;" >CHERRYTOURS</div>
 			<hr>
 			<div style="padding-bottom:30px;">
 			<?php
