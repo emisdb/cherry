@@ -21,20 +21,20 @@
 			<li>
 				<?php echo CHtml::link('<div class="teaser berlin"><div>'
 					.CHtml::image(Yii::app()->request->baseUrl.'/img/icon-museum.png','info',array('style'=>'height: 40px; margin-top:60px; '))
-					.'</div><div class="frontlabel">CLASSIC<p>BERLIN</div></div>',array('/berlin'));	
+					.'</div><div class="frontlabel" style="font-size:1.5em;">CLASSIC<p>BERLIN</div></div>',array('/berlin'));	
 			?>
 			</li>
 			<li>
 				
 				<?php echo CHtml::link('<div class="teaser munchen"><div>'
 					.CHtml::image(Yii::app()->request->baseUrl.'/img/icon-castle.png','info',array('style'=>'height: 40px; margin-top:60px; '))
-					.'</div><div class="frontlabel">CLASSIC<p> M&Uuml;NCHEN</div></div>',array('/munchen'));	
+					.'</div><div class="frontlabel" style="font-size:1.5em;">CLASSIC<p> M&Uuml;NCHEN</div></div>',array('/munchen'));	
 			?>
 			</li>
 			<li>
 				<?php echo CHtml::link('<div class="teaser hamburg"><div>'
 					.CHtml::image(Yii::app()->request->baseUrl.'/img/icon-food.png','info',array('style'=>'height: 40px; margin-top:60px; '))
-					.'</div><div class="frontlabel">HISTORICAL<p> M&Uuml;NCHEN</div></div>',array('/munchen'));	
+					.'</div><div class="frontlabel" style="font-size:1.5em;">HISTORICAL<p> M&Uuml;NCHEN</div></div>',array('/munchen'));	
 			?>		
 			</li>
 		</ul>
