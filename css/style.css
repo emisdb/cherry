@@ -1034,7 +1034,7 @@ div.items>div.row:hover
   {
        color: #fdfdfd;
       margin: 0px 30px;
-      font-size: 1.2em;
+      font-size: 1.1em;
   }
   footer select
   {
@@ -1073,7 +1073,7 @@ div.items>div.row:hover
   }
   div.teaser
   {
-      width:320px;
+      width:300px;
       height:280px;
       background-image: url('/img/berlin-teaser.jpg');
       background-size: cover;
@@ -1112,7 +1112,7 @@ div.items>div.row:hover
  div.frontlabel
  {
      width:100%;
-     font-size:1.6em;
+     font-size:1.2em;
      color:#fff;
      font-weight:bold;
      letter-spacing: 5px;
