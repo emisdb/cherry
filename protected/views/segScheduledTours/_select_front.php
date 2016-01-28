@@ -39,7 +39,7 @@
 	
 //			echo $form->textField($model,'date'); 
 //		?>
-		<button class="but-filter" type="submit"><?php echo 'SUCHE';?></button>
+		<button class="but-filter" type="submit" style="width:160px;"><?php echo 'SUCHE';?></button>
 		<?php // echo CHtml::submitButton('SUCHE',array('class'=>'but-filter','type'=>'submit')); ?>
    	<?php // echo CHtml::submitButton('Search'); ?>
 	</div>
