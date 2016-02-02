@@ -55,6 +55,8 @@ $datetime = time();
 	'id'=>'sss-grid',
 	'dataProvider'=>$model->search_s($id_control, $date),//$model->search_root(),
 //	'filter'=>$model,
+//	'htmlOptions'=>array('class'=>'table-responsive'),
+//	'itemsCssClass'=>'table table-bordered',
 	'rowCssClassExpression' => '$data->openTour || $data->date_now > '.$datetime.' ? "table_scheduled" : "table_scheduled_pdf"', 
 	//'rowCssClassExpression' => '$date->openTour ? "table_scheduled" : "table_scheduled_pdf"', 
 	'columns'=>array(
