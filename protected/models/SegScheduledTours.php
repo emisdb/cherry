@@ -363,7 +363,8 @@ class SegScheduledTours extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-        
+    		$sort   = new CSort;
+    
        
 
         $criteria->condition = 'guide1_id=:guide1_id';
@@ -371,7 +372,7 @@ class SegScheduledTours extends CActiveRecord
 		 if(!is_null($date)){
 		$criteria->addCondition("t.date  <= '$date'");
 		 }
-        $criteria->order = 'date_now DESC, starttime DESC';
+//        $criteria->order = 'date_now DESC, starttime DESC';
         
         $criteria->with = array('city_ob','language_ob','tourroute_ob');
 	$criteria->compare('city_ob.city_id',$this->city_ob,true);
@@ -404,10 +405,19 @@ class SegScheduledTours extends CActiveRecord
 		$criteria->compare('canceledBy',$this->canceledBy);
 		$criteria->compare('cancellationAnnotation',$this->cancellationAnnotation,true);
        			$this->daterange($criteria);
+			$sort->defaultOrder= array(
+            'date'=>CSort::SORT_DESC,
+            'starttime'=>CSort::SORT_DESC,
+        );
+	$sort->attributes = array(
+			'*',
+					);
+
 
            return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-                          'pagination'=>false,
+            'pagination'=>false,
+                    'sort'=>$sort,
 // 			   'pagination'=>array('pageSize'=>30, ),
   		));
     }

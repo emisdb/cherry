@@ -724,8 +724,9 @@ class GuideController extends Controller
         
         	$model=new SegScheduledTours();
   
-		/*$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['SegScheduledTours']))
+		$model->unsetAttributes();  // clear any default values
+		$model->guide1_id=$id_control;
+	/*	if(isset($_GET['SegScheduledTours']))
 			$model->attributes=$_GET['SegScheduledTours'];*/
 		$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
  

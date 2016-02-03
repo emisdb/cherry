@@ -55,33 +55,11 @@ $datetime = time();
 	'id'=>'sss-grid',
 	'dataProvider'=>$model->search_s($id_control, $date),//$model->search_root(),
 //	'filter'=>$model,
-//	'htmlOptions'=>array('class'=>'table-responsive'),
-//	'itemsCssClass'=>'table table-bordered',
+	'htmlOptions'=>array('class'=>'table-responsive'),
+	'itemsCssClass'=>'table table-bordered',
 	'rowCssClassExpression' => '$data->openTour || $data->date_now > '.$datetime.' ? "table_scheduled" : "table_scheduled_pdf"', 
 	//'rowCssClassExpression' => '$date->openTour ? "table_scheduled" : "table_scheduled_pdf"', 
 	'columns'=>array(
-    	'idseg_scheduled_tours',
-        array(
-            'name'=>'date_now',
-            'value'=>'date("d.m.Y",$data->date_now)',
-            //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
-        ),
-		'starttime',
-  
-    	array(
-            'name'=>'tourroute_ob',
-            'value'=>'$data->tourroute_ob["name"]',
-            //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
-        ),
-  
-         array(
-            'name'=>'current_subscribers',
-            'value'=>'$data->current_subscribers."/".$data->TNmax_sched',  
-            //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
-        ),
-    // 'current_subscribers',
-	//	'date_now',
-
 		array(
 		
 				'class'=>'CButtonColumn',
@@ -109,6 +87,29 @@ $datetime = time();
 				   
 				),
 		),
+		'idseg_scheduled_tours',
+        array(
+            'name'=>'date_now',
+            'value'=>'date("d.m.Y",$data->date_now)',
+            //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
+        ),
+		'starttime',
+  
+    	array(
+            'name'=>'tourroute_ob',
+            'value'=>'$data->tourroute_ob["name"]',
+            //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
+        ),
+  
+         array(
+            'name'=>'current_subscribers',
+            'value'=>'$data->current_subscribers."/".$data->TNmax_sched',  
+            //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
+        ),
+    // 'current_subscribers',
+	//	'date_now',
+
+
 	),
 )); 
 ?>

@@ -15,7 +15,7 @@ $this->breadcrumbs=array(
 <?php  $date_format =  date('d.m.Y',$model->date_now);?>
 
 
-<h1>Show Tour - <?php echo $model->starttime;?> - <?php echo $date_format;?> - <?php echo $model->city_id_all;?></h1>
+<h1>Show Tour - <?php echo date( 'H:i', strtotime($model->starttime) );?> - <?php echo $date_format;?> - <?php echo $model->city_id_all;?></h1>
        </section>
 
         <!-- Main content -->
