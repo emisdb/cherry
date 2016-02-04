@@ -58,9 +58,6 @@ $this->breadcrumbs=array(
 					</tbody>
 				</table>
 			</div>
-			<div class="panel panel-default">
-  <div class="panel-heading">Tour cancellation</div>
-  <div class="panel-body">
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'seg-scheduled-tours-form',
 	// Please note: When you enable ajax validation, make sure the corresponding
@@ -69,6 +66,22 @@ $this->breadcrumbs=array(
 	// See class documentation of CActiveForm for details on this.
 	'enableAjaxValidation'=>false,
 )); ?>
+		<div class="row">
+		<div class="col-md-8">
+			<div class="form-group">
+			<?php
+			echo $form->labelEx($model,'cancellationAnnotation',array('class'=>"control-label"));
+			 echo $form->textArea($model,'cancellationAnnotation',array('size'=>60,'maxlength'=>1500,'class'=>"form-control",'disabled'=>"true")); 
+		   ?>
+			</div>
+		</div>
+        <div class="col-md-4"></div>
+	</div>
+			
+<div class="panel panel-default">
+  <div class="panel-heading">Tour cancellation</div>
+  <div class="panel-body">
+
 	<div class="row">
 		<div class="col-md-2">
 			<div class="form-group">

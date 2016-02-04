@@ -193,8 +193,9 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 		<div class="col-md-2">
 			<div class="form-group">
 				<?php
+//						echo $form->labelEx($model,'isCanceled');
 					echo "<div>".$form->labelEx($model,'isCanceled')."</div>";
-					echo $form->checkBox($model,'isCanceled',array('class'=>'form-control'));
+					echo $form->checkBox($model,'isCanceled');
 					echo $form->error($model,'isCanceled');
 				?>
 			</div>
