@@ -1134,7 +1134,7 @@ class OfficeController extends Controller
 		'info'=>$test,
 	));
 	}
-    public function actionBook($id_sched)
+    public function actionBooky($id_sched)
 	{
 		$tour=null;
         $scheduled = SegScheduledTours::model()->findByPk($id_sched);

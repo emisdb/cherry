@@ -56,6 +56,7 @@ $datetime = time();
 	'dataProvider'=>$model->search_s($id_control, $date),//$model->search_root(),
 //	'filter'=>$model,
 	'htmlOptions'=>array('class'=>'table-responsive'),
+	
 	'itemsCssClass'=>'table table-bordered',
 	'rowCssClassExpression' => '$data->openTour || $data->date_now > '.$datetime.' ? "table_scheduled" : "table_scheduled_pdf"', 
 	//'rowCssClassExpression' => '$date->openTour ? "table_scheduled" : "table_scheduled_pdf"', 
@@ -86,25 +87,38 @@ $datetime = time();
 				   ),
 				   
 				),
+						'headerHtmlOptions'=>array('class'=>'info'),
 		),
-		'idseg_scheduled_tours',
         array(
-            'name'=>'date_now',
-            'value'=>'date("d.m.Y",$data->date_now)',
+            'name'=>'idseg_scheduled_tours',
+ 			'headerHtmlOptions'=>array('class'=>'info'),
             //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
         ),
-		'starttime',
-  
+       array(
+            'name'=>'date_now',
+            'value'=>'date("d.m.Y",$data->date_now)',
+			'headerHtmlOptions'=>array('class'=>'info'),
+            //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
+        ),
+        array(
+            'name'=>'starttime',
+                         'type'=>'raw',
+           'value'=>"Yii::app()->dateFormatter->format('HH:mm',strtotime(\$data->starttime))",
+   						'headerHtmlOptions'=>array('class'=>'info'),
+         //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
+        ),
     	array(
             'name'=>'tourroute_ob',
             'value'=>'$data->tourroute_ob["name"]',
-            //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
+    						'headerHtmlOptions'=>array('class'=>'info'),
+        //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
         ),
   
          array(
             'name'=>'current_subscribers',
             'value'=>'$data->current_subscribers."/".$data->TNmax_sched',  
-            //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
+    						'headerHtmlOptions'=>array('class'=>'info'),
+        //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
         ),
     // 'current_subscribers',
 	//	'date_now',

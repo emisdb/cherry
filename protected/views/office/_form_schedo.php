@@ -50,7 +50,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 				<?php
 					echo $form->labelEx($model,'tourroute_id'); 
 					echo $form->dropDownList($model,'tourroute_id', CHtml::listData (array_values($arrays[0]), 0, 1),
-	                    array('empty'=>'--','id'=>'route','onChange'=>'do_route(value,0)'));
+	                    array('empty'=>'--','id'=>'route','onChange'=>'do_route(value,0)','class'=>'form-control'));
 					echo $form->error($model,'tourroute_id');
 				?>
 			</div>
@@ -60,7 +60,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 				<?php 
 					echo $form->labelEx($model,'language_id'); 
 					echo $form->dropDownList($model,'language_id', CHtml::listData (array_values($arrays[1]), 0, 1),
-						array('empty'=>'--','id'=>'language','onChange'=>'do_route(value,1)'));
+						array('empty'=>'--','id'=>'language','onChange'=>'do_route(value,1)','class'=>'form-control'));
 					echo $form->error($model,'language_id');
 					?>
 			</div>
@@ -70,7 +70,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 				<?php
 				 echo $form->labelEx($model,'guide1_id',array('style'=>'padding-right:5px'));
 				 echo $form->dropDownList($model,'guide1_id', CHtml::listData (array_values($arrays[2]), 0, 1),
-                        array('empty'=>'--','id'=>'guide','onChange'=>'do_route(value,2)'));
+                        array('empty'=>'--','id'=>'guide','onChange'=>'do_route(value,2)','class'=>'form-control'));
 				 echo $form->error($model,'guide1_id'); 
 			 ?>
 			</div>
@@ -193,8 +193,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 		<div class="col-md-2">
 			<div class="form-group">
 				<?php
-					echo $form->labelEx($model,'isCanceled');
-					echo $form->textField($model,'isCanceled');
+					echo "<div>".$form->labelEx($model,'isCanceled')."</div>";
+					echo $form->checkBox($model,'isCanceled',array('class'=>'form-control'));
 					echo $form->error($model,'isCanceled');
 				?>
 			</div>
@@ -204,7 +204,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 				<?php 
 					echo $form->labelEx($model,'cancelReason'); 
 					echo $form->dropDownList($model,'cancelReason', CHtml::listData(CancellationReason::model()->findAll(),'id', 'name'),
-						array('empty'=>'--','id'=>'canceltype','onChange'=>'clickcr(this.value)'));
+						array('empty'=>'--','id'=>'canceltype','onChange'=>'clickcr(this.value)','class'=>'form-control'));
 					echo $form->error($model,'cancelReason');
 				?>
 			</div>
@@ -213,7 +213,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 			<div class="form-group">
 				<?php
 					echo $form->labelEx($model,'cancellationReason');
-					echo $form->textArea($model,'cancellationReason',array('size'=>60,'maxlength'=>250)); 
+					echo $form->textArea($model,'cancellationReason',array('size'=>60,'maxlength'=>250,'class'=>'form-control')); 
 					echo $form->error($model,'cancellationReason');
 				?>
 			</div>

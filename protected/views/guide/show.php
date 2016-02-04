@@ -58,12 +58,64 @@ $this->breadcrumbs=array(
 					</tbody>
 				</table>
 			</div>
-
-
-<!--<button class="btn btn-primary cancel" > <a href="<php echo Yii::app()->createUrl('segScheduledTours/weeks', array('date'=>$date_format));?>">Back</a></button>-->
-<a href="<?php echo Yii::app()->request->baseUrl; ?>/guide/weeks/date/<?php echo $date_format;?>">
-	<button class="btn btn-primary cancel" > Back</button></a>
- 
+			<div class="panel panel-default">
+  <div class="panel-heading">Tour cancellation</div>
+  <div class="panel-body">
+<?php $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'seg-scheduled-tours-form',
+	// Please note: When you enable ajax validation, make sure the corresponding
+	// controller action is handling ajax validation correctly.
+	// There is a call to performAjaxValidation() commented in generated controller code.
+	// See class documentation of CActiveForm for details on this.
+	'enableAjaxValidation'=>false,
+)); ?>
+	<div class="row">
+		<div class="col-md-2">
+			<div class="form-group">
+				<?php
+//						echo $form->labelEx($model,'isCanceled');
+					echo "<div>".$form->labelEx($model,'isCanceled')."</div>";
+					echo $form->checkBox($model,'isCanceled');
+					echo $form->error($model,'isCanceled');
+				?>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-group">
+				<?php 
+					echo $form->labelEx($model,'cancelReason'); 
+					echo $form->dropDownList($model,'cancelReason', CHtml::listData(CancellationReason::model()->findAll(),'id', 'name'),
+						array('empty'=>'--','class'=>'form-control'));
+					echo $form->error($model,'cancelReason');
+				?>
+			</div>
+		</div>
+        <div class="col-md-4">
+			<div class="form-group">
+				<?php
+					echo $form->labelEx($model,'cancellationReason');
+					echo $form->textArea($model,'cancellationReason',array('size'=>60,'maxlength'=>250)); 
+					echo $form->error($model,'cancellationReason');
+				?>
+			</div>
+		
+		</div>
+       <div class="col-md-3" style="padding-top: 20px;">	
+		   <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save',array('class'=>'btn btn-primary cancel')); ?>
+		</div>
+	</div>
+</div>
+</div>
+<?php $this->endWidget(); ?>
+			<div class="row">
+				<div class="col-md-2">
+					<?php echo CHtml::link("Invoice", array("current","id_sched"=>$model->idseg_scheduled_tours), array( 'class'=>"btn btn-info" ,'role'=>"button"))?>
+				</div>					
+				<div class="col-md-2">
+					<?php echo CHtml::link("Back", array("weeks","date"=>$date_format), array( 'class'=>"btn btn-primary" ,'role'=>"button"))?>
+				</div>					
+				<div class="col-md-8"></div>
+			</div>	
 	
      </section><!-- /.content -->
       </div><!-- /.content-wrapper -->

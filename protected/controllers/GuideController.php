@@ -43,7 +43,7 @@ class GuideController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('view','profile','update','contact','user','weeks','take','show','book',
+				'actions'=>array('view','profile','update','contact','user','weeks','take','show','booky',
 					'ajaxInfo','ajaxShow','ajaxHistory','schedule','history','cash','createCash','cashReport','current','deleteST','delete'),
                 'roles'=>array('guide'),
 			),            
@@ -582,6 +582,14 @@ class GuideController extends Controller
         $criteria_tour = new CDbCriteria;
         $criteria_tour->condition = 'usersid=:usersid';
         $criteria_tour->params = array(':usersid' => $model->guide1_id);
+       	if(isset($_POST['SegScheduledTours']))
+		{
+			$model->attributes=$_POST['SegScheduledTours'];
+	        $model->date_now = strtotime($model->date);
+            $model->original_starttime = explode(":",$model->starttime)[0].":00";
+	 		if($model->save())
+					$this->redirect(array('schedule'));
+		}
 
         $tourcats = SegGuidesTourroutes::model()->findAll($criteria_tour);
         if(isset($tourcats)){
@@ -1055,7 +1063,7 @@ class GuideController extends Controller
 					'div'=>$result));
 	}
 
-    public function actionBook($id_sched)
+    public function actionBooky($id_sched)
 	{
 		$tour=null;
         $scheduled = SegScheduledTours::model()->findByPk($id_sched);

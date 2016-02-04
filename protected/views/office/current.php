@@ -55,7 +55,7 @@
 			</div>
 			<div class="col-md-6">
 				<?php // echo CHtml::link("New tourist","javascript:void(0);",array('onclick'=>'newtourist();')); ?>
-				<?php echo CHtml::link("New tourist",array('book','id_sched'=>$id_sched)); ?>
+				<?php echo CHtml::link("New tourist",array('booky','id_sched'=>$id_sched)); ?>
 			</div>	
 		</div>
 		<div class="row">

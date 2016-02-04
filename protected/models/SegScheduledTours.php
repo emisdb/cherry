@@ -107,7 +107,7 @@ class SegScheduledTours extends CActiveRecord
 			array('additional_info, additional_info2', 'length', 'max'=>1000),
 			array('cancellationReason', 'length', 'max'=>250),
 			array('cancellationAnnotation', 'length', 'max'=>1500),
-			array('starttime, date, original_starttime', 'safe'),
+			array('starttime, date, original_starttime, cancelReason', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('from_date, to_date, city_ob, language_ob, langname, trname, guidename, cancelReason, tourroute_ob, idseg_scheduled_tours, tourroute_id, openTour, TNmax_sched, duration, starttime, date, current_subscribers, language_id, guide1_id, guide2_id,  additional_info, visibility, city_id, isInvoiced_guide1, additional_info2, isCanceled, cancellationReason, tastring, canceledBy, cancellationAnnotation', 'safe', 'on'=>'search'),
