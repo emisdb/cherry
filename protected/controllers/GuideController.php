@@ -1775,10 +1775,14 @@ class GuideController extends Controller
 	public function loadGuide()
 	{
   		$gdata = SegGuidesdata::model()->findByPk(Yii::app()->user->gid);
-		$gcontact= SegContacts::model()->findByPk(Yii::app()->user->cid);	
+		$gcontact= SegContacts::model()->findByPk(Yii::app()->user->cid);
+		$city=  SegGuidesCities::model()->with('cities')->find("users_id=:user",array(':user'=>Yii::app()->user->id));
+		$tel="";
+		if(!($city==null)) $tel=$city->cities->localPhone;
+//		if(!($city==null)) $tel=$city;
 		if(($gdata===null)||($gcontact===null))
 			throw new CHttpException(404,'The requested user data is missing.');
-		return array('data'=>$gdata,'contact'=>$gcontact);
+		return array('data'=>$gdata,'contact'=>$gcontact,'tel'=>$tel);
 	}
 	public function loadTours()
 	{

@@ -17,7 +17,9 @@
         <!-- Main content -->
         <section class="content">
 
-<?php $this->widget('zii.widgets.CDetailView', array(
+<?php 
+
+$this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'username',
