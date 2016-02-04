@@ -53,6 +53,7 @@ class SegGuidestourinvoices extends CActiveRecord
 			'guidestourinvoicescustomers'=>array(self::HAS_MANY, 'SegGuidestourinvoicescustomers', 'tourInvoiceid'),
 			'contact'=>array(self::BELONGS_TO, 'SegContacts', 'contacts_id'),
 			'sched'=>array(self::BELONGS_TO, 'SegScheduledTours', 'id_sched'),
+            'countCustomers'=>array(self::STAT, 'SegGuidestourinvoicescustomers', 'tourInvoiceid'),
 		);
 	}
 

@@ -139,6 +139,7 @@ class SegScheduledToursController extends Controller
 				$ticket_count=(int)$_POST['SegScheduledTours']['current_subscribers'];
 				if(is_null($model->current_subscribers)) $model->current_subscribers=0;
 				$model->current_subscribers += $ticket_count;
+				$model->TNmax_sched = $tour->TNmax;
 			}
   			$model->save();
 			if($contact->validate()){
@@ -276,6 +277,7 @@ class SegScheduledToursController extends Controller
 				$ticket_count=(int)$_POST['SegScheduledTours']['current_subscribers'];
 				if(is_null($model->current_subscribers)) $model->current_subscribers=0;
 				$model->current_subscribers += $ticket_count;
+				$model->TNmax_sched = $tour->TNmax;
 			}
  		if(isset($_POST['SegContacts']))	{
 			$contact->attributes=$_POST['SegContacts'];

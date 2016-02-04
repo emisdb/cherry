@@ -526,7 +526,9 @@ class GuideController extends Controller
        // $update_user = User::model()->findByPk($id_user);
         $role_control = User::model()->findByPk($id_control)->id_usergroups;    
       //  $id_guide = SegGuidesdata::model()->findByPk($update_user->id_guide)->idseg_guidesdata;
-         	$model=$this->loadST($id);
+		$model = SegScheduledTours::model()->with(array('guidestourinvoices'=>array('contact','countCustomers'),'language_ob','tourroute_ob'))->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested scheduled tour does not exist.');
         
         //city
         //$citie->seg_cityname = '';
@@ -1773,7 +1775,8 @@ class GuideController extends Controller
 	public function loadTours()
 	{
         $id = Yii::app()->user->id;
-		$model=SegScheduledTours::model()->findAll('guide1_id = :guide AND date_now>=:date',array(':guide'=>$id,':date'=>strtotime("midnight", time())));
+		$model=SegScheduledTours::model()->findAll(array('condition'=>'guide1_id = :guide AND date_now>=:date',
+			'params'=>array(':guide'=>$id,':date'=>strtotime("midnight", time())),'order'=>'date desc, starttime desc'));
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
