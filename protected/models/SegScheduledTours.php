@@ -49,6 +49,7 @@ class SegScheduledTours extends CActiveRecord
 	private $_dep = null;
 	private $_use = null;
 	private $_tas = null;
+	private $_city = null;
 	public function getTastring(){
 		if ($this->_tas === null && $this->guidestourinvoice !== null)
 		{
@@ -68,6 +69,16 @@ class SegScheduledTours extends CActiveRecord
 	}
 	public function setLangname($value){
 		$this->_use = $value;
+	}
+	public function getCityname(){
+		if ($this->_city === null && $this->city_ob !== null)
+		{
+			$this->_city = $this->city_ob->seg_cityname;
+		}
+		return $this->_city;
+	}
+	public function setCityname($value){
+		$this->_city = $value;
 	}
 	public function getTrname(){
 		if ($this->_dep === null && $this->tourroute_ob !== null)
@@ -110,7 +121,7 @@ class SegScheduledTours extends CActiveRecord
 			array('starttime, date, original_starttime, cancelReason', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('from_date, to_date, city_ob, language_ob, langname, trname, guidename, cancelReason, tourroute_ob, idseg_scheduled_tours, tourroute_id, openTour, TNmax_sched, duration, starttime, date, current_subscribers, language_id, guide1_id, guide2_id,  additional_info, visibility, city_id, isInvoiced_guide1, additional_info2, isCanceled, cancellationReason, tastring, canceledBy, cancellationAnnotation', 'safe', 'on'=>'search'),
+			array('from_date, to_date, city_ob, language_ob, langname, trname, guidename, cancelReason, tourroute_ob, idseg_scheduled_tours, tourroute_id, openTour, TNmax_sched, duration, starttime, date, current_subscribers, language_id, guide1_id, guide2_id,  additional_info, visibility, city_id, isInvoiced_guide1, additional_info2, isCanceled, cancellationReason, tastring, canceledBy, cancellationAnnotation,cityname', 'safe', 'on'=>'search'),
 			array('from_date, to_date, city_ob, language_ob, langname, trname, guidename, tourroute_ob, idseg_scheduled_tours, tourroute_id, openTour, TNmax_sched, duration, starttime, date, current_subscribers, language_id, guide1_id, guide2_id,  additional_info, city_id, isInvoiced_guide1, additional_info2, isCanceled, tastring', 'safe', 'on'=>'search_f'),
 			
 		array('user_ob,city_ob, language_ob, langname, trname, guidename, cancelReason, tourroute_ob, idseg_scheduled_tours, tourroute_id, openTour, TNmax_sched, duration, starttime, date, current_subscribers, language_id, guide1_id, guide2_id, guide3_id, guide4_id, original_starttime, additional_info, visibility, city_id, isInvoiced_guide1, isInvoiced_guide2, isInvoiced_guide3, isInvoiced_guide4, additional_info2, isCanceled, cancellationReason, canceledBy, cancellationAnnotation', 'safe', 'on'=>'search_s'),
@@ -160,7 +171,7 @@ class SegScheduledTours extends CActiveRecord
 			'langname' => 'Language',
 			'guidename' => 'Guide',
   			'guide1_id' => 'Guide',
-                        'user_ob' => 'User',
+            'user_ob' => 'User',
 			'guide2_id' => 'Guide 2',
 			'guide3_id' => 'Guide 3',
 			'guide4_id' => 'Guide 4',
@@ -168,6 +179,7 @@ class SegScheduledTours extends CActiveRecord
 			'additional_info' => 'Additional Info',
 			'visibility' => 'On/Off',
 			'city_id' => 'City',
+			'cityname' => 'City',
 			'isInvoiced_guide1' => 'Is Invoiced Guide1',
 			'isInvoiced_guide2' => 'Is Invoiced Guide2',
 			'isInvoiced_guide3' => 'Is Invoiced Guide3',
@@ -275,15 +287,23 @@ class SegScheduledTours extends CActiveRecord
 		$criteria->compare('canceledBy',$this->canceledBy);
 		$criteria->compare('cancellationAnnotation',$this->cancellationAnnotation,true);
 		$criteria->compare('language_ob.englishname', $this->langname, true);
+		$criteria->compare('city_ob.seg_cityname', $this->cityname, true);
 		$criteria->compare('guidestourinvoice.TA_string', $this->tastring, true);
 		$criteria->compare('tourroute_ob.name', $this->trname, true);
 		$criteria->compare('user_ob.username', $this->guidename, true);
 		$this->daterange($criteria);
 		$sort->attributes = array(
 			'*',
-			'langname'=>'language_ob.englishname',
-			'trname'=>'tourroute_ob.name',
-			'guidename'=>'user_ob.username',
+			'cityname'=>array('asc'=>'city_ob.seg_cityname',
+					'desc'=>'city_ob.seg_cityname DESC', 
+					'label'=>'City'),
+			'langname'=>array('asc'=>'language_ob.englishname',
+					'desc'=>'language_ob.englishname DESC', 
+					'label'=>'Language'),
+			'guidename'=>array('asc'=>'user_ob.username',
+					'desc'=>'user_ob.username DESC', 
+					'label'=>'Guide'),
+		'trname'=>'tourroute_ob.name',
 			'tastring'=>array('asc'=>'guidestourinvoice.TA_string',
 					'desc'=>'guidestourinvoice.TA_string DESC', 
 					'label'=>'Invoice #'),

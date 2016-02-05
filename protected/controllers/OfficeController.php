@@ -848,15 +848,15 @@ class OfficeController extends Controller
 					return;
 				}
 			}
-				Mainoptions::model()->setCvalue('schf_'.$id_control,$_POST['SegScheduledTours']['from_date']);
+			Mainoptions::model()->setCvalue('schf_'.$id_control,$_POST['SegScheduledTours']['from_date']);
 			Mainoptions::model()->setCvalue('scht_'.$id_control,$_POST['SegScheduledTours']['to_date']);
-		$model->from_date = $_POST['SegScheduledTours']['from_date'];
+			$model->from_date = $_POST['SegScheduledTours']['from_date'];
 			$model->to_date = $_POST['SegScheduledTours']['to_date'];
 			$model->attributes=$_POST['SegScheduledTours'];
  		}
     	if(isset($_GET['SegScheduledTours']))
 			$model->attributes=$_GET['SegScheduledTours'];
-    		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+    	$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
   
 		$this->render('officeadmin',array(
 			'model'=>$model,
@@ -866,7 +866,7 @@ class OfficeController extends Controller
 	}
 	protected function dosched($id)
 	{
-		$command= Yii::app()->db->createCommand("SELECT seg_tourroutes.idseg_tourroutes AS tid, seg_tourroutes.name AS tnam, seg_tourroutes.TNmax AS tmax,
+		$command= Yii::app()->db->createCommand("SELECT seg_tourroutes.idseg_tourroutes AS tid, seg_tourroutes.name AS tnam, seg_tourroutes.TNmax AS tmax, seg_tourroutes.standard_duration AS dur,
 														seg_guides_tourroutes.usersid AS uid, CONCAT(seg_contacts.firstname,' ',seg_contacts.surname) AS unam,
 														seg_languages_guides.languages_id AS lid, tbl_languages.englishname AS lnam
 													FROM ((((((seg_tourroutes INNER JOIN seg_guides_tourroutes ON seg_tourroutes.id_tour_categories=seg_guides_tourroutes.tourroutes_id)
@@ -884,7 +884,7 @@ class OfficeController extends Controller
 		foreach($dataReader as $row) { 
 			if(!array_key_exists ($row['tid'],$routs))
 			{
-				$routs[$row['tid']]=array($row['tid'],$row['tnam'],array($row['lid']),array($row['uid']),$row['tmax'],);
+				$routs[$row['tid']]=array($row['tid'],$row['tnam'],array($row['lid']),array($row['uid']),$row['tmax'],$row['dur']);
 			}
 			else{
 				if(!in_array($row['lid'],$routs[$row['tid']][2]))

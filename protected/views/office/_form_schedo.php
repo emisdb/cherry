@@ -133,7 +133,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 			</div>
 		</div>
 		<div class="col-md-4">
-		</div>
+	</div>
 	</div>
 	<div class="row">
 		<div class="col-md-3">
@@ -149,7 +149,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 			<div class="form-group">
 			<?php
 						echo $form->labelEx($model,'duration');
-						echo $form->textField($model,'duration'); 
+						echo $form->textField($model,'duration',array("id"=>"duration")); 
 						echo $form->error($model,'duration'); 
 					?>
 			</div>
@@ -229,4 +229,5 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 
 <?php $this->endWidget(); ?>
 </div><!-- form -->
+
  

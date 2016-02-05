@@ -26,7 +26,7 @@
 					  <?php
 						foreach ($info['tours'] as $key => $value) {
 							$date_format=date_format(new DateTime($value->date),'d.m.Y');
-						  echo '<li>'.CHtml::link(CHtml::encode(''.($key+1).'. '.$date_format.' '.$value->starttime), array('guide/show','id'=>$value->idseg_scheduled_tours));
+						  echo '<li>'.CHtml::link(CHtml::encode(''.($key+1).'. '.$date_format.' '.Yii::app()->dateFormatter->format('HH:mm',strtotime($value->starttime))), array('guide/show','id'=>$value->idseg_scheduled_tours));
 						  echo "</li>\n";
 					  }
 					  ?>
@@ -48,7 +48,7 @@
  					  <?php
 						foreach ($info['todo'] as $key => $value) {
 							$date_format=date_format(new DateTime($value->date),'d.m.Y');
-						  echo '<li>'.CHtml::link(CHtml::encode(''.($key+1).'. '.$date_format.' '.$value->starttime), array('guide/current','id_sched'=>$value->idseg_scheduled_tours));
+						  echo '<li>'.CHtml::link(CHtml::encode(''.($key+1).'. '.$date_format.' '.Yii::app()->dateFormatter->format('HH:mm',strtotime($value->starttime))), array('guide/current','id_sched'=>$value->idseg_scheduled_tours));
 //						  echo '<li>'.CHtml::link(CHtml::encode(''.($key+1).'. '.$date_format.' '.$value->starttime), array('segGuidestourinvoicescustomers/current','id_sched'=>$value->idseg_scheduled_tours,'date'=>$date_format,'time'=>$value->starttime));
 						  //segGuidestourinvoicescustomers/current/id_sched/405/date/2015-10-20/time/18:00:00
 						  echo "</li>\n";

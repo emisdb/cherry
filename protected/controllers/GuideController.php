@@ -423,7 +423,7 @@ class GuideController extends Controller
         $start_times_tour =SegStarttimes::model()->findAll(); 
         foreach($start_times_tour as $item){
             $day = new DayResult;
-            $day->time = $item->timevalue;
+            $day->time =Yii::app()->dateFormatter->format('HH:mm',strtotime($item->timevalue)); 
             
             $date_format =  strtotime($date);
             $criteria = new CDbCriteria;
@@ -432,7 +432,7 @@ class GuideController extends Controller
             $scheduled_item = SegScheduledTours::model()->find($criteria);
             if(isset($scheduled_item)){
                 $day->id = $scheduled_item->idseg_scheduled_tours;
-                $day->starttime = $scheduled_item->starttime;
+                $day->starttime = Yii::app()->dateFormatter->format('HH:mm',strtotime($scheduled_item->starttime));
                 if($scheduled_item->guide1_id == $id_control){
                     //if($scheduled_item->current_subscribers>0){
                     //    $day->status ='Belegt, braucht aber einen Guide';

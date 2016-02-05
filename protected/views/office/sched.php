@@ -31,6 +31,7 @@ $(document).ready ( function (){
 	val=document.getElementById("guide").value;
 	if (val!="") do_route(val,2);
 	mutex=0;
+	
 });
 function do_route(val,where)
 {
@@ -75,7 +76,10 @@ function do_route(val,where)
 	else{
             rguis=x_a[val][2];
             rlans=x_a[val][3];
-			if((where==0)&&(mutex==0)){document.getElementById("maxsched").value=x_a[val][4];}
+			if((where==0)&&(mutex==0)){
+				document.getElementById("maxsched").value=x_a[val][4];
+				document.getElementById("duration").value=x_a[val][5];
+			}
             for (var i=0; i<guide_i.options.length; i++){
                 if(guide_i.options[i].value==""){
                     nix=i;

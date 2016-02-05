@@ -48,7 +48,7 @@
 				$i=0; 
 				 echo $sched->tourroute_ob['name']." "
 						 .$sched['date']." "
-						 .$sched['starttime'];
+						 .Yii::app()->dateFormatter->format('HH:mm',strtotime($sched['starttime']));
 				 $element = 0; $k=0;$i=1;
 				 ?>
 			</div>
