@@ -519,14 +519,38 @@ class GuideController extends Controller
                 $this->redirect( Yii::app()->createUrl('guide/weeks',array('date'=>$date)) );
    
     }
-
 	public function actionShow($id)
 	{
 	    $id_control = Yii::app()->user->id;
        // $update_user = User::model()->findByPk($id_user);
         $role_control = User::model()->findByPk($id_control)->id_usergroups;    
       //  $id_guide = SegGuidesdata::model()->findByPk($update_user->id_guide)->idseg_guidesdata;
-		$model = SegScheduledTours::model()->with(array('guidestourinvoices'=>array('contact','countCustomers'),'language_ob','tourroute_ob'))->findByPk($id);
+		$model = SegScheduledTours::model()->with(array('guidestourinvoices'=>array('contact','countCustomers'),'language_ob','tourroute_ob','city_ob'))->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested scheduled tour does not exist.');
+       	if(isset($_POST['SegScheduledTours']))
+		{
+			$model->attributes=$_POST['SegScheduledTours'];
+	        $model->date_now = strtotime($model->date);
+            $model->original_starttime = explode(":",$model->starttime)[0].":00";
+	 		if($model->save())
+					$this->redirect(array('schedule'));
+		}
+
+    		$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+        
+        $this->render('show',array('model'=>$model,'info'=>$test,));
+         
+
+    }
+
+	public function action_Show($id)
+	{
+	    $id_control = Yii::app()->user->id;
+       // $update_user = User::model()->findByPk($id_user);
+        $role_control = User::model()->findByPk($id_control)->id_usergroups;    
+      //  $id_guide = SegGuidesdata::model()->findByPk($update_user->id_guide)->idseg_guidesdata;
+		$model = SegScheduledTours::model()->with(array('guidestourinvoices'=>array('contact','countCustomers'),'language_ob','tourroute_ob','city_ob'))->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested scheduled tour does not exist.');
         
@@ -614,6 +638,35 @@ class GuideController extends Controller
 
     }
 	public function actionAjaxShow()
+	{
+			if (!Yii::app()->request->isAjaxRequest)
+			{
+				echo "No data";
+				exit;               
+			}
+
+	 	$id= $_POST['id'];
+		    $id_control = Yii::app()->user->id;
+       // $update_user = User::model()->findByPk($id_user);
+        $role_control = User::model()->findByPk($id_control)->id_usergroups;    
+      //  $id_guide = SegGuidesdata::model()->findByPk($update_user->id_guide)->idseg_guidesdata;
+         	$model=$this->loadST($id);
+ 		$model = SegScheduledTours::model()->with(array('guidestourinvoices'=>array('contact','countCustomers'),'language_ob','tourroute_ob'))->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested scheduled tour does not exist.');
+        	if(isset($_POST['SegScheduledTours']))
+		{
+			$model->attributes=$_POST['SegScheduledTours'];
+	        $model->date_now = strtotime($model->date);
+            $model->original_starttime = explode(":",$model->starttime)[0].":00";
+	 		if($model->save())
+					$this->redirect(array('schedule'));
+		}
+    		$result=$this->renderPartial('ajax_show',array('model'=>$model));
+       
+
+    }
+	public function actionAjax_Show()
 	{
 		if (!Yii::app()->request->isAjaxRequest)
 			{

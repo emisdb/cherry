@@ -1,17 +1,9 @@
-<?php $this->renderPartial('_top', array('info'=>$info)); ?>
+
     <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
+      <div class="container">
         <!-- Content Header (Page header) -->
-        <section class="content-header">
-<?php
-/* @var $this SegScheduledToursController */
-/* @var $model SegScheduledTours */
+        <section class="header">
 
-$this->breadcrumbs=array(
-	'Show Tour',
-);
-
-?>
 <?php  $date_format =  date('d.m.Y',$model->date_now);?>
 
 
@@ -20,7 +12,7 @@ $this->breadcrumbs=array(
 			- <?php echo $date_format;?>
 			- <?php echo date( 'H:i', strtotime($model->starttime) );?> 
 			- <?php if(isset($model->tourroute_ob)) echo $model->tourroute_ob->name;?>
-			- <?php if(isset($model->city_ob)) echo $model->city_ob->seg_cityname;?>
+			- <?php echo $model->city_id_all;?>
 			- <?php if(isset($model->language_ob)) echo $model->language_ob->englishname;?>
 			- <?php echo "".$model->current_subscribers."(".$model->TNmax_sched.")";?>
 </h1>
