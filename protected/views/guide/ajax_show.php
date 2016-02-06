@@ -52,7 +52,7 @@
 			</div>
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'seg-scheduled-tours-form',
-	action=>array("show","id"=>$model->idseg_scheduled_tours),
+	'action'=>array("show","id"=>$model->idseg_scheduled_tours),
 	// Please note: When you enable ajax validation, make sure the corresponding
 	// controller action is handling ajax validation correctly.
 	// There is a call to performAjaxValidation() commented in generated controller code.
