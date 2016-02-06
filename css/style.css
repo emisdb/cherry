@@ -1053,12 +1053,29 @@ div.items>div.row:hover
   }
  div#top_start
   {
-      /*  background: url('/img/top_start.jpg')  no-repeat, -webkit-linear-gradient(top, #000, #fff); */ 
-  background: url('/img/top_start.jpg')  no-repeat;
+    /*background: url('/img/top_start.jpg')  no-repeat, -webkit-linear-gradient(top, #000, #fff);*/  
+        transition: background 1s linear;
+      background: url('/img/top_start_a.jpg')  no-repeat;
      /*background-image:-webkit-gradient(top, #000, #fff), url('/img/top_start.jpg');*/
      background-repeat: no-repeat;
      background-size: cover;
      position:  relative;
+  }
+  div#top_start.bgr1{
+         transition: background 3s linear;
+     background: url('/img/top_start_b.jpg')  no-repeat;
+     background-repeat: no-repeat;
+     background-size: cover;
+     position:  relative;
+      
+  }
+    div#top_start.bgr2{
+         transition: background 3s linear;
+       background: url('/img/top_start_a.jpg')  no-repeat;
+      background-repeat: no-repeat;
+     background-size: cover;
+     position:  relative;
+   
   }
   div#top div,  div#top_start div
   {

@@ -15,7 +15,7 @@ $this->breadcrumbs=array(
 <?php  $date_format =  date('d.m.Y',$model->date_now);?>
 
 
-<h1>
+<h2>
 	Show Tour - <?php echo $model->idseg_scheduled_tours;?>
 			- <?php echo $date_format;?>
 			- <?php echo date( 'H:i', strtotime($model->starttime) );?> 
@@ -23,7 +23,7 @@ $this->breadcrumbs=array(
 			- <?php if(isset($model->city_ob)) echo $model->city_ob->seg_cityname;?>
 			- <?php if(isset($model->language_ob)) echo $model->language_ob->englishname;?>
 			- <?php echo "".$model->current_subscribers."(".$model->TNmax_sched.")";?>
-</h1>
+</h2>
        </section>
 
         <!-- Main content -->

@@ -39,7 +39,22 @@
 			</li>
 		</ul>
 	</div>
-	
+	<script type="text/javascript">
+
+//$(document).ready(function() {}); 
+setInterval(function() {
+   var $body = $('#top_start');
+   if($body.hasClass('bgr1'))
+   {
+       $body.removeClass('bgr1');
+       $body.addClass('bgr2');
+   }
+  else {        
+       $body.removeClass('bgr2');
+       $body.addClass('bgr1');
+    }
+}, 6000);
+</script> 	
 
 
 

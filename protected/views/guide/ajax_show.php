@@ -7,7 +7,7 @@
 <?php  $date_format =  date('d.m.Y',$model->date_now);?>
 
 
-<h1>
+<h3>
 	Show Tour - <?php echo $model->idseg_scheduled_tours;?>
 			- <?php echo $date_format;?>
 			- <?php echo date( 'H:i', strtotime($model->starttime) );?> 
@@ -15,7 +15,7 @@
 			- <?php echo $model->city_id_all;?>
 			- <?php if(isset($model->language_ob)) echo $model->language_ob->englishname;?>
 			- <?php echo "".$model->current_subscribers."(".$model->TNmax_sched.")";?>
-</h1>
+</h3>
        </section>
 
         <!-- Main content -->
@@ -86,7 +86,7 @@
 				?>
 			</div>
 		</div>
-		<div class="col-md-3">
+		<div class="col-md-4">
 			<div class="form-group">
 				<?php 
 					echo $form->labelEx($model,'cancelReason'); 
@@ -106,7 +106,7 @@
 			</div>
 		
 		</div>
-       <div class="col-md-3" style="padding-top: 20px;">	
+       <div class="col-md-2" style="padding-top: 20px;">	
 		   <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save',array('class'=>'btn btn-primary cancel')); ?>
 		</div>
 	</div>
