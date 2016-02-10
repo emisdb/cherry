@@ -823,6 +823,36 @@ class OfficeController extends Controller
 			'info'=>$test,
 		));
 	}
+   	public function actionBooking()
+	{
+   		$id_control = Yii::app()->user->id;
+     $model=new SegGuidestourinvoices('search');
+		$model->unsetAttributes();  // clear any default values
+ 
+		if(empty($_POST))
+		{
+			$model->from_date = Mainoptions::model()->getCvalue('schf_'.$id_control);
+			$model->to_date = Mainoptions::model()->getCvalue('scht_'.$id_control);
+
+		}
+	 else
+		{
+			Mainoptions::model()->setCvalue('schf_'.$id_control,$_POST['SegGuidestourinvoices']['from_date']);
+			Mainoptions::model()->setCvalue('scht_'.$id_control,$_POST['SegGuidestourinvoices']['to_date']);
+			$model->from_date = $_POST['SegGuidestourinvoices']['from_date'];
+			$model->to_date = $_POST['SegGuidestourinvoices']['to_date'];
+			$model->attributes=$_POST['SegGuidestourinvoices'];
+ 		}
+    	if(isset($_GET['SegGuidestourinvoices']))
+			$model->attributes=$_GET['SegGuidestourinvoices'];
+    	$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+  
+		$this->render('gtiadmin',array(
+			'model'=>$model,
+	 			'info'=>$test,
+		));
+
+	}
    	public function actionSchedule()
 	{
 		$newrec=0;

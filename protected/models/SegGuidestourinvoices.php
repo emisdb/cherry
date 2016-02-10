@@ -16,6 +16,8 @@
  */
 class SegGuidestourinvoices extends CActiveRecord
 {
+ 	public $from_date;
+	public $to_date;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -63,7 +65,7 @@ class SegGuidestourinvoices extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idseg_guidesTourInvoices' => 'Idseg Guides Tour Invoices',
+			'idseg_guidesTourInvoices' => 'ID',
 			'creationDate' => 'Creation Date',
 			'cityid' => 'Cityid',
 			'sched_tourid' => 'Sched Tourid',
@@ -73,6 +75,23 @@ class SegGuidestourinvoices extends CActiveRecord
 			'InvoiceNumber' => 'Invoice Number',
 			'TA_string' => 'Ta String',
 		);
+	}
+		private function daterange($criteria)
+	{
+        $txtd='sched.date';
+ 		if(!empty($this->from_date) && empty($this->to_date))
+            {
+                $criteria->addCondition($txtd." >= '".date('Y-m-d H:i:s', strtotime($this->from_date))."'");  
+                            // date is database date column field
+            }
+                    elseif(!empty($this->to_date) && empty($this->from_date))
+            {
+                $criteria->addCondition($txtd." <= '".date('Y-m-d H:i:s', strtotime($this->to_date." 23:59:59"))."'");
+            }
+                    elseif(!empty($this->to_date) && !empty($this->from_date))
+            {
+                $criteria->addCondition($txtd."  >= '".date('Y-m-d H:i:s', strtotime($this->from_date))."' and ".$txtd." <= '".date('Y-m-d H:i:s', strtotime($this->to_date." 23:59:59"))."'");
+            }
 	}
 
 	/**
@@ -92,6 +111,7 @@ class SegGuidestourinvoices extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
+        $criteria->with = array('sched'=>array('language_ob','tourroute_ob','city_ob'),'contact','countCustomers');
 
 		$criteria->compare('idseg_guidesTourInvoices',$this->idseg_guidesTourInvoices);
 		$criteria->compare('creationDate',$this->creationDate,true);
@@ -102,8 +122,10 @@ class SegGuidestourinvoices extends CActiveRecord
 		$criteria->compare('cashIncome',$this->cashIncome);
 		$criteria->compare('InvoiceNumber',$this->InvoiceNumber);
 		$criteria->compare('TA_string',$this->TA_string,true);
+		$this->daterange($criteria);
 
 		return new CActiveDataProvider($this, array(
+                   'pagination'=>false,
 			'criteria'=>$criteria,
 		));
 	}
