@@ -37,7 +37,7 @@ class SegGuidestourinvoices extends CActiveRecord
 		//	array('cityid, sched_tourid, guideNr, InvoiceNumber', 'numerical', 'integerOnly'=>true),
 		//	array('overAllIncome, cashIncome', 'numerical'),
 		//	array('TA_string', 'length', 'max'=>12),
-		//	array('creationDate', 'safe'),
+			array('creationDate, from_date, to_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('idseg_guidesTourInvoices, creationDate, cityid, sched_tourid, guideNr, overAllIncome, cashIncome, InvoiceNumber, TA_string, contacts_id', 'safe', 'on'=>'search'),
