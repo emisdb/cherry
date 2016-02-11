@@ -74,6 +74,8 @@ class SegGuidestourinvoices extends CActiveRecord
 			'cashIncome' => 'Cash Income',
 			'InvoiceNumber' => 'Invoice Number',
 			'TA_string' => 'Ta String',
+			'from_date' => 'From',
+			'to_date' => 'To',
 		);
 	}
 		private function daterange($criteria)

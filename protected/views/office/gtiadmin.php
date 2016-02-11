@@ -21,7 +21,7 @@
 		<div class="row">
 			<div class="col-md-3">
 			<div class="form-group">
-	<?php		echo $form->labelEx($model,'from_date'); 
+	<?php		echo $form->labelEx($model,'from_date',array('style'=>'margin-right:5px;')); 
 				$this->widget('zii.widgets.jui.CJuiDatePicker', array(
  				  'name'=>'SegGuidestourinvoices[from_date]',
 				  'attribute'=>'from_date', // Model attribute filed which hold user input
@@ -33,16 +33,16 @@
         'showAnim'=>'fold',
         'dateFormat'=>'yy-mm-dd',
     ),
-    'htmlOptions'=>array(
-        'style'=>'height:20px;'
-    ),
+					'htmlOptions'=>array(
+						'class'=>'form-control-date-filter',
+ 					),				
 ));
 ?>				
 			</div>
 			</div>
 			<div class="col-md-3">
 			<div class="form-group">
-	<?php		echo $form->labelEx($model,'to_date'); 
+	<?php		echo $form->labelEx($model,'to_date',array('style'=>'margin-right:5px;')); 
 			$this->widget('zii.widgets.jui.CJuiDatePicker', array(
  				  'name'=>'SegGuidestourinvoices[to_date]',
 				  'attribute'=>'to_date', // Model attribute filed which hold user input
@@ -54,14 +54,15 @@
         'dateFormat'=>'yy-mm-dd',
  
     ),
-    'htmlOptions'=>array(
-        'style'=>'height:20px;'
-    ),
+					'htmlOptions'=>array(
+						'class'=>'form-control-date-filter',
+ 					),				
 ));
 ?>				
 			</div>
+			</div>
 			<div class="col-md-6">
-				<?php echo CHtml::submitButton('Filter'); // submit button ?> 
+				<?php echo CHtml::submitButton('Filter',array('class'=>'btn btn-primary cancel')); // submit button ?> 
 			</div>
 		</div>
  <?php $this->endWidget(); ?>	
