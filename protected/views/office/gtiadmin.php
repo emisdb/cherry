@@ -75,7 +75,7 @@
 	'id'=>'gtiadmin-grid',
       'ajaxUpdate'=>false,
 	'dataProvider'=>$model->search(),//$model->search_root(),
-	    'enablePagination'=>false,
+	'enablePagination'=>false,
 	'filter'=>$model,
    'htmlOptions'=>array(
 	'style'=>'padding-top: 0px;',
@@ -83,80 +83,85 @@
 	'columns'=>array(
 				array(
 			'class'=>'CButtonColumn',
-            'template'=>'{edit}{delete}',
+            'template'=>'{edit}',
 			'htmlOptions'=>array("width"=>"80px"),
             'buttons' => array(
- 				   'delete' => array(
-						'url' => 'array("deleteST","id"=>"$data->idseg_guidesTourInvoices")',				   
-				   ),
 				   'edit' => array(
 						'imageUrl'=>'/img/view.png',
 						'url' => "array('sched','id'=>\$data->idseg_guidesTourInvoices)",
 						'label'=>'Edit tour',
 				   ),
-//				   'pdf' => array(
-//						'imageUrl'=>'/img/pdf.png',
-//						'url' => 'Yii::app()->createUrl("/filespdf/$data->sched->additional_info2.pdf")',
-//					   'options'=>array("target"=>'_blank'),
-//						'label'=>'View PDF',
-//				   ),
-				   
+/* 
+ * 				   'delete' => array(
+						'url' => 'array("deleteST","id"=>"$data->idseg_guidesTourInvoices")',				   
+				   ),
+				   'pdf' => array(
+						'imageUrl'=>'/img/pdf.png',
+						'url' => 'Yii::app()->createUrl("/filespdf/$data->sched->additional_info2.pdf")',
+					   'options'=>array("target"=>'_blank'),
+					'label'=>'View PDF',
+				   ),
+*/				   
            ),
 		),
 		'idseg_guidesTourInvoices',
-      array(
-            'name'=>'firstname',	
+		'custname',
+		'custsname',
+ /*     array(
+            'name'=>'custname',	
             'value'=>'$data->contact->firstname',
-            'filter'=>false,
+            'filter'=>true,
         ),	
       array(
-            'name'=>'surname',	
+            'name'=>'custsname',	
             'value'=>'$data->contact->surname',
-            'filter'=>false,
+            'filter'=>true,
         ),	
-	      array(
-            'name'=>'guidename',	
+*/
+		array(
+            'name'=>'sched.guidename',	
             'value'=>'$data->sched->guidename',
             'filter'=>false,
         ),	
       array(
-            'name'=>'cityname',	
+            'name'=>'sched.cityname',	
             'value'=>'$data->sched->cityname',
             'filter'=>false,
              //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
         ),	
       array(
-            'name'=>'phone',	
+            'name'=>'contact.phone',	
                 'type'=>'raw',
         'value'=>'CHtml::link($data->contact->phone, "tel:".$data->contact->phone)',
             'filter'=>false,
         ),	
       array(
-            'name'=>'email',	
-            'value'=>'$data->contact->email',
+            'name'=>'contact.email',	
+                 'type'=>'raw',
+        'value'=>'CHtml::link($data->contact->email, "mailto:".$data->contact->email)',
             'filter'=>false,
         ),	
 		
       array(
-            'name'=>'date_now',	
+            'name'=>'sched.date_now',	
             'value'=>'date("d.m.Y",$data->sched->date_now)',
             'filter'=>false,
              //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
         ),
        array(
-            'name'=>'sched',
+            'name'=>'sched.starttime',
             'type'=>'raw',
            'value'=>"Yii::app()->dateFormatter->format('HH:mm',strtotime(\$data->sched->starttime))",
 //   						'headerHtmlOptions'=>array('class'=>'info'),
          //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
         ),
  	      array(
-            'name'=>'tastring',	
+            'name'=>'sched.tastring',	
             'value'=>'$data->sched->tastring',
             'filter'=>false,
          ),	
 	      array(
-            'name'=>'isCanceled',	
+            'name'=>'sched.isCanceled',	
             'value'=>'$data->sched->isCanceled',
             'filter'=>false,
          ),	
@@ -166,13 +171,13 @@
             //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
         ),
 	      array(
-            'name'=>'trname',	
+            'name'=>'sched.trname',	
             'value'=>'$data->sched->trname',
             'filter'=>false,
              //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
         ),	
 	      array(
-            'name'=>'langname',	
+            'name'=>'sched.langname',	
             'value'=>'$data->sched->langname',
             'filter'=>false,
          ),	

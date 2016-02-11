@@ -163,7 +163,7 @@ class SegScheduledTours extends CActiveRecord
 			'openTour' => 'Open Tour',
 			'TNmax_sched' => 'Max Tourist Number',
 			'duration' => 'Duration (minutes)',
-			'starttime' => 'Time',
+			'starttime' => 'Timex',
 			'date_now' => 'Date',
 			'current_subscribers' => 'Gueste',//'Current Subscribers',
 			'language_id' => 'ID Language',

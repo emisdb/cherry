@@ -18,6 +18,32 @@ class SegGuidestourinvoices extends CActiveRecord
 {
  	public $from_date;
 	public $to_date;
+	private $_fname = null;
+	private $_sname = null;
+	private $_pic = null;
+	private $_sum = 0;
+	public function getCustname(){
+		if ($this->_fname === null && $this->contact !== null)
+		{
+			if(count($this->contact)>0)
+			$this->_fname = $this->contact->firstname;
+		}
+		return $this->_fname;
+	}
+	public function setCustname($value){
+		$this->_fname = $value;
+	}
+	public function getCustsname(){
+		if ($this->_sname === null && $this->contact !== null)
+		{
+			if(count($this->contact)>0)
+			$this->_sname = $this->contact->surname;
+		}
+		return $this->_sname;
+	}
+	public function setCustsname($value){
+		$this->_sname = $value;
+	}
 	/**
 	 * @return string the associated database table name
 	 */
@@ -37,10 +63,9 @@ class SegGuidestourinvoices extends CActiveRecord
 		//	array('cityid, sched_tourid, guideNr, InvoiceNumber', 'numerical', 'integerOnly'=>true),
 		//	array('overAllIncome, cashIncome', 'numerical'),
 		//	array('TA_string', 'length', 'max'=>12),
-			array('creationDate, from_date, to_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idseg_guidesTourInvoices, creationDate, cityid, sched_tourid, guideNr, overAllIncome, cashIncome, InvoiceNumber, TA_string, contacts_id', 'safe', 'on'=>'search'),
+			array('creationDate, from_date, to_date, sched, countCustomers, custname, custsname, idseg_guidesTourInvoices, creationDate, cityid, sched_tourid, guideNr, overAllIncome, cashIncome, InvoiceNumber, TA_string, contacts_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -71,11 +96,14 @@ class SegGuidestourinvoices extends CActiveRecord
 			'sched_tourid' => 'Sched Tourid',
 			'guideNr' => 'Guide Nr',
 			'overAllIncome' => 'Over All Income',
+			'countCustomers' => 'Customers',
 			'cashIncome' => 'Cash Income',
 			'InvoiceNumber' => 'Invoice Number',
 			'TA_string' => 'Ta String',
 			'from_date' => 'From',
 			'to_date' => 'To',
+			'custname' => 'Vorname',
+			'custsname' => 'Nachname',
 		);
 	}
 		private function daterange($criteria)
@@ -125,9 +153,17 @@ class SegGuidestourinvoices extends CActiveRecord
 		$criteria->compare('cashIncome',$this->cashIncome);
 		$criteria->compare('InvoiceNumber',$this->InvoiceNumber);
 		$criteria->compare('TA_string',$this->TA_string,true);
+		$criteria->compare('contact.firstname',$this->custname,true);
+		$criteria->compare('contact.surname',$this->custsname,true);
 		$this->daterange($criteria);
 		$sort->attributes = array(
 			'*',
+			'custname'=>array('asc'=>'contact.firstname',
+							'desc'=>'contact.firstname DESC', 
+							'label'=>'Vorname'),
+			'custsname'=>array('asc'=>'contact.surname',
+							'desc'=>'contact.surname DESC', 
+							'label'=>'Nachname'),
 	/*		'cityname'=>array('asc'=>'city_ob.seg_cityname',
 					'desc'=>'city_ob.seg_cityname DESC', 
 					'label'=>'City'),
@@ -143,13 +179,14 @@ class SegGuidestourinvoices extends CActiveRecord
 					'label'=>'Invoice #'),
 	*/	);
 		$sort->defaultOrder= array(
-            'city_ob.date_now'=>CSort::SORT_ASC,
+            'sched.date_now'=>CSort::SORT_ASC,
         );
 
 
 		return new CActiveDataProvider($this, array(
             'pagination'=>false,
 			'criteria'=>$criteria,
+                    'sort'=>$sort,
 		));
 	}
 
