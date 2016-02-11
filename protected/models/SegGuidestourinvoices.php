@@ -111,7 +111,8 @@ class SegGuidestourinvoices extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-        $criteria->with = array('sched'=>array('language_ob','tourroute_ob','city_ob'),'contact','countCustomers');
+    	$sort   = new CSort;
+	    $criteria->with = array('sched'=>array('language_ob','tourroute_ob','city_ob'),'contact','countCustomers');
 
 		$criteria->compare('idseg_guidesTourInvoices',$this->idseg_guidesTourInvoices);
 		$criteria->compare('creationDate',$this->creationDate,true);
@@ -123,9 +124,29 @@ class SegGuidestourinvoices extends CActiveRecord
 		$criteria->compare('InvoiceNumber',$this->InvoiceNumber);
 		$criteria->compare('TA_string',$this->TA_string,true);
 		$this->daterange($criteria);
+		$sort->attributes = array(
+			'*',
+	/*		'cityname'=>array('asc'=>'city_ob.seg_cityname',
+					'desc'=>'city_ob.seg_cityname DESC', 
+					'label'=>'City'),
+			'langname'=>array('asc'=>'language_ob.englishname',
+					'desc'=>'language_ob.englishname DESC', 
+					'label'=>'Language'),
+			'guidename'=>array('asc'=>'user_ob.username',
+					'desc'=>'user_ob.username DESC', 
+					'label'=>'Guide'),
+		'trname'=>'tourroute_ob.name',
+			'tastring'=>array('asc'=>'guidestourinvoice.TA_string',
+					'desc'=>'guidestourinvoice.TA_string DESC', 
+					'label'=>'Invoice #'),
+	*/	);
+		$sort->defaultOrder= array(
+            'city_ob.date_now'=>CSort::SORT_ASC,
+        );
+
 
 		return new CActiveDataProvider($this, array(
-                   'pagination'=>false,
+            'pagination'=>false,
 			'criteria'=>$criteria,
 		));
 	}

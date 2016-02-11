@@ -19,13 +19,11 @@
     'enableAjaxValidation'=>true,
 )); ?>
 		<div class="row">
-			<div class="col-md-1">
-				<b>From :</b>				
-			</div>
-			<div class="col-md-2">
-<?php
-$this->widget('zii.widgets.jui.CJuiDatePicker', array(
- 				  'name'=>'SegScheduledTours[from_date]',
+			<div class="col-md-3">
+			<div class="form-group">
+	<?php		echo $form->labelEx($model,'from_date'); 
+				$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+ 				  'name'=>'SegGuidestourinvoices[from_date]',
 				  'attribute'=>'from_date', // Model attribute filed which hold user input
 				  'model'=>$model,            // Model name
 //   'name'=>'from_date',  // name of post parameter
@@ -41,14 +39,12 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
 ));
 ?>				
 			</div>
-			<div class="col-md-1">
-				<b>to :</b>				
 			</div>
-			<div class="col-md-2">
-
-<?php
-$this->widget('zii.widgets.jui.CJuiDatePicker', array(
- 				  'name'=>'SegScheduledTours[to_date]',
+			<div class="col-md-3">
+			<div class="form-group">
+	<?php		echo $form->labelEx($model,'to_date'); 
+			$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+ 				  'name'=>'SegGuidestourinvoices[to_date]',
 				  'attribute'=>'to_date', // Model attribute filed which hold user input
 				  'model'=>$model,            // Model name
 //    'name'=>'to_date',

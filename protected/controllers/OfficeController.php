@@ -849,7 +849,7 @@ class OfficeController extends Controller
   
 		$this->render('gtiadmin',array(
 			'model'=>$model,
-	 			'info'=>$test,
+	 		'info'=>$test,
 		));
 
 	}
