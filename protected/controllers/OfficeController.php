@@ -253,17 +253,17 @@ class OfficeController extends Controller
             if(isset($_POST['User']))
             {
 		    //information profile
-                $model->id_usergroups = $_POST['User']['role_ob'];
+                $model->id_usergroups = $_POST['User']['id_usergroups'];
                             $model->attributes=$_POST['User'];
                 $model->status =1;  
-
+  
                 if($model_contact->save()){
                     $model->id_contact =  $model_contact->idcontacts;
                     if($model->id_usergroups==5){
                         if($model_guide->save())
                             $model->id_guide =  $model_guide->idseg_guidesdata;
                     }
-                    if($model->save())
+                 if($model->save())
                     $this->redirect(array('ucontact','id_user'=>$model->id));
                 }
             }

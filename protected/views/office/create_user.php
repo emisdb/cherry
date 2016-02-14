@@ -12,7 +12,9 @@ $this->renderPartial('_top', array('info'=>$info));
         <section class="content">
             
 
-<?php $this->renderPartial('_form_user',
+<?php 
+
+	$this->renderPartial('_form_user',
 		array('model'=>$model,
 				'usergroups'=>$usergroups,
 		)); ?>

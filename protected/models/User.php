@@ -93,7 +93,7 @@ class User extends CActiveRecord
             array('username', 'unique'),
             array('new_password', 'length', 'min'=>6, 'allowEmpty'=>true),
             array('new_confirm', 'compare', 'compareAttribute'=>'new_password', 'message'=>'Passwords do not match'), 
-			array('profile', 'safe'),
+			array('profile, id_usergroups', 'safe'),
 //            array('id, id_usergroups, role_ob, username, profile, lastlogin, id_city, id_guide, guide_ob, id_contact, contact_ob,tourcategories_sv', 'safe', 'on'=>'search'),
             array('username,status, paysum, paySum, payNA, cityname, guidename', 'safe', 'on'=>'search_office'),
             array('id, guidename, id_guide,username', 'safe', 'on'=>'search_gn'),

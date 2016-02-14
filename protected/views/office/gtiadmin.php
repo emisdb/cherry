@@ -107,28 +107,8 @@
 		'idseg_guidesTourInvoices',
 		'custname',
 		'custsname',
- /*     array(
-            'name'=>'custname',	
-            'value'=>'$data->contact->firstname',
-            'filter'=>true,
-        ),	
-      array(
-            'name'=>'custsname',	
-            'value'=>'$data->contact->surname',
-            'filter'=>true,
-        ),	
-*/
-		array(
-            'name'=>'sched.guidename',	
-            'value'=>'$data->sched->guidename',
-            'filter'=>false,
-        ),	
-      array(
-            'name'=>'sched.cityname',	
-            'value'=>'$data->sched->cityname',
-            'filter'=>false,
-             //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
-        ),	
+		'guidename',
+		'cityname',
       array(
             'name'=>'contact.phone',	
                 'type'=>'raw',
@@ -176,12 +156,7 @@
             'filter'=>false,
              //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
         ),	
-	      array(
-            'name'=>'sched.langname',	
-            'value'=>'$data->sched->langname',
-            'filter'=>false,
-         ),	
-
+	'langname'
 	),
 )); ?>
 			</div>

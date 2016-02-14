@@ -6,7 +6,9 @@
 
 <div class="form">
 
-<?php $form=$this->beginWidget('CActiveForm', array(
+<?php
+var_dump($model->attributes);
+$form=$this->beginWidget('CActiveForm', array(
 	'id'=>'user-form',
 	// Please note: When you enable ajax validation, make sure the corresponding
 	// controller action is handling ajax validation correctly.
@@ -29,10 +31,10 @@
     <hr />
     <?php if($model->isNewRecord) {?>
     <div class="row">
-		<?php echo $form->labelEx($model,'role_ob'); ?>
+		<?php echo $form->labelEx($model,'id_usergroups'); ?>
 		<?php $list = CHtml::listData($usergroups, 'idusergroups', 'groupname'); ?>
-		<?php echo $form->dropDownList($model,'role_ob',$list,array('empty' => '')); ?>
-        <?php echo $form->error($model,'role_ob'); ?>
+		<?php echo $form->dropDownList($model,'id_usergroups',$list); ?>
+        <?php echo $form->error($model,'id_usergroups'); ?>
 	</div>
   
     <?php }?>

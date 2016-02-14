@@ -18,10 +18,56 @@ class SegGuidestourinvoices extends CActiveRecord
 {
  	public $from_date;
 	public $to_date;
+	private $_cli = null;
+	private $_dep = null;
+	private $_use = null;
+	private $_tas = null;
+	private $_city = null;
 	private $_fname = null;
 	private $_sname = null;
-	private $_pic = null;
 	private $_sum = 0;
+
+	public function getLangname(){
+		if ($this->_use === null && $this->sched->language_ob !== null)
+		{
+			$this->_use = $this->sched->language_ob->germanname;
+		}
+		return $this->_use;
+	}
+	public function setLangname($value){
+		$this->_use = $value;
+	}
+	public function getCityname(){
+		if ($this->_city === null && $this->sched->city_ob !== null)
+		{
+			$this->_city = $this->sched->city_ob->seg_cityname;
+		}
+		return $this->_city;
+	}
+	public function setCityname($value){
+		$this->_city = $value;
+	}
+	public function getTrname(){
+		if ($this->_dep === null && $this->sched->tourroute_ob !== null)
+		{
+			$this->_dep = $this->sched->tourroute_ob->name;
+		}
+		return $this->_dep;
+	}
+	public function setTrname($value){
+		$this->_dep = $value;
+	}
+	public function getGuidename(){
+		if ($this->_cli === null && $this->sched->user_ob !== null)
+		{
+			$this->_cli = $this->sched->user_ob->username;
+		}
+		return $this->_cli;
+	}
+	public function setGuidename($value){
+		$this->_cli = $value;
+	}
+	    
 	public function getCustname(){
 		if ($this->_fname === null && $this->contact !== null)
 		{
@@ -65,7 +111,7 @@ class SegGuidestourinvoices extends CActiveRecord
 		//	array('TA_string', 'length', 'max'=>12),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('creationDate, from_date, to_date, sched, countCustomers, custname, custsname, idseg_guidesTourInvoices, creationDate, cityid, sched_tourid, guideNr, overAllIncome, cashIncome, InvoiceNumber, TA_string, contacts_id', 'safe', 'on'=>'search'),
+			array('creationDate, from_date, to_date, sched, countCustomers, custname, custsname, idseg_guidesTourInvoices, creationDate, cityid, sched_tourid, guideNr, overAllIncome, cashIncome, InvoiceNumber, TA_string, contacts_id, cityname, langname, guidename', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -142,7 +188,7 @@ class SegGuidestourinvoices extends CActiveRecord
 
 		$criteria=new CDbCriteria;
     	$sort   = new CSort;
-	    $criteria->with = array('sched'=>array('language_ob','tourroute_ob','city_ob'),'contact','countCustomers');
+	    $criteria->with = array('sched'=>array('with'=>array('language_ob','tourroute_ob','city_ob','user_ob')),'contact','countCustomers');
 
 		$criteria->compare('idseg_guidesTourInvoices',$this->idseg_guidesTourInvoices);
 		$criteria->compare('creationDate',$this->creationDate,true);
@@ -155,6 +201,9 @@ class SegGuidestourinvoices extends CActiveRecord
 		$criteria->compare('TA_string',$this->TA_string,true);
 		$criteria->compare('contact.firstname',$this->custname,true);
 		$criteria->compare('contact.surname',$this->custsname,true);
+		$criteria->compare('city_ob.seg_cityname',$this->cityname,true);
+		$criteria->compare('language_ob.germanname',$this->langname,true);
+		$criteria->compare('user_ob.username',$this->guidename,true);
 		$this->daterange($criteria);
 		$sort->attributes = array(
 			'*',
@@ -164,16 +213,16 @@ class SegGuidestourinvoices extends CActiveRecord
 			'custsname'=>array('asc'=>'contact.surname',
 							'desc'=>'contact.surname DESC', 
 							'label'=>'Nachname'),
-	/*		'cityname'=>array('asc'=>'city_ob.seg_cityname',
+			'cityname'=>array('asc'=>'city_ob.seg_cityname',
 					'desc'=>'city_ob.seg_cityname DESC', 
-					'label'=>'City'),
-			'langname'=>array('asc'=>'language_ob.englishname',
-					'desc'=>'language_ob.englishname DESC', 
-					'label'=>'Language'),
+					'label'=>'Stadt'),
+			'langname'=>array('asc'=>'language_ob.germanname',
+					'desc'=>'language_ob.germanname DESC', 
+					'label'=>'Sprachen'),
 			'guidename'=>array('asc'=>'user_ob.username',
 					'desc'=>'user_ob.username DESC', 
 					'label'=>'Guide'),
-		'trname'=>'tourroute_ob.name',
+	/*	'trname'=>'tourroute_ob.name',
 			'tastring'=>array('asc'=>'guidestourinvoice.TA_string',
 					'desc'=>'guidestourinvoice.TA_string DESC', 
 					'label'=>'Invoice #'),
