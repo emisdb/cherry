@@ -427,7 +427,7 @@ class GuideController extends Controller
             
             $date_format =  strtotime($date);
             $criteria = new CDbCriteria;
-            $criteria->condition = 'original_starttime=:original_starttime AND date_now=:date_now AND city_id=:city_id';
+            $criteria->condition = 'original_starttime=:original_starttime AND date_now=:date_now AND city_id=:city_id AND isCanceled=0';
             $criteria->params = array(':original_starttime' => $item->timevalue,':date_now'=>$date_format,':city_id'=>$city->cities->idseg_cities);
             $scheduled_item = SegScheduledTours::model()->find($criteria);
             if(isset($scheduled_item)){
