@@ -7,7 +7,7 @@
 <div class="form">
 
 <?php
-var_dump($model->attributes);
+
 $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'user-form',
 	// Please note: When you enable ajax validation, make sure the corresponding

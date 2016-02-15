@@ -242,7 +242,7 @@ class OfficeController extends Controller
             $model=new User;
             $model_contact = new SegContacts;
             $model_guide = new SegGuidesdata;
-   	    $criteria=new CDbCriteria;
+			$criteria=new CDbCriteria;
             $criteria->condition='groupname<>:groupname1 AND groupname<>:groupname2 AND groupname<>:groupname3';
             $criteria->params=array(':groupname1'=>'root',':groupname2'=>'admin',':groupname3'=>'office');
             $usergroups = Usergroups::model()->findAll($criteria);
@@ -256,8 +256,8 @@ class OfficeController extends Controller
                 $model->id_usergroups = $_POST['User']['id_usergroups'];
                             $model->attributes=$_POST['User'];
                 $model->status =1;  
-  
                 if($model_contact->save()){
+//  var_dump($model->attributes);
                     $model->id_contact =  $model_contact->idcontacts;
                     if($model->id_usergroups==5){
                         if($model_guide->save())
@@ -826,7 +826,8 @@ class OfficeController extends Controller
    	public function actionBooking()
 	{
    		$id_control = Yii::app()->user->id;
-     $model=new SegGuidestourinvoices('search');
+		$model=new SegGuidestourinvoices('search');
+		$model=new SegGuidestourinvoices('search');
 		$model->unsetAttributes();  // clear any default values
  
 		if(empty($_POST))

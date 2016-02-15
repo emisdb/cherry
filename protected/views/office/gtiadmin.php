@@ -108,25 +108,27 @@
 		'custname',
 		'custsname',
 		'guidename',
-		'cityname',
+	      array(
+            'name'=>'cityname',	
+              'filter'=>CHtml::listData(SegCities::model()->findAll(),'idseg_cities', 'seg_cityname'),
+        ),	
+//		'cityname',
       array(
-            'name'=>'contact.phone',	
+            'name'=>'phone',	
                 'type'=>'raw',
         'value'=>'CHtml::link($data->contact->phone, "tel:".$data->contact->phone)',
-            'filter'=>false,
+//            'filter'=>true,
         ),	
       array(
-            'name'=>'contact.email',	
+            'name'=>'email',	
                  'type'=>'raw',
         'value'=>'CHtml::link($data->contact->email, "mailto:".$data->contact->email)',
-            'filter'=>false,
         ),	
 		
       array(
             'name'=>'sched.date_now',	
             'value'=>'date("d.m.Y",$data->sched->date_now)',
             'filter'=>false,
-             //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
         ),
        array(
             'name'=>'sched.starttime',
@@ -151,10 +153,8 @@
             //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
         ),
 	      array(
-            'name'=>'sched.trname',	
-            'value'=>'$data->sched->trname',
-            'filter'=>false,
-             //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
+            'name'=>'trname',	
+              'filter'=>CHtml::listData(TourCategories::model()->findAll(),'id_tour_categories', 'name'),
         ),	
 	'langname'
 	),

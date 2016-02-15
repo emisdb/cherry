@@ -19,6 +19,8 @@ class SegGuidestourinvoices extends CActiveRecord
  	public $from_date;
 	public $to_date;
 	private $_cli = null;
+	private $_ph = null;
+	private $_em = null;
 	private $_dep = null;
 	private $_use = null;
 	private $_tas = null;
@@ -50,7 +52,7 @@ class SegGuidestourinvoices extends CActiveRecord
 	public function getTrname(){
 		if ($this->_dep === null && $this->sched->tourroute_ob !== null)
 		{
-			$this->_dep = $this->sched->tourroute_ob->name;
+			$this->_dep = $this->sched->tourroute_ob->tour_categories->name;
 		}
 		return $this->_dep;
 	}
@@ -78,6 +80,26 @@ class SegGuidestourinvoices extends CActiveRecord
 	}
 	public function setCustname($value){
 		$this->_fname = $value;
+	}
+	public function getPhone(){
+		if ($this->_ph === null && $this->contact !== null)
+		{
+			$this->_ph = $this->contact->phone;
+		}
+		return $this->_ph;
+	}
+	public function setPhone($value){
+		$this->_ph = $value;
+	}
+	public function getEmail(){
+		if ($this->_em === null && $this->contact !== null)
+		{
+			$this->_em = $this->contact->email;
+		}
+		return $this->_em;
+	}
+	public function setEmail($value){
+		$this->_em = $value;
 	}
 	public function getCustsname(){
 		if ($this->_sname === null && $this->contact !== null)
@@ -111,7 +133,7 @@ class SegGuidestourinvoices extends CActiveRecord
 		//	array('TA_string', 'length', 'max'=>12),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('creationDate, from_date, to_date, sched, countCustomers, custname, custsname, idseg_guidesTourInvoices, creationDate, cityid, sched_tourid, guideNr, overAllIncome, cashIncome, InvoiceNumber, TA_string, contacts_id, cityname, langname, guidename', 'safe', 'on'=>'search'),
+			array('creationDate, from_date, to_date, sched, countCustomers, custname, custsname, idseg_guidesTourInvoices, creationDate, cityid, sched_tourid, guideNr, overAllIncome, cashIncome, InvoiceNumber, TA_string, contacts_id, cityname, langname, guidename, phone, email, trname', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -188,7 +210,7 @@ class SegGuidestourinvoices extends CActiveRecord
 
 		$criteria=new CDbCriteria;
     	$sort   = new CSort;
-	    $criteria->with = array('sched'=>array('with'=>array('language_ob','tourroute_ob','city_ob','user_ob')),'contact','countCustomers');
+	    $criteria->with = array('sched'=>array('with'=>array('language_ob','tourroute_ob'=>array('with'=>'tour_categories'),'city_ob','user_ob')),'contact','countCustomers');
 
 		$criteria->compare('idseg_guidesTourInvoices',$this->idseg_guidesTourInvoices);
 		$criteria->compare('creationDate',$this->creationDate,true);
@@ -200,13 +222,28 @@ class SegGuidestourinvoices extends CActiveRecord
 		$criteria->compare('InvoiceNumber',$this->InvoiceNumber);
 		$criteria->compare('TA_string',$this->TA_string,true);
 		$criteria->compare('contact.firstname',$this->custname,true);
+		$criteria->compare('contact.email',$this->email,true);
+		$criteria->compare('contact.phone',$this->phone,true);
 		$criteria->compare('contact.surname',$this->custsname,true);
-		$criteria->compare('city_ob.seg_cityname',$this->cityname,true);
+//		$criteria->compare('tour_categories.name',$this->trname,true);
+		$criteria->compare('tour_categories.id_tour_categories',$this->trname,true);
+//		$criteria->compare('city_ob.seg_cityname',$this->cityname,true);
+		$criteria->compare('t.cityid',$this->cityname,true);
 		$criteria->compare('language_ob.germanname',$this->langname,true);
 		$criteria->compare('user_ob.username',$this->guidename,true);
 		$this->daterange($criteria);
 		$sort->attributes = array(
 			'*',
+			'phone'=>array('asc'=>'contact.phone',
+							'desc'=>'contact.phone DESC', 
+							'label'=>'Telefon'),
+		'trname'=>array('asc'=>'tour_categories.name',
+							'desc'=>'tour_categories.name DESC', 
+							'label'=>'Tour'),
+//							'label'=>'Tour route'),
+			'email'=>array('asc'=>'contact.email',
+							'desc'=>'contact.email DESC', 
+							'label'=>'Email'),
 			'custname'=>array('asc'=>'contact.firstname',
 							'desc'=>'contact.firstname DESC', 
 							'label'=>'Vorname'),
