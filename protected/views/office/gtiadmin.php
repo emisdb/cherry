@@ -130,14 +130,13 @@
             'value'=>'date("d.m.Y",$data->sched->date_now)',
             'filter'=>false,
         ),
-       array(
+/*       array(
             'name'=>'sched.starttime',
             'type'=>'raw',
            'value'=>"Yii::app()->dateFormatter->format('HH:mm',strtotime(\$data->sched->starttime))",
 //   						'headerHtmlOptions'=>array('class'=>'info'),
-         //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
-        ),
- 	      array(
+       ), 
+ * 	      array(
             'name'=>'sched.tastring',	
             'value'=>'$data->sched->tastring',
             'filter'=>false,
@@ -147,6 +146,11 @@
             'value'=>'$data->sched->isCanceled',
             'filter'=>false,
          ),	
+
+  */
+		'stime',
+		'TA_string',
+		'cancel',
          array(
             'name'=>'countCustomers',
             'value'=>'$data->countCustomers."/".$data->sched->TNmax_sched',  
@@ -156,7 +160,11 @@
             'name'=>'trname',	
               'filter'=>CHtml::listData(TourCategories::model()->findAll(),'id_tour_categories', 'name'),
         ),	
-	'langname'
+	      array(
+            'name'=>'langname',	
+              'filter'=>CHtml::listData(Languages::model()->findAll(),'id_languages', 'germanname'),
+        ),	
+//	'langname'
 	),
 )); ?>
 			</div>

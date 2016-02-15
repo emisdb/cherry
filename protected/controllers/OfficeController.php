@@ -827,7 +827,6 @@ class OfficeController extends Controller
 	{
    		$id_control = Yii::app()->user->id;
 		$model=new SegGuidestourinvoices('search');
-		$model=new SegGuidestourinvoices('search');
 		$model->unsetAttributes();  // clear any default values
  
 		if(empty($_POST))

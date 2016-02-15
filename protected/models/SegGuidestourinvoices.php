@@ -19,11 +19,13 @@ class SegGuidestourinvoices extends CActiveRecord
  	public $from_date;
 	public $to_date;
 	private $_cli = null;
+	private $_time = null;
 	private $_ph = null;
 	private $_em = null;
 	private $_dep = null;
 	private $_use = null;
 	private $_tas = null;
+	private $_csl = null;
 	private $_city = null;
 	private $_fname = null;
 	private $_sname = null;
@@ -59,6 +61,27 @@ class SegGuidestourinvoices extends CActiveRecord
 	public function setTrname($value){
 		$this->_dep = $value;
 	}
+	public function getStime(){
+		if ($this->_time === null && $this->sched !== null)
+		{
+			$this->_time =Yii::app()->dateFormatter->format('HH:mm',strtotime($this->sched->starttime)) ;
+//			$this->_time = $this->sched->starttime;
+		}
+		return $this->_time;
+	}
+	public function setStime($value){
+		$this->_time = $value;
+	}
+	public function getCancel(){
+		if ($this->_csl === null && $this->sched !== null)
+		{
+			$this->_csl = $this->sched->isCanceled;
+		}
+		return $this->_csl;
+	}
+	public function setCancel($value){
+		$this->_csl = $value;
+	}
 	public function getGuidename(){
 		if ($this->_cli === null && $this->sched->user_ob !== null)
 		{
@@ -68,8 +91,7 @@ class SegGuidestourinvoices extends CActiveRecord
 	}
 	public function setGuidename($value){
 		$this->_cli = $value;
-	}
-	    
+	}	    
 	public function getCustname(){
 		if ($this->_fname === null && $this->contact !== null)
 		{
@@ -133,7 +155,7 @@ class SegGuidestourinvoices extends CActiveRecord
 		//	array('TA_string', 'length', 'max'=>12),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('creationDate, from_date, to_date, sched, countCustomers, custname, custsname, idseg_guidesTourInvoices, creationDate, cityid, sched_tourid, guideNr, overAllIncome, cashIncome, InvoiceNumber, TA_string, contacts_id, cityname, langname, guidename, phone, email, trname', 'safe', 'on'=>'search'),
+			array('creationDate, from_date, to_date, sched, countCustomers, custname, custsname, idseg_guidesTourInvoices, creationDate, cityid, sched_tourid, guideNr, overAllIncome, cashIncome, InvoiceNumber, TA_string, contacts_id, cityname, langname, guidename, phone, email, trname, stime, cancel', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -167,7 +189,7 @@ class SegGuidestourinvoices extends CActiveRecord
 			'countCustomers' => 'Customers',
 			'cashIncome' => 'Cash Income',
 			'InvoiceNumber' => 'Invoice Number',
-			'TA_string' => 'Ta String',
+			'TA_string' => 'TABN',
 			'from_date' => 'From',
 			'to_date' => 'To',
 			'custname' => 'Vorname',
@@ -221,6 +243,8 @@ class SegGuidestourinvoices extends CActiveRecord
 		$criteria->compare('cashIncome',$this->cashIncome);
 		$criteria->compare('InvoiceNumber',$this->InvoiceNumber);
 		$criteria->compare('TA_string',$this->TA_string,true);
+		$criteria->compare('sched.starttime',$this->stime,true);
+		$criteria->compare('sched.isCanceled',$this->cancel,true);
 		$criteria->compare('contact.firstname',$this->custname,true);
 		$criteria->compare('contact.email',$this->email,true);
 		$criteria->compare('contact.phone',$this->phone,true);
@@ -229,11 +253,18 @@ class SegGuidestourinvoices extends CActiveRecord
 		$criteria->compare('tour_categories.id_tour_categories',$this->trname,true);
 //		$criteria->compare('city_ob.seg_cityname',$this->cityname,true);
 		$criteria->compare('t.cityid',$this->cityname,true);
-		$criteria->compare('language_ob.germanname',$this->langname,true);
+//		$criteria->compare('language_ob.germanname',$this->langname,true);
+		$criteria->compare('sched.language_id',$this->langname,true);
 		$criteria->compare('user_ob.username',$this->guidename,true);
 		$this->daterange($criteria);
 		$sort->attributes = array(
 			'*',
+			'cancel'=>array('asc'=>'sched.isCanceled',
+							'desc'=>'sched.isCanceled DESC', 
+							'label'=>'Absagen'),
+			'stime'=>array('asc'=>'sched.starttime',
+							'desc'=>'sched.starttime DESC', 
+							'label'=>'Uhrzeit'),
 			'phone'=>array('asc'=>'contact.phone',
 							'desc'=>'contact.phone DESC', 
 							'label'=>'Telefon'),
