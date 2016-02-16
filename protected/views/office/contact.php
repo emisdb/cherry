@@ -6,12 +6,12 @@
 $this->breadcrumbs=array(
     'Guides'=>array('admin'),
 	$update_user->username=>array('userUpdate','id'=>$update_user->id),
-	'Update contact',
+	'Kontaktdaten Aktualisieren',
 );
  }else{
 $this->breadcrumbs=array(
     'Profile'=>array('user/profile'),
-	'Update profile contact',
+	'Kontaktdaten Aktualisieren ',
 );
  }
  $this->widget('zii.widgets.CBreadcrumbs', array(
@@ -26,7 +26,7 @@ $this->breadcrumbs=array(
 
 
  ?>
-<h1>Update contact - <?php echo $update_user->username; ?></h1>
+<h1>Kontaktdaten Aktualisieren - <?php echo $update_user->username; ?></h1>
        </section>
 
         <!-- Main content -->
@@ -69,8 +69,8 @@ $this->breadcrumbs=array(
     
 ?>
 	<div class="row buttons">
-        <button class="btn btn-primary" type="submit"><?php echo 'Save'; ?></button>
- 		<button class="btn btn-primary cancel"><?php echo CHtml::link("Cancel", array("admin")) ?></button>
+        <button class="btn btn-primary" type="submit"><?php echo 'Speichern'; ?></button>
+ 		<button class="btn btn-primary cancel"><?php echo CHtml::link("Abbrechen", array("admin")) ?></button>
     </div>
 
 

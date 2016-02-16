@@ -1,7 +1,7 @@
    <div class="box box-success" >
         <div class="box-header with-border">
             <h4 class="box-title">
-                Information tour routes
+                Tour Routen
             </h4>
         </div>
         <div class="box-body" >
@@ -18,28 +18,28 @@
                          ?>
                       </tr>
                       <tr>
-                   	<td>Basic fee </td>
+                   	<td>Grundvergütung</td>
                             <?php for($k=0;$k<$count_col;$k++) {
                                      echo '<td>'.$form->textField($array_tour_link[$k],'base_provision'.$k).'</td>';
                                      }
                                      ?>
                         </tr>
                         <tr>
-                            <td>Guest variable </td>
+                            <td>Minimum Gastanzahl</td>
                             <?php for($k=0;$k<$count_col;$k++) {
                                 echo  '<td>'.$form->textField($array_tour_link[$k],'guest_variable'.$k).'</td>';
                                 } 
                                 ?>
                         </tr>
                             <tr>
-                                <td>Guest variable ab x TN ->x </td>
+                                <td>Variable Vergütung pro zusätzlichen Gast</td>
                                 <?php for($k=0;$k<$count_col;$k++) {
                                     echo '<td>'.$form->textField($array_tour_link[$k],'guestsMinforVariable'.$k).'</td>';
                                     }
                                     ?>
                             </tr>
                            <tr>
-                           	<td>Gutschei-VK commission </td>
+                           	<td>Provision Gutscheinverkauf</td>
                                     <?php for($k=0;$k<$count_col;$k++) {
                                     echo '<td>'.$form->textField($array_tour_link[$k],'voucher_provision'.$k).'</td>';
                                     } ?>

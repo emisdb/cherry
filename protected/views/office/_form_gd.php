@@ -6,7 +6,7 @@
    <div class="box box-info" >
         <div class="box-header with-border">
             <h4 class="box-title">
-                Reminder
+                Erinnerungen
             </h4>
         </div>
         <div class="box-body" >
@@ -37,7 +37,7 @@
    <div class="box box-info" >
         <div class="box-header with-border">
             <h4 class="box-title">
-                Presentation
+                Homepageauftritt
             </h4>
         </div>
         <div class="box-body" >

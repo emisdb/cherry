@@ -24,45 +24,55 @@
 	<?php echo $form->errorSummary($model); ?>
     
     <div style="font-size:16px;color:#959899;">
-        PROFILE INFORMATION
+        NUTZERINFORMATIONEN
     </div>
     <hr />
     <?php if($model->isNewRecord) {?>
     <div class="row">
-		<?php echo $form->labelEx($model,'role_ob'); ?>
+	<div class="form-group">
+		<?php echo $form->labelEx($model,'role_ob',array('class'=>'control-label')); ?>
 		<?php $list = CHtml::listData($usergroups, 'idusergroups', 'groupname'); ?>
-		<?php echo $form->dropDownList($model,'role_ob',$list,array('empty' => '')); ?>
+		<?php echo $form->dropDownList($model,'role_ob',$list,array('id'=>'pick_lang', 'class'=>'form-control')); ?>
         <?php echo $form->error($model,'role_ob'); ?>
+	</div>
 	</div>
   
     <?php }?>
 	<div class="row">
-		<?php echo $form->labelEx($model,'username'); ?>
-		<?php echo $form->textField($model,'username',array('size'=>60,'maxlength'=>128)); ?>
+	<div class="form-group">
+	<?php echo $form->labelEx($model,'username',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'username',array('size'=>60,'maxlength'=>128,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'username'); ?>
 	</div>
+	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'new_password'); ?>
-		<?php echo $form->passwordField($model,'new_password',array('size'=>60,'maxlength'=>128)); ?>
+	<div class="form-group">
+		<?php echo $form->labelEx($model,'new_password',array('class'=>'control-label')); ?>
+		<?php echo $form->passwordField($model,'new_password',array('size'=>60,'maxlength'=>128,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'new_password'); ?>
 	</div>
-    
+ 	</div>
+   
 	<div class="row"> 
-		<?php echo $form->label($model,'new_confirm'); ?> 
-		<?php echo $form->passwordField($model,'new_confirm',array('size'=>60,'maxlength'=>128)); ?>
+	<div class="form-group">
+		<?php echo $form->label($model,'new_confirm',array('class'=>'control-label')); ?> 
+		<?php echo $form->passwordField($model,'new_confirm',array('size'=>60,'maxlength'=>128,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'new_confirm'); ?>
+	</div>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'profile'); ?>
-		<?php echo $form->textArea($model,'profile',array('rows'=>6, 'cols'=>50)); ?>
+	<div class="form-group">
+		<?php echo $form->labelEx($model,'profile',array('class'=>'control-label')); ?>
+		<?php echo $form->textArea($model,'profile',array('rows'=>6, 'cols'=>50,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'profile'); ?>
+	</div>
 	</div>
 
 	<div class="row buttons">
-        <button class="btn btn-primary" type="submit"><?php echo $model->isNewRecord ? 'New record' : 'Save'; ?></button>
-	<button class="btn btn-primary cancel"><?php echo CHtml::link("Cancel", array("profile")) ?></button>
+        <button class="btn btn-primary" type="submit"><?php echo $model->isNewRecord ? 'New record' : 'Speichern'; ?></button>
+	<button class="btn btn-primary cancel"><?php echo CHtml::link("Abbrechen", array("profile")) ?></button>
     </div>
 <?php $this->endWidget(); ?>
 

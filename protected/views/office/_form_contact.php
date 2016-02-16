@@ -6,7 +6,7 @@
    <div class="box box-primary" >
         <div class="box-header with-border">
             <h4 class="box-title">
-                Private data
+                Kontaktdaten Aktualisieren
             </h4>
         </div>
         <div class="box-body" >
@@ -97,7 +97,7 @@
    <div class="box box-primary" >
         <div class="box-header with-border">
             <h4 class="box-title">
-                Address
+                Adresse
             </h4>
         </div>
         <div class="box-body" >

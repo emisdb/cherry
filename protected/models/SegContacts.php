@@ -68,9 +68,9 @@ class SegContacts extends CActiveRecord
 	{
 		return array(
 			'idcontacts' => 'Idcontacts',
-			'firstname' => 'Firstname',
-			'surname' => 'Surname',
-			'phone' => 'Phone',
+			'firstname' => 'Vorname',
+			'surname' => 'Nachname',
+			'phone' => 'Telefon',
 			'email' => 'Email',
 			'additional_address' => 'Privatadresse',
 			'country' => 'Land',

@@ -91,17 +91,17 @@ class SegGuidesdata extends CActiveRecord
 			'idseg_guidesdata' => 'Idseg Guidesdata',
 			'base_provision' => 'Base Provision',
 			'cash_box' => 'Cash Box',
-			'guide_shorttext' => 'Guide Shorttext',
-			'guide_maintext' => 'Guide Maintext',
-			'lnk_to_picture' => 'Guide\'s Image',
+			'guide_shorttext' => 'Kurzbeschreibung',
+			'guide_maintext' => 'Haupttext',
+			'lnk_to_picture' => 'Bild',
             'image' => 'Image',
 			'guest_variable' => 'Guest Variable',
 			'paysUSt' => 'Pays Ust',
 			'guestsMinforVariable' => 'Guests Minfor Variable',
 			'taxnumber' => 'Taxnumber',
 			'taxoffice' => 'Taxoffice',
-			'invoiceCount2013' => 'Reminder type',
-			'invoiceCount2014' => 'Reminder (hrs.)',
+			'invoiceCount2013' => 'Typ',
+			'invoiceCount2014' => 'Vorlauf in Stunden',
 			'inVoiceCount2015' => 'In Voice Count2015',
 			'voucher_cashbox' => 'Voucher Cashbox',
 			'voucher_provision' => 'Voucher Provision',
@@ -179,10 +179,10 @@ class SegGuidesdata extends CActiveRecord
 	public function getReminderOptions()
 	{
 		return array(
-	 self::REMINDER_NONE=>'None',
+	 self::REMINDER_NONE=>'Keine',
 	 self::REMINDER_SMS=>'SMS',
-	 self::REMINDER_MAIL=>'Mail',
-	 self::REMINDER_BOTH=>'Both',
+	 self::REMINDER_MAIL=>'Email',
+	 self::REMINDER_BOTH=>'Beides',
 		);
 	}
 }

@@ -460,7 +460,7 @@ class OfficeController extends Controller
         $criteria->condition='users_id=:users_id';
         $criteria->params=array(':users_id'=>$id_user);
         $selected_lang_list=CHtml::listData(SegLanguagesGuides::model()->findAll($criteria),'idseg_languages_guides','languages_id');
-        $lang_list=CHtml::listData(Languages::model()->findAll(),'id_languages','englishname');
+        $lang_list=CHtml::listData(Languages::model()->findAll(),'id_languages','germanname');
         
         $criteria=new CDbCriteria;
         $criteria->condition='usersid=:usersid';

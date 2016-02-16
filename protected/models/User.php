@@ -134,11 +134,11 @@ class User extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'username' => 'Name',
+			'username' => 'Benutzername',
 			'guidename' => 'Name',
-			'new_password' => 'Password',
+			'new_password' => 'Passwort',
 			'profile' => 'Informationen',
-            'new_confirm' => 'Password repeat',
+            'new_confirm' => 'Passwort wiederholen',
             'id_usergroups' => 'ID Role',
             'status' => 'Aktiv',
             'role_ob' => 'Role',

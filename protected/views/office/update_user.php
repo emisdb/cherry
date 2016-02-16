@@ -7,8 +7,8 @@ $this->renderPartial('_top', array('info'=>$info));
         <section class="content-header">
 			<?php
 $this->breadcrumbs=array(
-    'Users'=>array('admin'),
-	'Update user',
+    'Guides'=>array('admin'),
+	'Guideprofil anpaßen',
 );
 
  $this->widget('zii.widgets.CBreadcrumbs', array(
@@ -22,7 +22,7 @@ $this->breadcrumbs=array(
     ));
 			
 			?>
-        <h1>Update user - <?php echo $model->username; ?> (<?php echo $model->role_ob->groupname; ?> )</h1>
+        <h1>Guideprofil anpa&szlig;en - <?php echo $model->username; ?> (<?php echo $model->role_ob->groupname; ?> )</h1>
      </section>
 
         <!-- Main content -->
@@ -30,7 +30,7 @@ $this->breadcrumbs=array(
             
 <?php if($model->id != Yii::app()->user->id) {
     echo '<div class="create">';
-    echo CHtml::link('Update contact', array('ucontact','id_user'=>$model->id));
+    echo CHtml::link('Kontaktdaten aktualisieren', array('ucontact','id_user'=>$model->id));
     echo '</div>';
     }
     ?>
