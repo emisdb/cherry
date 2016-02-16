@@ -60,7 +60,9 @@
                     <?php
                         $this->widget('zii.widgets.jui.CJuiDatePicker',array(
                             'name'=>'publishDate',
- 								'value'=>$date,
+ 								'value'=>$date, 
+							'language'=>'de',
+     
                             // additional javascript options for the date picker plugin
                             'options'=>array(
                                'showAnim'=>'fold',

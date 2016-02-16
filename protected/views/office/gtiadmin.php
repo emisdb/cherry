@@ -29,7 +29,8 @@
 //   'name'=>'from_date',  // name of post parameter
   //   'value'=>Yii::app()->request->cookies['from_date']->value,  
 	// value comes from cookie after submittion
-     'options'=>array(
+							'language'=>'de',
+      'options'=>array(
         'showAnim'=>'fold',
         'dateFormat'=>'yy-mm-dd',
     ),
@@ -49,6 +50,7 @@
 				  'model'=>$model,            // Model name
 //    'name'=>'to_date',
  //    'value'=>Yii::app()->request->cookies['to_date']->value,
+ 							'language'=>'de',
      'options'=>array(
         'showAnim'=>'fold',
         'dateFormat'=>'yy-mm-dd',
@@ -77,10 +79,9 @@
 	'dataProvider'=>$model->search(),//$model->search_root(),
 	'enablePagination'=>false,
 	'filter'=>$model,
-   'htmlOptions'=>array(
-	'style'=>'padding-top: 0px;',
-    ),
-	'columns'=>array(
+	'htmlOptions'=>array('class'=>'table-responsive'),
+	'itemsCssClass'=>'table table-bordered',
+ 	'columns'=>array(
 				array(
 			'class'=>'CButtonColumn',
             'template'=>'{edit}',

@@ -208,7 +208,20 @@ class SegScheduledTours extends CActiveRecord
 
 			return CHtml::listData($dataReader,'uid', 'unam');
 	}
+	public function getLangList()
+	{
+			$comtxt="SELECT DISTINCTROW  tbl_languages.id_languages AS uid, tbl_languages.germanname AS unam
+					FROM (((seg_guides_tourroutes LEFT JOIN seg_guides_cities ON seg_guides_tourroutes.usersid=seg_guides_cities.users_id)
+					LEFT JOIN seg_languages_guides ON seg_guides_tourroutes.usersid=seg_languages_guides.users_id)
+					LEFT JOIN tbl_languages ON tbl_languages.id_languages=seg_languages_guides.languages_id)
+					WHERE  seg_guides_cities.cities_id=".$this->city_id;
+		if(!empty($this->guide1_id)) $comtxt.=" AND seg_languages_guides.users_id=".$this->guide1_id;
+		if(!empty($this->tourroute_id)) $comtxt.=" AND seg_guides_tourroutes.tourroutes_id=".$this->tourroute_ob->id_tour_categories;
+		$command= Yii::app()->db->createCommand($comtxt);
+		$dataReader=$command->queryAll();
 
+			return CHtml::listData($dataReader,'uid', 'unam');
+	}
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *
