@@ -1223,3 +1223,11 @@ form#front-form div.row-filter
     border: #c36 solid 3px;
    
  }
+ table.table-bordered thead th
+ {
+         background: url("bg.gif") repeat-x scroll left top white;    
+ }
+  table.table-bordered thead th a
+ {
+         color: #fff;    
+ }
