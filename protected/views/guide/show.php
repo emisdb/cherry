@@ -77,6 +77,32 @@ $this->breadcrumbs=array(
 		</div>
         <div class="col-md-4"></div>
 	</div>
+<div class="panel panel-default">
+  <div class="panel-heading">Parameters</div>
+  <div class="panel-body">
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+				<?php 
+/*					echo $form->labelEx($model,'language_id'); 
+					echo $form->dropDownList($model,'language_id', CHtml::listData (array_values($arrays[1]), 0, 1),
+						array('empty'=>'--','id'=>'language','onChange'=>'do_route(value,1)','class'=>'form-control'));
+					echo $form->error($model,'language_id');
+*/					?>
+			</div>
+		</div>
+			<div class="form-group">
+				<?php
+				 echo $form->labelEx($model,'guide1_id',array('style'=>'padding-right:5px'));
+				 echo $form->dropDownList($model,'guide1_id', $model->getGuideList(),
+                        array('empty'=>'--','id'=>'guide','onChange'=>'do_route(value,2)','class'=>'form-control'));
+				 echo $form->error($model,'guide1_id'); 
+			 ?>
+			</div>
+		</div>
+	</div>
+</div>
 			
 <div class="panel panel-default">
   <div class="panel-heading">Tour cancellation</div>

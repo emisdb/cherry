@@ -23,7 +23,7 @@
 			<div class="table-responsive" >
 				<table	class="table table-bordered">
 					<thead>
-						<tr class="info">
+						<tr style="background-color: #003bb3;">
 							<th>
 								Name
 							</th>
