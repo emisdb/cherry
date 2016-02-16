@@ -73,7 +73,7 @@
                   <!-- Menu Body -->
                   <li class="user-body">
                     <div class="col-xs-6 text-center">
-                 	<?php echo CHtml::link("Cashbox:", array('cashAdmin')); ?>
+                 	<?php echo CHtml::link("Gesamt:", array('cashAdmin')); ?>
                    </div>
                    <div class="col-xs-6 text-center">
                    	<?php echo CHtml::link(CHtml::encode("".number_format($this->cashsum, 2, '.', ' ').""), array('cashAdmin')); ?>
@@ -83,7 +83,7 @@
                     <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-						<?php echo CHtml::link("Profile", array('profile'),array('class'=>'btn btn-default btn-flat')); ?>
+						<?php echo CHtml::link("Benutzer", array('profile'),array('class'=>'btn btn-default btn-flat')); ?>
                    </div>
                     <div class="pull-right">
 						<?php echo CHtml::link("Sign out", array('site/logout'),array('class'=>'btn btn-default btn-flat')); ?>

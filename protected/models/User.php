@@ -133,28 +133,28 @@ class User extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'Id',
+			'id' => 'ID',
 			'username' => 'Name',
-			'guidename' => 'Guide\'s name',
+			'guidename' => 'Name',
 			'new_password' => 'Password',
 			'profile' => 'Informationen',
             'new_confirm' => 'Password repeat',
             'id_usergroups' => 'ID Role',
-            'status' => 'Active',
+            'status' => 'Aktiv',
             'role_ob' => 'Role',
             'lastlogin' => 'Last login',
             'id_city' => 'ID City',
-            'cityname' => 'City',
+            'cityname' => 'Stadt',
             'id_contact' => 'ID Contact',
             'contact_ob' =>'Contact info',
             'id_guide' => 'ID Guide',
-           'paySum' => 'Balance',
+           'paySum' => 'Betrag',
 		);
 	}
 	public function getStatusOptions()
 	{
 	return array(
-		self::TYPE_ACTIVE=>'Y',
+		self::TYPE_ACTIVE=>'J',
 		self::TYPE_INACTIVE=>'N',
 		);
 	}

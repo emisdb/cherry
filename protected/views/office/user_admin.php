@@ -22,7 +22,8 @@
 			   </div>
 			   <div class="modal-body">
 				 <div id="modal-data">
-					<div class="row">
+			<p class="note"><span class="required">*</span> positiver Betrag erhöht den Kassenbestand vom Guide</p>
+			<div class="row">
 						<div class="col-md-6">
 							<?php
 								echo $form->labelEx($cash_model,'delta_cash'); 
@@ -49,8 +50,8 @@
 			   </div>
 			   <div class="modal-footer">
 					<div class="row buttons">
-						<button class="btn btn-success btn-outline btn-default" type="submit">Save</button>
-						<button  type="button" class="btn  pull-right" data-dismiss="modal">Close</button>
+						<button class="btn btn-success btn-outline btn-default" type="submit">Speichern</button>
+						<button  type="button" class="btn  pull-right" data-dismiss="modal">Abbrechen</button>
 					</div>
 			   </div>
 			 </div>
@@ -59,10 +60,10 @@
        <!-- Content Header (Page header) -->
         <section class="content-header">
 
-<h1>All guides</h1>
+<h1>Guides</h1>
 
 <div class="create">
-	<?php   echo CHtml::link('New user', array('userCreate')); ?>
+	<?php   echo CHtml::link('Neuen Guide anlegen', array('userCreate')); ?>
  </div>
 	<?php
  	if($cash_model->hasErrors())
@@ -84,6 +85,9 @@
 //	'ajaxUrl'=> Yii::app()->request->getUrl(),
 		'dataProvider'=>$modelsearch,//$model->search_root(),
         'rowCssClassExpression' => '$data->payNA>0 ? "table_scheduled_pdf" : "table_scheduled"', 
+	'htmlOptions'=>array('class'=>'table-responsive'),
+		'summaryText'=>'Zeigt {start} - {end} von {count} Einträgen',
+	'itemsCssClass'=>'table table-bordered',
 	'filter'=>$model,
 	'columns'=>array(
 /*
@@ -98,7 +102,7 @@
 		        array(
             'name'=>'status',
 			'value'=>array($model,'statuslabel'),
- 				'footer'=>'Total:',
+ 				'footer'=>'Gesamt:',
            ),
 		
             'cityname',
@@ -165,7 +169,7 @@
 		var id=parseInt($(obj).parents('tr').find("td:eq(0)").text());
 		var name=$(obj).parents('tr').find("td:eq(1)").text();
 //		document.forms['cashbox-change-requests-form']['id_users'].value=id;
-		$("h4.modal-title").text("Money for  "+name);
+		$("h4.modal-title").text("Geld an  "+name+" schicken");
 		$("#CashboxChangeRequests_id_users").val(id);
 	}
 </script> 
