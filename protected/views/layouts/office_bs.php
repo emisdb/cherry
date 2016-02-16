@@ -36,21 +36,21 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
              <li <?php echo (Yii::app()->controller->action->id=='profile') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-th'></i> <span>Profile</span>", array('profile')); ?>
+				<?php echo CHtml::link("<i class='fa fa-th'></i> <span>Benutzer</span>", array('profile')); ?>
             </li>
              <li>
-				<?php echo CHtml::link("<i class='fa fa-laptop'></i> <span>Return to the site</span>", "/"); ?>
+				<?php echo CHtml::link("<i class='fa fa-laptop'></i> <span>Homepage</span>", "/"); ?>
             </li>
              <li <?php echo (Yii::app()->controller->action->id=='user') ? "class=\"active\"" : "" ; ?>>
 				<?php echo CHtml::link("<i class='fa fa-user'></i><span>Guides</span>", array('admin')); ?>
             </li>
              <li <?php echo (Yii::app()->controller->action->id=='cashFull') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-credit-card'></i><span>Cashbox history</span>", array('cashAdmin')); ?>
+				<?php echo CHtml::link("<i class='fa fa-credit-card'></i><span>Kassen</span>", array('cashAdmin')); ?>
             </li>
    			<li class="treeview <?php echo (in_array(Yii::app()->controller->action->id,array('bonus','cr'))) ? "active" : "" ; ?>">
               <a href="#">
                 <i class="fa fa-list"></i>
-                <span>Settings</span>
+                <span>Einstellungen</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
@@ -63,7 +63,7 @@
               </ul>
             </li>
               <li <?php echo (Yii::app()->controller->action->id=='schedule') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-table'></i><span>Schedule</span>", array('schedule')); ?>
+				<?php echo CHtml::link("<i class='fa fa-table'></i><span>Touren</span>", array('schedule')); ?>
             </li>
               <li <?php echo (Yii::app()->controller->action->id=='booking') ? "class=\"active\"" : "" ; ?>>
 				<?php echo CHtml::link("<i class='fa fa-bold'></i><span>Bookings</span>", array('booking')); ?>
@@ -79,7 +79,7 @@
         <div class="pull-right hidden-xs">
           <b>Version</b> 2.3.0
         </div>
-        <strong>Copyright &copy; 2015 <a href="http://cherrytours.com">Cherry Tours</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2015 <a href="http://cherrytours.com">Cherrytours GmbH</a>.</strong> All rights reserved.
       </footer>
 
      </div><!-- ./wrapper -->

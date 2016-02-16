@@ -6,10 +6,10 @@
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-			<h1>Profile information user - <?php echo $model->username; ?></h1>
+			<h1>Benutzerprofil - <?php echo $model->username; ?></h1>
 
-			<div class="create"><a href="<?php echo Yii::app()->createUrl('office/user',array('id'=>$model->id)); ?>">Update profile information</a></div>
-			PROFILE INFORMATION
+			<div class="create"><a href="<?php echo Yii::app()->createUrl('office/user',array('id'=>$model->id)); ?>">Benutzerprofil aktualisieren</a></div>
+			BENUTZPROFIL
        </section>
 
         <!-- Main content -->
@@ -24,8 +24,8 @@
 )); ?>
 
 <hr />
-<div class="create"><a href="<?php echo Yii::app()->createUrl('office/contact',array('id'=>$model->id)); ?>">Update profile contact</a></div>
-CONTACTS
+<div class="create"><a href="<?php echo Yii::app()->createUrl('office/contact',array('id'=>$model->id)); ?>">Kontaktdaten aktualisieren</a></div>
+KONTAKTINFORMATIONEN
 <hr />
 
     <?php $this->widget('zii.widgets.CDetailView', array(

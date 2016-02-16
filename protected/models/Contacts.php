@@ -69,13 +69,13 @@ class Contacts extends CActiveRecord
 			'surname' => 'Surname',
 			'phone' => 'Phone',
 			'email' => 'Email',
-			'additional_address' => 'Additional Address',
-			'country' => 'Country',
-			'city' => 'City',
-			'postalcode' => 'Postalcode',
-			'house' => 'House',
-			'street' => 'Street',
-			'birthdate' => 'Birthdate',
+			'additional_address' => 'Privatadresse',
+			'country' => 'Land',
+			'city' => 'Stadt',
+			'postalcode' => 'Postleitzahl',
+			'house' => 'Hausnummer',
+			'street' => 'Stra&szlig;e',
+			'birthdate' => 'Geburtsdatum',
 		);
 	}
 

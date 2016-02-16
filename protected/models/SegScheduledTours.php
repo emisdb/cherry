@@ -447,10 +447,7 @@ class SegScheduledTours extends CActiveRecord
 		$criteria->compare('isInvoiced_guide3',$this->isInvoiced_guide3);
 		$criteria->compare('isInvoiced_guide4',$this->isInvoiced_guide4);
 		$criteria->compare('additional_info2',$this->additional_info2,true);
-		$criteria->compare('isCanceled',$this->isCanceled);
-		$criteria->compare('cancellationReason',$this->cancellationReason,true);
-		$criteria->compare('canceledBy',$this->canceledBy);
-		$criteria->compare('cancellationAnnotation',$this->cancellationAnnotation,true);
+		$criteria->compare('isCanceled',0);
        			$this->daterange($criteria);
 			$sort->defaultOrder= array(
             'date'=>CSort::SORT_DESC,

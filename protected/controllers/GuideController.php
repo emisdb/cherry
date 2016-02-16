@@ -534,7 +534,7 @@ class GuideController extends Controller
 	        $model->date_now = strtotime($model->date);
             $model->original_starttime = explode(":",$model->starttime)[0].":00";
 	 		if($model->save())
-					$this->redirect(array('schedule'));
+					$this->redirect(array('weeks','date'=>$model->date));
 		}
 
     		$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
@@ -1840,7 +1840,7 @@ class GuideController extends Controller
 	public function loadTours()
 	{
         $id = Yii::app()->user->id;
-		$model=SegScheduledTours::model()->findAll(array('condition'=>'guide1_id = :guide AND date_now>=:date',
+		$model=SegScheduledTours::model()->findAll(array('condition'=>'guide1_id = :guide AND date_now>=:date AND isCanceled=0',
 			'params'=>array(':guide'=>$id,':date'=>strtotime("midnight", time())),'order'=>'date desc, starttime desc'));
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
@@ -1849,7 +1849,7 @@ class GuideController extends Controller
 	public function loadUnreported()
 	{
         $id = Yii::app()->user->id;
-		$model=SegScheduledTours::model()->findAll('guide1_id = :guide AND date_now<:date AND openTour IS NULL AND language_id IS NOT NULL',array(':guide'=>$id,':date'=>time()));
+		$model=SegScheduledTours::model()->findAll('guide1_id = :guide AND date_now<:date AND openTour IS NULL AND language_id IS NOT NULL AND isCanceled=0',array(':guide'=>$id,':date'=>time()));
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
