@@ -68,18 +68,17 @@ class SegContacts extends CActiveRecord
 	{
 		return array(
 			'idcontacts' => 'Idcontacts',
-			'firstname' => 'Vorname',
-			'surname' => 'Nachname',
-			'phone' => 'Telefon',
-			'email' => 'E-Mail',
-			'additional_address' => 'Firmenname',
+			'firstname' => 'Firstname',
+			'surname' => 'Surname',
+			'phone' => 'Phone',
+			'email' => 'Email',
+			'additional_address' => 'Privatadresse',
 			'country' => 'Land',
 			'city' => 'Stadt',
-           // 'city_ob' => 'City',
-             'postalcode' => 'Postleitzahl',
-			'house' => 'House',
-			'street' => 'Stra&szlig;e, Haus-Nr',
-			'birthdate' => 'Birthdate',
+			'postalcode' => 'Postleitzahl',
+			'house' => 'Hausnummer',
+			'street' => 'Stra&szlig;e',
+			'birthdate' => 'Geburtsdatum',
 		);
 /*		return array(
 			'idcontacts' => 'Idcontacts',
