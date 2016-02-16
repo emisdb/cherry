@@ -32,7 +32,7 @@ class SegGuidestourinvoices extends CActiveRecord
 	private $_sum = 0;
 
 	public function getLangname(){
-		if ($this->_use === null && $this->sched->language_ob !== null)
+		if ($this->_use === null && $this->sched !== null && $this->sched->language_ob !== null)
 		{
 			$this->_use = $this->sched->language_ob->germanname;
 		}
@@ -42,7 +42,7 @@ class SegGuidestourinvoices extends CActiveRecord
 		$this->_use = $value;
 	}
 	public function getCityname(){
-		if ($this->_city === null && $this->sched->city_ob !== null)
+		if ($this->_city === null && $this->sched !== null && $this->sched->city_ob !== null)
 		{
 			$this->_city = $this->sched->city_ob->seg_cityname;
 		}
@@ -52,7 +52,7 @@ class SegGuidestourinvoices extends CActiveRecord
 		$this->_city = $value;
 	}
 	public function getTrname(){
-		if ($this->_dep === null && $this->sched->tourroute_ob !== null)
+		if ($this->_dep === null && $this->sched !== null && $this->sched->tourroute_ob !== null)
 		{
 			$this->_dep = $this->sched->tourroute_ob->tour_categories->name;
 		}
@@ -83,7 +83,7 @@ class SegGuidestourinvoices extends CActiveRecord
 		$this->_csl = $value;
 	}
 	public function getGuidename(){
-		if ($this->_cli === null && $this->sched->user_ob !== null)
+		if ($this->_cli === null && $this->sched !== null && $this->sched->user_ob !== null)
 		{
 			$this->_cli = $this->sched->user_ob->username;
 		}
@@ -249,10 +249,10 @@ class SegGuidestourinvoices extends CActiveRecord
 		$criteria->compare('contact.email',$this->email,true);
 		$criteria->compare('contact.phone',$this->phone,true);
 		$criteria->compare('contact.surname',$this->custsname,true);
-//		$criteria->compare('tour_categories.name',$this->trname,true);
-		$criteria->compare('tour_categories.id_tour_categories',$this->trname,true);
 //		$criteria->compare('city_ob.seg_cityname',$this->cityname,true);
 		$criteria->compare('t.cityid',$this->cityname,true);
+//		$criteria->compare('tour_categories.name',$this->trname,true);
+		$criteria->compare('tour_categories.id_tour_categories',$this->trname,true);
 //		$criteria->compare('language_ob.germanname',$this->langname,true);
 		$criteria->compare('sched.language_id',$this->langname,true);
 		$criteria->compare('user_ob.username',$this->guidename,true);
