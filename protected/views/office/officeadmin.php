@@ -17,10 +17,10 @@
 		)); 
 		?>
 		<input type="hidden" name="newrecord" id="newrecord" value="0">
-		<div class="create" style="text-align: left;">New tour for 
+		<div class="create" style="text-align: left;">Neue Tour anlege  
 		<?php
-		echo CHtml::dropDownList('new_city',0, CHtml::listData (SegCities::model()->findAll(), 'idseg_cities', 'seg_cityname'));
-		echo CHtml::link("create","javascript:void(0);",array('onclick'=>'newtourist();','style'=>'background-color:##FFE495;'));
+		echo CHtml::dropDownList('new_city',0, CHtml::listData (SegCities::model()->findAll(), 'idseg_cities', 'seg_cityname'),array("style"=>"margin:0 5px;"));
+		echo CHtml::link("erstellen","javascript:void(0);",array('onclick'=>'newtourist();','style'=>'background-color:##FFE495;'));
 		$this->endWidget();
 		?>
 		</div>
@@ -99,6 +99,7 @@
 	   'class'=>'table-responsive',
 	'style'=>'padding-top: 0px;',
     ),
+		'summaryText'=>'Insgesamt {count} Ergeibni&szlig;e',
 	'columns'=>array(
 				array(
 			'class'=>'CButtonColumn',
@@ -109,24 +110,25 @@
 				   
 						 //'imageUrl'=>'/images/system/proc.png',
 						'url' => 'Yii::app()->createUrl("office/current",array("id_sched"=>$data->idseg_scheduled_tours))',
-						'label'=>'Invoice for guide',
+						'label'=>'Rechnung',
 //						'visible'=>'$data->openTour!=1',
 //						'visible'=>'$data->tourroute_id > 0 && $data->openTour!=1',
 				   ),
  				   'delete' => array(
 						'url' => 'array("deleteST","id"=>"$data->idseg_scheduled_tours")',				   
 						'visible'=>'is_null($data->current_subscribers)',
+						'label'=>'Löchen',
 				   ),
 				   'edit' => array(
 						'imageUrl'=>'/img/view.png',
 						'url' => "array('sched','id'=>\$data->idseg_scheduled_tours)",
-						'label'=>'Edit tour',
+						'label'=>'Anderung tour',
 				   ),
 				   'pdf' => array(
 						'imageUrl'=>'/img/pdf.png',
 						'url' => 'Yii::app()->createUrl("/filespdf/$data->additional_info2.pdf")',
 					   'options'=>array("target"=>'_blank'),
-						'label'=>'View PDF',
+						'label'=>'PDF anzeigen',
 						'visible'=>'$data->openTour',
 				   ),
 				   

@@ -2,7 +2,7 @@
      <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-<h1>Update Scheduled Tour <?php echo $model->idseg_scheduled_tours; ?></h1>
+<h1>Update geplant Touren <?php echo $model->idseg_scheduled_tours; ?></h1>
      </section>
 
         <!-- Main content -->

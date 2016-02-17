@@ -27,8 +27,8 @@
 <?php
 $this->breadcrumbs=array(
     'Guides'=>array('admin'),
-	'Requests for '.$user['username']=>array('cashReport','id'=>$user['id'],'typo'=>1),
-	'Gesamte Kasse',
+	'Anträge Kasseänderungen '.$user['username']=>array('cashReport','id'=>$user['id'],'typo'=>1),
+	'Kassenverlauf',
 );
  $this->widget('zii.widgets.CBreadcrumbs', array(
         'links'=>$this->breadcrumbs,
@@ -42,7 +42,7 @@ $this->breadcrumbs=array(
 
 
 ?>
-<h1>Gesamte Kasse - <?php echo $user['contact_ob']['firstname']." ".$user['contact_ob']['surname']; ?></h1>
+			<h1>Ka&szlig;enverlauf f&uuml;r <?php echo $user['contact_ob']['firstname']." ".$user['contact_ob']['surname']; ?></h1>
       </section>
 
         <!-- Main content -->
@@ -82,12 +82,10 @@ $this->breadcrumbs=array(
  				  'name'=>'CashboxChangeRequests[to_date]',
 				  'attribute'=>'to_date', // Model attribute filed which hold user input
 				  'model'=>$model,            // Model name
-//    'name'=>'to_date',
- //    'value'=>Yii::app()->request->cookies['to_date']->value,
- 							'language'=>'de',
-     'options'=>array(
-        'showAnim'=>'fold',
-        'dateFormat'=>'yy-mm-dd',
+				'language'=>'de',
+			     'options'=>array(
+		        'showAnim'=>'fold',
+				'dateFormat'=>'yy-mm-dd',
  
     ),
 					'htmlOptions'=>array(
@@ -115,7 +113,7 @@ $dataProvider=$model->search();
    'rowCssClassExpression' => '(is_null($data->approvedBy)&&($data->reject==0))? "table_scheduled_pdf" : "table_scheduled"', 
 	'htmlOptions'=>array('class'=>'table-responsive'),
 	'itemsCssClass'=>'table table-bordered',
-    'summaryText' => "Initial sum:".Yii::app()->numberFormatter->formatCurrency($cashnow, ''),
+    'summaryText' => "Ausgangsbetrag: ".Yii::app()->numberFormatter->formatCurrency($cashnow, ''),
 //      'ajaxUpdate'=>false,
 //	'filter'=>$model,
         'htmlOptions'=>array(
@@ -205,7 +203,7 @@ $dataProvider=$model->search();
 						'url' => 'Yii::app()->createUrl("/filespdf/".$data->sched->additional_info2.".pdf")',
 //						'url' => '$data->sched->additional_info2',
 					   'options'=>array("target"=>'_blank'),
-						'label'=>'View PDF',
+						'label'=>'PDF anzeigen',
 						'visible'=>'$data->id_type==1 OR $data->id_type==2',
 				   ),
 				   

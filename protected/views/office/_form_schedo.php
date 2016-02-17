@@ -17,7 +17,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<p class="note">Felder mit <span class="required">*</span> sind pflicht.</p>
 
 	<?php echo $form->errorSummary($model); ?>
 
@@ -88,6 +88,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 				  'model'=>$model,            // Model name
 //				  'value'=>$model->isNewRecord ? date('dd.mm.yy') : '',
 				  'value'=>$model->isNewRecord ? date('yy-mm-dd') : '',
+					'language'=>'de',
 					'options'=>array(
 						'showAnim'=>'fold',
 						'dateFormat' => 'yy-mm-dd',
@@ -104,8 +105,9 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 		</div>
 		<div class="col-md-4">
 			<div class="form-group">
-				<?php
-				echo $form->labelEx($model,'starttime');
+				<?php 
+				echo chtml::label("Startzeit (real)", "SegScheduledTours_starttime");
+//				echo $form->labelEx($model,'starttime');
 	$this->widget('ext.clockpick.EClockpick', array(
          'model'            => $model,
 		'attribute'=>'starttime',
@@ -124,7 +126,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
                 'minutesopacity'=>1,
 			 ),
          'htmlOptions'      => array('size'=>10,
-					'maxlength'=>10, 
+					'maxlength'=>10,
 			 )
     ));	
 //	echo $form->textField($model,'starttime',array('class'=>"form-control timepicker"));
@@ -194,7 +196,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 			<div class="form-group">
 				<?php
 //						echo $form->labelEx($model,'isCanceled');
-					echo "<div>".$form->labelEx($model,'isCanceled')."</div>";
+				echo "<div>".chtml::label("Tour Storniert", "SegScheduledTours_isCanceled")."</div>";
+//					echo "<div>".$form->labelEx($model,'isCanceled')."</div>";
 					echo $form->checkBox($model,'isCanceled');
 					echo $form->error($model,'isCanceled');
 				?>
@@ -224,7 +227,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+				<?php echo CHtml::submitButton($model->isNewRecord ? 'Create':'Änderungen übernehmen',array('class'=>'btn btn-primary cancel')); // submit button ?> 
 	</div>
 
 <?php $this->endWidget(); ?>

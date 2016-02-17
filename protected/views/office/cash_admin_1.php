@@ -27,8 +27,8 @@
 <?php
 $this->breadcrumbs=array(
     'Guides'=>array('admin'),
-	'Gesamte Kasse '.$user['username']=>array('cashReport','id'=>$user['id'],'typo'=>0),
-	'Anträge Kasseänderungen',
+	CHtml::encode('Kassenverlauf für').$user['username']=>array('cashReport','id'=>$user['id'],'typo'=>0),
+	CHtml::encode('Anträge Kasseänderungen'),
 );
  $this->widget('zii.widgets.CBreadcrumbs', array(
         'links'=>$this->breadcrumbs,
@@ -42,7 +42,7 @@ $this->breadcrumbs=array(
 
 
 ?>
-<h1>Anträge Kasseänderungen - <?php echo $user['contact_ob']['firstname']." ".$user['contact_ob']['surname']; ?></h1>
+<h1>Antr&auml;ge Ka&szlig;eänderungen - <?php echo $user['contact_ob']['firstname']." ".$user['contact_ob']['surname']; ?></h1>
       </section>
 
         <!-- Main content -->
@@ -113,7 +113,7 @@ $dataProvider=$model->search(1);
 	'id'=>'pay-grid',
 	'dataProvider'=>$dataProvider,
    'rowCssClassExpression' => '(is_null($data->approvedBy)&&($data->reject==0))? "table_scheduled_pdf" : "table_scheduled"', 
-		'summaryText'=>'von {count} Einträgen',
+		'summaryText'=>'Insgesamt {count} Ergeibni&szlig;e',
  	'htmlOptions'=>array('class'=>'table-responsive'),
 	'itemsCssClass'=>'table table-bordered',
 //      'ajaxUpdate'=>false,

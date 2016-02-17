@@ -77,7 +77,7 @@ class SegTourroutes extends CActiveRecord
 		return array(
 			'idseg_tourroutes' => 'Idseg Tourroutes',
             'tour_categories' => 'Tour categories',
-			'name' => 'Tour',
+			'name' => 'Tour Routen',
 			'maintext' => 'Maintext',
 			'shorttext' => 'Shorttext',
 			'TNmin' => 'Tnmin',
