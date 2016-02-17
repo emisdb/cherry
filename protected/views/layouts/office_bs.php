@@ -55,10 +55,10 @@
               </a>
               <ul class="treeview-menu">
             <li <?php echo (Yii::app()->controller->action->id=='bonus') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-chevron-down'></i><span>Discount</span>", array('bonus')); ?>
+				<?php echo CHtml::link("<i class='fa fa-chevron-down'></i><span>Rabatt</span>", array('bonus')); ?>
             </li>
              <li <?php echo (Yii::app()->controller->action->id=='cr') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-sign-out'></i><span>Cancellation Reason</span>", array('cr')); ?>
+				<?php echo CHtml::link("<i class='fa fa-sign-out'></i><span>Stornogrund</span>", array('cr')); ?>
             </li>
               </ul>
             </li>

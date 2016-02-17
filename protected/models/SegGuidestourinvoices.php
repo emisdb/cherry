@@ -190,8 +190,8 @@ class SegGuidestourinvoices extends CActiveRecord
 			'cashIncome' => 'Cash Income',
 			'InvoiceNumber' => 'Invoice Number',
 			'TA_string' => 'TABN',
-			'from_date' => 'From',
-			'to_date' => 'To',
+			'from_date' => 'Von:',
+			'to_date' => 'Bis:',
 			'custname' => 'Vorname',
 			'custsname' => 'Nachname',
 		);

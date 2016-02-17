@@ -56,14 +56,15 @@ class Bonus extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'val' => 'Value',
-			'type' => 'Type',
-			'name' => 'Name',
-			'sort' => 'Sort',
+			'val' => 'Wert',
+			'type' => 'Einheit',
+			'name' => 'Bezeichnung',
+			'sort' => 'ID Eintrag',
 		);
 	}
 
 	/**
+													ID Eintrag
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *
 	 * Typical usecase:

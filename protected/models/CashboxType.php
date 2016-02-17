@@ -53,7 +53,7 @@ class CashboxType extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
+			'name' => 'Vorgang',
 			'value' => 'Value',
 		);
 	}

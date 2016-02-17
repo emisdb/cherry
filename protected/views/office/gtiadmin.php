@@ -26,14 +26,11 @@
  				  'name'=>'SegGuidestourinvoices[from_date]',
 				  'attribute'=>'from_date', // Model attribute filed which hold user input
 				  'model'=>$model,            // Model name
-//   'name'=>'from_date',  // name of post parameter
-  //   'value'=>Yii::app()->request->cookies['from_date']->value,  
-	// value comes from cookie after submittion
-							'language'=>'de',
-      'options'=>array(
-        'showAnim'=>'fold',
-        'dateFormat'=>'yy-mm-dd',
-    ),
+					'language'=>'de',
+					'options'=>array(
+					  'showAnim'=>'fold',
+					  'dateFormat'=>'yy-mm-dd',
+						 ),
 					'htmlOptions'=>array(
 						'class'=>'form-control-date-filter',
  					),				
@@ -64,7 +61,7 @@
 			</div>
 			</div>
 			<div class="col-md-6">
-				<?php echo CHtml::submitButton('Filter',array('class'=>'btn btn-primary cancel')); // submit button ?> 
+				<?php echo CHtml::submitButton('Suchen',array('class'=>'btn btn-primary cancel')); // submit button ?> 
 			</div>
 		</div>
  <?php $this->endWidget(); ?>	

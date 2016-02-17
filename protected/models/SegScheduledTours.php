@@ -178,8 +178,8 @@ class SegScheduledTours extends CActiveRecord
 			'original_starttime' => 'Original Starttime',
 			'additional_info' => 'Additional Info',
 			'visibility' => 'On/Off',
-			'city_id' => 'City',
-			'cityname' => 'City',
+			'city_id' => 'Stadt',
+			'cityname' => 'Stadt',
 			'isInvoiced_guide1' => 'Is Invoiced Guide1',
 			'isInvoiced_guide2' => 'Is Invoiced Guide2',
 			'isInvoiced_guide3' => 'Is Invoiced Guide3',
@@ -191,6 +191,8 @@ class SegScheduledTours extends CActiveRecord
 			'canceledBy' => 'Canceled By',
 			'cancellationAnnotation' => 'Office info',
                         'tourroute_ob' =>'Tour route',
+			'from_date' => 'Von:',
+			'to_date' => 'Bis:',
 		);
 	}
 	public function getGuideList()
@@ -324,10 +326,10 @@ class SegScheduledTours extends CActiveRecord
 			'*',
 			'cityname'=>array('asc'=>'city_ob.seg_cityname',
 					'desc'=>'city_ob.seg_cityname DESC', 
-					'label'=>'City'),
+					'label'=>'Stadt'),
 			'langname'=>array('asc'=>'language_ob.englishname',
 					'desc'=>'language_ob.englishname DESC', 
-					'label'=>'Language'),
+					'label'=>'Sprache'),
 			'guidename'=>array('asc'=>'user_ob.username',
 					'desc'=>'user_ob.username DESC', 
 					'label'=>'Guide'),

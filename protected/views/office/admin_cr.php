@@ -2,18 +2,21 @@
      <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-<h1>Cancellation Reasons</h1>
+<h1>Stornogrund</h1>
       </section>
 
         <!-- Main content -->
         <section class="content">
 
-<div class="create"><?php echo CHtml::link("New record",array("createcr")); ?></div>
+<div class="create"><?php echo CHtml::link("Neuer Eintrag",array("createcr")); ?></div>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'cancellation-reason-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
+	'htmlOptions'=>array('class'=>'table-responsive'),
+	'itemsCssClass'=>'table table-bordered',
+	'summaryText'=>'Zeigt {start} - {end} von {count} Einträgen',
 	'columns'=>array(
 		'id',
 		'name',

@@ -172,22 +172,29 @@ class CashboxChangeRequests extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idcashbox_change_requests' => 'Id',
+			'idcashbox_change_requests' => 'ID',
 			'id_users' => 'Id Users',
+			'ttastring' => 'Rechnung',
 			'image' => 'Upload document',
             'sched' => 'Invoice #',
-			'id_type' => 'Type',
-			'delta_cash' => 'Geldbetrag',
+			'id_type' => 'Vorgang',
+			'delta_cash' => 'Kasseänderung',
 			'guidename' => 'Guide',
 			'cityname' => 'City',
-			'reason' => 'Informationen',
-			'approvedBy' => 'Approved By',
-			'request_date' => 'Date',
-			'approval_date' => 'Approval Date',
+			'reason' => 'Begründung',
+			'approvedBy' => 'Genehmigung durch',
+			'request_date' => 'Antragsdatum',
+			'approval_date' => 'Genehmigungsdatum',
 			'sched_user_id' => 'Guide',
+			'from_date' => 'Von:',
+			'to_date' => 'Bis:',
 			
 		);
 	}
+             	    
+// 	   Begründung     Link     Kasseänderung 
+           	      
+
 		public function getUserOptions()
 		{
 			$usersArray = CHtml::listData(User::model()->with('contact_ob')->findAll('id_guide>0'), 'id', 'contact_ob.firstname');
@@ -292,7 +299,7 @@ class CashboxChangeRequests extends CActiveRecord
 			'*',
 			'cityname'=>array('asc'=>'cities.seg_cityname',
 							'desc'=>'cities.seg_cityname DESC', 
-							'label'=>'City'),
+							'label'=>'Stadt'),
 //			'cityname'=>array('asc'=>'city_ob.seg_cityname',
 //							'desc'=>'city_ob.seg_cityname DESC', 
 //							'label'=>'City'),
@@ -301,10 +308,10 @@ class CashboxChangeRequests extends CActiveRecord
 							'label'=>'Guide'),
 			'ttastring'=>array('asc'=>'guidestourinvoice.TA_string',
 							'desc'=>'guidestourinvoice.TA_string DESC', 
-							'label'=>'Invoice'),
+							'label'=>'Rechnung'),
 			'typename'=>array('asc'=>'cashtype.name',
 							'desc'=>'cashtype.name DESC', 
-							'label'=>'Type'),
+							'label'=>'Begründung'),
 
 		);
 		return new CActiveDataProvider($this, array(

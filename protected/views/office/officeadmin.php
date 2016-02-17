@@ -8,7 +8,7 @@
         <!-- Content Header (Page header) -->
        <section class="content-header">
 
-<h1>Scheduled Tours</h1>	
+<h1>Tourplan</h1>	
        </section>
 		<?php
 		$this->beginWidget('CActiveForm', array(
@@ -35,55 +35,52 @@
     'enableAjaxValidation'=>true,
 )); ?>
 		<div class="row">
-			<div class="col-md-1">
-				<b>From :</b>				
-			</div>
-			<div class="col-md-2">
-<?php
-$this->widget('zii.widgets.jui.CJuiDatePicker', array(
- 				  'name'=>'SegScheduledTours[from_date]',
+			<div class="col-md-3">
+			<div class="form-group">
+	<?php		echo $form->labelEx($model,'from_date',array('style'=>'margin-right:5px;')); 
+				$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+  				  'name'=>'SegScheduledTours[from_date]',
 				  'attribute'=>'from_date', // Model attribute filed which hold user input
 				  'model'=>$model,            // Model name
-//   'name'=>'from_date',  // name of post parameter
-  //   'value'=>Yii::app()->request->cookies['from_date']->value,  
-	// value comes from cookie after submittion
-     'options'=>array(
-        'showAnim'=>'fold',
-        'dateFormat'=>'yy-mm-dd',
-    ),
-    'htmlOptions'=>array(
-        'style'=>'height:20px;'
-    ),
+					'language'=>'de',
+					'options'=>array(
+					  'showAnim'=>'fold',
+					  'dateFormat'=>'yy-mm-dd',
+						 ),
+					'htmlOptions'=>array(
+						'class'=>'form-control-date-filter',
+ 					),				
 ));
 ?>				
 			</div>
-			<div class="col-md-1">
-				<b>to :</b>				
 			</div>
-			<div class="col-md-2">
-
-<?php
-$this->widget('zii.widgets.jui.CJuiDatePicker', array(
- 				  'name'=>'SegScheduledTours[to_date]',
+			<div class="col-md-3">
+			<div class="form-group">
+	<?php		echo $form->labelEx($model,'to_date',array('style'=>'margin-right:5px;')); 
+			$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+  				  'name'=>'SegScheduledTours[to_date]',
 				  'attribute'=>'to_date', // Model attribute filed which hold user input
 				  'model'=>$model,            // Model name
 //    'name'=>'to_date',
  //    'value'=>Yii::app()->request->cookies['to_date']->value,
+ 							'language'=>'de',
      'options'=>array(
         'showAnim'=>'fold',
         'dateFormat'=>'yy-mm-dd',
  
     ),
-    'htmlOptions'=>array(
-        'style'=>'height:20px;'
-    ),
+					'htmlOptions'=>array(
+						'class'=>'form-control-date-filter',
+ 					),				
 ));
 ?>				
 			</div>
+			</div>
 			<div class="col-md-6">
-				<?php echo CHtml::submitButton('Filter'); // submit button ?> 
+				<?php echo CHtml::submitButton('Suchen',array('class'=>'btn btn-primary cancel')); // submit button ?> 
 			</div>
 		</div>
+ 
  <?php $this->endWidget(); ?>	
 		<div class="row">
 			<div class="col-md-12">
@@ -97,7 +94,9 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
         'rowCssClassExpression' => '$data->openTour || $data->date_now > '.$datetime.' ? "table_scheduled" : "table_scheduled_pdf"', 
 	    'enablePagination'=>false,
 	'filter'=>$model,
+	'itemsCssClass'=>'table table-bordered',
    'htmlOptions'=>array(
+	   'class'=>'table-responsive',
 	'style'=>'padding-top: 0px;',
     ),
 	'columns'=>array(

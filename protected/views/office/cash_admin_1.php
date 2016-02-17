@@ -11,7 +11,7 @@
 			   <div class="modal-header">
 				 <button type="button" class="close" data-dismiss="modal" aria-label="close">
 					 <span aria-hidden="true">&times;</span></button>
-				 <h4 class="modal-title">Cashbox History</h4>
+				 <h4 class="modal-title">Anträge Kasseänderungen </h4>
 			   </div>
 			   <div class="modal-body">
 				 <div id="modal-data">This is the guide's info.</div>
@@ -27,8 +27,8 @@
 <?php
 $this->breadcrumbs=array(
     'Guides'=>array('admin'),
-	'History for '.$user['username']=>array('cashReport','id'=>$user['id'],'typo'=>0),
-	'Cashbox requests',
+	'Gesamte Kasse '.$user['username']=>array('cashReport','id'=>$user['id'],'typo'=>0),
+	'Anträge Kasseänderungen',
 );
  $this->widget('zii.widgets.CBreadcrumbs', array(
         'links'=>$this->breadcrumbs,
@@ -42,7 +42,7 @@ $this->breadcrumbs=array(
 
 
 ?>
-<h1>Cashbox requests for user <?php echo $user['contact_ob']['firstname']." ".$user['contact_ob']['surname']; ?></h1>
+<h1>Anträge Kasseänderungen - <?php echo $user['contact_ob']['firstname']." ".$user['contact_ob']['surname']; ?></h1>
       </section>
 
         <!-- Main content -->
@@ -56,53 +56,49 @@ $this->breadcrumbs=array(
     'enableAjaxValidation'=>true,
 )); ?>
 		<div class="row">
-			<div class="col-md-1">
-				<b>From :</b>				
-			</div>
-			<div class="col-md-2">
-<?php
-$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+			<div class="col-md-3">
+			<div class="form-group">
+	<?php		echo $form->labelEx($model,'from_date',array('style'=>'margin-right:5px;')); 
+				$this->widget('zii.widgets.jui.CJuiDatePicker', array(
  				  'name'=>'CashboxChangeRequests[from_date]',
 				  'attribute'=>'from_date', // Model attribute filed which hold user input
 				  'model'=>$model,            // Model name
-//   'name'=>'from_date',  // name of post parameter
-  //   'value'=>Yii::app()->request->cookies['from_date']->value,  
-	// value comes from cookie after submittion
-     'options'=>array(
-        'showAnim'=>'fold',
-        'dateFormat'=>'yy-mm-dd',
-    ),
-    'htmlOptions'=>array(
-        'style'=>'height:20px;'
-    ),
+					'language'=>'de',
+					'options'=>array(
+					  'showAnim'=>'fold',
+					  'dateFormat'=>'yy-mm-dd',
+						 ),
+					'htmlOptions'=>array(
+						'class'=>'form-control-date-filter',
+ 					),				
 ));
 ?>				
 			</div>
-			<div class="col-md-1">
-				<b>to :</b>				
 			</div>
-			<div class="col-md-2">
-
-<?php
-$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+			<div class="col-md-3">
+			<div class="form-group">
+	<?php		echo $form->labelEx($model,'to_date',array('style'=>'margin-right:5px;')); 
+			$this->widget('zii.widgets.jui.CJuiDatePicker', array(
  				  'name'=>'CashboxChangeRequests[to_date]',
 				  'attribute'=>'to_date', // Model attribute filed which hold user input
 				  'model'=>$model,            // Model name
 //    'name'=>'to_date',
  //    'value'=>Yii::app()->request->cookies['to_date']->value,
+ 							'language'=>'de',
      'options'=>array(
         'showAnim'=>'fold',
         'dateFormat'=>'yy-mm-dd',
  
     ),
-    'htmlOptions'=>array(
-        'style'=>'height:20px;'
-    ),
+					'htmlOptions'=>array(
+						'class'=>'form-control-date-filter',
+ 					),				
 ));
 ?>				
 			</div>
+			</div>
 			<div class="col-md-6">
-				<?php echo CHtml::submitButton('Filter'); // submit button ?> 
+				<?php echo CHtml::submitButton('Suchen',array('class'=>'btn btn-primary cancel')); // submit button ?> 
 			</div>
 		</div>
 <?php $this->endWidget(); ?>	
@@ -117,7 +113,10 @@ $dataProvider=$model->search(1);
 	'id'=>'pay-grid',
 	'dataProvider'=>$dataProvider,
    'rowCssClassExpression' => '(is_null($data->approvedBy)&&($data->reject==0))? "table_scheduled_pdf" : "table_scheduled"', 
- //      'ajaxUpdate'=>false,
+		'summaryText'=>'von {count} Einträgen',
+ 	'htmlOptions'=>array('class'=>'table-responsive'),
+	'itemsCssClass'=>'table table-bordered',
+//      'ajaxUpdate'=>false,
 //	'filter'=>$model,
         'htmlOptions'=>array(
         'style'=>'width:900px;'
@@ -155,7 +154,7 @@ $dataProvider=$model->search(1);
 					'type'=>'raw',
 					'value'=>"isset(\$data->tuser) ? \$data->tuser->contact_ob->firstname.' '.\$data->tuser->contact_ob->firstname : '-'",
 					'filter'=>false, // Set the filter to false when date range searching
-				'footer'=>'Total:',
+				'footer'=>'Gesamt:',
 			 ),
 		'reason',
        array(
@@ -181,7 +180,7 @@ $dataProvider=$model->search(1);
 						'url' => 'Yii::app()->createUrl("/image/cashdocs/".$data->doc->link)',
 //						'url' => '$data->sched->additional_info2',
 					   'options'=>array("target"=>'_blank'),
-						'label'=>'View file',
+						'label'=>'Datei zeigen',
 						'visible'=>'!is_null($data->doc)',
 				   ),
 				),

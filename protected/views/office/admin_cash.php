@@ -11,7 +11,7 @@
 			   <div class="modal-header">
 				 <button type="button" class="close" data-dismiss="modal" aria-label="close">
 					 <span aria-hidden="true">&times;</span></button>
-				 <h4 class="modal-title">Cashbox History</h4>
+				 <h4 class="modal-title">Gesamte Kasse</h4>
 			   </div>
 			   <div class="modal-body">
 				 <div id="modal-data">This is the guide's info.</div>
@@ -25,7 +25,7 @@
        <!-- Content Header (Page header) -->
         <section class="content-header">
 
-<h1>Cashbox  history for the Company</h1>
+<h1>Gesamte Kasse Cherrytours</h1>
       </section>
        <section class="content">
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -37,53 +37,49 @@
     'enableAjaxValidation'=>true,
 )); ?>
 		<div class="row">
-			<div class="col-md-1">
-				<b>From :</b>				
-			</div>
-			<div class="col-md-2">
-<?php
-$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+			<div class="col-md-3">
+			<div class="form-group">
+	<?php		echo $form->labelEx($model,'from_date',array('style'=>'margin-right:5px;')); 
+				$this->widget('zii.widgets.jui.CJuiDatePicker', array(
  				  'name'=>'CashboxChangeRequests[from_date]',
 				  'attribute'=>'from_date', // Model attribute filed which hold user input
 				  'model'=>$model,            // Model name
-//   'name'=>'from_date',  // name of post parameter
-  //   'value'=>Yii::app()->request->cookies['from_date']->value,  
-	// value comes from cookie after submittion
-     'options'=>array(
-        'showAnim'=>'fold',
-        'dateFormat'=>'yy-mm-dd',
-    ),
-    'htmlOptions'=>array(
-        'style'=>'height:20px;'
-    ),
+					'language'=>'de',
+					'options'=>array(
+					  'showAnim'=>'fold',
+					  'dateFormat'=>'yy-mm-dd',
+						 ),
+					'htmlOptions'=>array(
+						'class'=>'form-control-date-filter',
+ 					),				
 ));
 ?>				
 			</div>
-			<div class="col-md-1">
-				<b>to :</b>				
 			</div>
-			<div class="col-md-2">
-
-<?php
-$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+			<div class="col-md-3">
+			<div class="form-group">
+	<?php		echo $form->labelEx($model,'to_date',array('style'=>'margin-right:5px;')); 
+			$this->widget('zii.widgets.jui.CJuiDatePicker', array(
  				  'name'=>'CashboxChangeRequests[to_date]',
 				  'attribute'=>'to_date', // Model attribute filed which hold user input
 				  'model'=>$model,            // Model name
 //    'name'=>'to_date',
  //    'value'=>Yii::app()->request->cookies['to_date']->value,
+ 							'language'=>'de',
      'options'=>array(
         'showAnim'=>'fold',
         'dateFormat'=>'yy-mm-dd',
  
     ),
-    'htmlOptions'=>array(
-        'style'=>'height:20px;'
-    ),
+					'htmlOptions'=>array(
+						'class'=>'form-control-date-filter',
+ 					),				
 ));
 ?>				
 			</div>
+			</div>
 			<div class="col-md-6">
-				<?php echo CHtml::submitButton('Filter'); // submit button ?> 
+				<?php echo CHtml::submitButton('Suchen',array('class'=>'btn btn-primary cancel')); // submit button ?> 
 			</div>
 		</div>
  
@@ -97,7 +93,9 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
 	'id'=>'cashbox-change-requests-grid',
 	'dataProvider'=>$model->search_full(),
 	'rowCssClassExpression' => '(is_null($data->approvedBy)&&($data->reject==0))? "table_scheduled_pdf" : "table_scheduled"', 
-    'summaryText' => "Starting balance:".Yii::app()->numberFormatter->formatCurrency($cashnow, ''),
+    'summaryText' => "Starting balance: ".Yii::app()->numberFormatter->formatCurrency($cashnow, ''),
+	'htmlOptions'=>array('class'=>'table-responsive'),
+	'itemsCssClass'=>'table table-bordered',
 	'filter'=>$model,
        'htmlOptions'=>array(
         'style'=>'width:1000px;'
@@ -116,13 +114,14 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
 	 array(
                         'name'=>'request_date',
                         'type'=>'raw',
+                        'header'=>'Datum',
                         'value'=>"Yii::app()->dateFormatter->format('dd.MM.yyyy',\$data->request_date)",
                         'filter'=>true, // Set the filter to false when date range searching
 				),
 	 array(
                         'name'=>'request_date',
                         'type'=>'raw',
-                        'header'=>'Zeit',
+                        'header'=>'Uhrzeit',
                         'value'=>"Yii::app()->dateFormatter->format('HH:mm',\$data->request_date)",
                         'filter'=>false, // Set the filter to false when date range searching
  				),
@@ -140,14 +139,14 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
 				'class'=>'CButtonColumn',
 				'template'=>'{pdf}{view}',
                 'header'=>'Link',
-               'footer'=>'Total:',
+               'footer'=>'Gesamt:',
 				'buttons' => array(
 				   'view' => array(
 						'imageUrl'=>'/img/view.png',
 						'url' => 'Yii::app()->createUrl("/image/cashdocs/".$data->doc->link)',
 //						'url' => '$data->sched->additional_info2',
 					   'options'=>array("target"=>'_blank'),
-						'label'=>'View file',
+						'label'=>'Datei zeigen',
 						'visible'=>'!is_null($data->doc)',
 				   ),
 				   'pdf' => array(
@@ -155,7 +154,7 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
 						'url' => 'Yii::app()->createUrl("/filespdf/".$data->sched->additional_info2.".pdf")',
 //						'url' => '$data->sched->additional_info2',
 					   'options'=>array("target"=>'_blank'),
-						'label'=>'View PDF',
+						'label'=>'PDF zeigen',
 						'visible'=>'$data->id_type==1 OR $data->id_type==2',
 				   ),
 				   
@@ -163,11 +162,10 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', array(
 		),	
 	       array(
             'name'=>'delta_cash',
-             'filter'=>true, // Set the filter to false when date range searching
+//             'filter'=>true, // Set the filter to false when date range searching
                 'type'=>'raw',
             'value'=>"Yii::app()->numberFormatter->formatCurrency(\$data->delta_cash, '')",
- // 			'filter'=>false, Set the filter to false when date range searching
-			'htmlOptions'=>array('style' => 'text-align: right;'),
+ 			'htmlOptions'=>array('style' => 'text-align: right;'),
                         'footer'=>$model->getTotals($model->search_full()->getKeys()),
                        'footerHtmlOptions'=>array(
                            'style'=>'font-style:normal; color:#000;text-align:right;'

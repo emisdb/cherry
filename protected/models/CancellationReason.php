@@ -53,8 +53,8 @@ class CancellationReason extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'value' => 'Value',
+			'name' => 'Bezeichnung',
+			'value' => 'Wert',
 		);
 	}
 

@@ -86,8 +86,8 @@
 		'dataProvider'=>$modelsearch,//$model->search_root(),
         'rowCssClassExpression' => '$data->payNA>0 ? "table_scheduled_pdf" : "table_scheduled"', 
 	'htmlOptions'=>array('class'=>'table-responsive'),
-		'summaryText'=>'Zeigt {start} - {end} von {count} Einträgen',
 	'itemsCssClass'=>'table table-bordered',
+		'summaryText'=>'Zeigt {start} - {end} von {count} Einträgen',
 	'filter'=>$model,
 	'columns'=>array(
 /*

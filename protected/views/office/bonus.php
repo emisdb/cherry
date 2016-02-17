@@ -2,18 +2,21 @@
      <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-<h1>Discount</h1>
+<h1>Rabatt</h1>
       </section>
 
         <!-- Main content -->
         <section class="content">
 
-<div class="create"><?php echo CHtml::link("New record",array("create")); ?></div>
+<div class="create"><?php echo CHtml::link("Neuer Eintrag",array("create")); ?></div>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'bonus-grid',
 	'dataProvider'=>$model->search(),
+	'htmlOptions'=>array('class'=>'table-responsive'),
+	'itemsCssClass'=>'table table-bordered',
 //	'filter'=>$model,
+	'summaryText'=>'Zeigt {start} - {end} von {count} Einträgen',
 	'columns'=>array(
 	//	'id',
 		'val',
