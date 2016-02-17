@@ -1456,30 +1456,30 @@ class GuideController extends Controller
 		$tbl0 = '<table style="margin:30px;">
                         <tr>
                             <td>
-                                <div style="color:#000000;font-size:20px;font-weight:bold;">Route Accounting<br></div> 
+                                <div style="color:#000000;font-size:20px;font-weight:bold;">Tourabrechnung<br></div> 
                                 <table style="width:200px;">
                                     <tr>
-                                            <td>Invoice number:</td>
+                                            <td>Rechnungsnummer:</td>
 											<td style="text-align:right;">'.$txt_num.'</td>
                                     </tr>
                                     <tr>
-                                            <td>Date of invoice:</td>
+                                            <td>Rechnungsdatum:</td>
                                             <td style="text-align:right;">'.$date_format.'</td>
                                     </tr>
                                     <tr>
-                                            <td>Time of day:</td>
+                                            <td>Uhrzeit:</td>
                                             <td style="text-align:right;">'.$time_format.'</td>
                                     </tr>
                                     <tr>
-                                            <td>Tour ID:</td>
+                                            <td>TourID:</td>
                                             <td style="text-align:right;">'.$sched->tourroute_id.'</td>
                                     </tr>
                                     <tr>
-                                            <td>Page:</td>
+                                            <td>Seite:</td>
                                             <td style="text-align:center;">1 of 2</td>
                                     </tr>
                                 </table> <br>
-                                <div style="color:#000000;font-size:15px;">Tour guests on '.$date_format.', '.$time_format.'</div>   
+                                <div style="color:#000000;font-size:15px;">Tourgäste am '.$date_format.', '.$time_format.'</div>   
                             </td>
                             <td style="text-align:right;">';
                                 $tbl_img = '<img src="'.Yii::app()->request->baseUrl.'/img/str2/logo2.png" width="100px">';
@@ -1489,12 +1489,12 @@ class GuideController extends Controller
 				$tbl02= '<table style="margin:30px;">
 				  <tbody>
 					<tr>
-					  <th style="font-weight:bold;"><br>&nbsp;<br>TourHostNr<br></th>
+					  <th style="font-weight:bold;"><br>&nbsp;<br>Tourgastnummer<br></th>
 					  <th style="font-weight:bold;"><br>&nbsp;<br>Name<br></th>
-					  <th style="font-weight:bold;width:100px;"><br>&nbsp;<br>Discount<br></th>
-					  <th style="font-weight:bold;"><br>&nbsp;<br>Payment<br></th>
-					  <th style="font-weight:bold;width:50px;"><br>&nbsp;<br>Price<br></th>
-					  <th style="font-weight:bold;width:50px;"><br>&nbsp;<br>Vat.<br></th>
+					  <th style="font-weight:bold;width:100px;"><br>&nbsp;<br>Rabatt/Gutschein<br></th>
+					  <th style="font-weight:bold;"><br>&nbsp;<br>Zahlungsmittel<br></th>
+					  <th style="font-weight:bold;width:50px;"><br>&nbsp;<br>Preis(inkl.USt.)<br></th>
+					  <th style="font-weight:bold;width:50px;"><br>&nbsp;<br>USt.<br></th>
 					  <th style="font-weight:bold;width:100px;text-align:center;"><br>&nbsp;<br>Option<br></th>
 					</tr>';
 					$vat= Yii::app()->db->createCommand("SELECT value from mainoptions where name='Vat'")->queryScalar();
@@ -1598,22 +1598,22 @@ class GuideController extends Controller
 				<table  stytle="border:0px solid red;">
 					<tr>
 						<td width="45%">&nbsp;</td>
-						<td width="30%" style="text-align:left;">Total revenue excluding VAT:</td>
+						<td width="30%" style="text-align:left;">Gesamteinnahmen exklusive Umsatzsteuer: </td>
 						<td width="10%" style="text-align:right;">'.number_format($sum_b_vat, 2, '.', ' ').' &euro;</td>
 					</tr>
 						<tr>
 						<td></td>
-						<td style="text-align:left;">Sales tax: </td>
+						<td style="text-align:left;">Umsatzsteuer: </td>
 						<td style="text-align:right;">'.number_format($sum_vat, 2, '.', ' ').' &euro;</td>
 					</tr>
 						<tr>
 						<td></td>
-						<td style="text-align:left;">Total revenue: </td>
+						<td style="text-align:left;">Anteil der Bareinnahmen inkl. Umsatzsteuer: </td>
 						<td style="text-align:right;">'.number_format($sum_itog, 2, '.', ' ').' &euro;</td>
 					</tr>
 						<tr>
 						<td></td>
-						<td style="text-align:left;font-weight:bold;">Share of cash income includes tax: </td>
+						<td style="text-align:left;font-weight:bold;">Gesamteinnahmen: </td>
 						<td style="text-align:right;font-weight:bold;">'.number_format($sum_bar, 2, '.', ' ').' &euro;</td>
 					</tr>
 				</table>
@@ -1645,7 +1645,7 @@ class GuideController extends Controller
 				$pdf->writeHTML($tbl, true, false, false, false, '');
 				if($is_full){
 				$tbl_page2='
-				<div style="color:#000000;font-size:20px;font-weight:bold;">Tour Guide</div>
+				<div style="color:#000000;font-size:20px;font-weight:bold;">Tourguide</div>
 				<br>
 				<hr style="border:1px solid #000000;">
 				<br>&nbsp;<br>
@@ -1674,81 +1674,81 @@ class GuideController extends Controller
 						<tr>
 						  <td>'.$sched->user_ob->contact_ob['country'].'</td>
 						  <td>&nbsp;</td>
-						  <td>Base honorarium:</td>
+						  <td>Basishonorar:</td>
 						  <td>&nbsp;</td>
 						  <td style="text-align:right;">'.$forpdf['base_provision'].'&nbsp;&euro;</td>
 						</tr>
 						<tr>
-						  <td>Tax number</td>
+						  <td>Steuernummer:</td>
 						  <td style="font-weight:bold;text-align:right;">'.$sched->user_ob->guide_ob['taxnumber'].'</td>
-						  <td>Guest Number Variable</td>
+						  <td>Gastanzahl Variable:</td>
 						  <td style="text-align:center;">'.$forpdf['cifra'].'x</td>
 						  <td style="text-align:right;">'.$forpdf['guestsMinforVariable'].'&nbsp;&euro;</td>
 						</tr>
 						<tr>
-						  <td>Tax office</td>
+						  <td>Finanzamt:</td>
 						  <td style="font-weight:bold;text-align:right;">'.$sched->user_ob->guide_ob['taxoffice'].'</td>
-						  <td style="font-weight:bold;">Total fees</td>
+						  <td style="font-weight:bold;">Gesamthonorar:</td>
 						  <td>&nbsp;</td>
 						  <td style="font-weight:bold;text-align:right;">'.$forpdf['gonorar_zero'].'&nbsp;&euro;</td>
 						</tr>
 						<tr>
-						  <td>Guide`s Invoice</td>
+						  <td>Guide\'s RechnungsNr.:</td>
 						  <td style="font-weight:bold;text-align:right;">'.$sched->GN_string.'</td>
-						  <td colspan="2">(including '.$vat.'% vat:&nbsp;'.$forpdf['gonorar_vat'].'&nbsp;&euro;)</td>
+						  <td colspan="2">(inklusive '.$vat.'% vat:&nbsp;Umsatzsteuer:'.$forpdf['gonorar_vat'].'&nbsp;&euro;)</td>
 						  <td>&nbsp;</td>
 						</tr>
 						<tr>
-						  <td>The fee in the amount of</td>
+						  <td>Das Honorar in Höhe von </td>
 						  <td style="font-weight:bold;text-align:right;">'.$forpdf['gonorar_zero'].'&nbsp;&euro;</td>
 						  <td>&nbsp;</td>
 						  <td>&nbsp;</td>
 						  <td>&nbsp;</td>
 						</tr>
 						<tr>
-						  <td>Was obtained from</td>
+						  <td>wurde von der Firma</td>
 						  <td style="font-weight:bold;text-align:right;">'.$forpdf['firma'].'</td>
-						  <td style="font-size:12x;font-weight:bold;">Cash:</td>
+						  <td style="font-size:12x;font-weight:bold;">Kassenbestand:</td>
 						  <td>&nbsp;</td>
 						  <td>&nbsp;</td>
 						</tr>
 						<tr>
-						  <td>In cash to</td>
+						  <td>in Bar an</td>
 						  <td style="font-weight:bold;text-align:right;">'.$sched->user_ob->contact_ob['firstname'].' '.$sched->user_ob->contact_ob['surname'].'</td>
 						  <td>&nbsp;</td>
 						  <td>&nbsp;</td>
 						  <td>&nbsp;</td>
 						</tr>
 						<tr>
-						  <td>paid</td>
+						  <td>ausgezahlt</td>
 						  <td>&nbsp;</td>
-						  <td>Cash old:</td>
+						  <td>Kassenbestand alt:</td>
 						  <td>&nbsp;</td>
 						  <td style="text-align:right;">'.$forpdf['cashBefore'].'&nbsp;&euro;</td>
 						</tr>
 						<tr>
-						  <td colspan="2" style="font-weight:bold;">I confirm the new cash bar consisted of</td>
-						  <td>Cash receipts</td>
+						  <td colspan="2" style="font-weight:bold;">Ich bestätige den neuen Kassenbarbestand</td>
+						  <td>Bareinnahmen:</td>
 						  <td>&nbsp;</td>
 						  <td style="text-align:right;">'.$forpdf['sum_bar_zero'].'&nbsp;&euro;</td>
 						</tr>
 						<tr>
 						  <td colspan="2" style="font-weight:bold;">von&nbsp;'.$forpdf['cashnow_zero'].'&nbsp;&euro;</td>
-						  <td>Total fees</td>
+						  <td>Gesamthonorar:</td>
 						  <td>&nbsp;</td>
 						  <td style="text-align:right;">'.$forpdf['gonorar_zero'].'&nbsp;&euro;</td>
 						</tr>
 						<tr>
 						  <td>&nbsp;</td>
 						  <td>&nbsp;</td>
-						  <td style="font-weight:bold;">Cash sanderung</td>
+						  <td style="font-weight:bold;">Kassenbestandsänderung:</td>
 						  <td>&nbsp;</td>
 						  <td style="font-weight:bold;text-align:right;">'.$forpdf['delta_cash_zero'].'&nbsp;&euro;</td>
 						</tr>
 						<tr>
 						  <td>&nbsp;</td>
 						  <td>&nbsp;</td>
-						  <td colspan="2">Cash new: am '.$date_format.';'.$time_format.'</td>
+						  <td colspan="2">Kassenbestand neu: am '.$date_format.';'.$time_format.'</td>
 						  <td style="text-align:right;">'.$forpdf['cashnow_zero'].'&nbsp;&euro;</td>
 						</tr>
 						<tr>
@@ -1759,7 +1759,7 @@ class GuideController extends Controller
 						<tr>
 						  <td>&nbsp;</td>
 						  <td>&nbsp;</td>
-						  <td colspan="3">Signature&nbsp;'.$sched->user_ob->contact_ob['firstname'].' '.$sched->user_ob->contact_ob['surname'].'</td>
+						  <td colspan="3">Unterschrift&nbsp;'.$sched->user_ob->contact_ob['firstname'].' '.$sched->user_ob->contact_ob['surname'].'</td>
 						</tr>
 					  </tbody>
 				</table>
