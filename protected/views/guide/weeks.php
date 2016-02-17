@@ -104,7 +104,7 @@
     <td><?php echo $item->starttime;?></td>
     <td><?php echo $item->status;?></td>
     <td><?php if($item->status=='frei!'){
-         echo CHtml::link("Take",array('guide/take', 'date'=>$date, 'time'=>$item->time));
+         echo CHtml::link("Eintragen",array('guide/take', 'date'=>$date, 'time'=>$item->time));
 //
 //		 		 drawdd($date,$item->time);
    }
@@ -139,7 +139,7 @@
 </table>
 
  <hr>
-<h1> Spontaneous tour</h1>
+<h1>Spontane Tourabrechnung</h1>
 <div class="row">
 	<div class="col-md-2">
 <?php 
@@ -166,7 +166,7 @@
 	</div>
 		<div class="col-md-10">
  <?php
- echo CHtml::link("Take","#",array('onclick'=>'goclick()'));
+ echo CHtml::link("Eintragen","#",array('onclick'=>'goclick()'));
 ?>		
 						</div>
 						</div>

@@ -2,6 +2,22 @@
      <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
+<?php
+$this->breadcrumbs=array(
+//    'Tourplan'=>array('schedule'),
+   'Tourplan'=>YII::app()->request->urlReferrer,
+	'geplant Touren '.$model->idseg_scheduled_tours,
+);
+ $this->widget('zii.widgets.CBreadcrumbs', array(
+        'links'=>$this->breadcrumbs,
+        'homeLink'=>false,
+        'tagName'=>'ul',
+        'separator'=>'',
+        'activeLinkTemplate'=>'<li><a href="{url}">{label}</a></li>',
+        'inactiveLinkTemplate'=>'<li><span>{label}</span></li>',
+        'htmlOptions'=>array ('class'=>'breadcrumb')
+    ));
+?>
 <h1>Update geplant Touren <?php echo $model->idseg_scheduled_tours; ?></h1>
      </section>
 

@@ -36,26 +36,26 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
              <li <?php echo (Yii::app()->controller->action->id=='profile') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-th'></i> <span>Profile</span>", array('profile')); ?>
+				<?php echo CHtml::link("<i class='fa fa-th'></i> <span>Benutzer</span>", array('profile')); ?>
             </li>
              <li>
-				<?php echo CHtml::link("<i class='fa fa-laptop'></i> <span>Return to the site</span>", "/"); ?>
+				<?php echo CHtml::link("<i class='fa fa-laptop'></i> <span>Homepage</span>", "/"); ?>
             </li>
              <li <?php echo (Yii::app()->controller->action->id=='weeks') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-table'></i><span>Schedule</span>", array('guide/weeks','date'=>date('d.m.Y'))); ?>
+				<?php echo CHtml::link("<i class='fa fa-table'></i><span>Touren</span>", array('guide/weeks','date'=>date('d.m.Y'))); ?>
             </li>
               <li <?php echo (Yii::app()->controller->action->id=='schedule') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-edit'></i> <span>Scheduled tours</span>", array('guide/schedule')); ?>
+				<?php echo CHtml::link("<i class='fa fa-edit'></i> <span>Touren</span>", array('guide/schedule')); ?>
             </li>
   			<li class="treeview <?php echo (in_array(Yii::app()->controller->action->id,array('history','cashReport','createCash'))) ? "active" : "" ; ?>">
               <a href="#">
                 <i class="fa fa-pie-chart"></i>
-                <span>Cashbox</span>
+                <span>Kassen</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
                 <li <?php echo (Yii::app()->controller->action->id=='cashReport') ? "class=\"active\"" : "" ; ?>>
-					<?php echo CHtml::link("<i class='fa fa-credit-card'></i> <span>Cashbox history</span>", array('guide/cashReport')); ?>
+					<?php echo CHtml::link("<i class='fa fa-credit-card'></i> <span>Ka&szlig;enverlauf</span>", array('guide/cashReport')); ?>
 				</li>
               <li <?php echo (Yii::app()->controller->action->id=='createCash') ? "class=\"active\"" : "" ; ?>>
 					<?php echo CHtml::link("<i class='fa fa-money'></i> <span>Create record</span>", array('guide/createCash')); ?>

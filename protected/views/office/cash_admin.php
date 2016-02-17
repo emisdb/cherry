@@ -39,8 +39,6 @@ $this->breadcrumbs=array(
         'inactiveLinkTemplate'=>'<li><span>{label}</span></li>',
         'htmlOptions'=>array ('class'=>'breadcrumb')
     ));
-
-
 ?>
 			<h1>Ka&szlig;enverlauf f&uuml;r <?php echo $user['contact_ob']['firstname']." ".$user['contact_ob']['surname']; ?></h1>
       </section>
