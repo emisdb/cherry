@@ -50,7 +50,7 @@ KONTAKTINFORMATIONEN
 )); ?>
 
 <?php if ($model->id_guide!=0){
-	echo "<hr /> GUIDE'S DATA   <hr />";
+	echo "<hr />Homepageauftritt <hr />";
 
     $this->widget('zii.widgets.CDetailView', array(
 	    'data'=>$model->guide_ob,
@@ -68,7 +68,7 @@ KONTAKTINFORMATIONEN
            // 'taxoffice',  
 	   ),
     )); 
-	echo "<hr />CITY<hr />";
+	echo "<hr />Stadt<hr />";
  if(!empty($city)){echo $city->seg_cityname;
  } else {echo "No item city"; } 
  	echo " <hr /> TOUR ROUTES <hr />";
@@ -81,7 +81,7 @@ KONTAKTINFORMATIONEN
 	 }
 	 else { echo "No items tourroutes";
  } 
- 	echo "<hr />LANGUADGE <hr />";
+ 	echo "<hr />Sprachen<hr />";
 
 	if(isset($lan_obs)) { foreach($lan_obs as $lan_ob_user_item){
 		echo "<div>".$lan_ob_user_item->englishname."</div>";
@@ -94,7 +94,7 @@ KONTAKTINFORMATIONEN
 	?>  
 
     <hr />
-    CASH INFO
+    Kaßedaten
     <hr />
    <div class="text-h2">General information</div>
     <?php $form=$this->beginWidget('CActiveForm', array(
@@ -103,14 +103,14 @@ KONTAKTINFORMATIONEN
 )); ?>
     <table class="info-table">
 	<tr>
-    	<td>Current cashbox</td>
+    	<td>Kassenbestand</td>
         <td><? echo $guidesdata->cash_box; ?></td>
-    	<td>Sales tax</td>
+    	<td>Umsatzsteuerpflichtig</td>
         <td>
 		<? echo $form->radioButtonList(
 			$guidesdata,
 			'paysUSt', 
-			array('1'=>'Yes','0'=>'No'), 
+			array('1'=>'Ja','0'=>'Nein'), 
 			array(
     			'labelOptions'=>array('style'=>'display:inline;','readonly'=>'readonly'), 
     			'separator'=>'  ',
@@ -119,13 +119,13 @@ KONTAKTINFORMATIONEN
 		); ?></td>        
     </tr>
     <tr>
-    	<td colspan="2">Billings 2015</td>
+    	<td colspan="2">Rechnungsanzahl 2015</td>
         <td colspan="2"><?php echo $form->textField($guidesdata,'inVoiceCount2015',array('readonly'=>'readonly')); ?></td>
     </tr>
 	<tr>
-    	<td>Tax number</td>
+    	<td>Steuernummer</td>
         <td><?php echo $form->textField($guidesdata,'taxnumber',array('readonly'=>'readonly')); ?></td>
-    	<td>Tax office</td>
+    	<td>Zuständiges Finanzamt</td>
         <td><?php echo $form->textField($guidesdata,'taxoffice',array('size'=>45,'maxlength'=>45,'readonly'=>'readonly')); ?></td>
     </tr>
     <tr>
@@ -143,7 +143,7 @@ KONTAKTINFORMATIONEN
 
 <div style="padding:20px;"></div>
 
-<div class="text-h2">Information tour routes</div>
+<div class="text-h2">Tour Routen</div>
 <?php $form_t=$this->beginWidget('CActiveForm', array(
 	'id'=>'cash_box-form',
 	'enableAjaxValidation'=>false,
@@ -160,25 +160,25 @@ KONTAKTINFORMATIONEN
         <? } ?>
     </tr>
     <tr>
-    	<td>Basic fee </td>
+    	<td>Grundvergütung </td>
         <? for($k=0;$k<$count_col;$k++) {?>
         	<td><?php echo $form_t->textField($array_tour_link[$k],'base_provision'.$k,array('readonly'=>'readonly')); ?></td>
         <? } ?>
     </tr>
         <tr>
-    	<td>Guest variable </td>
+    	<td>Minimum Gastanzahl</td>
         <? for($k=0;$k<$count_col;$k++) {?>
         	<td><?php echo $form_t->textField($array_tour_link[$k],'guest_variable'.$k,array('readonly'=>'readonly')); ?></td>
         <? } ?>
     </tr>
         <tr>
-    	<td>Guest variable ab x TN ->x </td>
+    	<td>Variable Vergütung pro zusätzlichen Gast</td>
         <? for($k=0;$k<$count_col;$k++) {?>
         	<td><?php echo $form_t->textField($array_tour_link[$k],'guestsMinforVariable'.$k,array('readonly'=>'readonly')); ?></td>
         <? } ?>
     </tr>
         <tr>
-    	<td>Gutschei-VK commission </td>
+    	<td>Provision Gutscheinverkauf</td>
         <? for($k=0;$k<$count_col;$k++) {?>
         	<td><?php echo $form_t->textField($array_tour_link[$k],'voucher_provision'.$k,array('readonly'=>'readonly')); ?></td>
         <? } ?>
