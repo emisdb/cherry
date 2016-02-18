@@ -227,7 +227,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 	</div>
 
 	<div class="row buttons">
-				<?php echo CHtml::submitButton($model->isNewRecord ? 'Create':'Änderungen übernehmen',array('class'=>'btn btn-primary cancel')); // submit button ?> 
+				<?php echo CHtml::submitButton('Änderungen übernehmen',array('class'=>'btn btn-primary cancel')); // submit button ?> 
 	</div>
 
 <?php $this->endWidget(); ?>
