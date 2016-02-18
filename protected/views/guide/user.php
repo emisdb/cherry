@@ -3,8 +3,22 @@
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-
-<h1>Update user - <?php echo $model->username; ?> (<?php echo $model->role_ob->groupname; ?> )</h1>
+<?php
+$this->breadcrumbs=array(
+    'Benutzerprofil'=>array('profile'),
+	'Benutzerprofil Aktualisieren',
+);
+ $this->widget('zii.widgets.CBreadcrumbs', array(
+        'links'=>$this->breadcrumbs,
+        'homeLink'=>false,
+        'tagName'=>'ul',
+        'separator'=>'',
+        'activeLinkTemplate'=>'<li><a href="{url}">{label}</a></li>',
+        'inactiveLinkTemplate'=>'<li><span>{label}</span></li>',
+        'htmlOptions'=>array ('class'=>'breadcrumb')
+    ));
+?>
+<h1>Benutzerprofil aktualisieren - <?php echo $model->username; ?> (<?php echo $model->role_ob->groupname; ?> )</h1>
 
 
 

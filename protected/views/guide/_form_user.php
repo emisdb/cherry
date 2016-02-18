@@ -27,8 +27,9 @@
         NUTZERINFORMATIONEN
     </div>
     <hr />
-    <?php if($model->isNewRecord) {?>
     <div class="row">
+    <?php if($model->isNewRecord) {?>
+	<div class="col-md-4">
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'role_ob',array('class'=>'control-label')); ?>
 		<?php $list = CHtml::listData($usergroups, 'idusergroups', 'groupname'); ?>
@@ -36,17 +37,22 @@
         <?php echo $form->error($model,'role_ob'); ?>
 	</div>
 	</div>
+
   
     <?php }?>
-	<div class="row">
+	<div class="col-md-4">
 	<div class="form-group">
 	<?php echo $form->labelEx($model,'username',array('class'=>'control-label')); ?>
 		<?php echo $form->textField($model,'username',array('size'=>60,'maxlength'=>128,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'username'); ?>
 	</div>
 	</div>
+	<div class="col-md-4">
+	</div>
+	</div>
 
 	<div class="row">
+	<div class="col-md-4">
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'new_password',array('class'=>'control-label')); ?>
 		<?php echo $form->passwordField($model,'new_password',array('size'=>60,'maxlength'=>128,'class'=>'form-control')); ?>
@@ -54,24 +60,29 @@
 	</div>
  	</div>
    
-	<div class="row"> 
+	<div class="col-md-4">
 	<div class="form-group">
 		<?php echo $form->label($model,'new_confirm',array('class'=>'control-label')); ?> 
 		<?php echo $form->passwordField($model,'new_confirm',array('size'=>60,'maxlength'=>128,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'new_confirm'); ?>
 	</div>
 	</div>
+	<div class="col-md-4">
+	</div>
+	</div>
 
 	<div class="row">
+	<div class="col-md-12">
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'profile',array('class'=>'control-label')); ?>
 		<?php echo $form->textArea($model,'profile',array('rows'=>6, 'cols'=>50,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'profile'); ?>
 	</div>
 	</div>
+	</div>
 
 	<div class="row buttons">
-        <button class="btn btn-primary" type="submit"><?php echo $model->isNewRecord ? 'New record' : 'Speichern'; ?></button>
+        <button class="btn btn-primary" type="submit">Speichern</button>
 	<button class="btn btn-primary cancel"><?php echo CHtml::link("Abbrechen", array("profile")) ?></button>
     </div>
 <?php $this->endWidget(); ?>
