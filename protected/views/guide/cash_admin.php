@@ -21,7 +21,7 @@
        <!-- Content Header (Page header) -->
         <section class="content-header">
 
-<h1>Cashbox history</h1>
+<h1>Kaßenverlauf</h1>
       </section>
 
         <!-- Main content -->
@@ -35,53 +35,49 @@
     'enableAjaxValidation'=>true,
 )); ?>
 		<div class="row">
-			<div class="col-md-1">
-				<b>From :</b>				
-			</div>
-			<div class="col-md-2">
-<?php
-$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+			<div class="col-md-3">
+			<div class="form-group">
+	<?php		echo $form->labelEx($model,'from_date',array('style'=>'margin-right:5px;')); 
+				$this->widget('zii.widgets.jui.CJuiDatePicker', array(
  				  'name'=>'CashboxChangeRequests[from_date]',
 				  'attribute'=>'from_date', // Model attribute filed which hold user input
 				  'model'=>$model,            // Model name
-//   'name'=>'from_date',  // name of post parameter
-  //   'value'=>Yii::app()->request->cookies['from_date']->value,  
-	// value comes from cookie after submittion
-     'options'=>array(
-        'showAnim'=>'fold',
-        'dateFormat'=>'yy-mm-dd',
-    ),
-    'htmlOptions'=>array(
-        'style'=>'height:20px;'
-    ),
+					'language'=>'de',
+					'options'=>array(
+					  'showAnim'=>'fold',
+					  'dateFormat'=>'yy-mm-dd',
+						 ),
+					'htmlOptions'=>array(
+						'class'=>'form-control-date-filter',
+ 					),				
 ));
 ?>				
 			</div>
-			<div class="col-md-1">
-				<b>to :</b>				
 			</div>
-			<div class="col-md-2">
-
-<?php
-$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+			<div class="col-md-3">
+			<div class="form-group">
+	<?php		echo $form->labelEx($model,'to_date',array('style'=>'margin-right:5px;')); 
+			$this->widget('zii.widgets.jui.CJuiDatePicker', array(
  				  'name'=>'CashboxChangeRequests[to_date]',
 				  'attribute'=>'to_date', // Model attribute filed which hold user input
 				  'model'=>$model,            // Model name
 //    'name'=>'to_date',
  //    'value'=>Yii::app()->request->cookies['to_date']->value,
+ 							'language'=>'de',
      'options'=>array(
         'showAnim'=>'fold',
         'dateFormat'=>'yy-mm-dd',
  
     ),
-    'htmlOptions'=>array(
-        'style'=>'height:20px;'
-    ),
+					'htmlOptions'=>array(
+						'class'=>'form-control-date-filter',
+ 					),				
 ));
 ?>				
 			</div>
+			</div>
 			<div class="col-md-6">
-				<?php echo CHtml::submitButton('Filter'); // submit button ?> 
+				<?php echo CHtml::submitButton('Suchen',array('class'=>'btn btn-primary cancel')); // submit button ?> 
 			</div>
 		</div>
 <?php $this->endWidget(); ?>	
@@ -95,11 +91,12 @@ $dataProvider=$model->search();
  $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'pay-grid',
 	'dataProvider'=>$dataProvider,
-    'summaryText' => "Initial sum:".Yii::app()->numberFormatter->formatCurrency($cashnow, ''),
+     'summaryText' => "Ausgangsbetrag: ".Yii::app()->numberFormatter->formatCurrency($cashnow, ''),
 //      'ajaxUpdate'=>false,
 //	'filter'=>$model,
-        'htmlOptions'=>array(
-        'style'=>'width:900px;'
+ 	'itemsCssClass'=>'table table-bordered',
+	'htmlOptions'=>array('class'=>'table-responsive',
+       'style'=>'width:900px;'
     ),
 	'columns'=>array(
 		 array(
@@ -113,7 +110,7 @@ $dataProvider=$model->search();
                         'type'=>'raw',
                         'value'=>"Yii::app()->dateFormatter->format('dd.MM.yyyy HH:mm',\$data->request_date)",
                         'filter'=>false, // Set the filter to false when date range searching
-                        'footer'=>'Total:',
+                        'footer'=>'Gesamt:',
 				),
 	       array(
             'name'=>'delta_cash',
@@ -129,7 +126,7 @@ $dataProvider=$model->search();
 			   ),
 	       array(
             'name'=>'delta_cash',
-            'header'=>'Result',
+            'header'=>'Nachher',
              'filter'=>false, // Set the filter to false when date range searching
                 'type'=>'raw',
             'value'=>array($this,'adding'),
@@ -171,7 +168,7 @@ $dataProvider=$model->search();
 						'url' => 'Yii::app()->createUrl("/image/cashdocs/".$data->doc->link)',
 //						'url' => '$data->sched->additional_info2',
 					   'options'=>array("target"=>'_blank'),
-						'label'=>'View file',
+						'label'=>'Datei zeigen',
 						'visible'=>'!is_null($data->doc)',
 				   ),
 				   'pdf' => array(
@@ -179,7 +176,7 @@ $dataProvider=$model->search();
 						'url' => 'Yii::app()->createUrl("/filespdf/".$data->sched->additional_info2.".pdf")',
 //						'url' => '$data->sched->additional_info2',
 					   'options'=>array("target"=>'_blank'),
-						'label'=>'View PDF',
+						'label'=>'PDF anzeigen',
 						'visible'=>'$data->id_type==1 OR $data->id_type==2',
 				   ),
 				   

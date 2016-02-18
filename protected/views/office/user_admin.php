@@ -129,25 +129,25 @@
                 'update' => array(
                      //'imageUrl'=>'/images/system/proc.png',
                     'url' => 'array("userUpdate", "id" => $data->id)',
-                    'label'=>'Update',
+                    'label'=>'Guideprofil',
                ),
                 'pwd' => array(
                      //'imageUrl'=>'/images/system/proc.png',
                     'url' => 'array("ucontact","id_user"=>$data->id)',
                     'label'=>'<i class="fa fa-user" style="padding:0 3px;"></i>',
-                    'options'=>array('title'=>'Guide edit'),
+                    'options'=>array('title'=>'Kontaktdaten'),
                ),
                 'cash' => array(
                      //'imageUrl'=>'/images/system/proc.png',
                     'url' => 'array("cashReport","id"=>$data->id)',
                     'label'=>'<i class="fa fa-credit-card" style="padding:0 3px;"></i>',
-                    'options'=>array('title'=>'Cashbox history'),
+                    'options'=>array('title'=>'Kaßenverlauf'),
                ),
                'cash_ap' => array(
                      //'imageUrl'=>'/images/system/proc.png',
                     'url' => 'array("cashReport","id"=>$data->id,"typo"=>1)',
                     'label'=>'<i class="fa fa-check-square-o" style="padding:0 3px;"></i>',
-                    'options'=>array('title'=>'Cashbox operations'),
+                    'options'=>array('title'=>'Anträge Kaßeänderungen'),
                ),
                 'delete' => array(
                      //'imageUrl'=>'/images/system/proc.png',
@@ -157,7 +157,7 @@
                      //'imageUrl'=>'/images/system/proc.png',
 //                    'url' => 'array("cashGive","id"=>$data->id)', 
                     'label'=>'<i class="fa fa-arrow-circle-left" style="padding:0 3px;"></i>',
-			         'options'=>array('title'=>'Send money','data-toggle'=>'modal','data-target'=>'#payModal','onclick'=>'clickPay(this);',
+			         'options'=>array('title'=>'Geld schicken','data-toggle'=>'modal','data-target'=>'#payModal','onclick'=>'clickPay(this);',
            ),
                ),
              ),

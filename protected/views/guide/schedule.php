@@ -57,7 +57,6 @@ $datetime = time();
 	'dataProvider'=>$model->search_s($id_control, $date),//$model->search_root(),
 //	'filter'=>$model,
 	'htmlOptions'=>array('class'=>'table-responsive'),
-	
 	'itemsCssClass'=>'table table-bordered',
 	'rowCssClassExpression' => '$data->openTour || $data->date_now > '.$datetime.' ? "table_scheduled" : "table_scheduled_pdf"', 
 	//'rowCssClassExpression' => '$date->openTour ? "table_scheduled" : "table_scheduled_pdf"', 
@@ -71,7 +70,7 @@ $datetime = time();
 				   
 						 //'imageUrl'=>'/images/system/proc.png',
 						'url' => 'Yii::app()->createUrl("guide/current",array("id_sched"=>$data->idseg_scheduled_tours))',
-						'label'=>'Invoice for guide',
+						'label'=>'Rechnung',
 						'visible'=>'$data->openTour!=1',
 //						'visible'=>'$data->tourroute_id > 0 && $data->openTour!=1',
 				   ),
@@ -83,7 +82,7 @@ $datetime = time();
 						'imageUrl'=>'/img/view.png',
 						'url' => 'Yii::app()->createUrl("/filespdf/$data->additional_info2.pdf")',
 					   'options'=>array("target"=>'_blank'),
-						'label'=>'View PDF',
+						'label'=>'PDF anzeigen',
 						'visible'=>'$data->openTour',
 				   ),
 				   
