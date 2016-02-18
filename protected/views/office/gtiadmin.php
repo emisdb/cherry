@@ -86,7 +86,7 @@
             'buttons' => array(
 				   'edit' => array(
 						'imageUrl'=>'/img/view.png',
-						'url' => "array('sched','id'=>\$data->idseg_guidesTourInvoices)",
+						'url' => "array('sched','id'=>\$data->sched->idseg_scheduled_tours)",
 						'label'=>'Edit tour',
 				   ),
 /* 
