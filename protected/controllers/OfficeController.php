@@ -40,7 +40,8 @@ class OfficeController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated users to access all actions
-				'users'=>array('@'),
+//				'users'=>array('@'),
+                'roles'=>array('office'),                
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -1543,7 +1544,7 @@ class OfficeController extends Controller
                                 $tbl_img = '<img src="'.Yii::app()->request->baseUrl.'/img/str2/logo2.png" width="100px">';
                                 $tbl01='</td></tr></table><hr style="border:1px solid #000000;">';
                                 $tbl_array=array();
-				
+
 				$tbl02= '<table style="margin:30px;">
 				  <tbody>
 					<tr>

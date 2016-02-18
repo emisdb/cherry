@@ -114,10 +114,10 @@ return array(
             'categories' => 'application',
             'levels'=>'error, warning, trace, profile, info',				),
 				// uncomment the following to show log messages on web pages
-				/*
-				array(
+				/*array(
 					'class'=>'CWebLogRoute',
 				),
+				
 				*/
 			),
 		),
