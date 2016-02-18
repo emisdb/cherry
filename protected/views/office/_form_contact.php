@@ -40,7 +40,8 @@
 				  'model'=>$model,            // Model name
 //				  'value'=>$model->isNewRecord ? date('dd.mm.yy') : '',
 				  'value'=>$model->isNewRecord ? date('yy-mm-dd') : '',
-				 'htmlOptions'=>array(
+						'language'=>'de',
+			 'htmlOptions'=>array(
 				 'class'=>"form-control"),
 					'options'=>array(
 						'showAnim'=>'fold',
