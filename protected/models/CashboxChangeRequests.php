@@ -98,7 +98,7 @@ class CashboxChangeRequests extends CActiveRecord
 			array('image', 'file', 'maxSize'=>10*1024*1024, 'allowEmpty'=>true, 'safe'=>false),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idcashbox_change_requests, id_users, id_type, delta_cash, sched ,reason, approvedBy, request_date, approval_date', 'safe', 'on'=>'search'),
+			array('idcashbox_change_requests, id_users, id_type, delta_cash, sched ,reason, approvedBy, request_date, approval_date, typename', 'safe', 'on'=>'search'),
 			array('idcashbox_change_requests, id_users, id_type, delta_cash, sched ,reason, approvedBy, request_date, approval_date, guidename, cityname,ttastring, typename', 'safe', 'on'=>'search_full'),
 		);
 	}
@@ -176,10 +176,11 @@ class CashboxChangeRequests extends CActiveRecord
 			'id_users' => 'Id Users',
 			'ttastring' => 'Rechnung',
 			'image' => 'Upload document',
-            'sched' => 'Invoice #',
+            'sched' => 'Rechnun',
 			'id_type' => 'Vorgang',
 			'delta_cash' => 'Ka&szlig;eänderung',
 			'guidename' => 'Guide',
+			'typename' => 'Vorgang',
 			'cityname' => 'City',
 			'reason' => 'Begründung',
 			'approvedBy' => 'Genehmigung durch',
@@ -311,7 +312,7 @@ class CashboxChangeRequests extends CActiveRecord
 							'label'=>'Rechnung'),
 			'typename'=>array('asc'=>'cashtype.name',
 							'desc'=>'cashtype.name DESC', 
-							'label'=>'Begründung'),
+							'label'=>'Vorgang'),
 
 		);
 		return new CActiveDataProvider($this, array(

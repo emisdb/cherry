@@ -93,7 +93,7 @@
 	'id'=>'cashbox-change-requests-grid',
 	'dataProvider'=>$model->search_full(),
 	'rowCssClassExpression' => '(is_null($data->approvedBy)&&($data->reject==0))? "table_scheduled_pdf" : "table_scheduled"', 
-    'summaryText' => "Starting balance: ".Yii::app()->numberFormatter->formatCurrency($cashnow, ''),
+    'summaryText' => "Ausgangsbetrag: ".Yii::app()->numberFormatter->formatCurrency($cashnow, ''),
 	'htmlOptions'=>array('class'=>'table-responsive'),
 	'itemsCssClass'=>'table table-bordered',
 	'filter'=>$model,

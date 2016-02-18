@@ -154,7 +154,7 @@ $dataProvider=$model->search(1);
 					'type'=>'raw',
 					'value'=>"isset(\$data->tuser) ? \$data->tuser->contact_ob->firstname.' '.\$data->tuser->contact_ob->firstname : '-'",
 					'filter'=>false, // Set the filter to false when date range searching
-				'footer'=>'Gesamt:',
+				'footer'=>'Nachher:',
 			 ),
 		'reason',
        array(

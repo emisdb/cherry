@@ -72,7 +72,7 @@ class SegContacts extends CActiveRecord
 			'surname' => 'Nachname',
 			'phone' => 'Telefon',
 			'email' => 'Email',
-			'additional_address' => 'Privatadresse',
+			'additional_address' => 'Adre&szlig;zusatz',
 			'country' => 'Land',
 			'city' => 'Stadt',
 			'postalcode' => 'Postleitzahl',

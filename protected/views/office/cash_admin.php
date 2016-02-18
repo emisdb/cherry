@@ -129,7 +129,7 @@ $dataProvider=$model->search();
                         'type'=>'raw',
                         'value'=>"Yii::app()->dateFormatter->format('dd.MM.yyyy HH:mm',\$data->request_date)",
                         'filter'=>false, // Set the filter to false when date range searching
-                        'footer'=>'Gesamt:',
+                        'footer'=>'Nachher:',
 				),
 			 array(
 					'name'=>'sched',

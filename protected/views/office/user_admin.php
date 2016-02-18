@@ -26,7 +26,8 @@
 			<div class="row">
 						<div class="col-md-6">
 							<?php
-								echo $form->labelEx($cash_model,'delta_cash'); 
+//								echo $form->labelEx($cash_model,'delta_cash'); 
+								echo chtml::label("Geldbetrag*", "CashboxChangeRequests_delta_cash");
 								echo $form->textField($cash_model,'delta_cash',array('style'=>'color:#000;'));
 								echo $form->error($cash_model,'delta_cash'); 
 								echo $form->hiddenField($cash_model,'id_users');
@@ -38,7 +39,8 @@
 					<div class="row">
 						<div class="col-md-10">
 						<?php 
-							echo $form->labelEx($cash_model,'reason');
+//							echo $form->labelEx($cash_model,'reason');
+							echo chtml::label("Informationen", "CashboxChangeRequests_reason");
 							echo $form->textField($cash_model,'reason',array('size'=>60,'maxlength'=>255,'style'=>'color:#000;')); 
 							echo $form->error($cash_model,'reason');
 						?>
