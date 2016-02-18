@@ -129,7 +129,7 @@ $dataProvider=$model->search();
                         'type'=>'raw',
                         'value'=>"Yii::app()->dateFormatter->format('dd.MM.yyyy HH:mm',\$data->request_date)",
                         'filter'=>false, // Set the filter to false when date range searching
-                        'footer'=>'Nachher:',
+                        'footer'=>'Gesamt:',
 				),
 			 array(
 					'name'=>'sched',
@@ -152,7 +152,7 @@ $dataProvider=$model->search();
 			   ),
 	       array(
             'name'=>'delta_cash',
-            'header'=>'Result',
+            'header'=>'Nachher',
              'filter'=>false, // Set the filter to false when date range searching
                 'type'=>'raw',
             'value'=>array($this,'adding'),
