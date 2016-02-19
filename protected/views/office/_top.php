@@ -38,7 +38,7 @@
                   <span class="label label-danger"><?php echo count($info['todo'])?></span>
                 </a>
                 <ul class="dropdown-menu" style="background-color: #8fdf82;">
-                  <li class="header" style="background-color: #8fdf82;">You have <?php echo count($info['todo'])?> tours unreported</li>
+                  <li class="header" style="background-color: #8fdf82;">Sie haben <?php echo count($info['todo'])?> Touren nicht gemeldet</li>
                   <li>
                     <!-- inner menu: contains the actual data -->
                     <ul class="menu">

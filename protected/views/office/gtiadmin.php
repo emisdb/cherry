@@ -5,7 +5,7 @@
         <!-- Content Header (Page header) -->
        <section class="content-header">
 
-<h1>Booking</h1>	
+<h1>Buchung</h1>	
        </section>
 
 
@@ -76,6 +76,8 @@
 	'dataProvider'=>$model->search(),//$model->search_root(),
 	'enablePagination'=>false,
 	'filter'=>$model,
+	'summaryText'=>'Zeigt von {count} Einträgen',
+
 	'htmlOptions'=>array('class'=>'table-responsive'),
 	'itemsCssClass'=>'table table-bordered',
  	'columns'=>array(

@@ -447,12 +447,12 @@ class GuideController extends Controller
                 $day->status = 'frei!';
             }
             if(($status_old=='Belegt, Deine Tour!')&&($day->status == 'frei!')){
-                $day->status ='Block after';
+                $day->status ='Keine Aktion';
              }
             if($day->status == 'Belegt, Deine Tour!'){
                 if($i!=0){
 					if($status_old=='frei!')
-					$model_week[$i-1]->status = 'Block before';
+					$model_week[$i-1]->status = 'Keine Aktion';
 				}
 
             }

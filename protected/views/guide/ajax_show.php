@@ -8,7 +8,7 @@
 
 
 <h3>
-	Show Tour - <?php echo $model->idseg_scheduled_tours;?>
+	Zeige Tour - <?php echo $model->idseg_scheduled_tours;?>
 			- <?php echo $date_format;?>
 			- <?php echo date( 'H:i', strtotime($model->starttime) );?> 
 			- <?php if(isset($model->tourroute_ob)) echo $model->tourroute_ob->name;?>
@@ -25,16 +25,16 @@
 					<thead>
 						<tr style="background-color: #003bb3;">
 							<th>
-								Name
+								Vorname
 							</th>
 							<th>
-								Last Name
+								Nachname
 							</th>
 							<th>
-								N of guests
+								Gästeanzahl
 							</th>
 							<th>
-								Phone
+								Telefon
 							</th>
 						</tr>
 					</thead>
@@ -71,7 +71,7 @@
         <div class="col-md-4"></div>
 	</div>
 <div class="panel panel-default">
-  <div class="panel-heading">Parameters</div>
+  <div class="panel-heading">Parameter</div>
   <div class="panel-body">
 
 	<div class="row">
@@ -100,7 +100,7 @@
 </div>
 			
 <div class="panel panel-default">
-  <div class="panel-heading">Tour cancellation</div>
+  <div class="panel-heading">Tour Stornierung</div>
   <div class="panel-body">
 
 	<div class="row">
@@ -135,7 +135,7 @@
 		
 		</div>
        <div class="col-md-2" style="padding-top: 20px;">	
-		   <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save',array('class'=>'btn btn-primary cancel')); ?>
+		   <?php echo CHtml::submitButton('Speichern',array('class'=>'btn btn-primary cancel')); ?>
 		</div>
 	</div>
 </div>
@@ -143,10 +143,10 @@
 <?php $this->endWidget(); ?>
 			<div class="row">
 				<div class="col-md-2">
-					<?php echo CHtml::link("Invoice", array("current","id_sched"=>$model->idseg_scheduled_tours), array( 'class'=>"btn btn-info" ,'role'=>"button"))?>
+					<?php echo CHtml::link("Rechnung", array("current","id_sched"=>$model->idseg_scheduled_tours), array( 'class'=>"btn btn-info" ,'role'=>"button"))?>
 				</div>					
 				<div class="col-md-2">
-					<?php echo CHtml::link("Back", array("weeks","date"=>$date_format), array( 'class'=>"btn btn-primary" ,'role'=>"button"))?>
+					<?php echo CHtml::link("Zurück", array("weeks","date"=>$date_format), array( 'class'=>"btn btn-primary" ,'role'=>"button"))?>
 				</div>					
 				<div class="col-md-8"></div>
 			</div>	

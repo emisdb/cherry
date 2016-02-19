@@ -1,22 +1,5 @@
 <?php $this->renderPartial('_top', array('info'=>$info));
-//function drawdd($date,$time)
-//{
-//	$arrtime=explode(":",$time);
-//	echo '<div class="btn-group">';
-//	echo '<button type="button" class="btn btn-default">'.CHtml::link("00",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."00:00")).'</button>';
-//	echo '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">';
-//	echo '<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>';
-//	echo '<ul class="dropdown-menu" role="menu" aria-expanded="false">';
-//	echo '<li>'.CHtml::link("00",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."00:00")).'</li>';
-//	echo '<li>'.CHtml::link("10",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."10:00")).'</li>';
-//	echo '<li>'.CHtml::link("20",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."20:00")).'</li>';
-//	echo '<li>'.CHtml::link("30",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."30:00")).'</li>';
-//	echo '<li>'.CHtml::link("40",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."40:00")).'</li>';
-//	echo '<li>'.CHtml::link("50",array('guide/take', 'date'=>$date, 'time'=>$arrtime[0].":"."00:00")).'</li>';
-//	echo '</ul></div> ';
-//
-//                       
-//}
+
 ?>
     <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
@@ -26,7 +9,7 @@
 			   <div class="modal-header">
 				 <button type="button" class="close" data-dismiss="modal" aria-label="close">
 					 <span aria-hidden="true">&times;</span></button>
-				 <h4 class="modal-title">Show tour</h4>
+				 <h4 class="modal-title">Zeige Tour</h4>
 			   </div>
 			   <div class="modal-body">
 				 <div id="modal-data">This is the guide's info.</div>
@@ -47,14 +30,9 @@
 		  }
 		  
 		  ?>
-
-		
-	
-		
-		<h1>Day Schedule for <?php echo $city->cities->seg_cityname ?> </h1>
+		<h1>Zeitplan für <?php echo $city->cities->seg_cityname ?> </h1>
 			<ol class="breadcrumb">
-				<li class="active">Day Schedule 
-				</li>
+				<li class="active">Zeitplan</li>
 			</ol>	
 	                    <div style=" width:100px;">
                     <?php
@@ -62,7 +40,6 @@
                             'name'=>'publishDate',
  								'value'=>$date, 
 							'language'=>'de',
-     
                             // additional javascript options for the date picker plugin
                             'options'=>array(
                                'showAnim'=>'fold',
@@ -93,10 +70,10 @@
 
 <table class='table' >
 <tr>
-<td>TIME original</td>
-<td>TIME start</td>
+<td>Zeitintervall</td>
+<td>Startzeit</td>
 <td>STATUS</td>
-<td>ACTION</td>
+<td>Aktion</td>
 </tr>
 <?php foreach($model as $item){?>
     <tr>
@@ -109,15 +86,15 @@
 //		 		 drawdd($date,$item->time);
    }
 	 else {        
-        if(substr($item->status,0,5)=='Block') {
+        if(substr($item->status,0,5)=='Keine') {
 //			if($item->status =='Block after')
 //				drawdd($date,$item->time);
 //			else 
-				echo "No action\n";
+				echo $item->status."\n";
 		}
 		else{  
         echo CHtml::ajaxLink(
-             "Show",
+             "Zeige",
              $url=array('ajaxShow'),
              $ajaxOptions= array(
             'data'=>array('id'=>$item->id),

@@ -66,7 +66,7 @@
 				<?php echo CHtml::link("<i class='fa fa-table'></i><span>Touren</span>", array('schedule')); ?>
             </li>
               <li <?php echo (Yii::app()->controller->action->id=='booking') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-bold'></i><span>Bookings</span>", array('booking')); ?>
+				<?php echo CHtml::link("<i class='fa fa-bold'></i><span>Buchung</span>", array('booking')); ?>
             </li>
   
             </ul>
