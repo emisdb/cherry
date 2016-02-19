@@ -104,12 +104,12 @@
   <div class="panel-body">
 
 	<div class="row">
-		<div class="col-md-2">
+		<div class="col-md-3">
 			<div class="form-group">
 				<?php
 //						echo $form->labelEx($model,'isCanceled');
 					echo "<div>".$form->labelEx($model,'isCanceled')."</div>";
-					echo $form->checkBox($model,'isCanceled');
+					echo $form->checkBox($model,'isCanceled',array('class'=>'form-control'));
 					echo $form->error($model,'isCanceled');
 				?>
 			</div>
@@ -124,31 +124,28 @@
 				?>
 			</div>
 		</div>
-        <div class="col-md-4">
+        <div class="col-md-5">
 			<div class="form-group">
 				<?php
 					echo $form->labelEx($model,'cancellationReason');
-					echo $form->textArea($model,'cancellationReason',array('size'=>60,'maxlength'=>250)); 
+					echo $form->textArea($model,'cancellationReason',array('size'=>60,'maxlength'=>250,'class'=>'form-control')); 
 					echo $form->error($model,'cancellationReason');
 				?>
 			</div>
 		
 		</div>
-       <div class="col-md-2" style="padding-top: 20px;">	
-		   <?php echo CHtml::submitButton('Speichern',array('class'=>'btn btn-primary cancel')); ?>
-		</div>
-	</div>
+ 	</div>
 </div>
 </div>
 <?php $this->endWidget(); ?>
 			<div class="row">
-				<div class="col-md-2">
+				<div class="col-md-3">
+				   <?php echo CHtml::submitButton('Speichern',array('class'=>'btn btn-primary cancel','style'=>'margin:0;')); ?>
+				</div>					
+				<div class="col-md-3">
 					<?php echo CHtml::link("Rechnung", array("current","id_sched"=>$model->idseg_scheduled_tours), array( 'class'=>"btn btn-info" ,'role'=>"button"))?>
 				</div>					
-				<div class="col-md-2">
-					<?php echo CHtml::link("Zurück", array("weeks","date"=>$date_format), array( 'class'=>"btn btn-primary" ,'role'=>"button"))?>
-				</div>					
-				<div class="col-md-8"></div>
+				<div class="col-md-6"></div>
 			</div>	
 	
      </section><!-- /.content -->

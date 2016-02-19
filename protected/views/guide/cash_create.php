@@ -7,16 +7,7 @@
 /* @var $this CashboxChangeRequestsController */
 /* @var $model CashboxChangeRequests */
 
-$this->breadcrumbs=array(
-	'Cashbox Change Requests'=>array('cash'),
-	'Create',
-);
 
-
-$this->menu=array(
-	array('label'=>'List Cashbox Records', 'url'=>array('cash')),
-//	array('label'=>'Manage Cashbox Records', 'url'=>array('admin')),
-);
 ?>
 
 <h1>Create cashbox record</h1>

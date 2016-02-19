@@ -16,7 +16,7 @@
     'htmlOptions'=>array('enctype'=>'multipart/form-data'),
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<p class="note">Felder mit einem <span class="required">*</span> müssen ausgefüllt werden are required.</p>
 
 	<?php
  	if($model->hasErrors())
@@ -29,12 +29,12 @@
 	<div class="col-md-3">
 
 		<?php echo $form->labelEx($model,'id_type'); ?>
-	<?php echo $form->dropDownList($model,'id_type', CHtml::listData(CashboxType::model()->findAll("id in (3,4)"),'id', 'name'),array('id'=>'cashtype','onChange'=>'clickType(this.value)')); ?>
+	<?php echo $form->dropDownList($model,'id_type', CHtml::listData(CashboxType::model()->findAll("id in (3,4)"),'id', 'name'),array('id'=>'cashtype','onChange'=>'clickType(this.value)','class'=>'form-control')); ?>
 		<?php echo $form->error($model,'id_type'); ?>
 		</div>
 	<div class="col-md-4" id="guide_div">
 		<?php echo $form->labelEx($model,'sched_user_id'); ?>
-		<?php echo $form->dropDownList($model,'sched_user_id', $model->getUserOptions(),array('id'=>'guide','empty'=>'--')); ?>
+		<?php echo $form->dropDownList($model,'sched_user_id', $model->getUserOptions(),array('id'=>'guide','empty'=>'--','class'=>'form-control')); ?>
 		<?php echo $form->error($model,'sched_user_id'); ?>
 	</div>
 	<div class="col-md-5">
@@ -44,7 +44,7 @@
 	<div class="row">
 		<div class="col-md-8">
 	<?php echo $form->labelEx($model,'delta_cash'); ?>
-		<?php echo $form->textField($model,'delta_cash'); ?>
+		<?php echo $form->textField($model,'delta_cash',array('empty'=>'--','class'=>'form-control')); ?>
 		<?php echo $form->error($model,'delta_cash'); ?>
 	</div>
 	<div class="col-md-4">
@@ -54,7 +54,7 @@
 	<div class="row">
 		<div class="col-md-8">
 	<?php echo $form->labelEx($model,'reason'); ?>
-		<?php echo $form->textField($model,'reason',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->textField($model,'reason',array('size'=>60,'maxlength'=>255,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'reason'); ?>
 	</div>
 	<div class="col-md-4">
@@ -73,7 +73,7 @@
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Erstellen' : 'Speichern',array('class'=>'btn btn-primary cancel','style'=>'margin:0;')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

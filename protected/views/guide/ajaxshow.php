@@ -61,10 +61,5 @@
 <td>Visible on the website</td>
 <td><?php echo $model->visibility;?></td>
 </tr>
-
-
-
 </table>
-
-
-  
+ 

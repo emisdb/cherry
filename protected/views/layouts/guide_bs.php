@@ -42,7 +42,7 @@
 				<?php echo CHtml::link("<i class='fa fa-laptop'></i> <span>Homepage</span>", "/"); ?>
             </li>
              <li <?php echo (Yii::app()->controller->action->id=='weeks') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-table'></i><span>Touren</span>", array('guide/weeks','date'=>date('d.m.Y'))); ?>
+				<?php echo CHtml::link("<i class='fa fa-table'></i><span>Zeitplan</span>", array('guide/weeks','date'=>date('d.m.Y'))); ?>
             </li>
               <li <?php echo (Yii::app()->controller->action->id=='schedule') ? "class=\"active\"" : "" ; ?>>
 				<?php echo CHtml::link("<i class='fa fa-edit'></i> <span>Touren</span>", array('guide/schedule')); ?>
