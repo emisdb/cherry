@@ -30,11 +30,16 @@
 		  }
 		  
 		  ?>
-		<h1>Zeitplan für <?php echo $city->cities->seg_cityname ?> </h1>
+		<h1>Spontane Tourabrechnung für <?php echo $city->cities->seg_cityname ?> </h1>
 			<ol class="breadcrumb">
-				<li class="active">Zeitplan</li>
+				<li class="active">Spontane Tourabrechnung</li>
 			</ol>	
-	                    <div style=" width:100px;">
+
+       </section>
+        <section class="content">
+
+		<div class="row">	
+			<div class="col-md-2">
                     <?php
                         $this->widget('zii.widgets.jui.CJuiDatePicker',array(
                             'name'=>'publishDate',
@@ -48,10 +53,10 @@
                                  'minDate' => 0,//'01.06.2015',//0, 
                                  'defaultDate'=> time(),     
                                  //'maxDate' => '2099-12-31',  
-                                 'onSelect'=> 'js: function(date) {if(date != "") { 
-                                    window.location.href = "'.CHtml::encode($this->createUrl('guide/weeks'
-                                    )).'/date/"+date ;
-                                 } }',
+//                                 'onSelect'=> 'js: function(date) {if(date != "") { 
+//                                    window.location.href = "'.CHtml::encode($this->createUrl('guide/weeks'
+//                                    )).'/date/"+date ;
+//                                 } }',
                             ),
                             'htmlOptions'=>array(
                                  	'size' => '10',         // textField size
@@ -62,59 +67,46 @@
                     ?>
                     </div>
 
-       </section>
 
         <!-- Main content -->
-        <section class="content">
 
-
-<table class='table' >
-<tr>
-<td>Zeitintervall</td>
-<td>Startzeit</td>
-<td>STATUS</td>
-<td>Aktion</td>
-</tr>
-<?php foreach($model as $item){?>
-    <tr>
-    <td><?php echo $item->time;?></td>
-    <td><?php echo $item->starttime;?></td>
-    <td><?php echo $item->status;?></td>
-    <td><?php if($item->status=='frei!'){
-         echo CHtml::link("Eintragen",array('guide/take', 'date'=>$date, 'time'=>$item->time));
-//
-//		 		 drawdd($date,$item->time);
-   }
-	 else {        
-        if(substr($item->status,0,5)=='Keine') {
-//			if($item->status =='Block after')
-//				drawdd($date,$item->time);
-//			else 
-				echo $item->status."\n";
-		}
-		else{  
-        echo CHtml::ajaxLink(
-             "Zeige",
-             $url=array('ajaxShow'),
-             $ajaxOptions= array(
-            'data'=>array('id'=>$item->id),
-              'type'=>'POST',
-		     'success'=>'function(html){ jQuery("#modal-data").html(html);  $("#guideModal").modal("show");return true;}',
-///             'complete' => 'return true;'
-				 )	  
-//             $htmlOptions=array("data-toggle"=>"modal","data-target"=>"#guideModal" )
-     );
-//		if($item->status =='Belegt') drawdd($date,$item->time);
-
-		}
-	}?>
-    </td>
-  
-    
-    </tr>
-<?php }?>
-</table>
-
-
+	<div class="col-md-2">
+<?php 
+	$this->widget('ext.clockpick.EClockpick', array(
+//         'model'            => $model,
+         'name'        =>'timepick',
+		 'value'=>'08:00',
+         'options'          =>array(
+     'starthour'=>8,
+                'endhour'=>19,
+                'event'=>'click',
+                'showminutes'=>true,
+                'minutedivisions'=>6,
+                'military' =>true,
+                'layout'=>'vertical',
+                'hoursopacity'=>1,
+                'minutesopacity'=>1,
+				),
+				'htmlOptions' => array('size'=>10,
+					'maxlength'=>10, 
+			 )
+    ));
+	?> 
+	</div>
+		<div class="col-md-8">
+ <?php
+ echo CHtml::link("Eintragen","#",array('onclick'=>'goclick()'));
+?>		
+						</div>
+						</div>
    </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
+	  <script type="text/javascript">
+function goclick(){
+	var ptime=jQuery("#timepick").val();
+	var pdate=jQuery("#publishDate").val();
+	var link= "<?php echo $this->createUrl('guide/take',array("spont"=>1)); ?>&time="+escape(ptime)+"&date="+escape(pdate);   
+	window.location =link;
+	return true;
+	}
+</script>

@@ -256,7 +256,10 @@ class OfficeController extends Controller
 		    //information profile
                 $model->id_usergroups = $_POST['User']['id_usergroups'];
                             $model->attributes=$_POST['User'];
+                            $model_contact->attributes=$_POST['SegContacts'];
                 $model->status =1;  
+				if($model->validate())
+				{
                 if($model_contact->save()){
 //  var_dump($model->attributes);
                     $model->id_contact =  $model_contact->idcontacts;
@@ -268,9 +271,11 @@ class OfficeController extends Controller
                     $this->redirect(array('ucontact','id_user'=>$model->id));
                 }
             }
+			}
             $test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
             $this->render('create_user',array(
                     'model'=>$model,
+                    'modelc'=>$model_contact,
                     'usergroups'=>$usergroups,
                     'info'=>$test,
             ));
@@ -1541,8 +1546,8 @@ class OfficeController extends Controller
                                 <div style="color:#000000;font-size:15px;">Tourgäste am '.$date_format.', '.$time_format.'</div>   
                             </td>
                             <td style="text-align:right;">';
-                                $tbl_img = '<img src="'.Yii::app()->request->baseUrl.'/img/str2/logo2.png" width="100px">';
-                                $tbl01='</td></tr></table><hr style="border:1px solid #000000;">';
+					          $tbl_img = '<img src="'.Yii::app()->request->baseUrl.'/img/cherrytours_icon_black_rgb.jpg" width="100px">';
+                              $tbl01='</td></tr></table><hr style="border:1px solid #000000;">';
                                 $tbl_array=array();
 
 				$tbl02= '<table style="margin:30px;">

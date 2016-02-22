@@ -43,7 +43,7 @@ class GuideController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('view','profile','update','contact','user','weeks','take','show','booky',
+				'actions'=>array('view','profile','update','contact','user','weeks','take','show','booky','spontour',
 					'ajaxInfo','ajaxShow','ajaxHistory','schedule','history','cash','createCash','cashReport','current','deleteST','delete'),
                 'roles'=>array('guide'),
 			),            
@@ -472,6 +472,30 @@ class GuideController extends Controller
 		$this->render('weeks',array(
 			'date'=>$date, 
 			'model'=>$model_week,
+ 			'info'=>$test,
+ 			'city'=>$city,
+ 			'err'=>$err,
+				));
+	}	public function actionSpontour($date,$err=null)
+	{
+	    $id_control = Yii::app()->user->id;
+       // $update_user = User::model()->findByPk($id_user);
+        $role_control = User::model()->findByPk($id_control)->id_usergroups;    
+      //  $id_guide = SegGuidesdata::model()->findByPk($update_user->id_guide)->idseg_guidesdata;
+         
+ 
+        //city work
+        $criteria_city = new CDbCriteria;
+        $criteria_city->condition = 'users_id=:users_id';
+        $criteria_city->params = array(':users_id' => $id_control);
+        $city = SegGuidesCities::model()->with('cities')->find($criteria_city);
+     // $model=new CActiveDataProvider($model_week);
+      //  $date_format = date('Y-m-d', strtotime($date));
+  		$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+       
+		$this->render('spontour',array(
+			'date'=>$date, 
+//			'model'=>$model_week,
  			'info'=>$test,
  			'city'=>$city,
  			'err'=>$err,
@@ -1482,7 +1506,7 @@ class GuideController extends Controller
                                 <div style="color:#000000;font-size:15px;">Tourgäste am '.$date_format.', '.$time_format.'</div>   
                             </td>
                             <td style="text-align:right;">';
-                                $tbl_img = '<img src="'.Yii::app()->request->baseUrl.'/img/str2/logo2.png" width="100px">';
+                                $tbl_img = '<img src="'.Yii::app()->request->baseUrl.'/img/cherrytours_icon_black_rgb.jpg" width="100px">';
                                 $tbl01='</td></tr></table><hr style="border:1px solid #000000;">';
                                 $tbl_array=array();
 				
