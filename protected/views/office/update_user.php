@@ -34,7 +34,25 @@ $this->breadcrumbs=array(
     echo '</div>';
     }
     ?>
+<?php
+$form=$this->beginWidget('CActiveForm', array(
+	'id'=>'user-form',
+	'enableAjaxValidation'=>false,
+ )); ?>
 
-<?php $this->renderPartial('_form_user', array('model'=>$model)); ?>
+	<?php echo $form->errorSummary($model); ?>
+ 
+<?php $this->renderPartial('_form_user',
+		array('model'=>$model,'form'=>$form)); ?>
+	
+	<div class="row buttons">
+        <button class="btn btn-primary" type="submit">Speichern</button>
+        <?php if($model->id != Yii::app()->user->id) {?>
+            <button class="btn btn-primary cancel"><a href="<?php echo Yii::app()->request->baseUrl; ?>admin"><?php echo 'Abbrechen'; ?></a></button>
+        <?php }else{?>
+            <button class="btn btn-primary cancel"><a href="<?php echo Yii::app()->request->baseUrl; ?>profile"><?php echo 'Abbrechen'; ?></a></button>
+        <?php }?>
+    </div>
+<?php $this->endWidget(); ?>
 		</section><!-- /.content -->
       </div><!-- /.content-wrapper -->
