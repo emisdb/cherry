@@ -69,7 +69,7 @@
   <div class="panel-group" id="accordion">
 
 <?php
-						
+		$index=0;				
 //for ($index = 0; $index < 7; $index++) {
 foreach($model as $item) {
 		echo '<div class="panel panel-default">';
