@@ -8,13 +8,13 @@
 			   <div class="modal-header">
 				 <button type="button" class="close" data-dismiss="modal" aria-label="close">
 					 <span aria-hidden="true">&times;</span></button>
-				 <h4 class="modal-title">Guides info</h4>
+				 <h4 class="modal-title">Guide info</h4>
 			   </div>
 			   <div class="modal-body">
 				 <div id="modal-data">This is the guide's info.</div>
 			   </div>
 			   <div class="modal-footer">
-					<button  type="button" class="btn btn-outline pull-right btn-default" data-dismiss="modal">Close</button>
+					<button  type="button" class="btn btn-outline pull-right btn-default" data-dismiss="modal">Schließen</button>
 			   </div>
 			 </div>
 		   </div>
@@ -22,15 +22,15 @@
 
        <!-- Content Header (Page header) -->
         <section class="content-header">
-			<h1>Current Subscriber</h1>
+			<h1>Rechnung</h1>
 			<ol class="breadcrumb">
 				<li>
-					<?php echo Chtml::link('Scheduled Tours',array('schedule')); ?>
+					<?php echo Chtml::link('Tourplan',array('schedule')); ?>
 				</li>
-				<li class="active"> Current Subscriber
+				<li class="active"> Rechnung
 				</li>
 			</ol>	
-			<button id="changebt" type="button" class="btn btn-primary cancel" data-toggle="modal" data-target="#guideModal">Guide's info</button>
+			<button id="changebt" type="button" class="btn btn-primary cancel" data-toggle="modal" data-target="#guideModal">Guide Info</button>
 
 		</section>
 
@@ -54,7 +54,7 @@
 			</div>
 			<div class="col-md-4">
 				<?php // echo CHtml::link("New tourist","javascript:void(0);",array('onclick'=>'newtourist();')); ?>
-				<?php echo CHtml::link("New tourist",array('booky','id_sched'=>$id_sched)); ?>
+				<?php echo CHtml::link("neue Touristen",array('booky','id_sched'=>$id_sched)); ?>
 			</div>	
 		<div class="col-md-4">
 		</div>
@@ -77,11 +77,11 @@
 				<th>Tourist</th>
 				<th>Nr</th>
 				<th>Name</th>
-				<th>Discount</th>
-				<th>Payment</th>
+				<th>Rabatt/Gutschein</th>
+				<th>Zahlungsmittel</th>
 				<th style="padding:1px 4px;">Base</th>
-				<th style="padding:1px 4px;">Price</th>
-				<th style="padding:1px 4px;">Vat</th>
+				<th style="padding:1px 4px;">Preis</th>
+				<th style="padding:1px 4px;">Ust</th>
 				<th>Options</th>
 			</tr>
 			<?php 
@@ -172,22 +172,22 @@
 
 		<div style="font-size:14px;font-weight:bold;padding:20px 0;">
 
-			<div style="float:left;width:250px;">Total revenue excluding VAT: </div><div style="float:left;width:100px;" id="price_sv"></div>
+			<div style="float:left;width:250px;">Gesamteinnahmen exklusive  USt: </div><div style="float:left;width:100px;" id="price_sv"></div>
 			<div style="float:left;"> &euro;</div>
 			<div style="clear:both;"></div>
 			<hr>
 
-			<div style="float:left;width:250px;">Sales tax:</div><div style="float:left;width:100px;" id="price_v"></div>
+			<div style="float:left;width:250px;">Umsatzsteuer:</div><div style="float:left;width:100px;" id="price_v"></div>
 			<div style="float:left;"> &euro;</div>
 			<div style="clear:both;"></div>
 			<hr>
 
-			<div style="float:left;width:250px;">Total revenue: </div><div style="float:left;width:100px;" id="price_s"></div>
+			<div style="float:left;width:250px;">Gesamteinnahmen: </div><div style="float:left;width:100px;" id="price_s"></div>
 			<div style="float:left;"> &euro;</div>
 			<div style="clear:both;"></div>
 			<hr>
 
-			<div style="float:left;width:250px;">Share of cash income includes tax: </div><div style="float:left;width:100px;" id="price_cash"></div>
+			<div style="float:left;width:250px;">Anteil der Bareinnahmen inkl. Ust: </div><div style="float:left;width:100px;" id="price_cash"></div>
 			<div style="float:left;"> &euro;</div>
 			 <div style="clear:both;"></div>
 			 <hr>
@@ -195,13 +195,13 @@
 
 		<!-- *********************** BUTTINS ***************************************************************-->
 		<div class="row buttons">
-				<button class="btn btn-primary" type="submit"><?php echo 'Save'; ?></button>
+				<button class="btn btn-primary" type="submit"><?php echo 'Speichern'; ?></button>
 				<button class="btn btn-primary cancel">
 					<?php 
 					echo CHtml::link("PDF","javascript:void(0);",array('onclick'=>'newtourist();'));
 					?>
 				</button>
-				<button class="btn btn-primary cancel"><?php echo CHtml::link("Cancel", array("schedule")) ?></button>
+				<button class="btn btn-primary cancel"><?php echo CHtml::link("Abbrechen", array("schedule")) ?></button>
 		</div>
 
 		<?php

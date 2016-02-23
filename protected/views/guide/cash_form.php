@@ -16,7 +16,8 @@
     'htmlOptions'=>array('enctype'=>'multipart/form-data'),
 )); ?>
 
-	<p class="note">Felder mit einem <span class="required">*</span> müssen ausgefüllt werden are required.</p>
+	<p class="note">Felder mit einem <span class="required">*</span> müssen ausgefüllt werden.</p>
+	<p class="note">positiver Betrag erhöht den Kassenbestand vom Guide</p>
 
 	<?php
  	if($model->hasErrors())

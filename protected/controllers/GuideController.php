@@ -417,15 +417,26 @@ class GuideController extends Controller
         $criteria_city->condition = 'users_id=:users_id';
         $criteria_city->params = array(':users_id' => $id_control);
         $city = SegGuidesCities::model()->with('cities')->find($criteria_city);
-		          
-        
-        $model_week = array(); $i=0;$status_old ='';
+		 
+		$dt =date_create($date);
+
+        $model_week = array();
         $start_times_tour =SegStarttimes::model()->findAll(); 
-        foreach($start_times_tour as $item){
+		$interval=new DateInterval( "P1D" );
+		setlocale(LC_TIME, "de_DE", "de", "ge");
+
+		for($inx=0;$inx<7;$inx++){
+         $model_day = array(); $i=0;$status_old ='';
+		$date_format=date_timestamp_get($dt);
+		$curdate=strftime("%A, %d-%B-%Y",$date_format);	
+		date_add($dt,$interval);
+		 
+       foreach($start_times_tour as $item){
             $day = new DayResult;
             $day->time =Yii::app()->dateFormatter->format('HH:mm',strtotime($item->timevalue)); 
+            $day->date = Yii::app()->dateFormatter->format('dd.MM.yyyy',$date_format);
             
-            $date_format =  strtotime($date);
+ //           $date_format =  strtotime($date);
             $criteria = new CDbCriteria;
             $criteria->condition = 'original_starttime=:original_starttime AND date_now=:date_now AND city_id=:city_id AND isCanceled=0';
             $criteria->params = array(':original_starttime' => $item->timevalue,':date_now'=>$date_format,':city_id'=>$city->cities->idseg_cities);
@@ -452,7 +463,7 @@ class GuideController extends Controller
             if($day->status == 'Belegt, Deine Tour!'){
                 if($i!=0){
 					if($status_old=='frei!')
-					$model_week[$i-1]->status = 'Keine Aktion';
+					$model_day[$i-1]->status = 'Keine Aktion';
 				}
 
             }
@@ -462,9 +473,12 @@ class GuideController extends Controller
             
             
            // $day->status = 1;
-            $model_week[$i] = $day;
+            $model_day[$i] = $day;
             $i++;
        }
+           $model_week[$inx]['day'] = $model_day;
+          $model_week[$inx]['label'] = $curdate;
+  		}
       // $model=new CActiveDataProvider($model_week);
       //  $date_format = date('Y-m-d', strtotime($date));
   		$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());

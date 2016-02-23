@@ -4,13 +4,14 @@ class DayResult extends CFormModel
 {
     public $id;
 	public $time;
+	public $date;
     public $starttime;
 	public $status;
 
 	public function rules()
 	{
 		return array(
-			array('time, status', 'required'),
+			array('time, date, status', 'required'),
 		);
 	}
 

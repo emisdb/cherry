@@ -1,4 +1,4 @@
-<div class="guide-info-name">Gonorar</div>
+<div class="guide-info-name">Honorar</div>
 <?php
 $x1=number_format($gonorar_tour->base_provision, 2, '.', ' ');
 $x2=number_format($gonorar_tour->guestsMinforVariable, 2, '.', ' ');
@@ -6,24 +6,24 @@ $x3=number_format($gonorar, 2, '.', ' ');
 ?>
 <table class="table-info-guide">
 	<tr>
-    	<td colspan="2">Base honorarium:</td>
+    	<td colspan="2">Basishonorar:</td>
         <td class="table-info-guide-last"><? echo $x1;?>  &euro;</td>
     </tr>
 	<tr>
-    <td>Guest Number Variable</td>
+    <td>Gastanzahl Variable:</td>
         <td><?php echo $cifra;?>x</td>
         <td class="table-info-guide-last"><? echo $x2;?>  &euro;</td>
     </tr>
     <tr>
-    	<td colspan="2">Total fees:</td>
+    	<td colspan="2">Gesamthonorar:</td>
         <td class="table-info-guide-last"><? echo $x3;?>  &euro;</td>
     </tr>
     <tr>
-    	<td colspan="3">(including <? echo $vat;?>% vat)</td>
+    	<td colspan="3">(Inklusive <? echo $vat;?>% Ust)</td>
     </tr>
 </table>
 
-<div class="guide-info-name">Kassa</div>
+<div class="guide-info-name">Kassenbestand</div>
 <?php if (!empty($cash)){  $y1=number_format($cash, 2, '.', ' ');
     $y2=number_format($cashincome, 2, '.', ' ');
     
@@ -39,23 +39,23 @@ $x3=number_format($gonorar, 2, '.', ' ');
  }?>
     <table class="table-info-guide">
         <tr>
-            <td>Cash old:</td>
+            <td>Kassenbestand alt:</td>
             <td class="table-info-guide-last"><? echo $y1;?>  &euro;</td>
         </tr>
         <tr>
-            <td>Cash receipts</td>
+            <td>Bareinnahmen:</td>
             <td class="table-info-guide-last"><? echo $y2;?>  &euro;</td>
         </tr>
         <tr>
-            <td>Total fees</td>
+            <td>Gesamthonorar:</td>
             <td class="table-info-guide-last"><? echo $x3;?>  &euro;</td>
         </tr>
         <tr>
-            <td>Cash sanderung</td>
+            <td>Kassenbestandsänderung:</td>
             <td class="table-info-guide-last"><? echo $y4;?>  &euro;</td>
         </tr>
         <tr>
-            <td>Cash new: </td>
+            <td>Kassenbestand neu: </td>
             <td class="table-info-guide-last"><? echo $y5;?>  &euro;</td>
         </tr>
     </table>

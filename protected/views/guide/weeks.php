@@ -66,55 +66,28 @@
 
         <!-- Main content -->
         <section class="content">
+  <div class="panel-group" id="accordion">
 
-
-<table class='table' >
-<tr>
-<td>Zeitintervall</td>
-<td>Startzeit</td>
-<td>STATUS</td>
-<td>Aktion</td>
-</tr>
-<?php foreach($model as $item){?>
-    <tr>
-    <td><?php echo $item->time;?></td>
-    <td><?php echo $item->starttime;?></td>
-    <td><?php echo $item->status;?></td>
-    <td><?php if($item->status=='frei!'){
-         echo CHtml::link("Eintragen",array('guide/take', 'date'=>$date, 'time'=>$item->time));
-//
-//		 		 drawdd($date,$item->time);
-   }
-	 else {        
-        if(substr($item->status,0,5)=='Keine') {
-//			if($item->status =='Block after')
-//				drawdd($date,$item->time);
-//			else 
-				echo $item->status."\n";
-		}
-		else{  
-        echo CHtml::ajaxLink(
-             "Zeige",
-             $url=array('ajaxShow'),
-             $ajaxOptions= array(
-            'data'=>array('id'=>$item->id),
-              'type'=>'POST',
-		     'success'=>'function(html){ jQuery("#modal-data").html(html);  $("#guideModal").modal("show");return true;}',
-///             'complete' => 'return true;'
-				 )	  
-//             $htmlOptions=array("data-toggle"=>"modal","data-target"=>"#guideModal" )
-     );
-//		if($item->status =='Belegt') drawdd($date,$item->time);
-
-		}
-	}?>
-    </td>
-  
-    
-    </tr>
-<?php }?>
-</table>
-
+<?php
+						
+//for ($index = 0; $index < 7; $index++) {
+foreach($model as $item) {
+		echo '<div class="panel panel-default">';
+		echo '<div class="panel-heading"><h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse'.$index.'">'.$item['label'].'</a>
+        </h4></div>';
+		echo '<div id="collapse'.$index.'" class="panel-collapse collapse';
+		if($index==0) echo ' in';
+		echo '">';
+		echo '<div class="panel-body">';
+		$this->renderPartial('_weeks', array('model'=>$item['day']));
+		echo '</div>';
+		echo "</div>\n";
+		echo "</div>\n";
+		$index++;
+								}
+								?> 
+  </div> 
 
    </section><!-- /.content -->
       </div><!-- /.content-wrapper -->

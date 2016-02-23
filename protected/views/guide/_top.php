@@ -90,7 +90,7 @@
 						<?php echo CHtml::link("Benutzer", array('guide/profile'),array('class'=>'btn btn-default btn-flat')); ?>
                    </div>
                     <div class="pull-right">
-						<?php echo CHtml::link("Sign out", array('site/logout'),array('class'=>'btn btn-default btn-flat')); ?>
+						<?php echo CHtml::link("Ausloggen", array('site/logout'),array('class'=>'btn btn-default btn-flat')); ?>
                      </div>
                   </li>
                 </ul>

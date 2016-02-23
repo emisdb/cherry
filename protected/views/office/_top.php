@@ -16,7 +16,7 @@
                   <span class="label label-warning"><?php echo count($info['tours'])?></span>
                 </a>
                 <ul class="dropdown-menu" style="background-color: #8fdf82;">
-                  <li class="header" style="background-color: #8fdf82;" >You have <?php echo count($info['tours'])?> cashbox records to approve</li>
+                  <li class="header" style="background-color: #8fdf82;" >Sie haben <?php echo count($info['tours'])?> Kasse Aufzeichnungen zu genehmigen</li>
                   <li>
                    <ul class="menu">
                    <!-- inner menu: contains the actual data -->
@@ -86,7 +86,7 @@
 						<?php echo CHtml::link("Benutzer", array('profile'),array('class'=>'btn btn-default btn-flat')); ?>
                    </div>
                     <div class="pull-right">
-						<?php echo CHtml::link("Sign out", array('site/logout'),array('class'=>'btn btn-default btn-flat')); ?>
+						<?php echo CHtml::link("Ausloggen", array('site/logout'),array('class'=>'btn btn-default btn-flat')); ?>
                      </div>
                   </li>
                 </ul>
