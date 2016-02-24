@@ -1226,7 +1226,7 @@ class GuideController extends Controller
 				$user_contact->city = $_POST['Bookq']['city'];
 				$user_contact->street = $_POST['Bookq']['street'];
 				$user_contact->postalcode = $_POST['Bookq']['postalcode'];
-				$user_contact->house = $_POST['Bookq']['house'];
+//				$user_contact->house = $_POST['Bookq']['house'];
 				$user_contact->country = $_POST['Bookq']['country'];
 				$user_contact->phone = $_POST['Bookq']['phone'];
 				$user_contact->email = $_POST['Bookq']['email'];
@@ -1519,8 +1519,8 @@ class GuideController extends Controller
                                 </table> <br>
                                 <div style="color:#000000;font-size:15px;">Tourgäste am '.$date_format.', '.$time_format.'</div>   
                             </td>
-                            <td style="text-align:right;">';
-                                $tbl_img = '<img src="'.Yii::app()->request->baseUrl.'/img/cherrytours_icon_black_rgb.jpg" width="100px"><div style="color:#000000;font-size:12px;font-weight:bold;">Cherrytours</div>';
+                            <td style="text-align:center;">';
+                                $tbl_img = '<img src="'.Yii::app()->request->baseUrl.'/img/cherrytours_icon_black_rgb.jpg" width="100px"><div style="color:#000000;font-size:12px;font-weight:bold;margin:0 80px;">Cherrytours</div>';
                                 $tbl01='</td></tr></table><hr style="border:1px solid #000000;">';
                                 $tbl_array=array();
 				

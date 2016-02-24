@@ -15,7 +15,14 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl.'css/Admi
 	// There is a call to performAjaxValidation() commented in generated controller code.
 	// See class documentation of CActiveForm for details on this.
 	'enableAjaxValidation'=>false,
-)); ?>
+)); 
+				if(substr(Yii::app()->request->urlReferrer,-7)=="booking")
+				   echo $form->hiddenField($model,'tour_i', array('value'=>0)); 
+				else 
+				   echo $form->hiddenField($model,'tour_i', array('value'=>1)); 
+
+
+?>
 
 	<p class="note">Felder mit <span class="required">*</span> sind pflicht.</p>
 

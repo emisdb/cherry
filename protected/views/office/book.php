@@ -68,7 +68,7 @@
                     </div>					
 				</div>
 				<div class="col-md-4">
-					<div class="t-evro-tour" style="width:95px;border-top: 1px dotted #a7a7a7;border-left:1px dotted #a7a7a7;border-right:1px dotted #a7a7a7;">
+					<div class="t-evro-tour" style="width:110px;border-top: 1px dotted #a7a7a7;border-left:1px dotted #a7a7a7;border-right:1px dotted #a7a7a7;">
 						<div id="price" style="display:none;"><?php echo (isset($tour)) ? $tour->base_price : $tours_guide[0]->base_price; ?></div>
 						<div id="new_price" style="float:left;padding-left:20px;">
 							<?php echo (isset($tour)) ? $tour->base_price : $tours_guide[0]->base_price;?>
@@ -78,7 +78,7 @@
 						</div>
 						<div style="clear:both;"></div>
 					</div>
-					<div class="t-vat-tour" style="padding-bottom:10px;width:95px;border-bottom: 1px dotted #a7a7a7;border-left:1px dotted #a7a7a7;border-right:1px dotted #a7a7a7;">inkl. MwSt.</div>
+					<div class="t-vat-tour" style="padding-bottom:10px;width:110px;border-bottom: 1px dotted #a7a7a7;border-left:1px dotted #a7a7a7;border-right:1px dotted #a7a7a7;">inkl. MwSt.</div>
 				</div>
 			</div>
 			<div class="row">

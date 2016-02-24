@@ -3,11 +3,18 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
 <?php
-$this->breadcrumbs=array(
-//    'Tourplan'=>array('schedule'),
-   'Tourplan'=>YII::app()->request->urlReferrer,
+if(substr(Yii::app()->request->urlReferrer,-7)=="booking"){
+	$this->breadcrumbs=array(
+   'Buchung'=>Yii::app()->request->urlReferrer,
 	'geplant Touren '.$model->idseg_scheduled_tours,
-);
+);	
+}  else {
+	$this->breadcrumbs=array(
+  'Tourplan'=>Yii::app()->request->urlReferrer,
+	'geplant Touren '.$model->idseg_scheduled_tours,
+);	
+}
+
  $this->widget('zii.widgets.CBreadcrumbs', array(
         'links'=>$this->breadcrumbs,
         'homeLink'=>false,

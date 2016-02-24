@@ -2,23 +2,24 @@
     <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
        <section class="content-header">
-			<h1>Book the tour</h1>
-			<div class="book-back t-text-tour">
-				<?php 
+			<h1>Buchen das Tour</h1>
+				<?php 		
+/*				<div class="book-back t-text-tour">
+	
 				echo CHtml::link("Back",array('current','id_sched'=>$scheduled->idseg_scheduled_tours));
-				?>
-			</div>
+			
+				</div>
+*/				?>
 			<ol class="breadcrumb">
 				<li>
-					<?php echo Chtml::link('Scheduled Tours',array('schedule')); ?>
+					<?php echo Chtml::link('Tourplan',array('schedule')); ?>
 				</li>
 				<li>
 					<?php 
-					echo CHtml::link("Tour #".$scheduled->idseg_scheduled_tours,array('current','id_sched'=>$scheduled->idseg_scheduled_tours));
+					echo CHtml::link("Rechnung #".$scheduled->idseg_scheduled_tours,array('current','id_sched'=>$scheduled->idseg_scheduled_tours));
 					?>
 				</li>
-				<li class="active"> Book the tour
-				</li>
+				<li class="active">Buchen das Tour	</li>
 			</ol>	
 
 		</section>
@@ -37,7 +38,7 @@
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
-                      <label>City</label>
+                      <label>Stadt</label>
                       <input type="text" class="form-control" value="<?php echo $scheduled->city_ob->seg_cityname; ?>" disabled="">
                     </div>					
 				</div>
@@ -67,7 +68,7 @@
                     </div>					
 				</div>
 				<div class="col-md-4">
-					<div class="t-evro-tour" style="width:95px;border-top: 1px dotted #a7a7a7;border-left:1px dotted #a7a7a7;border-right:1px dotted #a7a7a7;">
+					<div class="t-evro-tour" style="width:110px;border-top: 1px dotted #a7a7a7;border-left:1px dotted #a7a7a7;border-right:1px dotted #a7a7a7;">
 						<div id="price" style="display:none;"><?php echo (isset($tour)) ? $tour->base_price : $tours_guide[0]->base_price; ?></div>
 						<div id="new_price" style="float:left;padding-left:20px;">
 							<?php echo (isset($tour)) ? $tour->base_price : $tours_guide[0]->base_price;?>
@@ -77,20 +78,20 @@
 						</div>
 						<div style="clear:both;"></div>
 					</div>
-					<div class="t-vat-tour" style="padding-bottom:10px;width:95px;border-bottom: 1px dotted #a7a7a7;border-left:1px dotted #a7a7a7;border-right:1px dotted #a7a7a7;">Incl.VAT</div>
+					<div class="t-vat-tour" style="padding-bottom:10px;width:110px;border-bottom: 1px dotted #a7a7a7;border-left:1px dotted #a7a7a7;border-right:1px dotted #a7a7a7;">inkl. MwSt</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
-                      <label>Date</label>
+                      <label>Datum</label>
                       <input type="text" class="form-control" value="<?php echo date('d/m/Y',$scheduled->date_now); ?>" disabled="">
                     </div>					
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">
-                      <label>Time</label>
-                      <input type="text" class="form-control" value="<?php echo substr_replace($scheduled->starttime, 0, 4); ?>" disabled="">
+                       <label>Zeit</label>
+				       <input type="text" class="form-control" value="<?php echo substr_replace($scheduled->starttime, 0, 4); ?>" disabled="">
                     </div>					
 				</div>
 				<div class="col-md-4">
@@ -99,7 +100,7 @@
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
-                      <label>Language</label>
+                      <label>Sprache</label>
 							<?php
 							 if($scheduled->language_id==null)
 								 {	
@@ -116,7 +117,7 @@
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">
-                                    <label>Tickets</label>
+                                     <label>Gäste</label>
 						<div style="display:none;" id="ntiket"><?php echo (isset($tour)) ? $tour->TNmax : "";?></div>
 						<div style="display:none;" id="ncat"><?php echo  (isset($tour)) ? $tour->id_tour_categories : "";?></div>
 						<div style="display:none;"><!-- param cat for all-->
@@ -159,36 +160,20 @@
    	<div  class="container" >
 		<div class="row" style="margin-top:30px;">
 		<div class="book-contact-name col-md-12">
-			Booking Form
+			Ihre Kontaktdaten
 		</div>
 		</div>
 		<div class="row">
 			<div class="col-md-4">
 				<div class="form-group">
-				  <label>First name</label>
+				  <label>Vorname</label>
 				  <?php echo $form->textField($contact,'firstname',array('class'=>"form-control")); ?>
 				</div>					
 			</div>
 			<div class="col-md-4">
 				<div class="form-group">
-				  <label>Surname</label>
+				  <label>Nachname</label>
 				  <?php echo $form->textField($contact,'lastname',array('class'=>"form-control")); ?>
-				</div>					
-			</div>
-			<div class="col-md-4">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-4">
-				<div class="form-group">
-				  <label>Street</label>
-				  <?php echo $form->textField($contact,'street',array('class'=>"form-control")); ?>
-				</div>					
-			</div>
-			<div class="col-md-4">
-				<div class="form-group">
-				  <label>Street Number</label>
-				  <?php echo $form->textField($contact,'house',array('class'=>"form-control")); ?>
 				</div>					
 			</div>
 			<div class="col-md-4">
@@ -197,7 +182,17 @@
 		<div class="row">
 			<div class="col-md-8">
 				<div class="form-group">
-				  <label>Additional specification </label>
+				  <label>Strasse, Hausnummer</label>
+				  <?php echo $form->textField($contact,'street',array('class'=>"form-control")); ?>
+				</div>					
+			</div>
+			<div class="col-md-4">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8">
+				<div class="form-group">
+				  <label>Firma</label>
 				  <?php echo $form->textField($contact,'additional_address',array('class'=>"form-control")); ?>
 				</div>					
 			</div>
@@ -207,13 +202,13 @@
 		<div class="row">
 			<div class="col-md-3">
 				<div class="form-group">
-				  <label>Postal code</label>
+				  <label>Postleitzahl</label>
 				  <?php echo $form->textField($contact,'postalcode',array('class'=>"form-control")); ?>
 				</div>					
 			</div>
 			<div class="col-md-5">
 				<div class="form-group">
-				  <label>City</label>
+				  <label>Stadt</label>
 				  <?php echo $form->textField($contact,'city',array('class'=>"form-control")); ?>
 				</div>					
 			</div>
@@ -223,7 +218,7 @@
 		<div class="row">
 			<div class="col-md-8">
 				<div class="form-group">
-				  <label>Country</label>
+				  <label>Land</label>
 				  <?php echo $form->textField($contact,'country',array('class'=>"form-control")); ?>
 				</div>					
 			</div>
@@ -233,7 +228,7 @@
    		<div class="row">
 			<div class="col-md-8">
 				<div class="form-group">
-				  <label>E-mail address</label>
+				  <label>Email</label>
 				  <?php echo $form->textField($contact,'email',array('class'=>"form-control")); ?>
 				</div>					
 			</div>
@@ -243,7 +238,7 @@
   		<div class="row">
 			<div class="col-md-8">
 				<div class="form-group">
-				  <label>Phone</label>
+				  <label>Handynummer</label>
 				  <?php echo $form->textField($contact,'phone',array('class'=>"form-control")); ?>
 				</div>					
 			</div>
@@ -252,7 +247,7 @@
 		</div>
 
 
-	<button class="but-book" type="submit"><?php echo 'BOOK'; ?></button>
+	<button class="but-book" type="submit"><?php echo 'Jetzt Buchen'; ?></button>
 	<?php $this->endWidget(); ?>   
 	</div>
 	  </div>

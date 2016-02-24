@@ -994,7 +994,12 @@ class OfficeController extends Controller
 	        $model->date_now = strtotime($model->date);
             $model->original_starttime = explode(":",$model->starttime)[0].":00";
 	 		if($model->save())
-					$this->redirect(array('schedule'));
+			{
+				if($model->tour_i==0)
+						$this->redirect(array('booking'));						
+				else 
+						$this->redirect(array('schedule'));
+			}
 		}
          $arrays=$this->dosched($model->city_id);
                 $test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
@@ -1216,7 +1221,7 @@ class OfficeController extends Controller
 				$user_contact->city = $_POST['Bookq']['city'];
 				$user_contact->street = $_POST['Bookq']['street'];
 				$user_contact->postalcode = $_POST['Bookq']['postalcode'];
-				$user_contact->house = $_POST['Bookq']['house'];
+//				$user_contact->house = $_POST['Bookq']['house'];
 				$user_contact->country = $_POST['Bookq']['country'];
 				$user_contact->phone = $_POST['Bookq']['phone'];
 				$user_contact->email = $_POST['Bookq']['email'];
@@ -1407,7 +1412,7 @@ class OfficeController extends Controller
 				$user_contact->city = $_POST['Bookq']['city'];
 				$user_contact->street = $_POST['Bookq']['street'];
 				$user_contact->postalcode = $_POST['Bookq']['postalcode'];
-				$user_contact->house = $_POST['Bookq']['house'];
+//				$user_contact->house = $_POST['Bookq']['house'];
 				$user_contact->country = $_POST['Bookq']['country'];
 				$user_contact->phone = $_POST['Bookq']['phone'];
 				$user_contact->email = $_POST['Bookq']['email'];
@@ -1710,7 +1715,7 @@ class OfficeController extends Controller
                                 <div style="color:#000000;font-size:15px;">Tourgäste am '.$date_format.', '.$time_format.'</div>   
                             </td>
                             <td style="text-align:right;">';
-                                $tbl_img = '<img src="'.Yii::app()->request->baseUrl.'/img/cherrytours_icon_black_rgb.jpg" width="100px"><div style="color:#000000;font-size:12px;font-weight:bold;">Cherrytours</div>';
+                                $tbl_img = '<img src="'.Yii::app()->request->baseUrl.'/img/cherrytours_icon_black_rgb.jpg" width="100px"><div style="color:#000000;font-size:12px;font-weight:bold;padding-right:20px;">Cherrytours</div>';
                              $tbl01='</td></tr></table><hr style="border:1px solid #000000;">';
                                 $tbl_array=array();
 
