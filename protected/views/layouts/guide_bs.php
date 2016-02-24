@@ -61,7 +61,7 @@
 					<?php echo CHtml::link("<i class='fa fa-credit-card'></i> <span>Ka&szlig;enverlauf</span>", array('guide/cashReport')); ?>
 				</li>
               <li <?php echo (Yii::app()->controller->action->id=='createCash') ? "class=\"active\"" : "" ; ?>>
-					<?php echo CHtml::link("<i class='fa fa-money'></i> <span>Create record</span>", array('guide/createCash')); ?>
+					<?php echo CHtml::link("<i class='fa fa-money'></i> <span>Kasseneintrag erstellen</span>", array('guide/createCash')); ?>
 				</li>
               </ul>
             </li>

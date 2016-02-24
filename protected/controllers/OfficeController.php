@@ -1170,6 +1170,170 @@ class OfficeController extends Controller
 		'info'=>$test,
 	));
 	}
+    public function actionInvoice($id)
+	{
+		$tour=null;
+    	$id_control = Yii::app()->user->id;
+		     $contact = new Bookq;
+	    $model = SegGuidestourinvoices::model()->with(array('sched','contact','countCustomers'))->findByPk($id);
+
+			$criteria_tours_link2 = new CDbCriteria;
+            $criteria_tours_link2->condition = 'idseg_tourroutes=:idseg_tourroutes';
+            $criteria_tours_link2->params = array(':idseg_tourroutes' => $model->sched->tourroute_id);
+            $tours_guide = SegTourroutes::model()->findAll($criteria_tours_link2);
+			$criteria = new CDbCriteria;
+			 $criteria->condition = 'cityid=:cityid AND idseg_tourroutes=:id_tour_categories';
+			 $criteria->params = array(':cityid' => $model->sched->city_id,':id_tour_categories'=>$model->sched->tourroute_id);
+			 $tour = SegTourroutes::model()->find($criteria);
+			 $contact->tour=$tour->idseg_tourroutes;
+		 /*languages*/
+
+            $languages_guide = Languages::model()->findByPk($model->sched->language_id);
+ 			 $contact->language=$model->sched->language_id;
+ 
+			 $contact->tickets=$model->countCustomers;
+			 $contact->firstname=$model->contact->firstname;
+ 			 $contact->lastname=$model->contact->surname;
+ 			 $contact->street=$model->contact->street;
+ 			 $contact->house=$model->contact->house;
+ 			 $contact->additional_address=$model->contact->additional_address;
+ 			 $contact->postalcode=$model->contact->postalcode;
+ 			 $contact->city=$model->contact->city;
+ 			 $contact->country=$model->contact->country;
+ 			 $contact->email=$model->contact->email;
+ 			 $contact->phone=$model->contact->phone;
+       	if(isset($_POST['Bookq']))
+		{
+			$contact->attributes=$_POST['Bookq'];
+            $ticket_count =	$contact->tickets-$model->countCustomers;
+			if($contact->validate()){
+								
+				//save contact
+				$user_contact =  SegContacts::model()->findByPk($model->contacts_id);
+                $user_contact->firstname = $_POST['Bookq']['firstname'];
+				$user_contact->surname = $_POST['Bookq']['lastname'];
+				$user_contact->additional_address = $_POST['Bookq']['additional_address'];
+				$user_contact->city = $_POST['Bookq']['city'];
+				$user_contact->street = $_POST['Bookq']['street'];
+				$user_contact->postalcode = $_POST['Bookq']['postalcode'];
+				$user_contact->house = $_POST['Bookq']['house'];
+				$user_contact->country = $_POST['Bookq']['country'];
+				$user_contact->phone = $_POST['Bookq']['phone'];
+				$user_contact->email = $_POST['Bookq']['email'];
+				$user_contact->save();
+				//save guidestourinvoicecustomers
+				$id_invoice = $guidestourinvoices->idseg_guidesTourInvoices;
+				if($ticket_count>0)
+				{
+				for($j=0;$j<$ticket_count;$j++){
+					$guidestourinvoicescustomers = new SegGuidestourinvoicescustomers;
+					$guidestourinvoicescustomers->customersName = $user_contact->firstname.' '.$user_contact->surname;
+					$guidestourinvoicescustomers->price = 0;
+					$guidestourinvoicescustomers->cityid = $model->sched->city_id;
+					
+					$guidestourinvoicescustomers->tourInvoiceid = $id;
+					
+					//$guidestourinvoicescustomers->CustomeInvoicNumber = ;
+					$b = $tour->city['seg_cityname']{0};
+					$year = date('y',time());
+					$max= Yii::app()->db->createCommand("SELECT max(CustomerInvoiceNumber) from seg_guidestourinvoicescustomers where cityid=".$model->sched->city_id)->queryScalar();
+					$max_i = $max+1;
+					
+					$guidestourinvoicescustomers->KA_string = 'KA'.$b.$year.'/'.$max_i;
+					$guidestourinvoicescustomers->CustomerInvoiceNumber = $max_i;
+					$guidestourinvoicescustomers->isPaid = 0;
+//					$guidestourinvoicescustomers->origin_booking = $id_book;
+					
+					
+					$guidestourinvoicescustomers->save();
+					}
+				}
+				else if ($ticket_count<0)
+				{
+					$custs=SegGuidestourinvoicescustomers::model()->findAll(array('condition'=>'tourInvoiceid = :tourInvoiceid',
+					'params'=>array(':tourInvoiceid'=>$id),'order'=>'KA_string desc'));
+					$ticks=0;
+					foreach ($custs as $cust){
+
+						$cust->delete();
+						$ticks--;
+						if($ticks==$ticket_count) break;
+
+					}
+							
+				}
+
+					$scheduled=  SegScheduledTours::model()->findByPk($model->id_sched);
+					$scheduled->current_subscribers=$scheduled->current_subscribers +$ticket_count;
+					$scheduled->save();
+
+            	//email
+				$date_ex = date('d/m/Y',$scheduled->date_now);
+				$x1 = strtotime($scheduled->starttime) - strtotime("00:00:00");
+				$x2 = $tour->standard_duration*60;
+				$x3 = $x1+$x2;
+				$x4 = $x3+strtotime("00:00:00");
+				$x5 = date('H:i:s',$x4);
+				$tourend = $x5;
+				
+				$guidename = $scheduled->user_ob->contact_ob->firstname;
+				$guidemnr = $scheduled->user_ob->contact_ob->phone;
+				
+				$message="Thank you for booking your city tour with Cherry Tours ".$scheduled->city_ob->seg_cityname;
+				$message.="\n";
+				$message.="\nWe have just reserved the following tour date for you:";
+				$message.="\n".$date_ex;
+				$message.="\nTour start: ".$scheduled->date_now." (Please show up at the assigned meeting point about 10 minutes before tour start.)";
+				$message.="\n";
+				$message.="\nEnd of tour: ".$tourend;
+				$message.="\nTour route: ".$scheduled->tourroute_ob->name;
+				$message.="\nTour language: ".$scheduled->language_ob->englishname;
+				$message.="\nTour guide: ".$guidename;
+				$message.="\nGuide phone: ".$guidemnr."(for last-minute requests regarding weather or meeting point)";
+				
+				$message.="\nFurthermore we recommend:";
+				$message.="\n- comfortable shoes, no high heels";
+				$message.="\n- adequate clothing (below 15 degrees centigrade, we especially recommend wearing warm clothes and gloves)";
+				$message.="\n- sunglasses, if necessary sun protection etc.";
+				$message.="\n";
+				$message.="\nPayment:";
+				$message.="\n- On site";
+				$message.="\n";
+				$message.="\nWe accept the following methods of payment:";
+				$message.="\n- Cash in EUR";
+				$message.="\n- EC";
+				$message.="\n- Credit cards (Visa, Master Card, American Express, JCB Cards, Union Pay)";
+				$message.="\n- Vouchers purchased at Cherry Tours";
+				$message.="\n";
+				
+				$message.="\nWeather:";
+				$message.="\nIf the weather forecast shows a high chance of rain at the tour date, we will contact you near-term via email, SMS or phone and inform you if the tour has to be cancelled.";
+				$message.="\nIf it rains despite a positive weather forecast, the tour guide will decide on-site if the tour can take place. Generally, the tour is arranged along a route where you can always take cover in case of a short rain shower."; 
+				$message.="\n";
+				$message.="\n";
+				
+				$name_forms = $scheduled->city_ob->seg_cityname;
+				$to = $user_contact->email;
+				if ($this->sendMail($to, $name_forms, $message))
+				{
+					$this->redirect(array('booking'));
+				
+				}
+			}
+			}
+
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+        $this->render('invoice',array(
+			'scheduled'=>$model->sched,
+			'contact'=>$contact,
+			'tour'=>$tour,
+			'tours_guide'=>$tours_guide,
+			'languages_guide'=>$languages_guide,
+			'info'=>$test,
+
+				));
+	}
     public function actionBooky($id_sched)
 	{
 		$tour=null;
@@ -1546,8 +1710,8 @@ class OfficeController extends Controller
                                 <div style="color:#000000;font-size:15px;">Tourgäste am '.$date_format.', '.$time_format.'</div>   
                             </td>
                             <td style="text-align:right;">';
-					          $tbl_img = '<img src="'.Yii::app()->request->baseUrl.'/img/cherrytours_icon_black_rgb.jpg" width="100px">';
-                              $tbl01='</td></tr></table><hr style="border:1px solid #000000;">';
+                                $tbl_img = '<img src="'.Yii::app()->request->baseUrl.'/img/cherrytours_icon_black_rgb.jpg" width="100px"><div style="color:#000000;font-size:12px;font-weight:bold;">Cherrytours</div>';
+                             $tbl01='</td></tr></table><hr style="border:1px solid #000000;">';
                                 $tbl_array=array();
 
 				$tbl02= '<table style="margin:30px;">
@@ -1662,7 +1826,7 @@ class OfficeController extends Controller
 				<table  stytle="border:0px solid red;">
 					<tr>
 						<td width="45%">&nbsp;</td>
-						<td width="30%" style="text-align:left;">Gesamteinnahmen exklusive Umsatzsteuer: </td>
+						<td width="30%" style="text-align:left;">Gesamteinnahmen exklusive:</td>
 						<td width="10%" style="text-align:right;">'.number_format($sum_b_vat, 2, '.', ' ').' &euro;</td>
 					</tr>
 						<tr>
@@ -1672,7 +1836,7 @@ class OfficeController extends Controller
 					</tr>
 						<tr>
 						<td></td>
-						<td style="text-align:left;">Anteil der Bareinnahmen inkl. Umsatzsteuer: </td>
+						<td style="text-align:left;">Anteil der Bareinnahmen inkl.: </td>
 						<td style="text-align:right;">'.number_format($sum_itog, 2, '.', ' ').' &euro;</td>
 					</tr>
 						<tr>
@@ -1725,7 +1889,7 @@ class OfficeController extends Controller
 						<tr>
 						  <td>'.$sched->user_ob->contact_ob['street'].' '.$sched->user_ob->contact_ob['house'].'</td>
 						  <td>&nbsp;</td>
-						  <td colspan="2" style="font-size:12x;font-weight:bold;">Honorarium&nbsp;accounting:</td>
+						  <td colspan="2" style="font-size:12x;font-weight:bold;">Honorarabrechnung:</td>
 						  <td>&nbsp;</td>
 						</tr>
 						<tr>
@@ -1805,8 +1969,7 @@ class OfficeController extends Controller
 						<tr>
 						  <td>&nbsp;</td>
 						  <td>&nbsp;</td>
-						  <td style="font-weight:bold;">Kassenbestandsänderung:</td>
-						  <td>&nbsp;</td>
+						  <td colspan="2" style="font-weight:bold;">Kassenbestandsänderung:</td>
 						  <td style="font-weight:bold;text-align:right;">'.$forpdf['delta_cash_zero'].'&nbsp;&euro;</td>
 						</tr>
 						<tr>

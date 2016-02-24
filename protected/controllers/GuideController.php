@@ -1520,7 +1520,7 @@ class GuideController extends Controller
                                 <div style="color:#000000;font-size:15px;">Tourgäste am '.$date_format.', '.$time_format.'</div>   
                             </td>
                             <td style="text-align:right;">';
-                                $tbl_img = '<img src="'.Yii::app()->request->baseUrl.'/img/cherrytours_icon_black_rgb.jpg" width="100px">';
+                                $tbl_img = '<img src="'.Yii::app()->request->baseUrl.'/img/cherrytours_icon_black_rgb.jpg" width="100px"><div style="color:#000000;font-size:12px;font-weight:bold;">Cherrytours</div>';
                                 $tbl01='</td></tr></table><hr style="border:1px solid #000000;">';
                                 $tbl_array=array();
 				
@@ -1636,7 +1636,7 @@ class GuideController extends Controller
 				<table  stytle="border:0px solid red;">
 					<tr>
 						<td width="45%">&nbsp;</td>
-						<td width="30%" style="text-align:left;">Gesamteinnahmen exklusive Umsatzsteuer: </td>
+						<td width="30%" style="text-align:left;">Gesamteinnahmen exklusive: </td>
 						<td width="10%" style="text-align:right;">'.number_format($sum_b_vat, 2, '.', ' ').' &euro;</td>
 					</tr>
 						<tr>
@@ -1646,7 +1646,7 @@ class GuideController extends Controller
 					</tr>
 						<tr>
 						<td></td>
-						<td style="text-align:left;">Anteil der Bareinnahmen inkl. Umsatzsteuer: </td>
+						<td style="text-align:left;">Anteil der Bareinnahmen inkl.: </td>
 						<td style="text-align:right;">'.number_format($sum_itog, 2, '.', ' ').' &euro;</td>
 					</tr>
 						<tr>
@@ -1699,7 +1699,7 @@ class GuideController extends Controller
 						<tr>
 						  <td>'.$sched->user_ob->contact_ob['street'].' '.$sched->user_ob->contact_ob['house'].'</td>
 						  <td>&nbsp;</td>
-						  <td colspan="2" style="font-size:12x;font-weight:bold;">Honorarium&nbsp;accounting:</td>
+						  <td colspan="2" style="font-size:12x;font-weight:bold;">Honorarabrechnung:</td>
 						  <td>&nbsp;</td>
 						</tr>
 						<tr>
@@ -1779,8 +1779,7 @@ class GuideController extends Controller
 						<tr>
 						  <td>&nbsp;</td>
 						  <td>&nbsp;</td>
-						  <td style="font-weight:bold;">Kassenbestandsänderung:</td>
-						  <td>&nbsp;</td>
+						  <td colspan="2" style="font-weight:bold;">Kassenbestandsänderung:</td>
 						  <td style="font-weight:bold;text-align:right;">'.$forpdf['delta_cash_zero'].'&nbsp;&euro;</td>
 						</tr>
 						<tr>

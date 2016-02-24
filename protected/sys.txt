@@ -55,3 +55,5 @@ Front end
 Проблемы:
 1.guide.show languages and guides don't cooperate with each other
 2. should we show the same guide info for other guide scheduled tour at the guide.week?
+
+3.the serious problem may arise with the fact of customers creation at the time of booking: they receive KA-code at this stage and this may mess up its order when the customers number is corrected later

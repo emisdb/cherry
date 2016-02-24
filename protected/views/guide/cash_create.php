@@ -10,7 +10,7 @@
 
 ?>
 
-<h1>Create cashbox record</h1>
+<h1>Kasseneintrag erstellen</h1>
       </section>
 
         <!-- Main content -->

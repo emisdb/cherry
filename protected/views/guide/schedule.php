@@ -18,7 +18,7 @@ $this->breadcrumbs=array(
 <?php 
 $datetime = time();
 ?>
-<h1>Scheduled Tours</h1>
+<h1>Tourplan</h1>
                      <div style=" width:100px;">
                     <?php
                         $this->widget('zii.widgets.jui.CJuiDatePicker',array(
@@ -58,6 +58,7 @@ $datetime = time();
 //	'filter'=>$model,
 	'htmlOptions'=>array('class'=>'table-responsive'),
 	'itemsCssClass'=>'table table-bordered',
+	'summaryText'=>'Insgesamt {count} Ergeibni&szlig;e',
 	'rowCssClassExpression' => '$data->openTour || $data->date_now > '.$datetime.' ? "table_scheduled" : "table_scheduled_pdf"', 
 	//'rowCssClassExpression' => '$date->openTour ? "table_scheduled" : "table_scheduled_pdf"', 
 	'columns'=>array(

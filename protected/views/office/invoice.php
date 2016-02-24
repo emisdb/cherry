@@ -3,23 +3,17 @@
       <div class="content-wrapper">
        <section class="content-header">
 			<h1>Buchen das Tour</h1>
-				<?php 		
-/*				<div class="book-back t-text-tour">
-	
-				echo CHtml::link("Back",array('current','id_sched'=>$scheduled->idseg_scheduled_tours));
-			
-				</div>
-*/				?>
 			<ol class="breadcrumb">
 				<li>
-					<?php echo Chtml::link('Tourplan',array('schedule')); ?>
+					<?php echo Chtml::link('Buchung',array('schedule')); ?>
 				</li>
 				<li>
 					<?php 
 					echo CHtml::link("Rechnung #".$scheduled->idseg_scheduled_tours,array('current','id_sched'=>$scheduled->idseg_scheduled_tours));
 					?>
 				</li>
-				<li class="active">Buchen das Tour	</li>
+				<li class="active">Buchen das Tour<?php echo $scheduled->idseg_scheduled_tours; ?>
+				</li>
 			</ol>	
 
 		</section>
@@ -129,10 +123,8 @@
 						   ?>
 						</div>
 						<div style="display:none;" id="now_tiket"></div> <!-- begin list tiket categories -->
-
-
 						<?php
-                                                echo $form->textField($contact,'tickets',array('class'=>"form-control", 'id'=>'tickets', 'value'=>'1','onChange'=>'clickTickets(this.value)'));
+                             echo $form->textField($contact,'tickets',array('class'=>"form-control", 'id'=>'tickets', 'onChange'=>'clickTickets(this.value)'));
                                                /*
                                                 for($i=1;$i<4;$i++)
 						{ 

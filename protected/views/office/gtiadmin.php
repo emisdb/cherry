@@ -83,14 +83,19 @@
  	'columns'=>array(
 				array(
 			'class'=>'CButtonColumn',
-            'template'=>'{edit}',
-			'htmlOptions'=>array("width"=>"80px"),
+            'template'=>'{edit}{update}',
+			'htmlOptions'=>array("style"=>"width:120px;padding:2px;"),
             'buttons' => array(
 				   'edit' => array(
 						'imageUrl'=>'/img/view.png',
 						'url' => "array('sched','id'=>\$data->sched->idseg_scheduled_tours)",
-						'label'=>'Edit tour',
+						'label'=>'Anderung tour',
 				   ),
+					'update' => array(
+						'url' => "array('invoice','id'=>\$data->idseg_guidesTourInvoices)",
+						'label'=>'Rechnung',
+				   ),
+
 /* 
  * 				   'delete' => array(
 						'url' => 'array("deleteST","id"=>"$data->idseg_guidesTourInvoices")',				   
