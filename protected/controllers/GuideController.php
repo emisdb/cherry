@@ -423,12 +423,13 @@ class GuideController extends Controller
         $model_week = array();
         $start_times_tour =SegStarttimes::model()->findAll(); 
 		$interval=new DateInterval( "P1D" );
-		setlocale(LC_TIME, "de_DE", "de", "ge", "de-DE");
-
+//		setlocale(LC_TIME, array("de_de","de_DE", "de", "ge", "de-DE",  "de-de","DE", "ge_GE"));
+			Yii::app()->setLanguage("de_de");
 		for($inx=0;$inx<7;$inx++){
          $model_day = array(); $i=0;$status_old ='';
 		$date_format=date_timestamp_get($dt);
-		$curdate=strftime("%A, %d-%B-%Y",$date_format);	
+//		$curdate=strftime("%A, %d-%B-%Y",$date_format);	
+		$curdate=Yii::app()->dateFormatter->format('EEEE, dd-MMMM-yyyy',$date_format);	
 		date_add($dt,$interval);
 		 
        foreach($start_times_tour as $item){
