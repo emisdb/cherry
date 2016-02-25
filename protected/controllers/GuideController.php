@@ -423,7 +423,7 @@ class GuideController extends Controller
         $model_week = array();
         $start_times_tour =SegStarttimes::model()->findAll(); 
 		$interval=new DateInterval( "P1D" );
-		setlocale(LC_TIME, "de_DE", "de", "ge");
+		setlocale(LC_TIME, "de_DE", "de", "ge", "de-DE");
 
 		for($inx=0;$inx<7;$inx++){
          $model_day = array(); $i=0;$status_old ='';

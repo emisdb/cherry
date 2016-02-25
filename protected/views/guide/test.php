@@ -68,7 +68,7 @@
 		<div class="form">
 	
 		<?php 
-						 var_dump($sched);
+//						 print_r(ResourceBundle::getLocales(''));
 		?>
 </div>
 </div><!-- form -->
