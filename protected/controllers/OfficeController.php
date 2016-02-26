@@ -1227,7 +1227,6 @@ class OfficeController extends Controller
 				$user_contact->email = $_POST['Bookq']['email'];
 				$user_contact->save();
 				//save guidestourinvoicecustomers
-				$id_invoice = $guidestourinvoices->idseg_guidesTourInvoices;
 				if($ticket_count>0)
 				{
 				for($j=0;$j<$ticket_count;$j++){

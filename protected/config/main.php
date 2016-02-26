@@ -13,8 +13,8 @@ return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'cherrytours.com',
 
-    'sourceLanguage'=>'de_de',
-    'language'=>'de',
+    'sourceLanguage'=>'en',
+    'language'=>'en',
     'charset'=>'utf-8',
 
 	// preloading 'log' component

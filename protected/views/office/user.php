@@ -45,5 +45,6 @@ $form=$this->beginWidget('CActiveForm', array(
             <button class="btn btn-primary cancel"><a href="<?php echo Yii::app()->request->baseUrl; ?>profile"><?php echo 'Abbrechen'; ?></a></button>
         <?php }?>
     </div>
+			<?php $this->endWidget(); ?>
 		</section><!-- /.content -->
       </div><!-- /.content-wrapper -->
