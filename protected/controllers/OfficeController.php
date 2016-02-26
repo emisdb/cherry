@@ -346,11 +346,13 @@ class OfficeController extends Controller
 
 
 			$this->render('profile',array(
+//			$this->render('user_1',array(
 				'model'=>$model,
 			'info'=>$test,
 			));
     }
-		public function actionUser($id)
+
+	public function actionUser($id)
 	{
         $id_control = Yii::app()->user->id;
       	$model=$this->loadUser($id);
@@ -359,7 +361,6 @@ class OfficeController extends Controller
     
     		// Uncomment the following line if AJAX validation is needed
     		// $this->performAjaxValidation($model);
-  		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
   
     		if(isset($_POST['User']))
     		{
@@ -370,7 +371,8 @@ class OfficeController extends Controller
     				    $this->redirect(array('profile'));
                     } 
     		}
-    
+ 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+     
     		$this->render('user',array(
     			'model'=>$model,//,'usergroups'=>$usergroups
   			'info'=>$test,

@@ -34,6 +34,8 @@ $this->breadcrumbs=array(
     echo '</div>';
     }
     ?>
+			<div class="form">
+
 <?php
 $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'user-form',
@@ -53,6 +55,8 @@ $form=$this->beginWidget('CActiveForm', array(
             <button class="btn btn-primary cancel"><a href="<?php echo Yii::app()->request->baseUrl; ?>profile"><?php echo 'Abbrechen'; ?></a></button>
         <?php }?>
     </div>
+   </div>
 <?php $this->endWidget(); ?>
+  </div>
 		</section><!-- /.content -->
       </div><!-- /.content-wrapper -->

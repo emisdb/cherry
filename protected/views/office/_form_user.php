@@ -11,8 +11,8 @@
             </h4>
         </div>
         <div class="box-body" >
-    <?php if($model->isNewRecord) {?>
-   <div class="row">
+    <div class="row">
+   <?php if($model->isNewRecord) {?>
 		<div class="col-md-6">
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'id_usergroups',array('class'=>'control-label')); ?>
@@ -21,7 +21,7 @@
         <?php echo $form->error($model,'id_usergroups'); ?>
 	</div>
 	</div>
-     <?php }?>
+     <?php } ?>
 		<div class="col-md-6">
 	<div class="form-group">
 	<?php echo $form->labelEx($model,'username',array('class'=>'control-label')); ?>

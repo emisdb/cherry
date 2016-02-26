@@ -46,8 +46,8 @@ $this->breadcrumbs=array(
     
 ?>
 	<div class="row buttons">
-        <button class="btn btn-primary" type="submit"><?php echo 'Save'; ?></button>
- 		<button class="btn btn-primary cancel"><?php echo CHtml::link("Cancel", array("admin")) ?></button>
+        <button class="btn btn-primary" type="submit"><?php echo 'Speichern'; ?></button>
+ 		<button class="btn btn-primary cancel"><?php echo CHtml::link("Abbrechen", array("admin")) ?></button>
     </div>
 
 
