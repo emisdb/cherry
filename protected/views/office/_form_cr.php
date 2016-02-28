@@ -19,16 +19,21 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-	<div class="row">
+		<div class="row">
+		<div class="col-md-4">
+			<div class="form-group">
 		<?php echo $form->labelEx($model,'name'); ?>
-		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>200)); ?>
+		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>200,'class'=>"form-control")); ?>
 		<?php echo $form->error($model,'name'); ?>
-	</div>
-
-	<div class="row">
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div class="form-group">
 		<?php echo $form->labelEx($model,'value'); ?>
-		<?php echo $form->textField($model,'value'); ?>
+		<?php echo $form->textField($model,'value',array('class'=>"form-control")); ?>
 		<?php echo $form->error($model,'value'); ?>
+			</div>
+		</div>
 	</div>
 
 	<div class="row buttons">

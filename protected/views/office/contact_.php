@@ -19,7 +19,7 @@ $this->breadcrumbs=array(
 );
 ?>
 <?php }?>
-<h1>Update contact - <?php echo $update_user->username; ?></h1>
+<h1>Kontaktdaten aktualisieren für  <?php echo $update_user->username; ?></h1>
        </section>
 
         <!-- Main content -->
@@ -36,6 +36,7 @@ $this->breadcrumbs=array(
     'htmlOptions'=>array('enctype'=>'multipart/form-data'),
 )); ?>
 
+	<p class="note">Felder mit einem <span class="required">*</span> müssen ausgefüllt werden.</p>
 
 
 	<?php echo $form->errorSummary($model); ?>
