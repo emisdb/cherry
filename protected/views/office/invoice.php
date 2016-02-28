@@ -1,4 +1,7 @@
-<?php $this->renderPartial('_top', array('info'=>$info)); ?>
+<?php
+ Yii::app()->clientScript->registerScriptFile('https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js',CClientScript::POS_HEAD);
+$this->renderPartial('_top', array('info'=>$info));
+?>
     <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
        <section class="content-header">
@@ -72,7 +75,7 @@
 						</div>
 						<div style="clear:both;"></div>
 					</div>
-					<div class="t-vat-tour" style="padding-bottom:10px;width:110px;border-bottom: 1px dotted #a7a7a7;border-left:1px dotted #a7a7a7;border-right:1px dotted #a7a7a7;">inkl. MwSt.</div>
+					<div class="t-vat-tour" style="padding-bottom:10px;width:110px;border-bottom: 1px dotted #a7a7a7;border-left:1px dotted #a7a7a7;border-right:1px dotted #a7a7a7;">inkl. Mwst.</div>
 				</div>
 			</div>
 			<div class="row">
@@ -174,7 +177,7 @@
 		<div class="row">
 			<div class="col-md-8">
 				<div class="form-group">
-				  <label>Strasse, Hausnummer</label>
+				  <label>Straße, Hausnummer</label>
 				  <?php echo $form->textField($contact,'street',array('class'=>"form-control")); ?>
 				</div>					
 			</div>

@@ -1,4 +1,8 @@
-<?php $this->renderPartial('_top', array('info'=>$info)); ?>
+<?php
+ Yii::app()->clientScript->registerScriptFile('https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js',CClientScript::POS_HEAD);
+$this->renderPartial('_top', array('info'=>$info));
+
+?>
     <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
        <section class="content-header">
