@@ -4,7 +4,7 @@
  ?>     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-<h1>Discount "<?php echo $model->name; ?> <?php echo $model->type; ?>"</h1>
+<h1>Rabattgrund "<?php echo $model->name; ?> <?php echo $model->type; ?>"</h1>
      </section>
 
         <!-- Main content -->

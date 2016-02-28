@@ -1,4 +1,5 @@
-<?php $this->renderPartial('_top', array('info'=>$info)); ?>
+<?php 
+$this->renderPartial('_top', array('info'=>$info)); ?>
      <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">

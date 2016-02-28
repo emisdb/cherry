@@ -15,6 +15,7 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
+	<p class="note">Felder mit einem <span class="required">*</span> müssen ausgefüllt werden.</p>
 
 	<?php echo $form->errorSummary($model); ?>
 
@@ -113,7 +114,7 @@
    <div class="box box-primary" >
         <div class="box-header with-border">
             <h4 class="box-title">
-                Adre&szlig;e
+                Adresse
             </h4>
         </div>
         <div class="box-body" >

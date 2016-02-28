@@ -19,7 +19,7 @@ $this->breadcrumbs=array(
     ));
 ?>
 
-<h1>Update contact - <?php echo $update_user->username; ?></h1>
+<h1>Kontaktdaten Aktualisieren für <?php echo $update_user->username; ?></h1>
        </section>
 
         <!-- Main content -->

@@ -15,7 +15,7 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<p class="note">Felder mit einem <span class="required">*</span> müssen ausgefüllt werden.</p>
 
 	<?php echo $form->errorSummary($model); ?>
 
@@ -32,8 +32,8 @@
 	</div>
 
 	<div class="row buttons">
-        <button class="btn btn-primary" type="submit"><?php echo $model->isNewRecord ? 'New record' : 'Save'; ?></button>
-	<button class="btn btn-primary cancel"><?php echo CHtml::link("Cancel", array("cr")) ?></button>
+        <button class="btn btn-primary" type="submit"><?php echo $model->isNewRecord ? 'Erstellen' : 'Speichern'; ?></button>
+	<button class="btn btn-primary cancel"><?php echo CHtml::link("Abbrechen", array("cr")) ?></button>
 	</div>
 
 <?php $this->endWidget(); ?>

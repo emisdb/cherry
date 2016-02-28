@@ -1,8 +1,10 @@
-<?php $this->renderPartial('_top', array('info'=>$info)); ?>
+<?php 
+ Yii::app()->clientScript->registerScriptFile('https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js',CClientScript::POS_HEAD);
+$this->renderPartial('_top', array('info'=>$info)); ?>
      <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-<h1>Cancellation Reason "<?php echo $model->name; ?>" </h1>
+<h1>Stornierungsgrund "<?php echo $model->name; ?>" </h1>
      </section>
 
         <!-- Main content -->
