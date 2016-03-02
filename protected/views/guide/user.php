@@ -6,7 +6,7 @@
 <?php
 $this->breadcrumbs=array(
     'Benutzerprofil'=>array('profile'),
-	'Benutzerprofil Aktualisieren',
+	'Benutzerprofil aktualisieren',
 );
  $this->widget('zii.widgets.CBreadcrumbs', array(
         'links'=>$this->breadcrumbs,
@@ -18,7 +18,7 @@ $this->breadcrumbs=array(
         'htmlOptions'=>array ('class'=>'breadcrumb')
     ));
 ?>
-<h1>Benutzerprofil aktualisieren - <?php echo $model->username; ?> (<?php echo $model->role_ob->groupname; ?> )</h1>
+<h1>Benutzerprofil aktualisieren für <?php echo $model->username; ?> (<?php echo $model->role_ob->groupname; ?> )</h1>
 
 
 

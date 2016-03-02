@@ -26,7 +26,7 @@ $this->breadcrumbs=array(
 
 
  ?>
-<h1>Kontaktdaten Aktualisieren - <?php echo $update_user->username; ?></h1>
+<h1>Kontaktdaten aktualisieren für <?php echo $update_user->username; ?></h1>
        </section>
 
         <!-- Main content -->

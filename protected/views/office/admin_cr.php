@@ -28,7 +28,7 @@
                 'update' => array(
                      //'imageUrl'=>'/images/system/proc.png',
                     'url' => 'array("updatecr", "id" => $data->id)',
-                    'label'=>'Update',
+                    'label'=>'Bearbeiten',
                ),
                 'delete' => array(
                      //'imageUrl'=>'/images/system/proc.png',
