@@ -36,6 +36,7 @@ return array(
              'ipFilters'=>array('127.0.0.1','::1'),
              'generatorPaths'=>array('bootstrap.gii'),
          ),
+		'admins'
     ),
 
 	'defaultController'=>'main',
@@ -87,7 +88,9 @@ return array(
 		
 			'rules'=>array(
             	'/' => 'segScheduledTours/index',
-				'/admin' => 'site/login',
+				'admins/<controller>/<action>' => 'admins/<controller>/<action>',
+				'/admins/*' => 'admins',
+ 				'/admin' => 'site/login',
 				'/berlin/book' => 'segScheduledTours/book/id/1',
 				'/munchen/book' => 'segScheduledTours/book/id/2',
 				'/berlin' => 'segScheduledTours/city/city/1',
@@ -101,7 +104,7 @@ return array(
 				'post/<id:\d+>/<title:.*?>'=>'post/view',
 				'posts/<tag:.*?>'=>'post/index',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
-			),
+    			),
 		),
 		'log'=>array(
 			'class'=>'CLogRouter',
