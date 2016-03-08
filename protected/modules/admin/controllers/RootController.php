@@ -123,6 +123,35 @@ class RootController extends Controller
   			'info'=>$test,
 				));
   }
+	public function actionUcontact($id_user)
+	{
+	    $id_control = Yii::app()->user->id;
+        $update_user = User::model()->findByPk($id_user);
+  			$criteria = new CDbCriteria;
+        	$criteria->condition = 'id=:id';
+        	$criteria->params = array(':id' => $id_user);
+        	$id_contact = User::model()->find($criteria)->id_contact;
+			
+    		$model=$this->loadContact($id_contact);
+    
+    		// Uncomment the following line if AJAX validation is needed
+    		// $this->performAjaxValidation($model);
+    
+    		if(isset($_POST['SegContacts']))
+    		{
+    			$model->attributes=$_POST['SegContacts'];
+     			if($model->save())
+     				    $this->redirect(array('uupdate','id'=>$id_user));
+    		}
+    
+    		$test=array('guide'=>$model,'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+	  		$this->render('update_contact',array(
+    			'model'=>$model,
+				'id_user'=>$id_user,
+				'update_user'=>$update_user,
+   			'info'=>$test,
+   		));
+ }
 	public function actionUupdate($id)
 	{
         $id_control = Yii::app()->user->id;
@@ -142,7 +171,7 @@ class RootController extends Controller
     		}
  		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
     
-    		$this->render('update',array(
+    		$this->render('update_user',array(
     			'model'=>$model,
   			'info'=>$test,
     		));

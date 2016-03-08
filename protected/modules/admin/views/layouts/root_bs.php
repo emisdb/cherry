@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/AdminLTE/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
-    <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/AdminLTE/dist/css/skins/skin-green.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/AdminLTE/dist/css/skins/skin-purple.min.css" rel="stylesheet" type="text/css" />
 	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>-->
  	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
    <!--<script src="<?php // echo Yii::app()->request->baseUrl; ?>/css/AdminLTE/plugins/chartjs/Chart.min.js" type="text/javascript"></script>-->
@@ -21,7 +21,7 @@
 
 </head>
 
-  <body class="hold-transition skin-green sidebar-mini">
+  <body class="hold-transition skin-purple sidebar-mini">
     <div class="wrapper">
       <!-- Left side column. contains the logo and sidebar -->
       <aside class="main-sidebar">
@@ -41,8 +41,8 @@
              <li>
 				<?php echo CHtml::link("<i class='fa fa-laptop'></i> <span>Homepage</span>", "/"); ?>
             </li>
-             <li <?php echo (Yii::app()->controller->action->id=='user') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-user'></i><span>Guides</span>", array('admin')); ?>
+             <li <?php echo (Yii::app()->controller->action->id=='uadmin') ? "class=\"active\"" : "" ; ?>>
+				<?php echo CHtml::link("<i class='fa fa-user'></i><span>Users</span>", array('uadmin')); ?>
             </li>
              <li <?php echo (Yii::app()->controller->action->id=='cashFull') ? "class=\"active\"" : "" ; ?>>
 				<?php echo CHtml::link("<i class='fa fa-credit-card'></i><span>Kassen</span>", array('cashAdmin')); ?>
