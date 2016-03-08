@@ -1,18 +1,25 @@
-<?php
+<?php $this->renderPartial('_top', array('info'=>$info)); ?>
+     <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+			
+			<?php
 $this->breadcrumbs=array(
 	'Users',
 );
 ?>
-<?php 
-if($role_control==1)$modelsearch = $model->search_root();
-if($role_control==2)$modelsearch = $model->search_admin();
-if($role_control==3)$modelsearch = $model->search_office();
-?>
+<?php $modelsearch = $model->search_office();	?>
 
 <h1>All users</h1>
 
-<div class="create"><a href="<?php echo Yii::app()->request->baseUrl; ?>/user/create">New record</a></div>
+<div class="create">
+	<?php   echo CHtml::link('Neuen Guide', array('ucreate')); ?>
+</div>
 
+       </section>
+
+        <!-- Main content -->
+        <section class="content">
 
 
 
@@ -34,7 +41,8 @@ if($role_control==3)$modelsearch = $model->search_office();
             'buttons' => array(
                'update' => array(
                      //'imageUrl'=>'/images/system/proc.png',
-                    'url' => 'Yii::app()->createUrl("/user/update/id/$data->id")',
+                    'url' => 'array("uupdate", "id" => $data->id)',
+//                    'url' => 'Yii::app()->createUrl("/user/update/id/$data->id")',
                     'label'=>'Update',
                ),
                'delete' => array(
@@ -46,3 +54,5 @@ if($role_control==3)$modelsearch = $model->search_office();
 		),
 	),
 )); ?>
+    </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->

@@ -36,7 +36,7 @@ return array(
              'ipFilters'=>array('127.0.0.1','::1'),
              'generatorPaths'=>array('bootstrap.gii'),
          ),
-		'admins'
+		'admin'
     ),
 
 	'defaultController'=>'main',
@@ -60,6 +60,7 @@ return array(
 
 		'user'=>array(
             'class' => 'WebUser',
+		  'loginUrl'=>array('admin/default/login'),
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
@@ -88,9 +89,10 @@ return array(
 		
 			'rules'=>array(
             	'/' => 'segScheduledTours/index',
-				'admins/<controller>/<action>' => 'admins/<controller>/<action>',
-				'/admins/*' => 'admins',
- 				'/admin' => 'site/login',
+				'admin' => 'admin/default/login',
+				'admin/<controller>/<action>' => 'admin/<controller>/<action>',
+//				'/admin/*' => '/admin/login',
+// 				'/admin' => 'site/login',
 				'/berlin/book' => 'segScheduledTours/book/id/1',
 				'/munchen/book' => 'segScheduledTours/book/id/2',
 				'/berlin' => 'segScheduledTours/city/city/1',
