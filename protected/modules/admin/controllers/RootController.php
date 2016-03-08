@@ -150,19 +150,22 @@ class RootController extends Controller
 	public function actionUadmin()
 	{
 	    $id_control = Yii::app()->user->id;
-    		$model=new User('search_root');
-            $criteria=new CDbCriteria;
-            $criteria->condition='groupname<>:groupname1';
-            $criteria->params=array(':groupname1'=>'root');
-            $usergroups = Usergroups::model()->findAll($criteria);
-            //$modelsearch = $model->search_root();
-          
+		$model=new User('search_root');
+		$criteria=new CDbCriteria;
+		$criteria->condition='groupname<>:groupname1';
+		$criteria->params=array(':groupname1'=>'root');
+		$usergroups = Usergroups::model()->findAll($criteria);
+		//$modelsearch = $model->search_root();
+
 		$model->unsetAttributes();  // clear any default values
-    	if(isset($_GET['User']))
+		if(isset($_GET['User']))
 			$model->attributes=$_GET['User'];
-		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),
+					'tours'=>$this->loadTours(),
+					'todo'=>$this->loadUnreported());
 		$this->render('admin',array(
-			'model'=>$model,'role_control'=>1,'usergroups'=>$usergroups,
+			'model'=>$model,
+			'usergroups'=>$usergroups,
   			'info'=>$test,
 		));
 	}
