@@ -9,53 +9,7 @@
           </a>
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-              <!-- Notifications: style can be found in dropdown.less -->
-              <li class="dropdown notifications-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-calendar-o"></i>
-                  <span class="label label-warning"><?php echo count($info['tours'])?></span>
-                </a>
-                <ul class="dropdown-menu" style="background-color: #8fdf82;">
-                  <li class="header" style="background-color: #8fdf82;" >Sie haben <?php echo count($info['tours'])?> Kasse Aufzeichnungen zu genehmigen</li>
-                  <li>
-                   <ul class="menu">
-                   <!-- inner menu: contains the actual data -->
-					  <?php
-						foreach ($info['tours'] as $key => $value) {
-							$date_format=date_format(new DateTime($value->request_date),'d.m.Y');
-						  echo '<li>'.CHtml::link(CHtml::encode(''.($key+1).'. '.$date_format.' '.$value->user['username']).': '.number_format($value->delta_cash, 2, '.', ' '), array('cashrecord','id'=>$value->idcashbox_change_requests));
-						  echo "</li>\n";
-					  }
-					  ?>
-                     </ul>
-                  </li>
-                </ul>
-              </li>
-              <!-- Tasks: style can be found in dropdown.less -->
-              <li class="dropdown tasks-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-file-o"></i>
-                  <span class="label label-danger"><?php echo count($info['todo'])?></span>
-                </a>
-                <ul class="dropdown-menu" style="background-color: #8fdf82;">
-                  <li class="header" style="background-color: #8fdf82;">Sie haben <?php echo count($info['todo'])?> Touren nicht gemeldet</li>
-                  <li>
-                    <!-- inner menu: contains the actual data -->
-                    <ul class="menu">
- 					  <?php
-						foreach ($info['todo'] as $key => $value) {
-							$date_format=date_format(new DateTime($value->date),'d.m.Y');
-						  echo '<li>'.CHtml::link(CHtml::encode(''.($key+1).'. '.$date_format.' '.Yii::app()->dateFormatter->format('HH:mm',strtotime($value->starttime))), array('current','id_sched'=>$value->idseg_scheduled_tours));
-//						  echo '<li>'.CHtml::link(CHtml::encode(''.($key+1).'. '.$date_format.' '.$value->starttime), array('segGuidestourinvoicescustomers/current','id_sched'=>$value->idseg_scheduled_tours,'date'=>$date_format,'time'=>$value->starttime));
-						  //segGuidestourinvoicescustomers/current/id_sched/405/date/2015-10-20/time/18:00:00
-						  echo "</li>\n";
-					  }
-					  ?>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-              <!-- User Account: style can be found in dropdown.less -->
+               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="<?php echo Yii::app()->request->baseUrl."/img/cherrytours_icon_colour_rgb.jpg" ?>" class="user-image" alt="User Image">

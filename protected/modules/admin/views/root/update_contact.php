@@ -47,7 +47,7 @@ $this->breadcrumbs=array(
 <?php $this->renderPartial('_form_contact', array('model'=>$model,'id_user'=>$id_user, 'form'=>$form)); ?>
 	<div class="row buttons">
         <button class="btn btn-primary" type="submit"><?php echo 'Speichern'; ?></button>
- 		<button class="btn btn-primary cancel"><?php echo CHtml::link("Abbrechen", array("admin")) ?></button>
+ 		<button class="btn btn-primary cancel"><?php echo CHtml::link("Abbrechen", array("uupdate",'id'=>$id_user)) ?></button>
     </div>
 
 

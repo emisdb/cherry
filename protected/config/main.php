@@ -14,7 +14,7 @@ return array(
 	'name'=>'cherrytours.com',
 
     'sourceLanguage'=>'en',
-    'language'=>'en',
+    'language'=>'de',
     'charset'=>'utf-8',
 
 	// preloading 'log' component

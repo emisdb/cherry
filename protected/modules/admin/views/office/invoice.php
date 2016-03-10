@@ -8,7 +8,7 @@ $this->renderPartial('_top', array('info'=>$info));
 			<h1>Buchen das Tour</h1>
 			<ol class="breadcrumb">
 				<li>
-					<?php echo Chtml::link('Buchung',array('schedule')); ?>
+					<?php echo Chtml::link('Buchung',array('booking')); ?>
 				</li>
 				<li>
 					<?php 
