@@ -27,7 +27,7 @@
 
 	<div class="row buttons">
         <button class="btn btn-primary" type="submit"><?php echo $model->isNewRecord ? 'Save' : 'Save'; ?></button>
-        <button class="btn btn-primary cancel"><a href="<?php echo Yii::app()->request->baseUrl; ?>/segStartTimes/admin"><?php echo 'Cancel'; ?></a></button>
+        <button class="btn btn-primary cancel"><a href="<?php echo Yii::app()->request->baseUrl; ?>sadmin"><?php echo 'Cancel'; ?></a></button>
     </div>
 
 <?php $this->endWidget(); ?>

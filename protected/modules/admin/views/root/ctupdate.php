@@ -7,8 +7,7 @@
         <section class="content-header">
 <?php
 ;$this->breadcrumbs=array(
-	'Cashbox Types'=>array('index'),
-	$model->name=>array('view','id'=>$model->id),
+	'Cashbox Types'=>array('ctadmin'),
 	'Update',
 );
 

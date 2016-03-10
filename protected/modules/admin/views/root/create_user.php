@@ -50,7 +50,7 @@ $form=$this->beginWidget('CActiveForm', array(
 	<div class="row buttons">
         <button class="btn btn-primary" type="submit">Speichern</button>
         <?php if($model->id != Yii::app()->user->id) {?>
-            <button class="btn btn-primary cancel"><a href="<?php echo Yii::app()->request->baseUrl; ?>admin"><?php echo 'Abbrechen'; ?></a></button>
+            <button class="btn btn-primary cancel"><a href="<?php echo Yii::app()->request->baseUrl; ?>uadmin"><?php echo 'Abbrechen'; ?></a></button>
         <?php }else{?>
             <button class="btn btn-primary cancel"><a href="<?php echo Yii::app()->request->baseUrl; ?>profile"><?php echo 'Abbrechen'; ?></a></button>
         <?php }?>

@@ -2,23 +2,22 @@
      <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-<?php if($model->idcontacts != Yii::app()->user->id) {?>
-<?php
+<?php 
 $this->breadcrumbs=array(
-    'Users'=>array('user/admin'),
-	$update_user->username=>array('user/update/id/'.$update_user->id),
-	//$model->idcontacts=>array('view','id'=>$model->idcontacts),
-	'Update contact',
-);
-?>
-<?php }else{?>
-<?php
-$this->breadcrumbs=array(
-    'Profile'=>array('user/profile'),
+    'Profile'=>array('profile'),
 	'Update profile contact',
 );
+
+ $this->widget('zii.widgets.CBreadcrumbs', array(
+        'links'=>$this->breadcrumbs,
+        'homeLink'=>false,
+        'tagName'=>'ul',
+        'separator'=>'',
+        'activeLinkTemplate'=>'<li><a href="{url}">{label}</a></li>',
+        'inactiveLinkTemplate'=>'<li><span>{label}</span></li>',
+        'htmlOptions'=>array ('class'=>'breadcrumb')
+    ));
 ?>
-<?php }?>
 <h1>Kontaktdaten aktualisieren für  <?php echo $update_user->username; ?></h1>
        </section>
 
@@ -48,7 +47,7 @@ $this->breadcrumbs=array(
 ?>
 	<div class="row buttons">
         <button class="btn btn-primary" type="submit"><?php echo 'Speichern'; ?></button>
- 		<button class="btn btn-primary cancel"><?php echo CHtml::link("Abbrechen", array("admin")) ?></button>
+ 		<button class="btn btn-primary cancel"><?php echo CHtml::link("Abbrechen", array("profile")) ?></button>
     </div>
 
 
