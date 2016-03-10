@@ -109,7 +109,7 @@
 				   'update' => array(
 				   
 						 //'imageUrl'=>'/images/system/proc.png',
-						'url' => 'Yii::app()->createUrl("office/current",array("id_sched"=>$data->idseg_scheduled_tours))',
+						'url' => 'array("current","id_sched"=>$data->idseg_scheduled_tours)',
 						'label'=>'Rechnung',
 //						'visible'=>'$data->openTour!=1',
 //						'visible'=>'$data->tourroute_id > 0 && $data->openTour!=1',

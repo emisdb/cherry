@@ -17,6 +17,11 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model,'id_tour_categories'); ?>
+		<?php echo $form->textField($model,'id_tour_categories'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->label($model,'name'); ?>
 		<?php echo $form->textField($model,'name',array('size'=>45,'maxlength'=>45)); ?>
 	</div>
@@ -27,8 +32,33 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model,'maintext_en'); ?>
+		<?php echo $form->textField($model,'maintext_en',array('size'=>60,'maxlength'=>2000)); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->label($model,'shorttext'); ?>
 		<?php echo $form->textField($model,'shorttext',array('size'=>60,'maxlength'=>100)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'shorttext_en'); ?>
+		<?php echo $form->textField($model,'shorttext_en',array('size'=>60,'maxlength'=>100)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'gmaps_lnk'); ?>
+		<?php echo $form->textArea($model,'gmaps_lnk',array('rows'=>6, 'cols'=>50)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'meetingpoint_description'); ?>
+		<?php echo $form->textField($model,'meetingpoint_description',array('size'=>60,'maxlength'=>200)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'meetingpoint_description_en'); ?>
+		<?php echo $form->textField($model,'meetingpoint_description_en',array('size'=>60,'maxlength'=>200)); ?>
 	</div>
 
 	<div class="row">

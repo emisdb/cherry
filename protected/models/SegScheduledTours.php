@@ -141,9 +141,7 @@ class SegScheduledTours extends CActiveRecord
                                 'language_ob'=>array(self::BELONGS_TO, 'Languages', 'language_id'),
                                 'tourroute_ob'=>array(self::BELONGS_TO, 'SegTourroutes', 'tourroute_id'),
                                 'user_ob'=>array(self::BELONGS_TO, 'User', 'guide1_id'),
-                               'cancelReason'=>array(self::BELONGS_TO, 'CancellationReason', 'cancelReason'),
-
- 			//'tourroute_all'=>array(self::HAS_MANY, 'SegGuidesTourroutes', array('usersid'=>'guide1_id')),
+  			//'tourroute_all'=>array(self::HAS_MANY, 'SegGuidesTourroutes', array('usersid'=>'guide1_id')),
 			'language_all'=>array(self::HAS_MANY, 'SegLanguagesGuides', array('users_id'=>'guide1_id')),
 			'bookings'=>array(self::HAS_MANY, 'SegBookings', 'sched_tourid'),
 			'guidestourinvoices'=>array(self::HAS_MANY, 'SegGuidestourinvoices', 'id_sched'),

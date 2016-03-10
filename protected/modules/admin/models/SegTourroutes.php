@@ -5,9 +5,15 @@
  *
  * The followings are the available columns in table 'seg_tourroutes':
  * @property integer $idseg_tourroutes
+ * @property integer $id_tour_categories
  * @property string $name
  * @property string $maintext
+ * @property string $maintext_en
  * @property string $shorttext
+ * @property string $shorttext_en
+ * @property string $gmaps_lnk
+ * @property string $meetingpoint_description
+ * @property string $meetingpoint_description_en
  * @property integer $TNmin
  * @property integer $TNmax
  * @property integer $inDevelopment
@@ -21,6 +27,9 @@
  */
 class SegTourroutes extends CActiveRecord
 {
+	/**
+	 * @return string the associated database table name
+	 */
     public $image_big; 
     public $image; 
     public $image_icon; 
@@ -30,18 +39,21 @@ class SegTourroutes extends CActiveRecord
 		return 'seg_tourroutes';
 	}
 
+	/**
+	 * @return array validation rules for model attributes.
+	 */
 	public function rules()
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'required'),
-			array('idseg_tourroutes, TNmin, TNmax, inDevelopment, base_price, standard_duration, cityid', 'numerical', 'integerOnly'=>true),
+			array('id_tour_categories, name', 'required'),
+			array('idseg_tourroutes, id_tour_categories, TNmin, TNmax, inDevelopment, base_price, standard_duration, cityid', 'numerical', 'integerOnly'=>true),
 			array('name, route_bigpic, route_pic, pic_icon, pdf_path', 'length', 'max'=>45),
-			array('maintext', 'length', 'max'=>2000),
-			array('shorttext', 'length', 'max'=>1000),
-           // array('image_big', 'file', 'types'=>'jpg, JPG'),
-          //  array('image', 'file', 'types'=>'jpg, JPG'),
+			array('maintext, maintext_en', 'length', 'max'=>2000),
+			array('shorttext, shorttext_en', 'length', 'max'=>100),
+			array('meetingpoint_description, meetingpoint_description_en', 'length', 'max'=>200),
+			array('gmaps_lnk', 'safe'),
             array('image_icon', 'file',
              'types'=>'jpg, JPG, png, PNG',
              'allowEmpty'=>'true',
@@ -52,7 +64,7 @@ class SegTourroutes extends CActiveRecord
              ),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idseg_tourroutes, id_tour_categories, tour_categories, name, maintext, shorttext, TNmin, TNmax, inDevelopment, image_big, image, image_icon, route_bigpic, route_pic, pic_icon, pdf_path, pdf_file, base_price, standard_duration, cityid', 'safe', 'on'=>'search'),
+			array('idseg_tourroutes, id_tour_categories, name, maintext, maintext_en, shorttext, shorttext_en, gmaps_lnk, meetingpoint_description, meetingpoint_description_en, TNmin, TNmax, inDevelopment, route_bigpic, route_pic, pic_icon, pdf_path, base_price, standard_duration, cityid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,9 +78,9 @@ class SegTourroutes extends CActiveRecord
 		return array(
             'tour_categories'=>array(self::BELONGS_TO, 'TourCategories', 'id_tour_categories'),
             'city'=>array(self::BELONGS_TO, 'SegCities', 'cityid'),
- 	);
+		);
 	}
- 
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -76,24 +88,24 @@ class SegTourroutes extends CActiveRecord
 	{
 		return array(
 			'idseg_tourroutes' => 'Idseg Tourroutes',
-            'tour_categories' => 'Tour categories',
-			'name' => 'Tour Routen',
+			'id_tour_categories' => 'Id Tour Categories',
+			'name' => 'Name',
 			'maintext' => 'Maintext',
+			'maintext_en' => 'Maintext En',
 			'shorttext' => 'Shorttext',
+			'shorttext_en' => 'Shorttext En',
+			'gmaps_lnk' => 'Gmaps Lnk',
+			'meetingpoint_description' => 'Meetingpoint Description',
+			'meetingpoint_description_en' => 'Meetingpoint Description En',
 			'TNmin' => 'Tnmin',
 			'TNmax' => 'Tnmax',
 			'inDevelopment' => 'In Development',
-            'image_big' => 'Image Big',
-            'image' => 'Image',
-            'image_icon' => 'Image Icon',
 			'route_bigpic' => 'Route Bigpic',
 			'route_pic' => 'Route Pic',
 			'pic_icon' => 'Pic Icon',
 			'pdf_path' => 'Pdf Path',
-            'pdf_file' => 'Pdf File',
-			'base_price' => 'Price',
-			'standard_duration' => 'Duration',
-            'city' => 'City',
+			'base_price' => 'Base Price',
+			'standard_duration' => 'Standard Duration',
 			'cityid' => 'Cityid',
 		);
 	}
@@ -115,13 +127,17 @@ class SegTourroutes extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-        
-        $criteria->with = array('tour_categories','city');
+
 		$criteria->compare('idseg_tourroutes',$this->idseg_tourroutes);
 		$criteria->compare('id_tour_categories',$this->id_tour_categories);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('maintext',$this->maintext,true);
+		$criteria->compare('maintext_en',$this->maintext_en,true);
 		$criteria->compare('shorttext',$this->shorttext,true);
+		$criteria->compare('shorttext_en',$this->shorttext_en,true);
+		$criteria->compare('gmaps_lnk',$this->gmaps_lnk,true);
+		$criteria->compare('meetingpoint_description',$this->meetingpoint_description,true);
+		$criteria->compare('meetingpoint_description_en',$this->meetingpoint_description_en,true);
 		$criteria->compare('TNmin',$this->TNmin);
 		$criteria->compare('TNmax',$this->TNmax);
 		$criteria->compare('inDevelopment',$this->inDevelopment);
@@ -129,13 +145,9 @@ class SegTourroutes extends CActiveRecord
 		$criteria->compare('route_pic',$this->route_pic,true);
 		$criteria->compare('pic_icon',$this->pic_icon,true);
 		$criteria->compare('pdf_path',$this->pdf_path,true);
-		$criteria->compare('base_price',$this->base_price,true);
+		$criteria->compare('base_price',$this->base_price);
 		$criteria->compare('standard_duration',$this->standard_duration);
 		$criteria->compare('cityid',$this->cityid);
-		$sort   = new CSort;
-		$sort->defaultOrder= array(
-            'id_tour_categories'=>CSort::SORT_ASC,
-        );
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

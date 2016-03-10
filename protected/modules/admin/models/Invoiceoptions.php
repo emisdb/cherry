@@ -1,20 +1,37 @@
 <?php
-class SegStarttimes extends CActiveRecord
+
+/**
+ * This is the model class for table "invoiceoptions".
+ *
+ * The followings are the available columns in table 'invoiceoptions':
+ * @property integer $id
+ * @property string $name
+ * @property integer $value
+ */
+class Invoiceoptions extends CActiveRecord
 {
+	/**
+	 * @return string the associated database table name
+	 */
 	public function tableName()
 	{
-		return 'seg_starttimes';
+		return 'invoiceoptions';
 	}
 
+	/**
+	 * @return array validation rules for model attributes.
+	 */
 	public function rules()
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('timevalue', 'safe'),
+			array('name', 'required'),
+			array('value', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>500),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idseg_starttimes, timevalue', 'safe', 'on'=>'search'),
+			array('id, name, value', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -35,8 +52,9 @@ class SegStarttimes extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idseg_starttimes' => 'Id Start times',
-			'timevalue' => 'Time value',
+			'id' => 'ID',
+			'name' => 'Name',
+			'value' => 'Value',
 		);
 	}
 
@@ -58,14 +76,12 @@ class SegStarttimes extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('idseg_starttimes',$this->idseg_starttimes);
-		$criteria->compare('timevalue',$this->timevalue,true);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('value',$this->value);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-            'pagination'    => array(
-                    'pageSize'  => 50,
-            ),
 		));
 	}
 
@@ -73,7 +89,7 @@ class SegStarttimes extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return SegStarttimes the static model class
+	 * @return Invoiceoptions the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

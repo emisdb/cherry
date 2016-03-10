@@ -9,6 +9,10 @@
 	<?php echo CHtml::link(CHtml::encode($data->idseg_tourroutes), array('view', 'id'=>$data->idseg_tourroutes)); ?>
 	<br />
 
+	<b><?php echo CHtml::encode($data->getAttributeLabel('id_tour_categories')); ?>:</b>
+	<?php echo CHtml::encode($data->id_tour_categories); ?>
+	<br />
+
 	<b><?php echo CHtml::encode($data->getAttributeLabel('name')); ?>:</b>
 	<?php echo CHtml::encode($data->name); ?>
 	<br />
@@ -17,8 +21,29 @@
 	<?php echo CHtml::encode($data->maintext); ?>
 	<br />
 
+	<b><?php echo CHtml::encode($data->getAttributeLabel('maintext_en')); ?>:</b>
+	<?php echo CHtml::encode($data->maintext_en); ?>
+	<br />
+
 	<b><?php echo CHtml::encode($data->getAttributeLabel('shorttext')); ?>:</b>
 	<?php echo CHtml::encode($data->shorttext); ?>
+	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('shorttext_en')); ?>:</b>
+	<?php echo CHtml::encode($data->shorttext_en); ?>
+	<br />
+
+	<?php /*
+	<b><?php echo CHtml::encode($data->getAttributeLabel('gmaps_lnk')); ?>:</b>
+	<?php echo CHtml::encode($data->gmaps_lnk); ?>
+	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('meetingpoint_description')); ?>:</b>
+	<?php echo CHtml::encode($data->meetingpoint_description); ?>
+	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('meetingpoint_description_en')); ?>:</b>
+	<?php echo CHtml::encode($data->meetingpoint_description_en); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('TNmin')); ?>:</b>
@@ -33,7 +58,6 @@
 	<?php echo CHtml::encode($data->inDevelopment); ?>
 	<br />
 
-	<?php /*
 	<b><?php echo CHtml::encode($data->getAttributeLabel('route_bigpic')); ?>:</b>
 	<?php echo CHtml::encode($data->route_bigpic); ?>
 	<br />

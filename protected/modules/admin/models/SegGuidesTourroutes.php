@@ -1,20 +1,49 @@
 <?php
-class SegStarttimes extends CActiveRecord
+
+/**
+ * This is the model class for table "seg_guides_tourroutes".
+ *
+ * The followings are the available columns in table 'seg_guides_tourroutes':
+ * @property integer $idseg_guides_tourroutes
+ * @property integer $usersid
+ * @property integer $tourroutes_id
+ */
+class SegGuidesTourroutes extends CActiveRecord
 {
+	public $base_provision0;
+	public $base_provision1;
+	public $base_provision2;
+
+	public $guest_variable0;
+	public $guest_variable1;
+	public $guest_variable2;
+	
+		public $guestsMinforVariable0;
+	public $guestsMinforVariable1;
+	public $guestsMinforVariable2;
+	
+		public $voucher_provision0;
+	public $voucher_provision1;
+	public $voucher_provision2;	
+
+
 	public function tableName()
 	{
-		return 'seg_starttimes';
+		return 'seg_guides_tourroutes';
 	}
 
+	/**
+	 * @return array validation rules for model attributes.
+	 */
 	public function rules()
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('timevalue', 'safe'),
+			array('usersid, tourroutes_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idseg_starttimes, timevalue', 'safe', 'on'=>'search'),
+			array('idseg_guides_tourroutes, usersid, tourroutes_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -26,8 +55,16 @@ class SegStarttimes extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+                    'tourroutes'=>array(self::BELONGS_TO, 'SegTourroutes', array( 'id_tour_categories'=>'tourroutes_id')),
+                    'tour_categories'=>array(self::BELONGS_TO, 'TourCategories', 'tourroutes_id'),
+			
 		);
 	}
+        public function getToureCategories()
+        {
+            $usersArray = CHtml::listData($this->tour_categories, 'id_tour_categories', 'name');
+            return $usersArray;
+        }
 
 	/**
 	 * @return array customized attribute labels (name=>label)
@@ -35,8 +72,9 @@ class SegStarttimes extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idseg_starttimes' => 'Id Start times',
-			'timevalue' => 'Time value',
+			'idseg_guides_tourroutes' => 'Idseg Guides Tourroutes',
+			'usersid' => 'Usersid',
+			'tourroutes_id' => 'Tourroutes',
 		);
 	}
 
@@ -58,14 +96,12 @@ class SegStarttimes extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('idseg_starttimes',$this->idseg_starttimes);
-		$criteria->compare('timevalue',$this->timevalue,true);
+		$criteria->compare('idseg_guides_tourroutes',$this->idseg_guides_tourroutes);
+		$criteria->compare('usersid',$this->usersid);
+		$criteria->compare('tourroutes_id',$this->tourroutes_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-            'pagination'    => array(
-                    'pageSize'  => 50,
-            ),
 		));
 	}
 
@@ -73,7 +109,7 @@ class SegStarttimes extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return SegStarttimes the static model class
+	 * @return SegGuidesTourroutes the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

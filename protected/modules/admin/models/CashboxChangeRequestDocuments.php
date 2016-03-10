@@ -1,20 +1,37 @@
 <?php
-class SegStarttimes extends CActiveRecord
+
+/**
+ * This is the model class for table "cashbox_change_request_documents".
+ *
+ * The followings are the available columns in table 'cashbox_change_request_documents':
+ * @property integer $idcashbox_change_request_documents
+ * @property string $link
+ * @property integer $cashbox_change_requestid
+ */
+class CashboxChangeRequestDocuments extends CActiveRecord
 {
+	/**
+	 * @return string the associated database table name
+	 */
 	public function tableName()
 	{
-		return 'seg_starttimes';
+		return 'cashbox_change_request_documents';
 	}
 
+	/**
+	 * @return array validation rules for model attributes.
+	 */
 	public function rules()
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('timevalue', 'safe'),
+			array('link, cashbox_change_requestid', 'required'),
+			array('cashbox_change_requestid', 'numerical', 'integerOnly'=>true),
+			array('link', 'length', 'max'=>150),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idseg_starttimes, timevalue', 'safe', 'on'=>'search'),
+			array('idcashbox_change_request_documents, link, cashbox_change_requestid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -35,8 +52,9 @@ class SegStarttimes extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idseg_starttimes' => 'Id Start times',
-			'timevalue' => 'Time value',
+			'idcashbox_change_request_documents' => 'Idcashbox Change Request Documents',
+			'link' => 'Link',
+			'cashbox_change_requestid' => 'Cashbox Change Requestid',
 		);
 	}
 
@@ -58,14 +76,12 @@ class SegStarttimes extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('idseg_starttimes',$this->idseg_starttimes);
-		$criteria->compare('timevalue',$this->timevalue,true);
+		$criteria->compare('idcashbox_change_request_documents',$this->idcashbox_change_request_documents);
+		$criteria->compare('link',$this->link,true);
+		$criteria->compare('cashbox_change_requestid',$this->cashbox_change_requestid);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-            'pagination'    => array(
-                    'pageSize'  => 50,
-            ),
 		));
 	}
 
@@ -73,7 +89,7 @@ class SegStarttimes extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return SegStarttimes the static model class
+	 * @return CashboxChangeRequestDocuments the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

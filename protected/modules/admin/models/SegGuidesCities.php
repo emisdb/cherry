@@ -1,20 +1,35 @@
 <?php
-class SegStarttimes extends CActiveRecord
+
+/**
+ * This is the model class for table "seg_guides_cities".
+ *
+ * The followings are the available columns in table 'seg_guides_cities':
+ * @property integer $idseg_guides_cities
+ * @property integer $users_id
+ * @property integer $cities_id
+ */
+class SegGuidesCities extends CActiveRecord
 {
+	/**
+	 * @return string the associated database table name
+	 */
 	public function tableName()
 	{
-		return 'seg_starttimes';
+		return 'seg_guides_cities';
 	}
 
+	/**
+	 * @return array validation rules for model attributes.
+	 */
 	public function rules()
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('timevalue', 'safe'),
+			array('users_id, cities_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idseg_starttimes, timevalue', 'safe', 'on'=>'search'),
+			array('idseg_guides_cities, users_id, cities_id, cities', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -26,8 +41,15 @@ class SegStarttimes extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+                 'cities'=>array(self::BELONGS_TO, 'SegCities', 'cities_id'),
+                 'users'=>array(self::BELONGS_TO, 'User', 'users_id'),
 		);
 	}
+      public function getCitiesList()
+        {
+            $usersArray = CHtml::listData(SegCities::model()->findAll(), 'idseg_cities', 'seg_cityname');
+            return $usersArray;
+        }
 
 	/**
 	 * @return array customized attribute labels (name=>label)
@@ -35,8 +57,10 @@ class SegStarttimes extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idseg_starttimes' => 'Id Start times',
-			'timevalue' => 'Time value',
+			'idseg_guides_cities' => 'Idseg Guides Cities',
+			'users_id' => 'Users',
+			'cities_id' => 'ID Cities',
+                        'cities' => 'Cities'
 		);
 	}
 
@@ -57,15 +81,15 @@ class SegStarttimes extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-
-		$criteria->compare('idseg_starttimes',$this->idseg_starttimes);
-		$criteria->compare('timevalue',$this->timevalue,true);
+        $criteria->with = array('cities');
+		$criteria->compare('cities.idseg_cities',$this->cities,true);
+        
+		$criteria->compare('idseg_guides_cities',$this->idseg_guides_cities);
+		$criteria->compare('users_id',$this->users_id);
+		$criteria->compare('cities_id',$this->cities_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-            'pagination'    => array(
-                    'pageSize'  => 50,
-            ),
 		));
 	}
 
@@ -73,7 +97,7 @@ class SegStarttimes extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return SegStarttimes the static model class
+	 * @return SegGuidesCities the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

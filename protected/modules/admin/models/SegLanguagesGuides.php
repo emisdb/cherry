@@ -1,20 +1,35 @@
 <?php
-class SegStarttimes extends CActiveRecord
+
+/**
+ * This is the model class for table "seg_languages_guides".
+ *
+ * The followings are the available columns in table 'seg_languages_guides':
+ * @property integer $idseg_languages_guides
+ * @property integer $users_id
+ * @property integer $languages_id
+ */
+class SegLanguagesGuides extends CActiveRecord
 {
+	/**
+	 * @return string the associated database table name
+	 */
 	public function tableName()
 	{
-		return 'seg_starttimes';
+		return 'seg_languages_guides';
 	}
 
+	/**
+	 * @return array validation rules for model attributes.
+	 */
 	public function rules()
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('timevalue', 'safe'),
+			array('users_id, languages_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idseg_starttimes, timevalue', 'safe', 'on'=>'search'),
+			array('idseg_languages_guides, users_id, languages_id, languages', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -26,6 +41,7 @@ class SegStarttimes extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+                    'languages'=>array(self::BELONGS_TO, 'Languages', 'languages_id'),
 		);
 	}
 
@@ -35,9 +51,16 @@ class SegStarttimes extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idseg_starttimes' => 'Id Start times',
-			'timevalue' => 'Time value',
+			'idseg_languages_guides' => 'Idseg Languages Guides',
+			'users_id' => 'Users',
+			'languages_id' => 'ID Languages',
+            'languages' => 'Languages',
 		);
+	}
+	public function getLanguageOptions()
+	{
+		$usersArray = CHtml::listData($this->languages, 'id_languages', 'englishname');
+		return $usersArray;
 	}
 
 	/**
@@ -57,15 +80,15 @@ class SegStarttimes extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-
-		$criteria->compare('idseg_starttimes',$this->idseg_starttimes);
-		$criteria->compare('timevalue',$this->timevalue,true);
+        $criteria->with = array('languages');
+		$criteria->compare('languages.id_languages',$this->languages,true);
+        
+		$criteria->compare('idseg_languages_guides',$this->idseg_languages_guides);
+		$criteria->compare('users_id',$this->users_id);
+		$criteria->compare('languages_id',$this->languages_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-            'pagination'    => array(
-                    'pageSize'  => 50,
-            ),
 		));
 	}
 
@@ -73,7 +96,7 @@ class SegStarttimes extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return SegStarttimes the static model class
+	 * @return SegLanguagesGuides the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

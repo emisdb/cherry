@@ -1,20 +1,36 @@
 <?php
-class SegStarttimes extends CActiveRecord
+
+/**
+ * This is the model class for table "payoptions".
+ *
+ * The followings are the available columns in table 'payoptions':
+ * @property integer $idpayoptions
+ * @property string $optionsname
+ * @property string $displayname
+ */
+class Payoptions extends CActiveRecord
 {
+	/**
+	 * @return string the associated database table name
+	 */
 	public function tableName()
 	{
-		return 'seg_starttimes';
+		return 'payoptions';
 	}
 
+	/**
+	 * @return array validation rules for model attributes.
+	 */
 	public function rules()
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('timevalue', 'safe'),
+			array('optionsname', 'length', 'max'=>10),
+			array('displayname', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idseg_starttimes, timevalue', 'safe', 'on'=>'search'),
+			array('idpayoptions, optionsname, displayname', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -35,8 +51,9 @@ class SegStarttimes extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idseg_starttimes' => 'Id Start times',
-			'timevalue' => 'Time value',
+			'idpayoptions' => 'Idpayoptions',
+			'optionsname' => 'Optionsname',
+			'displayname' => 'Displayname',
 		);
 	}
 
@@ -58,14 +75,12 @@ class SegStarttimes extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('idseg_starttimes',$this->idseg_starttimes);
-		$criteria->compare('timevalue',$this->timevalue,true);
+		$criteria->compare('idpayoptions',$this->idpayoptions);
+		$criteria->compare('optionsname',$this->optionsname,true);
+		$criteria->compare('displayname',$this->displayname,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-            'pagination'    => array(
-                    'pageSize'  => 50,
-            ),
 		));
 	}
 
@@ -73,7 +88,7 @@ class SegStarttimes extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return SegStarttimes the static model class
+	 * @return Payoptions the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

@@ -121,8 +121,6 @@ class User extends CActiveRecord
      		'scheds' => array(self::HAS_MANY, 'SegScheduledTours', 'guide1_id'),
      		'city' => array(self::HAS_ONE, 'SegGuidesCities', 'users_id'),
 //            'city' => array(self::MANY_MANY, 'SegCities', 'seg_guides_cities(users_id, cities_id)'),
-            'paySum'=>array(self::STAT, 'CashboxChangeRequests', 'id_users', 'select'=> 'SUM(delta_cash)','condition'=>'approvedBy IS NOT NULL'),
-            'payNA'=>array(self::STAT, 'CashboxChangeRequests', 'id_users', 'condition'=>'(approvedBy IS NULL) AND (reject=0)'),
        
 		);
 	}
