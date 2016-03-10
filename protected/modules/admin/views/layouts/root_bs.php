@@ -44,29 +44,23 @@
              <li <?php echo (Yii::app()->controller->action->id=='uadmin') ? "class=\"active\"" : "" ; ?>>
 				<?php echo CHtml::link("<i class='fa fa-user'></i><span>Users</span>", array('uadmin')); ?>
             </li>
-             <li <?php echo (Yii::app()->controller->action->id=='cashFull') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-credit-card'></i><span>Kassen</span>", array('cashAdmin')); ?>
+            <li <?php echo (Yii::app()->controller->action->id=='tadmin') ? "class=\"active\"" : "" ; ?>>
+				<?php echo CHtml::link("<i class='fa fa-credit-card'></i><span>Tours</span>", array('tadmin')); ?>
             </li>
-   			<li class="treeview <?php echo (in_array(Yii::app()->controller->action->id,array('bonus','cr'))) ? "active" : "" ; ?>">
+   			<li class="treeview <?php echo (in_array(Yii::app()->controller->action->id,array('ugadmin','ladmin','lcreate','lupdate'))) ? "active" : "" ; ?>">
               <a href="#">
                 <i class="fa fa-list"></i>
-                <span>Einstellungen</span>
+                <span>REFERENCE</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-            <li <?php echo (Yii::app()->controller->action->id=='bonus') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-chevron-down'></i><span>Rabatt</span>", array('bonus')); ?>
+            <li <?php echo (Yii::app()->controller->action->id=='ugadmin') ? "class=\"active\"" : "" ; ?>>
+				<?php echo CHtml::link("<i class='fa fa-chevron-down'></i><span>User Group</span>", array('ugadmin')); ?>
             </li>
-             <li <?php echo (Yii::app()->controller->action->id=='cr') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-sign-out'></i><span>Stornogrund</span>", array('cr')); ?>
+             <li <?php echo (in_array(Yii::app()->controller->action->id,array('ladmin','lcreate','lupdate'))) ? "class=\"active\"" : "" ; ?>>
+				<?php echo CHtml::link("<i class='fa fa-sign-out'></i><span>Languages</span>", array('ladmin')); ?>
             </li>
               </ul>
-            </li>
-              <li <?php echo (Yii::app()->controller->action->id=='schedule') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-table'></i><span>Touren</span>", array('schedule')); ?>
-            </li>
-              <li <?php echo (Yii::app()->controller->action->id=='booking') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-bold'></i><span>Buchung</span>", array('booking')); ?>
             </li>
   
             </ul>

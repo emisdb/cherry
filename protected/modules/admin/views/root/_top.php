@@ -1,6 +1,6 @@
 	<header class="main-header">
         <!-- Logo -->
- 		<?php echo CHtml::link('<span class="logo-mini">Root/span><span class="logo-lg"><b>Root</b> desk</span>', array('admin'),array('class'=>'logo')); ?>
+ 		<?php echo CHtml::link('<span class="logo-mini">Root</span><span class="logo-lg"><b>Root</b> desk</span>', array('admin'),array('class'=>'logo')); ?>
          <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->

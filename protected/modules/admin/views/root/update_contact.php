@@ -27,7 +27,30 @@ $this->breadcrumbs=array(
 
         <!-- Main content -->
         <section class="content">
+<div class="form">
 
-<?php $this->renderPartial('_form_contact', array('model'=>$model,'id_user'=>$id_user)); ?>
+<?php $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'seg-guidesdata-form',
+	// Please note: When you enable ajax validation, make sure the corresponding
+	// controller action is handling ajax validation correctly.
+	// There is a call to performAjaxValidation() commented in generated controller code.
+	// See class documentation of CActiveForm for details on this.
+	'enableAjaxValidation'=>false,
+    'htmlOptions'=>array('enctype'=>'multipart/form-data'),
+)); ?>
+
+
+
+	<?php echo $form->errorSummary($model); ?>
+
+
+<?php $this->renderPartial('_form_contact', array('model'=>$model,'id_user'=>$id_user, 'form'=>$form)); ?>
+	<div class="row buttons">
+        <button class="btn btn-primary" type="submit"><?php echo 'Speichern'; ?></button>
+ 		<button class="btn btn-primary cancel"><?php echo CHtml::link("Abbrechen", array("admin")) ?></button>
+    </div>
+
+
+<?php $this->endWidget(); ?>
 		</section><!-- /.content -->
       </div><!-- /.content-wrapper -->

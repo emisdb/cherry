@@ -2,56 +2,59 @@
      <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-			
 			<?php
-$this->breadcrumbs=array(
-	'Users',
-);
-?>
-<?php $modelsearch = $model->search_office();	?>
+/* @var $this LanguagesController */
+/* @var $model Languages */
 
-<h1>All users</h1>
+$this->breadcrumbs=array(
+	'Languages',
+);
+
+?>
+
+<h1>Languages</h1>
 
 <div class="create">
-	<?php   echo CHtml::link('Neuen User', array('ucreate')); ?>
+	<?php   echo CHtml::link('Neuen Sprache', array('lcreate')); ?>
 </div>
-
-       </section>
+      </section>
 
         <!-- Main content -->
         <section class="content">
 
-
-
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'user-grid',
-	'dataProvider'=>$modelsearch,//$model->search_root(),
-	'filter'=>$model,
+	'id'=>'languages-grid',
+	'dataProvider'=>$model->search(),
+//	'filter'=>$model,
 	'columns'=>array(
-        array(
-            'name'=>'role_ob',
-            'value'=>'$data->role_ob->groupname',
-            'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
+	//	'id_languages',
+		'shortname',
+		//'germanname',
+		'englishname',
+         array(
+            'name' => 'flagpic',
+            'type' => 'image',
+            'value' => 'Yii::app()->request->baseUrl."/img/lan/".$data->flagpic',
+            'filter' => false,
         ),
-		'username',
-		'profile',
+
+	//	'flagpic',
 		array(
 			'class'=>'CButtonColumn',
             'template'=>'{update}{delete}',
             'buttons' => array(
                'update' => array(
                      //'imageUrl'=>'/images/system/proc.png',
-                    'url' => 'array("uupdate", "id" => $data->id)',
+                    'url' => 'array("lupdate", "id" => $data->id_languages)',
 //                    'url' => 'Yii::app()->createUrl("/user/update/id/$data->id")',
                     'label'=>'Update',
                ),
                'delete' => array(
                      //'imageUrl'=>'/images/system/proc.png',
-                    'url' => 'Yii::app()->createUrl("/user/delete/id/$data->id")',
+                    'url' => 'array("ldelete", "id" => $data->id_languages)',
                     'label'=>'Delete',
                ),
-            ),
-		),
+            ),		),
 	),
 )); ?>
     </section><!-- /.content -->

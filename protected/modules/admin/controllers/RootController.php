@@ -228,11 +228,274 @@ class RootController extends Controller
             }
 		}
 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
-		$this->render('create',array(
+		$this->render('create_user',array(
 			'model'=>$model,'usergroups'=>$usergroups,
+            'modelc'=>$model_contact,
  			'info'=>$test,
 		));
 	}
+	public function actionTadmin()
+	{        
+ 		$model=new SegTourroutes('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['SegTourroutes']))
+			$model->attributes=$_GET['SegTourroutes'];
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+		$this->render('tadmin',array(
+			'model'=>$model,
+			'info'=>$test,
+		));
+	}
+	public function actionTcreate()
+	{
+			$model=new SegTourroutes;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+        $bigpic='';
+        $pic='';
+        $icon='';
+        $pdf='';
+         
+		if(isset($_POST['SegTourroutes']))
+		{
+		    $model->image_big = CUploadedFile::getInstance($model,'image_big');
+            $model->image = CUploadedFile::getInstance($model,'image');
+            $image_icon = $model->image_icon = CUploadedFile::getInstance($model,'image_icon');
+            $pdg_file1000 = $model->pdf_file = CUploadedFile::getInstance($model,'pdf_file');
+     
+            if($model->image_big!=""){
+                $name_uniqid = uniqid();
+                //$lnk_to_picture_old = $model->lnk_to_picture;
+                $bigpic = $model->route_bigpic = $name_uniqid.'.jpg';
+            }
+            if($model->image!=""){
+                $name_uniqid = uniqid();
+                //$lnk_to_picture_old = $model->lnk_to_picture;
+                $pic = $model->route_pic = $name_uniqid.'.jpg';
+            }
+            if($model->image_icon!=""){
+                $name_uniqid = uniqid();
+                //$lnk_to_picture_old = $model->lnk_to_picture;
+                $icon = $model->pic_icon = $name_uniqid.'.jpg';
+            }
+            if($model->pdf_file!=""){
+                $name_uniqid = uniqid();
+                //$lnk_to_picture_old = $model->lnk_to_picture;
+                $pdf = $model->pdf_path = $name_uniqid.'.pdf';
+            }
+
+            $model->cityid = $_POST['SegTourroutes']['city'];
+            $model->id_tour_categories = $_POST['SegTourroutes']['tour_categories'];
+			$model->attributes=$_POST['SegTourroutes'];
+			if($model->save()){
+                if($bigpic!=""){
+                    //if(($lnk_to_picture_old!="")or($lnk_to_picture_old!=NULL))unlink('image/guide/'.$lnk_to_picture_old);
+                    $file = 'image/tours/'.$bigpic;
+                    $model->image_big->saveAs($file);
+                }
+                if($pic!=""){
+                    //if(($lnk_to_picture_old!="")or($lnk_to_picture_old!=NULL))unlink('image/guide/'.$lnk_to_picture_old);
+                    $file = 'image/tours/'.$pic;
+                    $model->image->saveAs($file);
+                }
+                if($icon!=""){
+                    $file = 'image/tours/'.$icon;
+                    $image_icon->saveAs($file);
+                }
+                if($pdf!=""){
+                     $file = 'image/tourspdf/'.$pdf;
+                     if($pdg_file1000!=null){
+                       $pdg_file1000->saveAs($file);
+                     }
+                }  
+               	$this->redirect(array('tadmin'));         
+            }
+		}
+
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+		$this->render('tcreate',array(
+			'model'=>$model,
+			'info'=>$test,		));
+	}
+
+	/**
+	 * Updates a particular model.
+	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id the ID of the model to be updated
+	 */
+	public function actionTupdate($id)
+	{
+	     //access
+		$model=$this->loadTourroute($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+        $bigpic='';
+        $pic='';
+        $icon='';
+        $pdf='';
+		if(isset($_POST['SegTourroutes']))
+		{
+		  
+        
+		    $model->image_big = CUploadedFile::getInstance($model,'image_big');
+            $model->image = CUploadedFile::getInstance($model,'image');
+            $image_icon = $model->image_icon = CUploadedFile::getInstance($model,'image_icon');
+            $pdg_file1000 = $model->pdf_file = CUploadedFile::getInstance($model,'pdf_file');
+            
+            if($model->image_big!=""){
+                $name_uniqid = uniqid();
+                $route_bigpic_old = $model->route_bigpic;
+                $bigpic = $model->route_bigpic = $name_uniqid.'.jpg';
+            }
+            if($model->image!=""){
+                $name_uniqid = uniqid();
+                $route_pic_old = $model->route_pic;
+                $pic = $model->route_pic = $name_uniqid.'.jpg';
+            }
+            if($model->image_icon!=""){
+                $name_uniqid = uniqid();
+                $pic_icon_old = $model->pic_icon;
+                $icon = $model->pic_icon = $name_uniqid.'.jpg';
+            }
+            if($model->pdf_file!=""){
+                $name_uniqid = uniqid();
+                $pdf_path_old = $model->pdf_path;
+                $pdf = $model->pdf_path = $name_uniqid.'.pdf';
+            }
+
+            $model->cityid = $_POST['SegTourroutes']['city'];
+            $model->id_tour_categories = $_POST['SegTourroutes']['tour_categories'];
+			$model->attributes=$_POST['SegTourroutes'];
+            
+           //   print_r(	$model->base_price);
+            
+            
+			if($model->save()){
+			 
+           //  print_r(	$model->base_price);
+             
+             
+                if($bigpic!=""){
+                    if(($route_bigpic_old!="")or($route_bigpic_old!=NULL))unlink('image/tours/'.$route_bigpic_old);
+                    $file = 'image/tours/'.$bigpic;
+                    $model->image_big->saveAs($file);
+                }
+                if($pic!=""){
+                    if(($route_pic_old!="")or($route_pic_old!=NULL))unlink('image/tours/'.$route_pic_old);
+                    $file = 'image/tours/'.$pic;
+                    $model->image->saveAs($file);
+                }
+                if($image_icon!=""){
+                    if(($pic_icon_old!="")or($pic_icon_old!=NULL))unlink('image/tours/'.$pic_icon_old);
+                    $file = 'image/tours/'.$icon;
+                    $image_icon->saveAs($file);
+                }
+                if($pdf!=""){
+                     if(($pdf_path_old!="")or($pdf_path_old!=NULL))unlink('image/tourspdf/'.$pdf_path_old);
+                     $file = 'image/tourspdf/'.$pdf;
+                     if($pdg_file1000!=null){
+                       $pdg_file1000->saveAs($file);
+                     }
+                }  
+               	$this->redirect(array('tadmin'));         
+            }
+            
+        }
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+		$this->render('tupdate',array(
+			'model'=>$model,
+			'info'=>$test,
+			));
+	}
+	public function actionUgadmin()
+	{
+
+		$model=new Usergroups('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Usergroups']))
+			$model->attributes=$_GET['Usergroups'];
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+		$this->render('ugadmin',array(
+			'model'=>$model,
+			'info'=>$test,
+		));
+	}
+	public function actionLadmin()
+	{
+         
+		$model=new Languages('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Languages']))
+			$model->attributes=$_GET['Languages'];
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+		$this->render('ladmin',array(
+			'model'=>$model,
+			'info'=>$test,
+		));
+	}
+	public function actionLcreate()
+	{
+   		$model=new Languages;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Languages']))
+		{
+			$model->attributes=$_POST['Languages'];
+			if($model->save())
+				$this->redirect(array('ladmin'));
+		}
+
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+		$this->render('lcreate',array(
+				'info'=>$test,
+		'model'=>$model,
+		));
+	}
+
+	/**
+	 * Updates a particular model.
+	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id the ID of the model to be updated
+	 */
+	public function actionLupdate($id)
+	{
+		$model=$this->loadLang($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Languages']))
+		{
+			$model->attributes=$_POST['Languages'];
+			if($model->save())
+				$this->redirect(array('ladmin'));
+		}
+
+			$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+	$this->render('lupdate',array(
+				'info'=>$test,
+		'model'=>$model,
+		));
+	}
+
+
+	public function loadLang($id)
+	{
+		$model=Languages::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
 
 	public function loadModel($id)
 	{
@@ -241,7 +504,14 @@ class RootController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
-  public function loadContact($id)
+ 	public function loadTourroute($id)
+	{
+		$model=SegTourroutes::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+ public function loadContact($id)
 	{
 		$model=SegContacts::model()->findByPk($id);
 		if($model===null)
