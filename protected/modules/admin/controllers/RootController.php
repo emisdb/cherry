@@ -831,24 +831,31 @@ class RootController extends Controller
 			case 1:
 				$this->loadModel($id)->delete();
 				$this->redirect(array('admin'));
+				break;
 			case 2:
 				$this->loadTourroute($id)->delete();
 				$this->redirect(array('tadmin'));
+				break;
 			case 3:
 				$this->loadLang($id)->delete();
 				$this->redirect(array('ladmin'));
+				break;
 			case 4:
 				$this->loadCity($id)->delete();
 				$this->redirect(array('cadmin'));
+				break;
 			case 5:
 				$this->loadStarttime($id)->delete();
 				$this->redirect(array('sadmin'));
+				break;
 			case 6:
 				$this->loadBonus($id)->delete();
 				$this->redirect(array('badmin'));
+				break;
 			case 7:
 				$this->loadMO($id)->delete();
 				$this->redirect(array('moadmin'));
+				break;
 			case 8:
 				$this->loadCT($id)->delete();
 				$this->redirect(array('ctadmin'));
