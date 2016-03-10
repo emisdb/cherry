@@ -5,13 +5,10 @@
      <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-			<?php
-/* @var $this SegTourroutesController */
-/* @var $model SegTourroutes */
-
+<?php
 $this->breadcrumbs=array(
-	'All Tourroutes'=>array('tadmin'),
-	'Update tourroute',
+	'Discount'=>array('badmin'),
+	'Update',
 );
 
  $this->widget('zii.widgets.CBreadcrumbs', array(
@@ -23,14 +20,17 @@ $this->breadcrumbs=array(
         'inactiveLinkTemplate'=>'<li><span>{label}</span></li>',
         'htmlOptions'=>array ('class'=>'breadcrumb')
     ));
+
 ?>
 
-<h1>Update Tourroute <?php echo $model->name; ?></h1>
-       </section>
+<h1>Discount "<?php echo $model->name; ?> <?php echo $model->type; ?>"</h1>
+		</section>
 
         <!-- Main content -->
         <section class="content">
-<?php $this->renderPartial('_tform', array('model'=>$model)); ?>
+
+
+<?php $this->renderPartial('_form_bonus', array('model'=>$model)); ?>
 
     </section><!-- /.content -->
       </div><!-- /.content-wrapper -->

@@ -486,7 +486,419 @@ class RootController extends Controller
 		'model'=>$model,
 		));
 	}
+	public function actionCadmin()
+	{
+         
+		$model=new SegCities('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['SegCities']))
+			$model->attributes=$_GET['SegCities'];
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
 
+		$this->render('cadmin',array(
+			'model'=>$model,
+			'info'=>$test,
+		));
+	}
+	public function actionCcreate()
+	{
+   		$model=new SegCities;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['SegCities']))
+		{
+			$model->attributes=$_POST['SegCities'];
+			if($model->save())
+				$this->redirect(array('cadmin'));
+		}
+
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+		$this->render('ccreate',array(
+				'info'=>$test,
+		'model'=>$model,
+		));
+	}
+
+	public function actionCupdate($id)
+	{
+		$model=$this->loadCity($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['SegCities']))
+		{
+			$model->attributes=$_POST['SegCities'];
+			if($model->save())
+				$this->redirect(array('cadmin'));
+		}
+
+			$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+	$this->render('cupdate',array(
+				'info'=>$test,
+		'model'=>$model,
+		));
+	}
+		public function actionSadmin()
+	{
+         
+		$model=new SegStarttimes('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['SegStarttimes']))
+			$model->attributes=$_GET['SegStarttimes'];
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+		$this->render('sadmin',array(
+			'model'=>$model,
+			'info'=>$test,
+		));
+	}
+	public function actionScreate()
+	{
+   		$model=new SegStarttimes;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['SegStarttimes']))
+		{
+			$model->attributes=$_POST['SegStarttimes'];
+			if($model->save())
+				$this->redirect(array('sadmin'));
+		}
+
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+		$this->render('screate',array(
+				'info'=>$test,
+		'model'=>$model,
+		));
+	}
+
+	public function actionSupdate($id)
+	{
+		$model=$this->loadStarttime($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['SegStarttimes']))
+		{
+			$model->attributes=$_POST['SegStarttimes'];
+			if($model->save())
+				$this->redirect(array('sadmin'));
+		}
+
+			$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+	$this->render('supdate',array(
+				'info'=>$test,
+		'model'=>$model,
+		));
+	}
+		public function actionBadmin()
+	{
+         
+		$model=new Bonus('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Bonus']))
+			$model->attributes=$_GET['Bonus'];
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+		$this->render('badmin',array(
+			'model'=>$model,
+			'info'=>$test,
+		));
+	}
+	public function actionBcreate()
+	{
+   		$model=new Bonus;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Bonus']))
+		{
+			$model->attributes=$_POST['Bonus'];
+			if($model->save())
+				$this->redirect(array('badmin'));
+		}
+
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+		$this->render('bcreate',array(
+				'info'=>$test,
+		'model'=>$model,
+		));
+	}
+	public function actionBupdate($id)
+	{
+		$model=$this->loadBonus($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Bonus']))
+		{
+			$model->attributes=$_POST['Bonus'];
+			if($model->save())
+				$this->redirect(array('badmin'));
+		}
+
+			$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+	$this->render('bupdate',array(
+				'info'=>$test,
+		'model'=>$model,
+		));
+	}
+		public function actionTcadmin()
+	{
+         
+		$model=new TourCategories('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['TourCategories']))
+			$model->attributes=$_GET['TourCategories'];
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+		$this->render('tcadmin',array(
+			'model'=>$model,
+			'info'=>$test,
+		));
+	}
+	public function actionTccreate()
+	{
+   		$model=new TourCategories;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['TourCategories']))
+		{
+			$model->attributes=$_POST['TourCategories'];
+			if($model->save())
+				$this->redirect(array('tcadmin'));
+		}
+
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+		$this->render('tccreate',array(
+				'info'=>$test,
+		'model'=>$model,
+		));
+	}
+	public function actionTcupdate($id)
+	{
+		$model=$this->loadTC($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['TourCategories']))
+		{
+			$model->attributes=$_POST['TourCategories'];
+			if($model->save())
+				$this->redirect(array('tcadmin'));
+		}
+
+			$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+	$this->render('tcupdate',array(
+				'info'=>$test,
+		'model'=>$model,
+		));
+	}
+			public function actionMoadmin()
+	{
+         
+		$model=new Mainoptions('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Mainoptions']))
+			$model->attributes=$_GET['Mainoptions'];
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+		$this->render('moadmin',array(
+			'model'=>$model,
+			'info'=>$test,
+		));
+	}
+	public function actionMocreate()
+	{
+   		$model=new Mainoptions;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Mainoptions']))
+		{
+			$model->attributes=$_POST['Mainoptions'];
+			if($model->save())
+				$this->redirect(array('moadmin'));
+		}
+
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+		$this->render('mocreate',array(
+				'info'=>$test,
+		'model'=>$model,
+		));
+	}
+	public function actionMoupdate($id)
+	{
+		$model=$this->loadMO($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Mainoptions']))
+		{
+			$model->attributes=$_POST['Mainoptions'];
+			if($model->save())
+				$this->redirect(array('moadmin'));
+		}
+
+			$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+	$this->render('moupdate',array(
+				'info'=>$test,
+		'model'=>$model,
+		));
+	}
+	public function actionCtadmin()
+	{
+         
+		$model=new CashboxType('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['CashboxType']))
+			$model->attributes=$_GET['CashboxType'];
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+		$this->render('ctadmin',array(
+			'model'=>$model,
+			'info'=>$test,
+		));
+	}
+	public function actionCtcreate()
+	{
+   		$model=new CashboxType;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['CashboxType']))
+		{
+			$model->attributes=$_POST['CashboxType'];
+			if($model->save())
+				$this->redirect(array('ctadmin'));
+		}
+
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+		$this->render('ctcreate',array(
+				'info'=>$test,
+		'model'=>$model,
+		));
+	}
+	public function actionCTupdate($id)
+	{
+		$model=$this->loadCT($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['CashboxType']))
+		{
+			$model->attributes=$_POST['CashboxType'];
+			if($model->save())
+				$this->redirect(array('ctadmin'));
+		}
+
+			$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+	$this->render('ctupdate',array(
+				'info'=>$test,
+		'model'=>$model,
+		));
+	}
+	public function actionDelete($id,$type)
+	{
+		switch ($type)
+		{
+			case 1:
+				$this->loadModel($id)->delete();
+				$this->redirect(array('admin'));
+			case 2:
+				$this->loadTourroute($id)->delete();
+				$this->redirect(array('tadmin'));
+			case 3:
+				$this->loadLang($id)->delete();
+				$this->redirect(array('ladmin'));
+			case 4:
+				$this->loadCity($id)->delete();
+				$this->redirect(array('cadmin'));
+			case 5:
+				$this->loadStarttime($id)->delete();
+				$this->redirect(array('sadmin'));
+			case 6:
+				$this->loadBonus($id)->delete();
+				$this->redirect(array('badmin'));
+			case 7:
+				$this->loadMO($id)->delete();
+				$this->redirect(array('moadmin'));
+			case 8:
+				$this->loadCT($id)->delete();
+				$this->redirect(array('ctadmin'));
+		}
+	}
+	
+	
+	public function loadCT($id)
+	{
+		$model=CashboxType::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+	public function loadMO($id)
+	{
+		$model=Mainoptions::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+		public function loadTC($id)
+	{
+		$model=TourCategories::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+		public function loadBonus($id)
+	{
+		$model=Bonus::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
+	public function loadStarttime($id)
+	{
+		$model=SegStarttimes::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+	public function loadCity($id)
+	{
+		$model=SegCities::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
 
 	public function loadLang($id)
 	{

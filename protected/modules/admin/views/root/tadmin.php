@@ -14,6 +14,15 @@ $this->breadcrumbs=array(
 	'Tourroutes',
 );
 
+ $this->widget('zii.widgets.CBreadcrumbs', array(
+        'links'=>$this->breadcrumbs,
+        'homeLink'=>false,
+        'tagName'=>'ul',
+        'separator'=>'',
+        'activeLinkTemplate'=>'<li><a href="{url}">{label}</a></li>',
+        'inactiveLinkTemplate'=>'<li><span>{label}</span></li>',
+        'htmlOptions'=>array ('class'=>'breadcrumb')
+    ));
 ?>
 
 <h1>Tourroutes</h1>
@@ -68,7 +77,12 @@ $this->breadcrumbs=array(
                     'url' => 'array("tupdate", "id" => $data->idseg_tourroutes)',
                     'label'=>'Update',
                ),
-             ),		),
+                'delete' => array(
+                     //'imageUrl'=>'/images/system/proc.png',
+                    'url' => 'array("delete", "id" => $data->idseg_tourroutes, "type"=>2)',
+                    'label'=>'Delete',
+               ),
+            ),		),
 	),
 )); ?>
 

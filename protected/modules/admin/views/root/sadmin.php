@@ -7,9 +7,8 @@
 /* @var $model Languages */
 
 $this->breadcrumbs=array(
-	'Languages',
+	'Start times',
 );
-
  $this->widget('zii.widgets.CBreadcrumbs', array(
         'links'=>$this->breadcrumbs,
         'homeLink'=>false,
@@ -21,10 +20,10 @@ $this->breadcrumbs=array(
     ));
 ?>
 
-<h1>Languages</h1>
+<h1>Start times</h1>
 
 <div class="create">
-	<?php   echo CHtml::link('Neuen Sprache', array('lcreate')); ?>
+	<?php   echo CHtml::link('New times', array('screate')); ?>
 </div>
       </section>
 
@@ -32,35 +31,24 @@ $this->breadcrumbs=array(
         <section class="content">
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'languages-grid',
+	'id'=>'seg-starttimes-grid',
 	'dataProvider'=>$model->search(),
 //	'filter'=>$model,
 	'columns'=>array(
-	//	'id_languages',
-		'shortname',
-		//'germanname',
-		'englishname',
-         array(
-            'name' => 'flagpic',
-            'type' => 'image',
-            'value' => 'Yii::app()->request->baseUrl."/img/lan/".$data->flagpic',
-            'filter' => false,
-        ),
-
-	//	'flagpic',
+		'timevalue',
 		array(
 			'class'=>'CButtonColumn',
             'template'=>'{update}{delete}',
             'buttons' => array(
                'update' => array(
                      //'imageUrl'=>'/images/system/proc.png',
-                    'url' => 'array("lupdate", "id" => $data->id_languages)',
+                    'url' => 'array("supdate", "id" => $data->idseg_starttimes)',
 //                    'url' => 'Yii::app()->createUrl("/user/update/id/$data->id")',
                     'label'=>'Update',
                ),
                'delete' => array(
                      //'imageUrl'=>'/images/system/proc.png',
-                    'url' => 'array("delete", "id" => $data->id_languages, "type"=>3)',
+                    'url' => 'array("delete", "id" => $data->idseg_starttimes, "type"=>5)',
                     'label'=>'Delete',
                ),
             ),		),

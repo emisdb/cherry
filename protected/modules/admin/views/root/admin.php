@@ -47,7 +47,7 @@ $this->breadcrumbs=array(
                ),
                'delete' => array(
                      //'imageUrl'=>'/images/system/proc.png',
-                    'url' => 'Yii::app()->createUrl("/user/delete/id/$data->id")',
+                    'url' => 'array("delete", "id" => $data->id, "type"=>1)',
                     'label'=>'Delete',
                ),
             ),

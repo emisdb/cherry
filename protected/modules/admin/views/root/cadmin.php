@@ -7,7 +7,8 @@
 /* @var $model Languages */
 
 $this->breadcrumbs=array(
-	'Languages',
+	//'Seg Cities'=>array('index'),
+	'Cities',
 );
 
  $this->widget('zii.widgets.CBreadcrumbs', array(
@@ -21,10 +22,10 @@ $this->breadcrumbs=array(
     ));
 ?>
 
-<h1>Languages</h1>
+<h1>Cities</h1>
 
 <div class="create">
-	<?php   echo CHtml::link('Neuen Sprache', array('lcreate')); ?>
+	<?php   echo CHtml::link('Neuen Stadt', array('ccreate')); ?>
 </div>
       </section>
 
@@ -32,35 +33,71 @@ $this->breadcrumbs=array(
         <section class="content">
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'languages-grid',
+	'id'=>'seg-cities-grid',
 	'dataProvider'=>$model->search(),
 //	'filter'=>$model,
 	'columns'=>array(
-	//	'id_languages',
+	//	'idseg_cities',
+		'seg_cityname',
 		'shortname',
-		//'germanname',
-		'englishname',
-         array(
-            'name' => 'flagpic',
-            'type' => 'image',
-            'value' => 'Yii::app()->request->baseUrl."/img/lan/".$data->flagpic',
-            'filter' => false,
-        ),
-
-	//	'flagpic',
-		array(
+	//	'segway_amount',
+		'mailInfo',
+	//	'mailBuchungen',
+		/*
+		'mailBookings',
+		'mailVoucher',
+		'mailCancellation',
+		'mailInfoDisplayName',
+		'mailBuchungenDisplayName',
+		'mailBookingsDisplayName',
+		'mailVoucherDisplayName',
+		'mailCancellationDisplayName',
+		'webadress',*/
+		'localPhone',
+	/*	'localStreet',
+		'localHouse',
+		'localPLZ',
+		'mailInfoAccount',
+		'mailBuchungenAccount',
+		'mailBookingsAccount',
+		'mailVoucherAccount',
+		'mailCancellationAccount',
+		'mailInfoPW',
+		'mailBuchungenPW',
+		'mailBookingsPW',
+		'mailVoucherPW',
+		'mailCancellationPW',
+		'webadress_en',
+		'gmaps_lnk',
+		'meetingpoint_description',
+		'meetingpoint_description_en',
+		'standart_toursize',
+		'cashaccount_DTV',
+		'tripadvisor_lnk',
+		'facebook_lnk',
+		'google_analytics_id',
+		'google_conversions_id',
+		'google_conversions_label',
+		'google_analytics_id_booking_de',
+		'google_conversions_id_booking_de',
+		'google_conversions_label_booking_de',
+		'google_analytics_id_booking_en',
+		'google_conversions_id_booking_en',
+		'google_conversions_label_booking_en',
+		*/
+			array(
 			'class'=>'CButtonColumn',
             'template'=>'{update}{delete}',
             'buttons' => array(
                'update' => array(
                      //'imageUrl'=>'/images/system/proc.png',
-                    'url' => 'array("lupdate", "id" => $data->id_languages)',
+                    'url' => 'array("cupdate", "id" => $data->idseg_cities)',
 //                    'url' => 'Yii::app()->createUrl("/user/update/id/$data->id")',
                     'label'=>'Update',
                ),
                'delete' => array(
                      //'imageUrl'=>'/images/system/proc.png',
-                    'url' => 'array("delete", "id" => $data->id_languages, "type"=>3)',
+                    'url' => 'array("delete", "id" => $data->idseg_cities, "type"=>4)',
                     'label'=>'Delete',
                ),
             ),		),

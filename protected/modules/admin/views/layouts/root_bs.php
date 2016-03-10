@@ -45,9 +45,9 @@
 				<?php echo CHtml::link("<i class='fa fa-user'></i><span>Users</span>", array('uadmin')); ?>
             </li>
             <li <?php echo (Yii::app()->controller->action->id=='tadmin') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-credit-card'></i><span>Tours</span>", array('tadmin')); ?>
+				<?php echo CHtml::link("<i class='fa fa-hand-o-up'></i><span>Tours</span>", array('tadmin')); ?>
             </li>
-   			<li class="treeview <?php echo (in_array(Yii::app()->controller->action->id,array('ugadmin','ladmin','lcreate','lupdate'))) ? "active" : "" ; ?>">
+   			<li class="treeview <?php echo (in_array(Yii::app()->controller->action->id,array('ugadmin','ladmin','lcreate','cupdate','cadmin','ccreate','cupdate','sadmin','screate','supdate','tcadmin','tccreate','tcupdate','badmin','bcreate','bupdate','moadmin','mocreate','moupdate','ctadmin','ctcreate','ctupdate'))) ? "active" : "" ; ?>">
               <a href="#">
                 <i class="fa fa-list"></i>
                 <span>REFERENCE</span>
@@ -58,7 +58,25 @@
 				<?php echo CHtml::link("<i class='fa fa-chevron-down'></i><span>User Group</span>", array('ugadmin')); ?>
             </li>
              <li <?php echo (in_array(Yii::app()->controller->action->id,array('ladmin','lcreate','lupdate'))) ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-sign-out'></i><span>Languages</span>", array('ladmin')); ?>
+				<?php echo CHtml::link("<i class='fa fa-language'></i><span>Languages</span>", array('ladmin')); ?>
+            </li>
+             <li <?php echo (in_array(Yii::app()->controller->action->id,array('cadmin','ccreate','cupdate'))) ? "class=\"active\"" : "" ; ?>>
+				<?php echo CHtml::link("<i class='fa  fa-building-o'></i><span>Cities</span>", array('cadmin')); ?>
+            </li>
+             <li <?php echo (in_array(Yii::app()->controller->action->id,array('sadmin','screate','supdate'))) ? "class=\"active\"" : "" ; ?>>
+				<?php echo CHtml::link("<i class='fa  fa-clock-o'></i><span>Time</span>", array('sadmin')); ?>
+            </li>
+             <li <?php echo (in_array(Yii::app()->controller->action->id,array('tcadmin','tccreate','tcupdate'))) ? "class=\"active\"" : "" ; ?>>
+				<?php echo CHtml::link("<i class='fa  fa-cubes'></i><span>Tour Categories</span>", array('tcadmin')); ?>
+            </li>
+             <li <?php echo (in_array(Yii::app()->controller->action->id,array('badmin','bcreate','bupdate'))) ? "class=\"active\"" : "" ; ?>>
+				<?php echo CHtml::link("<i class='fa  fa-sort-amount-asc'></i><span>Discount</span>", array('badmin')); ?>
+            </li>
+             <li <?php echo (in_array(Yii::app()->controller->action->id,array('moadmin','mocreate','moupdate'))) ? "class=\"active\"" : "" ; ?>>
+				<?php echo CHtml::link("<i class='fa  fa-edit'></i><span>Main options</span>", array('moadmin')); ?>
+            </li>
+             <li <?php echo (in_array(Yii::app()->controller->action->id,array('ctadmin','ctcreate','ctupdate'))) ? "class=\"active\"" : "" ; ?>>
+				<?php echo CHtml::link("<i class='fa  fa-server'></i><span>Cashbox Types</span>", array('ctadmin')); ?>
             </li>
               </ul>
             </li>

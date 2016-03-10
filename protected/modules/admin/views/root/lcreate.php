@@ -10,10 +10,19 @@
 /* @var $model Languages */
 
 $this->breadcrumbs=array(
-	'Languages'=>array('admin'),
+	'Languages'=>array('ladmin'),
 	'New record languages',
 );
 
+ $this->widget('zii.widgets.CBreadcrumbs', array(
+        'links'=>$this->breadcrumbs,
+        'homeLink'=>false,
+        'tagName'=>'ul',
+        'separator'=>'',
+        'activeLinkTemplate'=>'<li><a href="{url}">{label}</a></li>',
+        'inactiveLinkTemplate'=>'<li><span>{label}</span></li>',
+        'htmlOptions'=>array ('class'=>'breadcrumb')
+    ));
 ?>
  <h1>New record Languages</h1> 
 		</section>
