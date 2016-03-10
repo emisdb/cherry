@@ -70,13 +70,13 @@ $datetime = time();
 				   'update' => array(
 				   
 						 //'imageUrl'=>'/images/system/proc.png',
-						'url' => 'Yii::app()->createUrl("guide/current",array("id_sched"=>$data->idseg_scheduled_tours))',
+						'url' => 'array("current","id_sched"=>$data->idseg_scheduled_tours)',
 						'label'=>'Rechnung',
 						'visible'=>'$data->openTour!=1',
 //						'visible'=>'$data->tourroute_id > 0 && $data->openTour!=1',
 				   ),
 				   'delete' => array(
-						'url' => 'array("/guide/deleteST","id"=>$data->idseg_scheduled_tours,"date"=>"'.$date.'")',				   
+						'url' => 'array("deleteST","id"=>$data->idseg_scheduled_tours,"date"=>"'.$date.'")',				   
 						'visible'=>'is_null($data->current_subscribers)',
 				   ),
 				   'pdf' => array(

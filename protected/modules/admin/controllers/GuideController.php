@@ -555,7 +555,7 @@ class GuideController extends Controller
                // $scheduled_item->tourroute_id =  $tour_schel;//???????????????????????????
                 $scheduled_item->city_id = $id_city;
                 $scheduled_item->save();
-                $this->redirect( Yii::app()->createUrl('guide/weeks',array('date'=>$date)) );
+                $this->redirect(array('weeks','date'=>$date)) ;
    
     }
 	public function actionShow($id)
@@ -1468,8 +1468,8 @@ class GuideController extends Controller
              $message="Dear sirs, \n The invoice from Cherry tours.";
                 $subject = "The invoice from Cherry tours";
 				foreach ($mails as $value) {
- 				$this->sendMail($value[0],$subject,$message, __DIR__.'/../../filespdf/'.$value[1].'.pdf');
-						unlink(__DIR__.'/../../filespdf/'.$value[1].'.pdf');
+ 				$this->sendMail($value[0],$subject,$message, __DIR__.'/../../../../filespdf/'.$value[1].'.pdf');
+						unlink(__DIR__.'/../../../../filespdf/'.$value[1].'.pdf');
 			}
 	        $this->redirect( Yii::app()->createUrl('/filespdf/'.$name_pdf2.'.pdf') );
 	}
@@ -1670,7 +1670,7 @@ class GuideController extends Controller
 				
 				$name_pdf2 =str_replace("/", "-", $name_pdf1).'_'.$datename;
 				if(!$is_full){$name_pdf2=$name_pdf2."_".$invoice_id;}
-				$files_name1 = __DIR__.'/../../filespdf/'.$name_pdf2.'.pdf';
+				$files_name1 = __DIR__.'/../../../../filespdf/'.$name_pdf2.'.pdf';
 				$pdf = Yii::createComponent('application.extensions.tcpdf.ETcPdf', 'P', 'cm', 'A4', true, 'UTF-8');
 				$pdf->SetCreator(PDF_CREATOR);
 				$pdf->SetAuthor("Cheery Tours");
