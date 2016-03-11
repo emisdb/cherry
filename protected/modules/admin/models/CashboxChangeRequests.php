@@ -138,7 +138,7 @@ class CashboxChangeRequests extends CActiveRecord
 		}
 		if(in_array($this->id_type, [3])) {
 			if(is_null($this->sched_user_id)||empty($this->sched_user_id)){
-				$this->addError ('id_type', 'The other user must be specified for this cashbox type:'.$this->sched_user_id);
+				$this->addError ('id_type', 'Bitte anderen Guide für Kasseeintrag auswählen:'.$this->sched_user_id);
 				return false;
 			}
 			else{
