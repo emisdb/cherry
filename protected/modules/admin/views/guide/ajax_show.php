@@ -109,7 +109,9 @@
 				<?php
 //						echo $form->labelEx($model,'isCanceled');
 					echo "<div>".$form->labelEx($model,'isCanceled')."</div>";
-					echo $form->checkBox($model,'isCanceled',array('class'=>'form-control'));
+//					echo $form->labelEx($model,'isCanceled');
+//					echo $form->checkBox($model,'isCanceled',array('class'=>'form-control'));
+					echo $form->checkBox($model,'isCanceled');
 					echo $form->error($model,'isCanceled');
 				?>
 			</div>
