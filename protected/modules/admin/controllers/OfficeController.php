@@ -1109,8 +1109,9 @@ class OfficeController extends Controller
 			$criteria_vat->params = array(':name'=>'Vat');
 			$vat_nds = Mainoptions::model()->find($criteria_vat)->value;
 			$criteria = new CDbCriteria;
-			$criteria->condition = 'idpayoptions=:idpayoptions1 OR idpayoptions=:idpayoptions2 OR idpayoptions=:idpayoptions3';
-			$criteria->params = array(':idpayoptions1' => 1,':idpayoptions2' => 2,':idpayoptions3' => 3);
+                        $criteria->addCondition("idpayoptions in (1,2,3,4)");
+//			$criteria->condition = 'idpayoptions=:idpayoptions1 OR idpayoptions=:idpayoptions2 OR idpayoptions=:idpayoptions3';
+//			$criteria->params = array(':idpayoptions1' => 1,':idpayoptions2' => 2,':idpayoptions3' => 3);
 			$pay = Payoptions::model()->findAll($criteria);
 			$invoiceoptions_array = Invoiceoptions::model()->findAll(array('order'=>'id ASC')); 
 			$dis = Bonus::model()->findAll(array('order'=>'sort ASC')); 

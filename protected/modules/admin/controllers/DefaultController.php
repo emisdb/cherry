@@ -90,7 +90,7 @@ class DefaultController extends Controller
 		   
         }//root   
                 if($model->id_usergroups == 3) {
-		          $this->redirect( array('office/profile') );
+		          $this->redirect( array('office/schedule') );
 
 //              $this->layout = "office";
 		      

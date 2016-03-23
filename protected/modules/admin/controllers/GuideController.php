@@ -1012,8 +1012,9 @@ class GuideController extends Controller
 			$criteria_vat->params = array(':name'=>'Vat');
 			$vat_nds = Mainoptions::model()->find($criteria_vat)->value;
 			$criteria = new CDbCriteria;
-			$criteria->condition = 'idpayoptions=:idpayoptions1 OR idpayoptions=:idpayoptions2 OR idpayoptions=:idpayoptions3';
-			$criteria->params = array(':idpayoptions1' => 1,':idpayoptions2' => 2,':idpayoptions3' => 3);
+                        $criteria->addCondition("idpayoptions in (1,2,3,4)");
+//			$criteria->condition = 'idpayoptions=:idpayoptions1 OR idpayoptions=:idpayoptions2 OR idpayoptions=:idpayoptions3';
+//			$criteria->params = array(':idpayoptions1' => 1,':idpayoptions2' => 2,':idpayoptions3' => 3);
 			$pay = Payoptions::model()->findAll($criteria);
 			$invoiceoptions_array = Invoiceoptions::model()->findAll(array('order'=>'id ASC')); 
 			$dis = Bonus::model()->findAll(array('order'=>'sort ASC')); 
@@ -1878,8 +1879,8 @@ class GuideController extends Controller
 	public function loadTours()
 	{
         $id = Yii::app()->user->id;
-		$model=SegScheduledTours::model()->findAll(array('condition'=>'guide1_id = :guide AND date_now>=:date AND isCanceled=0',
-			'params'=>array(':guide'=>$id,':date'=>strtotime("midnight", time())),'order'=>'date desc, starttime desc'));
+		$model=SegScheduledTours::model()->findAll(array('condition'=>'guide1_id = :guide AND date_now>=:date AND date_now<=:datet AND isCanceled=0',
+			'params'=>array(':guide'=>$id,':date'=>strtotime("midnight", time()),':datet'=>strtotime('+2 days', time())),'order'=>'date asc, starttime asc'));
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
