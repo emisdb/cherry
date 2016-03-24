@@ -24,17 +24,35 @@
 				echo $item->status."\n";
 		}
 		else{  
-        echo CHtml::ajaxLink(
-             "Zeige",
-             $url=array('ajaxShow'),
-             $ajaxOptions= array(
-            'data'=>array('id'=>$item->id),
-              'type'=>'POST',
-		     'success'=>'function(html){ jQuery("#modal-data").html(html);  $("#guideModal").modal("show");return true;}',
-///             'complete' => 'return true;'
-				 )	  
-//             $htmlOptions=array("data-toggle"=>"modal","data-target"=>"#guideModal" )
-     );
+                    if(substr($item->status,0,7) =='Belegt,')
+                    {
+                        echo CHtml::ajaxLink(
+                            "Zeige",
+                            $url=array('ajaxShow'),
+                            $ajaxOptions= array(
+                           'data'=>array('id'=>$item->id),
+                             'type'=>'POST',
+                                    'success'=>'function(html){ jQuery("#modal-data").html(html);  $("#guideModal").modal("show");return true;}',
+               ///             'complete' => 'return true;'
+                                                )	  
+               //             $htmlOptions=array("data-toggle"=>"modal","data-target"=>"#guideModal" )
+                    );                       
+                  }
+                  else
+                   {
+                        echo CHtml::ajaxLink(
+                            "Zeige",
+                            $url=array('ajax_Show'),
+                            $ajaxOptions= array(
+                           'data'=>array('id'=>$item->id),
+                             'type'=>'POST',
+                                    'success'=>'function(html){ jQuery("#modal-data").html(html);  $("#guideModal").modal("show");return true;}',
+               ///             'complete' => 'return true;'
+                                                )	  
+               //             $htmlOptions=array("data-toggle"=>"modal","data-target"=>"#guideModal" )
+                    );                       
+                  }
+
 //		if($item->status =='Belegt') drawdd($date,$item->time);
 
 		}

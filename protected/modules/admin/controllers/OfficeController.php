@@ -992,11 +992,20 @@ class OfficeController extends Controller
 		// $this->performAjaxValidation($model);
         	if(isset($_POST['SegScheduledTours']))
 		{
-			$model->attributes=$_POST['SegScheduledTours'];
-	        $model->date_now = strtotime($model->date);
-            $model->original_starttime = explode(":",$model->starttime)[0].":00";
-	 		if($model->save())
+                    $changed=0;
+                    $o_date=$model->date;
+                    $o_time=$model->starttime;
+                    $o_guide=$model->guide1_id;
+                $model->attributes=$_POST['SegScheduledTours'];
+                    if($o_date <> $model->date) $changed=$changed+1;
+                    if(strtotime($o_time) <> strtotime($model->starttime)) $changed=$changed+2;
+                    if($o_guide <> $model->guide1_id) $changed=$changed+4;
+                     $original_starttime = explode(":",$model->starttime)[0].":00";
+                    $model->original_starttime = $original_starttime;
+                    $model->date_now = strtotime($model->date);
+ 	 		if($model->save())
 			{
+                            if($changed>0) $this->doMail($model,$changed);
 				if($model->tour_i==0)
 						$this->redirect(array('booking'));						
 				else 
@@ -1671,6 +1680,32 @@ class OfficeController extends Controller
 			}
 	        $this->redirect( Yii::app()->createUrl('/filespdf/'.$name_pdf2.'.pdf') );
 	}
+	protected function doMail($model,$ch)
+        {
+                 $message="Dear sirs, \n The changes in your tour.\n";
+                 if($ch>3)
+                 {
+                     $ch=$ch-4;
+                     $message.="Your guide was changed. Your new guide is ".$model->user_ob->guidename.". Telephone:".$model->contact_ob->phone.".\n";
+                 }
+                 if($ch>1)
+                 {
+                     $ch=$ch-2;
+                     $message.="Time of your tour was changed. Your tour's time is ".$model->starttime.".\n";
+                 }
+                if($ch>0)
+                 {
+                     $message.="Date of your tour was changed. Your tour's date is ".$model->date.".\n";
+                 }
+                    $message.="With all respect, Cherry Tours GmbH.\n";
+                 
+      foreach ($model->guidestourinvoices as $invoice) 
+       {
+   		$this->sendMail($invoice->contact['email'],"Changes from Cherry Tours GmbH",$message);
+     
+         }
+        
+        }
 	protected function doPDF($sched,$invoice)
 	{
 		$date_format = strtotime($sched->date);

@@ -44,7 +44,7 @@ class GuideController extends Controller
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('view','profile','update','contact','user','weeks','take','show','booky','spontour',
-					'ajaxInfo','ajaxShow','ajaxHistory','schedule','history','cash','createCash','cashReport','current','deleteST','delete'),
+					'ajaxInfo','ajaxShow','ajax_Show','ajaxHistory','schedule','history','cash','createCash','cashReport','current','deleteST','delete'),
                 'roles'=>array('guide'),
 			),            
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -444,6 +444,7 @@ class GuideController extends Controller
             $scheduled_item = SegScheduledTours::model()->find($criteria);
             if(isset($scheduled_item)){
                 $day->id = $scheduled_item->idseg_scheduled_tours;
+                $day->owner = $scheduled_item->guide1_id;
                 $day->starttime = Yii::app()->dateFormatter->format('HH:mm',strtotime($scheduled_item->starttime));
                 if($scheduled_item->guide1_id == $id_control){
                     //if($scheduled_item->current_subscribers>0){
@@ -714,11 +715,7 @@ class GuideController extends Controller
 			}
 
 	 	$id= $_POST['id'];
-		    $id_control = Yii::app()->user->id;
-       // $update_user = User::model()->findByPk($id_user);
-        $role_control = User::model()->findByPk($id_control)->id_usergroups;    
-      //  $id_guide = SegGuidesdata::model()->findByPk($update_user->id_guide)->idseg_guidesdata;
-         	$model=$this->loadST($id);
+        	$model=$this->loadST($id);
         
         //city
         //$citie->seg_cityname = '';

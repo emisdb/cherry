@@ -149,6 +149,15 @@ $this->renderPartial('_top', array('info'=>$info));
 						  </div>					
 				</div>
 				<div class="col-md-4">
+                                    <div style="border: #a7a7a7 dotted thin; font-size: 1.4em; width:110px;">
+                                        <div>
+                                        Tour Gäste
+                                    </div>
+                                        <div style="text-align: center;">
+                                        <?php echo "".$scheduled->current_subscribers."/".$scheduled->TNmax_sched; ?>
+                                    </div>
+                                    </div>
+                                    
 				</div>
 			</div>
 		</div>
