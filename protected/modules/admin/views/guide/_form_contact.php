@@ -177,7 +177,51 @@
         
         </div>
     </div>
+   <div class="box box-info" >
+        <div class="box-header with-border">
+            <h4 class="box-title">
+                Homepageauftritt Deutsch
+            </h4>
+        </div>
+        <div class="box-body" >
+               <div class="panel panel-default">
+                 <div class="panel-heading">
+                     <?php echo $form->labelEx($info['guide']['data'],'guide_shorttext'); ?>
+                 </div>
+                 <div class="panel-body"><?php echo $info['guide']['data']->guide_shorttext; ?></div>
+               </div>
+             <div class="panel panel-default">
+                 <div class="panel-heading">
+                     <?php echo $form->labelEx($info['guide']['data'],'guide_maintext'); ?>
+                 </div>
+                 <div class="panel-body"><?php echo $info['guide']['data']->guide_maintext; ?></div>
+               </div>
 
+             </div>
+        </div>
+
+   <div class="box box-info" >
+        <div class="box-header with-border">
+            <h4 class="box-title">
+                Homepageauftritt Englisch
+            </h4>
+        </div>
+         <div class="box-body" >
+             <div class="panel panel-default">
+                 <div class="panel-heading">
+                     <?php echo $form->labelEx($info['guide']['data'],'guide_shorttext_En'); ?>
+                 </div>
+                 <div class="panel-body"><?php echo $info['guide']['data']->guide_shorttext; ?></div>
+               </div>
+             <div class="panel panel-default">
+                 <div class="panel-heading">
+                     <?php echo $form->labelEx($info['guide']['data'],'guide_maintext_En'); ?>
+                 </div>
+                 <div class="panel-body"><?php echo $info['guide']['data']->guide_maintext; ?></div>
+               </div>
+
+                </div>
+    </div>
 	<div class="row buttons">
         <button class="btn btn-primary" type="submit"><?php echo 'Speichern'; ?></button>
 		<button class="btn btn-primary cancel"><?php echo CHtml::link("Abbrechen", array("profile")) ?></button>

@@ -1,7 +1,7 @@
 <?php  $date_format =  date('d.m.Y',$model->date_now);?>
 
 
-<h1><?php echo $model->starttime;?> - <?php echo $date_format;?> - <?php echo $model->city_id_all;?></h1>
+<h1><?php echo Yii::app()->dateFormatter->format('HH:mm',strtotime($model->starttime));?> - <?php echo $date_format;?> - <?php echo $model->city_id_all;?></h1>
  
 <table class="table">
 <tr>
@@ -9,21 +9,18 @@
 <td><?php echo $model->idseg_scheduled_tours;?></td>
 </tr>
 <tr>
-<td>Guests maximum</td>
+    <td>Die G&auml;ste maximal</td>
 <td><?php echo $model->TNmax_sched;?></td>
 </tr>
 <tr>
-<td>Currently being booked guests</td>
+    <td>Zur Zeit gebucht werden G&auml;ste</td>
 <td><?php echo $model->current_subscribers;?></td>
 </tr>
 <tr>
-<td>Start Time</td>
-<td><?php echo $model->starttime;?></td>
+    <td>Guide Name</td>
+    <td><?php echo $model->user_ob->guidename;?></td>
 </tr>
-<tr>
-<td>Touring</td>
-<td><?php echo $model->duration;?></td><!-- время туров-->
-</tr>
+
 <tr>
 <td>Route</td><!-- маргруты-->
 <td>
@@ -52,14 +49,6 @@
 <?php }?>
 
 </td>
-</tr>
-<tr>
-<td>Comments</td>
-<td><?php echo $model->additional_info;?></td>
-</tr>
-<tr>
-<td>Visible on the website</td>
-<td><?php echo $model->visibility;?></td>
 </tr>
 </table>
  

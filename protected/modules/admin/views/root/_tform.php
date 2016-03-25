@@ -37,30 +37,26 @@
 		<?php echo $form->textField($model,'name',array('size'=>45,'maxlength'=>45)); ?>
 		<?php echo $form->error($model,'name'); ?>
 	</div>
-
+	<div class="row">
+		<?php echo $form->labelEx($model,'shorttext'); ?>
+  		<?php echo $form->textField($model,'shorttext',array('size'=>60,'maxlength'=>100)); ?>
+		<?php echo $form->error($model,'shorttext'); ?>
+	</div>
 	<div class="row">
 		<?php echo $form->labelEx($model,'maintext'); ?>
         <?php echo $form->textArea($model,'maintext',array('rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'maintext'); ?>
 	</div>
 	<div class="row">
-		<?php echo $form->labelEx($model,'maintext_en'); ?>
-		<?php echo $form->textField($model,'maintext_en',array('size'=>60,'maxlength'=>2000)); ?>
-		<?php echo $form->error($model,'maintext_en'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'shorttext'); ?>
-        <?php echo $form->textArea($model,'shorttext',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'shorttext'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'shorttext_en'); ?>
 		<?php echo $form->textField($model,'shorttext_en',array('size'=>60,'maxlength'=>100)); ?>
 		<?php echo $form->error($model,'shorttext_en'); ?>
 	</div>
-
+	<div class="row">
+		<?php echo $form->labelEx($model,'maintext_en'); ?>
+                <?php echo $form->textArea($model,'maintext_en',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->error($model,'maintext_en'); ?>
+	</div>
 	<div class="row">
 		<?php echo $form->labelEx($model,'gmaps_lnk'); ?>
 		<?php echo $form->textArea($model,'gmaps_lnk',array('rows'=>6, 'cols'=>50)); ?>

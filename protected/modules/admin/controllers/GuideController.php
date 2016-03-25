@@ -362,6 +362,7 @@ class GuideController extends Controller
 	    $id_control = Yii::app()->user->id;
         $update_user = User::model()->findByPk($id_user);
         $role_control = User::model()->findByPk($id_control)->id_usergroups;  
+        $id_guide = $update_user->id_guide;
         
         
         $is_control=0;
@@ -399,10 +400,11 @@ class GuideController extends Controller
   		$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
   
     		$this->render('contact',array(
-    			'model'=>$model,'id_user'=>$id_user,
-				'update_user'=>$update_user,
+                    'model'=>$model,
+    			'id_user'=>$id_user,
+			'update_user'=>$update_user,
   			'info'=>$test,
-				));
+			));
   }
 	public function actionWeeks($date,$err=null)
 	{
@@ -1857,6 +1859,13 @@ class GuideController extends Controller
 	public function loadUser($id)
 	{
 		$model=User::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+	public function loadGuideData($id)
+	{
+		$model=SegGuidesdata::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;

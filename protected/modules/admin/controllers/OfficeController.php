@@ -595,7 +595,7 @@ class OfficeController extends Controller
                     $this->render('contact',array(
                     'model'=>$model,'modelgd'=>$modelgd,
                     'update_user'=>$update_user,
-			'link_tourroutes'=>$link_tourroutes,
+                    'link_tourroutes'=>$link_tourroutes,
  			'array_tour' => $array_tour,
 			'array_tour_link' => $array_tour_link,
  			'selected_lang_list' => $selected_lang_list,
@@ -603,7 +603,7 @@ class OfficeController extends Controller
 			'selected_cat_list' => $selected_cat_list,
 			'cat_list' => $cat_list,
  			'city' => $city,
-                   'info'=>$test,
+                        'info'=>$test,
                                     ));
 
                 }
