@@ -32,12 +32,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'segway_amount'); ?>
-		<?php echo $form->textField($model,'segway_amount'); ?>
-		<?php echo $form->error($model,'segway_amount'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'mailInfo'); ?>
 		<?php echo $form->textField($model,'mailInfo',array('size'=>45,'maxlength'=>45)); ?>
 		<?php echo $form->error($model,'mailInfo'); ?>
@@ -193,29 +187,6 @@
 		<?php echo $form->error($model,'webadress_en'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'gmaps_lnk'); ?>
-		<?php echo $form->textField($model,'gmaps_lnk',array('size'=>60,'maxlength'=>200)); ?>
-		<?php echo $form->error($model,'gmaps_lnk'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'meetingpoint_description'); ?>
-		<?php echo $form->textField($model,'meetingpoint_description',array('size'=>60,'maxlength'=>200)); ?>
-		<?php echo $form->error($model,'meetingpoint_description'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'meetingpoint_description_en'); ?>
-		<?php echo $form->textField($model,'meetingpoint_description_en',array('size'=>60,'maxlength'=>200)); ?>
-		<?php echo $form->error($model,'meetingpoint_description_en'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'standart_toursize'); ?>
-		<?php echo $form->textField($model,'standart_toursize'); ?>
-		<?php echo $form->error($model,'standart_toursize'); ?>
-	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'cashaccount_DTV'); ?>

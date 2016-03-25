@@ -457,9 +457,6 @@ class OfficeController extends Controller
                                 $array_tour_link[$i]->guestsMinforVariable2 = $item->guestsMinforVariable;
                                 $array_tour_link[$i]->voucher_provision2 = $item->voucher_provision;
                         }
-
-
-
                         $i++;
                 }
 
@@ -490,24 +487,35 @@ class OfficeController extends Controller
     		}
  		if($result)
                 {
-                    if(isset($_POST['SegGuidesdata']))
+                   if(isset($_POST['SegGuidesdata']))
                     {
-                            $modelgd->attributes=$_POST['SegGuidesdata'];
-                            $lnk_to_picture_old = $modelgd->lnk_to_picture;
-                            $modelgd->image = CUploadedFile::getInstance($modelgd,'image');
-
-                            if($modelgd->image!=""){
-                                $name_uniqid = uniqid();
-                                //$lnk_to_picture_old = $model->lnk_to_picture;
-                                $modelgd->lnk_to_picture = $name_uniqid;
-                            }
-                            if($modelgd->save()){
-                                if($modelgd->image!=""){
-                                    if(($lnk_to_picture_old!="")or($lnk_to_picture_old!=NULL))unlink('image/guide/'.$lnk_to_picture_old);
+                       $modelgd->attributes=$_POST['SegGuidesdata'];
+                           $lnk_to_picture_old = $modelgd->lnk_to_picture;
+                             $modelgd->image = CUploadedFile::getInstance($modelgd,'image');
+                             $lnk_to_license_old = $modelgd->lnk_to_license;
+                            $modelgd->doc = CUploadedFile::getInstance($modelgd,'doc');
+                                             if($modelgd->image!=""){
+                                             if((($lnk_to_picture_old!="")||($lnk_to_picture_old!=NULL))&& file_exists('image/guide/'.$lnk_to_picture_old))
+                                        unlink('image/guide/'.$lnk_to_picture_old);
+                                    $name_uniqid = uniqid();
+                                    $modelgd->lnk_to_picture = $name_uniqid;
                                     $file = 'image/guide/'.$modelgd->lnk_to_picture;
                                     $modelgd->image->saveAs($file);
                                 }
-                                $result=true;
+
+                                 if($modelgd->doc!=""){
+                                    if((($lnk_to_license_old!="")||($lnk_to_license_old!=NULL)) && file_exists('image/guide/'.$lnk_to_license_old))
+                                        unlink('image/guide/'.$lnk_to_license_old);
+                                    $ext=pathinfo($modelgd->doc, PATHINFO_EXTENSION);
+                                      $name_uniqid = uniqid().".".$ext;
+                                    $modelgd->lnk_to_license = $name_uniqid;
+                                    $file = 'image/guide/'.$modelgd->lnk_to_license;
+                                    $modelgd->doc->saveAs($file);
+                                    
+                                }
+//                                $modelgd->guides_cashbox_account_DTV="1";
+/* */                      if($modelgd->save()){  
+                               $result=true;
                             }
                             else
                             {
@@ -532,8 +540,8 @@ class OfficeController extends Controller
 		if($result)
                 {
                      if(isset($_POST['SegGuidesCities'])) {
-                            $city->attributes=$_POST['SegGuidesCities'];
-							$city->users_id=$id_user;
+                        $city->attributes=$_POST['SegGuidesCities'];
+			$city->users_id=$id_user;
            		if($city->save()) $result=true;
                         else $result=false;
                         

@@ -37,12 +37,70 @@
    <div class="box box-info" >
         <div class="box-header with-border">
             <h4 class="box-title">
-                Homepageauftritt
+                Homepageauftritt Deutsch
             </h4>
         </div>
         <div class="box-body" >
  	<div class="row">
-		<div class="col-md-3">
+ 		<div class="col-md-10">
+			<div class="form-group">
+                            <?php 
+                                echo $form->labelEx($model,'guide_shorttext');
+                                echo $form->textField($model,'guide_shorttext'); 
+                                echo $form->error($model,'guide_shorttext');
+                            ?>
+			</div>
+
+                <div class="form-group">
+		<?php
+                    echo $form->labelEx($model,'guide_maintext'); 
+                    echo $form->textArea($model,'guide_maintext',array('rows'=>5, 'cols'=>100));
+                    echo $form->error($model,'guide_maintext'); 
+                  ?>
+                </div>
+                </div>
+            </div>
+         
+        </div>
+    </div>
+   <div class="box box-info" >
+        <div class="box-header with-border">
+            <h4 class="box-title">
+                Homepageauftritt Englisch
+            </h4>
+        </div>
+        <div class="box-body" >
+ 	<div class="row">
+  		<div class="col-md-10">
+			<div class="form-group">
+                            <?php 
+                                echo $form->labelEx($model,'guide_shorttext_En');
+                                echo $form->textField($model,'guide_shorttext_En'); 
+                                echo $form->error($model,'guide_shorttext_En');
+                            ?>
+			</div>
+
+                <div class="form-group">
+		<?php
+                    echo $form->labelEx($model,'guide_maintext_En'); 
+                    echo $form->textArea($model,'guide_maintext_En',array('rows'=>5, 'cols'=>100));
+                    echo $form->error($model,'guide_maintext_En'); 
+                  ?>
+                </div>
+            </div>
+            </div>
+         
+        </div>
+    </div>
+<div class="box box-info" >
+        <div class="box-header with-border">
+            <h4 class="box-title">
+                Files
+            </h4>
+        </div>
+        <div class="box-body" >
+ 	<div class="row">
+		<div class="col-md-6">
 			<div class="form-group">
  		<?php
                     echo $form->labelEx($model,'lnk_to_picture',array('style'=>'margin-right:10px;'));
@@ -54,28 +112,18 @@
                   ?>
  		</div>
 		</div>
-            <div class="col-md-9">
+		<div class="col-md-6">
 			<div class="form-group">
-                            <?php 
-                                echo $form->labelEx($model,'guide_shorttext');
-                                echo $form->textArea($model,'guide_shorttext',array('rows'=>6, 'cols'=>50)); 
-                                echo $form->error($model,'guide_shorttext');
-                            ?>
-			</div>
-		</div>
-	</div>
-  	<div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-		<?php
-                    echo $form->labelEx($model,'guide_maintext'); 
-                    echo $form->textArea($model,'guide_maintext',array('rows'=>9, 'cols'=>50));
-                    echo $form->error($model,'guide_maintext'); 
+ 		<?php
+                    echo $form->labelEx($model,'lnk_to_license',array('style'=>'margin-right:10px;'));
+                    echo $form->textField($model,'lnk_to_license',array("disabled"=>"true")); 
+                    echo CHtml::link("Open",array('/image/guide/'.$model->lnk_to_license),array("target"=>"_blank"));
+                     echo $form->FileField($model,'doc');
+                    echo $form->error($model,'lnk_to_license');
                   ?>
-                </div>
-            </div>
- 	</div>
-        
+ 		</div>
+		</div>
+ 	</div>        
         </div>
     </div>
    </div>
