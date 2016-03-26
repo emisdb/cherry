@@ -44,6 +44,9 @@
              <li <?php echo (Yii::app()->controller->action->id=='user') ? "class=\"active\"" : "" ; ?>>
 				<?php echo CHtml::link("<i class='fa fa-user'></i><span>Guides</span>", array('admin')); ?>
             </li>
+            <li <?php echo (Yii::app()->controller->action->id=='citysched') ? "class=\"active\"" : "" ; ?>>
+				<?php echo CHtml::link("<i class='fa fa-user'></i><span>Timetable</span>", array('citysched')); ?>
+            </li>
              <li <?php echo (Yii::app()->controller->action->id=='cashFull') ? "class=\"active\"" : "" ; ?>>
 				<?php echo CHtml::link("<i class='fa fa-credit-card'></i><span>Kassen</span>", array('cashAdmin')); ?>
             </li>

@@ -75,10 +75,10 @@
 	$this->widget('ext.clockpick.EClockpick', array(
 //         'model'            => $model,
          'name'        =>'timepick',
-		 'value'=>'08:00',
+		 'value'=>'09:00',
          'options'          =>array(
-     'starthour'=>8,
-                'endhour'=>19,
+     'starthour'=>9,
+                'endhour'=>20,
                 'event'=>'click',
                 'showminutes'=>true,
                 'minutedivisions'=>6,

@@ -869,6 +869,33 @@ class OfficeController extends Controller
 		));
 
 	}
+   	public function actionCitysched()
+	{
+            $model=new SegScheduledTours('search');
+            $model->unsetAttributes();  // clear any default values
+      	$id_control = Yii::app()->user->id;
+        if(empty($_POST))
+            {
+                    $model->from_date = Mainoptions::model()->getCvalue('schf_'.$id_control);
+  
+            }
+             else
+            {
+
+                    Mainoptions::model()->setCvalue('schf_'.$id_control,$_POST['SegScheduledTours']['from_date']);
+                     $model->from_date = $_POST['SegScheduledTours']['from_date'];  
+                     $model->attributes=$_POST['SegScheduledTours'];
+            }         
+                     $model->to_date = DateTime::createFromFormat('Y-m-d',$model->from_date)
+                       ->add(DateInterval::createFromDateString('6 days'))
+                       ->format('Y-m-d');  
+  	$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+  
+		$this->render('citysched',array(
+			'model'=>$model,
+			'info'=>$test,
+		));
+       }
    	public function actionSchedule()
 	{
 		$newrec=0;
