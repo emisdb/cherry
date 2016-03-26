@@ -869,7 +869,7 @@ class OfficeController extends Controller
 		));
 
 	}
-   	public function actionCitysched()
+   	public function actionZitysched()
 	{
             $model=new SegScheduledTours('search');
             $model->unsetAttributes();  // clear any default values
