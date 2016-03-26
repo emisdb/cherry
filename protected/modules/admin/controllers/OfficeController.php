@@ -699,6 +699,19 @@ class OfficeController extends Controller
 				'info'=>$test,
 	));
 	}
+	public function actionDr()
+	{
+		$model=new CancellationReason('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['CancellationReason']))
+			$model->attributes=$_GET['CancellationReason'];
+	 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+ 
+		$this->render('admin_cr',array(
+			'model'=>$model,
+				'info'=>$test,
+	));
+	}
 	public function actionCreatecr()
 	{
 		$model=new CancellationReason;
@@ -869,11 +882,12 @@ class OfficeController extends Controller
 		));
 
 	}
-   	public function actionZitysched()
+
+         	public function actionZitysched()
 	{
             $model=new SegScheduledTours('search');
             $model->unsetAttributes();  // clear any default values
-      	$id_control = Yii::app()->user->id;
+        	$id_control = Yii::app()->user->id;
         if(empty($_POST))
             {
                     $model->from_date = Mainoptions::model()->getCvalue('schf_'.$id_control);
@@ -885,17 +899,24 @@ class OfficeController extends Controller
                     Mainoptions::model()->setCvalue('schf_'.$id_control,$_POST['SegScheduledTours']['from_date']);
                      $model->from_date = $_POST['SegScheduledTours']['from_date'];  
                      $model->attributes=$_POST['SegScheduledTours'];
-            }         
-                     $model->to_date = DateTime::createFromFormat('Y-m-d',$model->from_date)
-                       ->add(DateInterval::createFromDateString('6 days'))
-                       ->format('Y-m-d');  
-  	$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+            }  
+                    $dt =date_create($model->from_date);
+                    $interval=new DateInterval( "P6D" );
+                    date_add($dt,$interval);
+                    $model->to_date=  date("Y-m-d",date_timestamp_get($dt));	
+
+
+//                      $model->to_date = DateTime::createFromFormat('Y-m-d',$model->from_date)
+//                       ->add(DateInterval::createFromDateString('6 days'))
+//                       ->format('Y-m-d');  
+	$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
   
 		$this->render('citysched',array(
 			'model'=>$model,
 			'info'=>$test,
 		));
        }
+
    	public function actionSchedule()
 	{
 		$newrec=0;

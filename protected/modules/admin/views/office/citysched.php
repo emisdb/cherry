@@ -2,6 +2,7 @@
 	table.shorttable{ background:#eeeeee; border: groove medium; }
         table.shorttable>thead>tr>td {background:#777; color:#fff;font-weight: bold;font-size: 1.2em;}
         table.shorttable>tbody>tr>td {background:#9af; padding:2px; color:#fff;}
+        table.shorttable>tbody>tr>td.odd {background:#89f;}
         table.shorttable>tbody>tr>td.daterow {background:#979797; padding:3px; color:#fff; font-size: 1.2em;}
 </style> <?php $this->renderPartial('_top', array('info'=>$info)); ?>
       <!-- Content Wrapper. Contains page content -->
@@ -83,8 +84,11 @@
                         echo "<tr><td class='daterow' colspan='".($carr+1)."'>".$curdate."</td></tr>";
                               foreach($start_times_tour as $item){
                                echo "<tr><td>".Yii::app()->dateFormatter->format('HH:mm',strtotime($item->timevalue))."</td>";
+                               $classp="even";
                                foreach($arr as $value){
-                                   echo "<td>";
+                                   if($classp=="even") $classp="odd";
+                                   else $classp="even";
+                                   echo "<td class='".$classp."'>";
                                         foreach($value as $val){ 
                                             if((strtotime($val[0])==$date_format)&&($val[2]==$item->timevalue))
                                             {
