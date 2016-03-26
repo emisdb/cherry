@@ -890,13 +890,13 @@ class OfficeController extends Controller
         	$id_control = Yii::app()->user->id;
         if(empty($_POST))
             {
-                    $model->from_date = Mainoptions::model()->getCvalue('schf_'.$id_control);
+                    $model->from_date = Mainoptions::model()->getCvalue('zi_'.$id_control);
   
             }
              else
             {
 
-                    Mainoptions::model()->setCvalue('schf_'.$id_control,$_POST['SegScheduledTours']['from_date']);
+                    Mainoptions::model()->setCvalue('zi_'.$id_control,$_POST['SegScheduledTours']['from_date']);
                      $model->from_date = $_POST['SegScheduledTours']['from_date'];  
                      $model->attributes=$_POST['SegScheduledTours'];
             }  

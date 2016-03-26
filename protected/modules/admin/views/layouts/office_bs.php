@@ -45,7 +45,7 @@
 				<?php echo CHtml::link("<i class='fa fa-user'></i><span>Guides</span>", array('admin')); ?>
             </li>
             <li <?php echo (Yii::app()->controller->action->id=='zitysched') ? "class=\"active\"" : "" ; ?>>
-				<?php echo CHtml::link("<i class='fa fa-user'></i><span>Timetable</span>", array('zitysched')); ?>
+				<?php echo CHtml::link("<i class='fa  fa-clock-o'></i><span>Timetable</span>", array('zitysched')); ?>
             </li>
              <li <?php echo (Yii::app()->controller->action->id=='cashFull') ? "class=\"active\"" : "" ; ?>>
 				<?php echo CHtml::link("<i class='fa fa-credit-card'></i><span>Kassen</span>", array('cashAdmin')); ?>
