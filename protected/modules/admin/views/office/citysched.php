@@ -51,19 +51,16 @@
                       <?php echo "The timetable for ".$model->from_date." - ".$model->to_date." in ".$model->cityname; ?>
                  </div>
                  <div class="panel-body">
-                     <ol>
-                     <?php 
+                      <?php 
                         $arr=array();
                         $data=$model->search();
                         echo "Total scheduled tours:".$data->getTotalItemCount();
                         foreach ($data->getData() as $value) {
-                         echo "<li>".$value->date." ".$value->starttime." ".$value->guidename."</li>";
-                         $arr[$value->guidename][]=array($value->date,$value->starttime,$value->original_starttime);
+                        $arr[$value->guidename][]=array($value->date,$value->starttime,$value->original_starttime);
                          
                      }
                      ?>
-                     </ol>
-                    <table class='table shorttable' >
+                     <table class='table shorttable' >
                         <thead>
                     <tr>
                     <td>Zeitintervall</td>
