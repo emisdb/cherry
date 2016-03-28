@@ -444,7 +444,7 @@ class GuideController extends Controller
             $criteria->condition = 'original_starttime=:original_starttime AND date_now=:date_now AND city_id=:city_id AND isCanceled=0';
             $criteria->params = array(':original_starttime' => $item->timevalue,':date_now'=>$date_format,':city_id'=>$city->cities->idseg_cities);
             $scheduled_item = SegScheduledTours::model()->find($criteria);
-            if(isset($scheduled_item)){
+             if(isset($scheduled_item)){
                 $day->id = $scheduled_item->idseg_scheduled_tours;
                 $day->owner = $scheduled_item->guide1_id;
                 $day->starttime = Yii::app()->dateFormatter->format('HH:mm',strtotime($scheduled_item->starttime));

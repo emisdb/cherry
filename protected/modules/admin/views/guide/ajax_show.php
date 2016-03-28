@@ -139,7 +139,6 @@
  	</div>
 </div>
 </div>
-<?php $this->endWidget(); ?>
 			<div class="row">
 				<div class="col-md-3">
 				   <?php echo CHtml::submitButton('Speichern',array('class'=>'btn btn-primary cancel','style'=>'margin:0;')); ?>
@@ -149,7 +148,7 @@
 				</div>					
 				<div class="col-md-6"></div>
 			</div>	
-	
+<?php $this->endWidget(); ?>	
      </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
   

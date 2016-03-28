@@ -88,6 +88,5 @@ foreach($model as $item) {
 								}
 								?> 
   </div> 
-
    </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
