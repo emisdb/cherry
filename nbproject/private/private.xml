@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="8">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="9">
         <file>
             <url>protected/controllers/OfficeController.php</url>
             <bookmark id="8">
@@ -9,17 +9,25 @@
                 <key/>
             </bookmark>
         </file>
+        <file>
+            <url>protected/modules/admin/controllers/OfficeController.php</url>
+            <bookmark id="9">
+                <name/>
+                <line>510</line>
+                <key/>
+            </bookmark>
+        </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/OpenServer/domains/cherry/protected/sys.txt</file>
-            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/views/office/invoice.php</file>
-            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/models/SegGuidestourinvoices.php</file>
-            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/models/SegContacts.php</file>
-            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/models/User.php</file>
-            <file>file:/D:/OpenServer/domains/cherry/protected/components/Controller.php</file>
+            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/views/office/test.php</file>
+            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/views/guide/ajaxshow.php</file>
+            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/views/guide/weeks.php</file>
+            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/views/office/citysched.php</file>
             <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/controllers/OfficeController.php</file>
-            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/models/SegScheduledTours.php</file>
+            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/views/guide/ajax_show.php</file>
+            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/controllers/GuideController.php</file>
+            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/views/layouts/office_bs.php</file>
         </group>
     </open-files>
 </project-private>
