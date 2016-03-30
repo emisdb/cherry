@@ -31,7 +31,7 @@ $this->widget('zii.widgets.CDetailView', array(
 
 <hr />
 <div class="create">
-					<?php echo CHtml::link("Kontaktdaten aktualisieren",array("contact",'id'=>$model->id,'id_user'=>$model->id)); ?>
+					<?php echo CHtml::link("Kontaktdaten aktualisieren",array("contact",'id_user'=>$model->id)); ?>
 </div>
 KONTAKTINFORMATIONEN
 <hr />

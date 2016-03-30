@@ -491,8 +491,6 @@ class OfficeController extends Controller
                     {
                        $modelgd->attributes=$_POST['SegGuidesdata'];
                            $lnk_to_picture_old = $modelgd->lnk_to_picture;
-                             $modelgd->image = CUploadedFile::getInstance($modelgd,'image');
-                             $lnk_to_license_old = $modelgd->lnk_to_license;
                             $modelgd->doc = CUploadedFile::getInstance($modelgd,'doc');
                                              if($modelgd->image!=""){
                                              if((($lnk_to_picture_old!="")||($lnk_to_picture_old!=NULL))&& file_exists('image/guide/'.$lnk_to_picture_old))
@@ -503,16 +501,7 @@ class OfficeController extends Controller
                                     $modelgd->image->saveAs($file);
                                 }
 
-                                 if($modelgd->doc!=""){
-                                    if((($lnk_to_license_old!="")||($lnk_to_license_old!=NULL)) && file_exists('image/guide/'.$lnk_to_license_old))
-                                        unlink('image/guide/'.$lnk_to_license_old);
-                                    $ext=pathinfo($modelgd->doc, PATHINFO_EXTENSION);
-                                      $name_uniqid = uniqid().".".$ext;
-                                    $modelgd->lnk_to_license = $name_uniqid;
-                                    $file = 'image/guide/'.$modelgd->lnk_to_license;
-                                    $modelgd->doc->saveAs($file);
-                                    
-                                }
+
 //                                $modelgd->guides_cashbox_account_DTV="1";
 /* */                      if($modelgd->save()){  
                                $result=true;

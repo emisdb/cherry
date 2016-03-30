@@ -357,50 +357,62 @@ class GuideController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionContact($id,$id_user)
+	public function actionContact($id_user)
 	{
 	    $id_control = Yii::app()->user->id;
         $update_user = User::model()->findByPk($id_user);
-        $role_control = User::model()->findByPk($id_control)->id_usergroups;  
+        $role_control = $update_user->id_usergroups;  
         $id_guide = $update_user->id_guide;
         
-        
-        $is_control=0;
-        $role_update = $update_user->id_usergroups; 
-        if($id_control==$id) $is_control = 1;
-        if($role_control==1) $is_control = 1;
-        if(($role_control==2)and($role_update!=1)and($role_update!=2)) $is_control = 1;
-        if(($role_control==3)and($role_update!=1)and($role_update!=2)and($role_update!=3)) $is_control = 1;   
-        if($id_control==$id_user)$is_control = 1;
-          //print_r('777'.$is_control);
-        
+       
  			$criteria = new CDbCriteria;
         	$criteria->condition = 'id=:id';
         	$criteria->params = array(':id' => $id_user);
-        	$id_contact = User::model()->find($criteria)->id_contact;
+        	$update_user = User::model()->find($criteria);
 			
-    		$model=$this->loadContact($id_contact);
-    
+    		$model=$this->loadContact($update_user->id_contact);
+        	$modelgd=$this->loadGuideData($update_user->id_guide);
+     
     		// Uncomment the following line if AJAX validation is needed
     		// $this->performAjaxValidation($model);
+                $result=false;
     
     		if(isset($_POST['SegContacts']))
     		{
-    			$model->attributes=$_POST['SegContacts'];
-                //print_r($model->birthdate);
-               // $model->birthdate = date('Y-m-d',strtotime($model->birthdate));
-               // print_r($model->birthdate);
-    			if($model->save())
-    				if($id_control!=$id_user){
-    				    $this->redirect(array('contact','id'=>$id_user));
+     			$model->attributes=$_POST['SegContacts'];
+                                  if($model->save()) $result=true;
+     		}
+                  if(isset($_POST['SegGuidesdata']))
+                    {
+                        $modelgd->attributes=$_POST['SegGuidesdata'];
+//                                          var_dump($modelgd->doc);
+                        $lnk_to_license_old = $modelgd->lnk_to_license;
+                            $modelgd->doc = CUploadedFile::getInstance($modelgd,'doc');
+                                  if($modelgd->doc!=""){
+                                    if((($lnk_to_license_old!="")||($lnk_to_license_old!=NULL)) && file_exists('image/guide/'.$lnk_to_license_old))
+                                        unlink('image/guide/'.$lnk_to_license_old);
+                                    $ext=pathinfo($modelgd->doc, PATHINFO_EXTENSION);
+                                      $name_uniqid = uniqid().".".$ext;
+                                    $modelgd->lnk_to_license = $name_uniqid;
+                                    $file = 'image/guide/'.$modelgd->lnk_to_license;
+                                    $modelgd->doc->saveAs($file);
+                          if($modelgd->save()) $result=true;
+                                  
+                                }
+ 
+                 }
+                 if($result){
+   		if( ($id_control!=$id_user)){
+    		    $this->redirect(array('contact','id'=>$id_user));
                     } else{
                         $this->redirect(array('profile'));
                     }
-    		}
+                 }
   		$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
   
     		$this->render('contact',array(
                     'model'=>$model,
+                    'modelgd'=>$modelgd,
     			'id_user'=>$id_user,
 			'update_user'=>$update_user,
   			'info'=>$test,

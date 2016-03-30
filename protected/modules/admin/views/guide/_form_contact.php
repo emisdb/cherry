@@ -13,6 +13,7 @@
 	// There is a call to performAjaxValidation() commented in generated controller code.
 	// See class documentation of CActiveForm for details on this.
 	'enableAjaxValidation'=>false,
+    'htmlOptions'=>array('enctype'=>'multipart/form-data'),
 )); ?>
 
 	<p class="note">Felder mit einem <span class="required">*</span> müssen ausgefüllt werden.</p>
@@ -175,6 +176,31 @@
             </div>
  	</div>
         
+        </div>
+    </div>
+<div class="box box-info" >
+        <div class="box-header with-border">
+            <h4 class="box-title">
+                Files
+            </h4>
+        </div>
+        <div class="box-body" >
+ 	<div class="row">
+
+		<div class="col-md-8">
+			<div class="form-group">
+ 		<?php
+                    echo $form->labelEx($modelgd,'lnk_to_license',array('style'=>'margin-right:10px;'));
+                    echo $form->textField($modelgd,'lnk_to_license',array("disabled"=>"true")); 
+                    echo CHtml::link("Open",array('/image/guide/'.$modelgd->lnk_to_license),array("target"=>"_blank"));
+                     echo $form->FileField($modelgd,'doc');
+                    echo $form->error($modelgd,'lnk_to_license');
+                  ?>
+ 		</div>
+		</div>
+            <div class="col-md-4">
+ 	</div>        
+ 	</div>        
         </div>
     </div>
    <div class="box box-info" >
