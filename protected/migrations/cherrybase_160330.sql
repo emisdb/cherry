@@ -25,8 +25,8 @@ SET time_zone = "+00:00";
 --
 -- Структура таблицы `cashbox_change_requests`
 --
-ALTER TABLE  `seg_guidesdata` ADD  `cancel_hours` INT NULL AFTER  `inVoiceCount2015` ,
-ADD  `cancel_number` INT NULL AFTER  `cancel_hours` ;
+ALTER TABLE  `cashbox_change_requests` ADD  `reject` BOOLEAN NOT NULL DEFAULT FALSE ,
+ADD INDEX (  `reject` ) ;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

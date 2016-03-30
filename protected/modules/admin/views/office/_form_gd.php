@@ -11,7 +11,7 @@
         </div>
         <div class="box-body" >
  	<div class="row">
-		<div class="col-md-4">
+		<div class="col-md-3">
 			<div class="form-group">
 				<?php
 					echo $form->labelEx($model,'invoiceCount2013')."<p>"; 
@@ -20,7 +20,7 @@
 				 ?>
 			</div>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-3">
 			<div class="form-group">
 				<?php
 					echo $form->labelEx($model,'invoiceCount2014'); 
@@ -29,7 +29,23 @@
 				 ?>
 			</div>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-3">
+			<div class="form-group">
+				<?php
+					echo $form->labelEx($model,'cancel_hours'); 
+					echo $form->textField($model,'cancel_hours',array('class'=>"form-control"));
+					echo $form->error($model,'cancel_hours'); 
+				 ?>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-group">
+				<?php
+					echo $form->labelEx($model,'cancel_number'); 
+					echo $form->textField($model,'cancel_number',array('class'=>"form-control"));
+					echo $form->error($model,'cancel_number'); 
+				 ?>
+			</div>
 		</div>
 	</div>
         </div>

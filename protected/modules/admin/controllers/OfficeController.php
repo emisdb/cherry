@@ -2182,6 +2182,32 @@ class OfficeController extends Controller
 							}
 								
 					}
+					if($item->cancel_hours>0)
+					{
+					if($it->current_subscribers<$item->cancel_number)
+					{
+					if(($diff<=$item->cancel_hours)&&($diff>=0)){
+						if(strlen($item['user_ob']['contact_ob']['email'])>0)
+							if($this->sendMail($item['user_ob']['contact_ob']['email'],"Tour at ".$it['starttime'],
+									"Dear ".$item['user_ob']['contact_ob']['firstname']." ".$item['user_ob']['contact_ob']['surname'].". Your tour scheduled at ".$it['date']." ".$it['starttime']." is canceled for the lack of guests."))
+							{
+								$it->isCanceled=1;
+								$it->canceledBy=$item['user_ob']['id'];
+								$it->save();
+							}
+							     foreach ($it->guidestourinvoices as $invoice) 
+       {
+									 if(strlen($invoice->contact['email'])>0){
+   		$this->sendMail($invoice->contact['email'],"Tour at ".$it['starttime']." is canceled.",
+				"Dear ".$invoice->contact['firstname']." ".$invoice->contact['firstname'].". Your tour scheduled at ".$it['date']." ".$it['starttime']." is canceled.");
+     
+         }
+	   }
+
+								
+					}
+					}
+					}
 				}
 			}
 		}
