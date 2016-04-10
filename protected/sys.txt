@@ -52,6 +52,10 @@ Front end
 1.отбор по языкам сделать в соответствии с языками гида
 
 
+ BIP
+Demo PlatformTransaktionen
+
+
 Проблемы:
 1.guide.show languages and guides don't cooperate with each other
 2. should we show the same guide info for other guide scheduled tour at the guide.week?
@@ -61,3 +65,5 @@ Front end
 
 1.почта приходит всегда с ящика berlin
 2.изменить видгет выбора времени
+
+Guide/current   discountoption - the js action is hardcoded and refers to the id (42)

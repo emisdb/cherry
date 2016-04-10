@@ -1196,6 +1196,10 @@ div.items>div.row:hover
     color: #fff;
      background-color: #983157;
  }
+ div.modal-dialog>div.modal-content>div.modal-body>div#card-modal-data
+ {
+    color: #000;
+ }
  .form-group selector {
     display: none;
 }

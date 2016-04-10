@@ -19,6 +19,30 @@
 			 </div>
 		   </div>
 		 </div>
+		 <div class="modal modal-success fade" id="cardModal" role="dialog">
+		   <div class="modal-dialog modal-md">
+			 <div class="modal-content">
+			   <div class="modal-header">
+				 <button type="button" class="close" data-dismiss="modal" aria-label="close">
+					 <span aria-hidden="true">&times;</span></button>
+				 <h4 class="modal-title">Credit card payment</h4>
+			   </div>
+			   <div class="modal-body">
+                               <div id="card-modal-data">
+                                  <div class="overlay">
+                                    <i class="fa fa-refresh fa-spin"></i>
+                                    Csrd loading
+                                    </div>
+                              </div>
+			   </div>
+			   <div class="modal-footer">
+				<button  type="button" class="btn btn-outline pull-right btn-default" data-dismiss="modal">
+                                    Schließen
+                                </button>
+			   </div>
+			 </div>
+		   </div>
+		 </div>
 
        <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -27,10 +51,15 @@
 				<li>
 					<?php echo Chtml::link('Tourplan',array('schedule')); ?>
 				</li>
-				<li class="active"> Rechnung
+				<li class="active"> 
+                                    Rechnung
 				</li>
 			</ol>	
+                        <div id="some-data">
+                            
+                        </div>
 			<button id="changebt" type="button" class="btn btn-primary cancel" data-toggle="modal" data-target="#guideModal">Guide Info</button>
+			<button id="creditcard" type="button" class="btn btn-success cancel" data-toggle="modal" data-target="#cardModal">Pay by card</button>
 
 		</section>
 
@@ -47,8 +76,8 @@
 				<?php
 				$i=0; 
 				 echo $sched->tourroute_ob['name']." "
-						 .$sched['date']." "
-						 .Yii::app()->dateFormatter->format('HH:mm',strtotime($sched['starttime']));
+                                    .$sched['date']." "
+                                    .Yii::app()->dateFormatter->format('HH:mm',strtotime($sched['starttime']));
 				 $element = 0; $k=0;$i=1;
 				 ?>
 			</div>
@@ -144,8 +173,13 @@
 								$vat_value = number_format($vat_value, 2, '.', ' ');
 						echo '<div id="vat'.$id.'" style="float:left;">'.$vat_value.'</div><div style="float:left;"> &euro;</div>';
 						echo '<div style="clear:both;"></div>';
-						echo "</td><td>\n";
+						echo "</td><td style='padding:2px 3px;'>\n";
 						echo $form->dropDownList($model[$element],'id_invoiceoptions',$list_op,array('empty' => '--','name'=>'option'.$id));
+                                                if((int)($model[$element]->creditcard_id)>0)
+                                                    $options=array('name'=>'creditcard'.$id,'checked'=>'checked' );
+                                                        else
+					         $options=array('name'=>'creditcard'.$id);
+						echo $form->checkBox($model[$element],'creditcard_id',$options);
 						echo "</td></tr>\n";
 						$k++;
 					}
@@ -226,6 +260,7 @@
 
 $(document).ready ( function (){
 
+        $.ajaxSetup({cache:true});
 	$("#changebt").click( function(){
 	 <?php echo CHtml::ajax(array(
             'url'=>array('ajaxInfo'),
@@ -250,6 +285,31 @@ $(document).ready ( function (){
             ))?>;
     return true; 
  });
+ 	$("#creditcard").click( function(){
+	 <?php echo CHtml::ajax(array(
+            'url'=>array('ajaxCreditCard'),
+	         'data'=>  array(
+                                 'sumtopay'=>'js:getasum()',
+				 'date'=>$sched['date'],
+				 'time'=>$sched['starttime']),
+            'type'=>'post',
+             'dataType'=>'json',
+            'success'=>"function(data)
+            {
+                if (data.status == 'failure'){
+//                    psqdata = $.parseJSON(data.div);
+                   $('#card-modal-data').html(data.div.html);
+                 }
+                else
+                {
+                    psqdata = $.parseJSON(data.div);
+                   $('#card-modal-data').html(psqdata.html);
+                }
+ 
+            } ",
+            ))?>;
+    return true; 
+ });
  counttotals();
 
 });
@@ -263,7 +323,8 @@ function discount(id,k){
                     counttotals();
                     return;
                 }
-		 var price,val,type;
+		 var price=0;
+		 var val,type;
 		 if(id==""){
 			val = 0;
 			type = "%";
@@ -290,7 +351,7 @@ function discount(id,k){
 function countvat(price,k)
 {	
 		 var vat_nds = document.getElementById('vat_nds').innerHTML;//НДС
-		var vat;
+		var vat=0;
 		 var price_vat = price;
 		 var d1,d2;
 		 d1 = vat_nds/100+1;
@@ -335,23 +396,37 @@ function cash(id,k)
 	}
 	counttotals();
 }
- function counttotals() {
+ function getasum() {
+     return 121;
+ }
+     function counttotals() {
 		var vat_nds = document.getElementById('vat_nds').innerHTML;//НДС
 	 	 var i;
 		 var price_su=0;
 		 var price_s=0;
+		 var price_v=0;
+		 var price_sv=0;
 		 var pay;
 		 var price_cash =0;
-		 var discounttype_id;
+		 var discounttype_id, payment_id;
 
 		 for	(index = 0; index < custs.length; index++) {
 			i = custs[index];
 			pay = document.getElementById('payoption'+i).value;
 				//проверка какое значение выбрано в поле discount
 				discounttype_id = document.getElementById('discounttype_id'+i).value;
+				payment_id = document.getElementById('payoption'+i).value;
+				if(payment_id==3){
+					document.getElementById('creditcard'+i).style.display = 'block';
+                                }
+                                else  {
+ 					document.getElementById('creditcard'+i).style.display = 'none';
+                                 }
 				if(discounttype_id==42){
 					document.getElementById('option'+i).style.display = 'block';
 					document.getElementById('payoption'+i).style.display = 'none'; 
+					document.getElementById('creditcard'+i).checked = false;
+					document.getElementById('creditcard'+i).style.display = 'none';
 				}else{
 					document.getElementById('option'+i).style.display = 'none';
 					document.getElementById('payoption'+i).style.display = 'block'; 

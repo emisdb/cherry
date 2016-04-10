@@ -44,7 +44,7 @@ class GuideController extends Controller
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('view','profile','update','contact','user','weeks','take','show','booky','spontour',
-					'ajaxInfo','ajaxShow','ajax_Show','ajaxHistory','schedule','history','cash','createCash','cashReport','current','deleteST','delete'),
+					'ajaxInfo','ajaxCreditCard','ajaxShow','ajax_Show','ajaxHistory','schedule','history','cash','createCash','cashReport','current','deleteST','delete'),
                 'roles'=>array('guide'),
 			),            
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -1097,6 +1097,55 @@ class GuideController extends Controller
 
 	
 	}
+        	public function actionAjaxCreditCard()
+	{
+	if (!Yii::app()->request->isAjaxRequest)
+			{
+				echo CJSON::encode(array(
+					'status'=>'failure', 
+					'div'=>'No Request'));
+//					'div'=>$this->renderPartial('_form', array('model'=>$model), true)));
+				exit;               
+			}
+		$sumtopay = $_POST['sumtopay'];
+		$date = $_POST['date'];
+		$time = $_POST['time'];
+                $oa_amount_str = number_format($sumtopay, 2, '.', '');
+
+//	$positionsdescriptor = subst('1001', 0, -1); 
+	$positionsdescriptor = '1001'; 
+	$transactid_1 = md5($positionsdescriptor);
+
+	$url = "https://test.oppwa.com/v1/checkouts";
+
+	$data = "authentication.userId=8a829418527de00401527e5f34cf03f1".
+		"&authentication.password=CNGKq86H".
+		"&authentication.entityId=8a829418527de00401527e5ff82003f5".
+		"&amount={$oa_amount_str}".
+		"&currency=EUR".
+		"&descriptor=Cherrytours".
+		"&merchantTransactionId={$transactid_1}".
+		"&paymentType=DB";
+
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_POST, 1);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	$responseData = curl_exec($ch);
+	if(curl_errno($ch)) {
+		return curl_error($ch);
+	}
+	curl_close($ch);
+ 	$result = array();
+        $result['psq_response'] = json_decode($responseData);
+	$result['html'] = "<script src=\"https://test.oppwa.com/v1/paymentWidgets.js?checkoutId=".$result['psq_response']->id."\"></script>";
+	$result['html'] .= "<form action=\"http://seg-touren.de/cherrypit/webapi/psq_lander.php\" class=\"paymentWidgets\">VISA MASTER AMEX</form>";
+        echo CJSON::encode(array(
+					'status'=>'failure', 
+					'div'=>$result));
+        }
         	public function actionAjaxInfo()
 	{
 	if (!Yii::app()->request->isAjaxRequest)
