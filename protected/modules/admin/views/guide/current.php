@@ -25,13 +25,13 @@
 			   <div class="modal-header">
 				 <button type="button" class="close" data-dismiss="modal" aria-label="close">
 					 <span aria-hidden="true">&times;</span></button>
-				 <h4 class="modal-title">Credit card payment</h4>
+				 <h4 class="modal-title">Credit card payment: <span id="card-title-data"></span>&euro;</h4>
 			   </div>
 			   <div class="modal-body">
                                <div id="card-modal-data">
                                   <div class="overlay">
                                     <i class="fa fa-refresh fa-spin"></i>
-                                    Csrd loading
+                                    Card loading
                                     </div>
                               </div>
 			   </div>
@@ -59,7 +59,6 @@
                             
                         </div>
 			<button id="changebt" type="button" class="btn btn-primary cancel" data-toggle="modal" data-target="#guideModal">Guide Info</button>
-			<button id="creditcard" type="button" class="btn btn-success cancel" data-toggle="modal" data-target="#cardModal">Pay by card</button>
 
 		</section>
 
@@ -176,9 +175,9 @@
 						echo "</td><td style='padding:2px 3px;'>\n";
 						echo $form->dropDownList($model[$element],'id_invoiceoptions',$list_op,array('empty' => '--','name'=>'option'.$id));
                                                 if((int)($model[$element]->creditcard_id)>0)
-                                                    $options=array('name'=>'creditcard'.$id,'checked'=>'checked' );
+                                                    $options=array('name'=>'creditcard'.$id,'checked'=>'checked','onchange'=>'counttotals()' );
                                                         else
-					         $options=array('name'=>'creditcard'.$id);
+					         $options=array('name'=>'creditcard'.$id,'onchange'=>'counttotals()' );
 						echo $form->checkBox($model[$element],'creditcard_id',$options);
 						echo "</td></tr>\n";
 						$k++;
@@ -223,6 +222,14 @@
 
 			<div style="float:left;width:250px;">Anteil der Bareinnahmen inkl. Ust: </div><div style="float:left;width:100px;" id="price_cash"></div>
 			<div style="float:left;"> &euro;</div>
+			 <div style="clear:both;"></div>
+			 <hr>
+
+                         <div style="float:left;width:250px;">Credit card payment: </div><div style="float:left;width:100px;" id="price_card"></div>
+			<div style="float:left;"> &euro;</div>
+			<div style="float:left; margin-left: 15px;"> 
+                            <button id="creditcard" type="button" class="btn btn-success cancel" data-toggle="modal" data-target="#cardModal">Pay by card</button>
+                        </div>
 			 <div style="clear:both;"></div>
 			 <hr>
 		</div>     
@@ -298,7 +305,8 @@ $(document).ready ( function (){
             {
                 if (data.status == 'failure'){
 //                    psqdata = $.parseJSON(data.div);
-                   $('#card-modal-data').html(data.div.html);
+                     $('#card-title-data').html(data.sum);
+                  $('#card-modal-data').html(data.div.html);
                  }
                 else
                 {
@@ -397,7 +405,8 @@ function cash(id,k)
 	counttotals();
 }
  function getasum() {
-     return 121;
+	var price = document.getElementById('price_card').innerHTML;
+        return price;
  }
      function counttotals() {
 		var vat_nds = document.getElementById('vat_nds').innerHTML;//НДС
@@ -406,6 +415,7 @@ function cash(id,k)
 		 var price_s=0;
 		 var price_v=0;
 		 var price_sv=0;
+		 var price_card=0;
 		 var pay;
 		 var price_cash =0;
 		 var discounttype_id, payment_id;
@@ -434,14 +444,15 @@ function cash(id,k)
 		
 				if(discounttype_id!=42){
 					if(pay!=""){
-						price_su = document.getElementById('price_i'+i).value;
-						price_s = parseFloat(price_s)+parseFloat(price_su);
+						price_su = parseFloat(document.getElementById('price_i'+i).value);
+						price_s = parseFloat(price_s)+price_su;
 						d1 = vat_nds/100+1;
 						d2 = 1- 1/d1;
 						price_v = parseFloat(price_s)*d2;
 						//price_v = parseFloat(price_s)*vat_nds/100;
 						price_sv = parseFloat(price_s)-parseFloat(price_v);
-						if(pay==1) price_cash = parseFloat(price_cash)+parseFloat(price_su);
+						if(pay==1) price_cash = parseFloat(price_cash)+price_su;
+                                                if(document.getElementById('creditcard'+i).checked) price_card=price_card+price_su ;
 					}
 				}
 		 }
@@ -449,10 +460,12 @@ function cash(id,k)
 		 price_v = price_v.toFixed(2);
 		 price_sv = price_sv.toFixed(2);
 		 price_cash = price_cash.toFixed(2);
+		 price_card = price_card.toFixed(2);
 		 document.getElementById('price_s').innerHTML = price_s;
 		 document.getElementById('price_v').innerHTML = price_v;
 		 document.getElementById('price_sv').innerHTML = price_sv;
 		 document.getElementById('price_cash').innerHTML = price_cash;
+                 document.getElementById('price_card').innerHTML = price_card;
 	
  }
  function newtourist() {

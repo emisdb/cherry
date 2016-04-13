@@ -1144,6 +1144,7 @@ class GuideController extends Controller
 	$result['html'] .= "<form action=\"http://seg-touren.de/cherrypit/webapi/psq_lander.php\" class=\"paymentWidgets\">VISA MASTER AMEX</form>";
         echo CJSON::encode(array(
 					'status'=>'failure', 
+					'sum'=>$oa_amount_str, 
 					'div'=>$result));
         }
         	public function actionAjaxInfo()
