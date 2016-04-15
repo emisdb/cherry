@@ -38,7 +38,11 @@ class GuideController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('test','paymentLand'),
+				'users'=>array('*'),
+			),
+		array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('view','profile','update','contact','user','weeks','take','show','booky','spontour',
 					'ajaxInfo','ajaxCreditCard','ajaxShow','ajax_Show','ajaxHistory','schedule','history','cash','createCash','cashReport','current','deleteST','delete'),
                 'roles'=>array('guide'),
@@ -52,10 +56,6 @@ class GuideController extends Controller
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('test,paymentLand'),
 				'users'=>array('*'),
 			),
 		);
