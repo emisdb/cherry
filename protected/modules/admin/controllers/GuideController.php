@@ -1116,10 +1116,12 @@ class GuideController extends Controller
 	$positionsdescriptor = '1001'; 
 	$transactid_1 = md5($positionsdescriptor);
 
-	$url = Yii::app()->params['paymenturl'];
-        $data = Yii::app()->params['paymentdata'];
-        $data=  str_replace("[amount]", $oa_amount_str, $data);
-        $data=  str_replace("[trans]", $transactid_1, $data);
+	$url = Yii::app()->params['paymenturl']."/v1/checkouts";
+        $data1 = Yii::app()->params['paymentid'];
+        $data2 = Yii::app()->params['paymentdata'];
+        $data2=  str_replace("[amount]", $oa_amount_str, $data);
+        $data2=  str_replace("[trans]", $transactid_1, $data);
+        $data-$data1.$data2;
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $url);
@@ -1144,7 +1146,27 @@ class GuideController extends Controller
         }
         public function actionPaymentLand()
         {
-            Mainoptions::model()->setCvalue('checkpayment','done');
+            		if(isset($_GET["resourcePath"]))
+                        {
+                            $urlplus=$_GET["resourcePath"];
+                            $url = Yii::app()->params['paymenturl'].$urlplus;
+                            $data = Yii::app()->params['paymentid'];
+                            $ch = curl_init();
+                            curl_setopt($ch, CURLOPT_URL, $url."?".$data);
+                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+                            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            $model = curl_exec($ch);
+                            if(curl_errno($ch)) {
+                                    $model= curl_error($ch);
+                            }
+                            curl_close($ch);
+                                         }
+                            else 
+                               $model='nodata';
+  //             Mainoptions::model()->setCvalue('checkpayment','done');
+           $test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());     
+            $this->render('test',array('model'=>$model,'info'=>$test,));
  
         }
         

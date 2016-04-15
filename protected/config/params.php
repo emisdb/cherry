@@ -6,11 +6,14 @@ return array(
 	'title'=>'My Yii Blog',
 	// this is used in error pages
 	'adminEmail'=>'berlin@cherrytours.com',
-	'paymenturl'=>"https://test.oppwa.com/v1/checkouts",
-	'paymentdata'=>
+	'paymenturl'=>"https://test.oppwa.com",
+//	'paymenturl'=>"https://test.oppwa.com/v1/checkouts",
+	'paymentid'=>
                 "authentication.userId=8a829418527de00401527e5f34cf03f1".
 		"&authentication.password=CNGKq86H".
-		"&authentication.entityId=8a829418527de00401527e5ff82003f5".
+		"&authentication.entityId=8a829418527de00401527e5ff82003f5",
+
+	'paymentdata'=>
 		"&amount=[amount]".
 		"&currency=EUR".
 		"&descriptor=Cherrytours".
