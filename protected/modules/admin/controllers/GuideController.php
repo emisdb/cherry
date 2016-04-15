@@ -38,10 +38,6 @@ class GuideController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('test'),
-				'users'=>array('*'),
-			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('view','profile','update','contact','user','weeks','take','show','booky','spontour',
 					'ajaxInfo','ajaxCreditCard','ajaxShow','ajax_Show','ajaxHistory','schedule','history','cash','createCash','cashReport','current','deleteST','delete'),
@@ -56,6 +52,10 @@ class GuideController extends Controller
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('test,paymentLand'),
 				'users'=>array('*'),
 			),
 		);
@@ -1116,16 +1116,10 @@ class GuideController extends Controller
 	$positionsdescriptor = '1001'; 
 	$transactid_1 = md5($positionsdescriptor);
 
-	$url = "https://test.oppwa.com/v1/checkouts";
-
-	$data = "authentication.userId=8a829418527de00401527e5f34cf03f1".
-		"&authentication.password=CNGKq86H".
-		"&authentication.entityId=8a829418527de00401527e5ff82003f5".
-		"&amount={$oa_amount_str}".
-		"&currency=EUR".
-		"&descriptor=Cherrytours".
-		"&merchantTransactionId={$transactid_1}".
-		"&paymentType=DB";
+	$url = Yii::app()->params['paymenturl'];
+        $data = Yii::app()->params['paymentdata'];
+        $data=  str_replace("[amount]", $oa_amount_str, $data);
+        $data=  str_replace("[trans]", $transactid_1, $data);
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $url);
@@ -1141,13 +1135,20 @@ class GuideController extends Controller
  	$result = array();
         $result['psq_response'] = json_decode($responseData);
 	$result['html'] = "<script src=\"https://test.oppwa.com/v1/paymentWidgets.js?checkoutId=".$result['psq_response']->id."\"></script>";
-	$result['html'] .= "<form action=\"http://seg-touren.de/cherrypit/webapi/psq_lander.php\" class=\"paymentWidgets\">VISA MASTER AMEX</form>";
-        echo CJSON::encode(array(
+//	$result['html'] .= "<form action=\"http://seg-touren.de/cherrypit/webapi/psq_lander.php\" class=\"paymentWidgets\">VISA MASTER AMEX</form>";
+	$result['html'] .= "<form action=\"".Yii::app()->createAbsoluteUrl('admin/guide/paymentLand')."\" class=\"paymentWidgets\">VISA MASTER AMEX</form>";
+       echo CJSON::encode(array(
 					'status'=>'failure', 
 					'sum'=>$oa_amount_str, 
 					'div'=>$result));
         }
-        	public function actionAjaxInfo()
+        public function actionPaymentLand()
+        {
+            Mainoptions::model()->setCvalue('checkpayment','done');
+ 
+        }
+        
+        public function actionAjaxInfo()
 	{
 	if (!Yii::app()->request->isAjaxRequest)
 			{

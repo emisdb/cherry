@@ -6,6 +6,16 @@ return array(
 	'title'=>'My Yii Blog',
 	// this is used in error pages
 	'adminEmail'=>'berlin@cherrytours.com',
+	'paymenturl'=>"https://test.oppwa.com/v1/checkouts",
+	'paymentdata'=>
+                "authentication.userId=8a829418527de00401527e5f34cf03f1".
+		"&authentication.password=CNGKq86H".
+		"&authentication.entityId=8a829418527de00401527e5ff82003f5".
+		"&amount=[amount]".
+		"&currency=EUR".
+		"&descriptor=Cherrytours".
+		"&merchantTransactionId=[trans]".
+		"&paymentType=DB",
 	'mailPWD'=>'123',
 	// number of posts displayed per page
 	'postsPerPage'=>10,

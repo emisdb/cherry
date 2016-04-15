@@ -64,8 +64,6 @@
 
         <!-- Main content -->
         <section class="content">
-
-
 		<!-- param -->
 			<div class="row">
 			<div class="col-md-8">
@@ -408,6 +406,12 @@ function cash(id,k)
 	var price = document.getElementById('price_card').innerHTML;
         return price;
  }
+ /*
+  * to do:
+  * 1.we need to change the system of payment: count again with the users (old payments by catd must be checked and disabled)
+  * 2.reload the page after each payment to block other card payments
+  * 3.
+  */
      function counttotals() {
 		var vat_nds = document.getElementById('vat_nds').innerHTML;//НДС
 	 	 var i;
