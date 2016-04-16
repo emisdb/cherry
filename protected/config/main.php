@@ -13,7 +13,7 @@ return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'cherrytours.com',
 
-    'sourceLanguage'=>'en',
+    'sourceLanguage'=>'ru',
     'language'=>'en',
 //   'language'=>'de',
     'charset'=>'utf-8',

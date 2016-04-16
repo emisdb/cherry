@@ -9,6 +9,7 @@ class GuideController extends Controller
 	public $layout='/layouts/guide_bs';
     public $defaultActon='schedule';
 	public $totval=0;
+	public $totrest=0;
  	public $cashsum=0;
         
         public function init() {
@@ -16,7 +17,7 @@ class GuideController extends Controller
   		$command=Yii::app()->db->createCommand();
                 $command->select('SUM(delta_cash) AS sum');
                 $command->from('cashbox_change_requests');
-                $command->where('id_users=:id AND approvedBy IS NOT NULL', array(':id'=>Yii::app()->user->id));
+                $command->where('id_users=:id AND approvedBy IS NOT NULL AND reject=0', array(':id'=>Yii::app()->user->id));
                 $this->cashsum= $command->queryScalar();
            }
 	/**
@@ -866,16 +867,11 @@ class GuideController extends Controller
 			$model->from_date = $_POST['CashboxChangeRequests']['from_date'];
 			$model->to_date = $_POST['CashboxChangeRequests']['to_date'];
 		}
-		$cashnow=0;
 		if(isset($model->from_date)) 
 		{
 			
-		$command=Yii::app()->db->createCommand();
-        $command->select('SUM(delta_cash) AS sum');
-        $command->from('cashbox_change_requests');
-        $command->where('id_users=:id AND request_date < :rd', array(':id'=>$id_control,':rd'=>date('Y-m-d H:i:s', strtotime($model->from_date))));
-        $cashnow= $command->queryScalar();
-		$this->totval=$cashnow;
+		$this->totval=$model->start;
+		$this->totrest=$model->start+$model->sum;
 
 		}
 
@@ -883,9 +879,14 @@ class GuideController extends Controller
  	
 		$this->render('cash_admin',array(
 				'model'=>$model,
-				'cashnow'=>$cashnow,
 				'info'=>$test
 		));
+	}
+
+	protected function minusing($data,$row){
+                $ret=$this->totrest;
+		$this->totrest=$this->totrest-$data->delta_cash;
+		return Yii::app()->numberFormatter->formatCurrency($ret, '') ;
 	}
 
 	protected function adding($data,$row){
@@ -1119,9 +1120,9 @@ class GuideController extends Controller
 	$url = Yii::app()->params['paymenturl']."/v1/checkouts";
         $data1 = Yii::app()->params['paymentid'];
         $data2 = Yii::app()->params['paymentdata'];
-        $data2=  str_replace("[amount]", $oa_amount_str, $data);
-        $data2=  str_replace("[trans]", $transactid_1, $data);
-        $data-$data1.$data2;
+        $data2=  str_replace("[amount]", $oa_amount_str, $data2);
+        $data2=  str_replace("[trans]", $transactid_1, $data2);
+        $data=$data1.$data2;
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $url);

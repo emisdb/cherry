@@ -21,10 +21,30 @@ class CashboxChangeRequests extends CActiveRecord
     public $image; 
 	public $from_date;
 	public $to_date;
+	private $_rest = 0;
+	private $_start = 0;
 	private $_cli = null;
 	private $_ct = null;
 	private $_city = null;
 	private $_tstr = null;
+	public function getStart(){
+        		$command=Yii::app()->db->createCommand();
+                        $command->select('SUM(delta_cash) AS sum');
+                        $command->from('cashbox_change_requests');
+                        $command->where('id_users=:id AND request_date < :rd', array(':id'=>$this->id_users,':rd'=>date('Y-m-d H:i:s', strtotime($this->from_date))));
+                        $this->_start= $command->queryScalar();
+                        return $this->_start;
+
+        }
+	public function getSum(){
+        		$command=Yii::app()->db->createCommand();
+                        $command->select('SUM(delta_cash) AS sum');
+                        $command->from('cashbox_change_requests');
+                        $command->where('id_users=:id AND request_date >= :fd AND request_date <= :td', array(':id'=>$this->id_users,':fd'=>date('Y-m-d H:i:s', strtotime($this->from_date)),':td'=>date('Y-m-d H:i:s', strtotime($this->to_date))));
+                        $this->_rest= $command->queryScalar();
+                        return $this->_rest;
+
+        }
 	public function getCityname(){
 		if ($this->_city === null && $this->user !== null)
 		{
@@ -259,8 +279,10 @@ class CashboxChangeRequests extends CActiveRecord
 		$criteria->compare('approvedBy',$this->approvedBy);
 		$criteria->compare('request_date',$this->request_date,true);
 		$criteria->compare('approval_date',$this->approval_date,true);
-		if($guide>0)
+		if($guide>0){
 			$criteria->addInCondition ("id_type", array(3,4));
+			$criteria->addInCondition ("reject", array(0));
+                }
 		$this->daterange($criteria);
 		$sort->defaultOrder= array(
             'request_date'=>CSort::SORT_DESC,

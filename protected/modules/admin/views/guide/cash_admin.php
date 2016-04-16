@@ -87,11 +87,10 @@
 
 <?php
 $dataProvider=$model->search();
-
  $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'pay-grid',
 	'dataProvider'=>$dataProvider,
-     'summaryText' => "Ausgangsbetrag: ".Yii::app()->numberFormatter->formatCurrency($cashnow, ''),
+     'summaryText' => "Ausgangsbetrag: ".Yii::app()->numberFormatter->formatCurrency($this->totval, ''),
 //      'ajaxUpdate'=>false,
 //	'filter'=>$model,
  	'itemsCssClass'=>'table table-bordered',
@@ -129,7 +128,8 @@ $dataProvider=$model->search();
             'header'=>'Nachher',
              'filter'=>false, // Set the filter to false when date range searching
                 'type'=>'raw',
-            'value'=>array($this,'adding'),
+//            'value'=>array($this,'adding'),
+            'value'=>array($this,'minusing'),
  // 			'filter'=>false, Set the filter to false when date range searching
 			'htmlOptions'=>array('style' => 'text-align: right;'),
 //                        'footer'=>Yii::app()->numberFormatter->formatCurrency($this->totval, ''),
