@@ -862,8 +862,8 @@ class GuideController extends Controller
 		 }
 		 else
 		  {
-            Mainoptions::model()->setCvalue('payf_'.$id_control,$_POST['CashboxChangeRequests']['from_date']);
-			Mainoptions::model()->setCvalue('payt_'.$id_control,$_POST['CashboxChangeRequests']['to_date']);
+                    Mainoptions::model()->setCvalue('payf_'.$id_control,$_POST['CashboxChangeRequests']['from_date']);
+                    Mainoptions::model()->setCvalue('payt_'.$id_control,$_POST['CashboxChangeRequests']['to_date']);
 			$model->from_date = $_POST['CashboxChangeRequests']['from_date'];
 			$model->to_date = $_POST['CashboxChangeRequests']['to_date'];
 		}
@@ -1004,15 +1004,28 @@ class GuideController extends Controller
 			'item'=>$item,
 		));
 	}
-	public function actionCurrent($id_sched)
+	public function actionCurrent($id_sched,$id=null)
 	{
+            $json=$this->PaymentLand();
+            $jcode['result']="none";
+            $jcode['message']="";
+            if($json!='nodata')
+            {
+                $jarr=  json_decode($json);
+//                var_dump($jarr);
+//                return;
+                if(isset($jarr->result->code))
+                {
+                    $jcode['message']=$jarr->result->code;
+                   $jcode['result']="success";
+                }
+            }
 	
 		$id_control = Yii::app()->user->id;
                 $guide = User::model()->findByPk($id_control);
 		$sched = SegScheduledTours::model()->with(array('guidestourinvoices'=>array('guidestourinvoicescustomers','contact')))->findByPk($id_sched);
 		if(is_null($sched)) 	throw new CHttpException(404,'The requested tour does not exist.');
 		if($sched->additional_info2) $this->redirect(array('schedule'));
-//		if($sched->additional_info2) $this->redirect(Yii::app()->createUrl("/filespdf/".$sched->additional_info2.".pdf"));
  			$date_format = strtotime($sched->date);
 			$date_bd = date('Y-m-d',$date_format);
 			$dt =$date_bd.' '.$sched->starttime;
@@ -1091,6 +1104,7 @@ class GuideController extends Controller
 		'id_sched'=>$id_sched,
 		'vat_nds'=>$vat_nds,
 		'pay'=>$pay,
+		'jcode'=>$jcode,
 		'dis'=>$dis,
 		'invoiceoptions_array'=>$invoiceoptions_array,
 		'info'=>$test,
@@ -1111,6 +1125,7 @@ class GuideController extends Controller
 		$sumtopay = $_POST['sumtopay'];
 		$date = $_POST['date'];
 		$time = $_POST['time'];
+ 		$id_sched = $_POST['id_sched'];
                 $oa_amount_str = number_format($sumtopay, 2, '.', '');
 
 //	$positionsdescriptor = subst('1001', 0, -1); 
@@ -1139,36 +1154,34 @@ class GuideController extends Controller
         $result['psq_response'] = json_decode($responseData);
 	$result['html'] = "<script src=\"https://test.oppwa.com/v1/paymentWidgets.js?checkoutId=".$result['psq_response']->id."\"></script>";
 //	$result['html'] .= "<form action=\"http://seg-touren.de/cherrypit/webapi/psq_lander.php\" class=\"paymentWidgets\">VISA MASTER AMEX</form>";
-	$result['html'] .= "<form action=\"".Yii::app()->createAbsoluteUrl('admin/guide/paymentLand')."\" class=\"paymentWidgets\">VISA MASTER AMEX</form>";
+	$result['html'] .= "<form action=\"".Yii::app()->createAbsoluteUrl('admin/guide/current',array('id_sched'=>$id_sched))."\" class=\"paymentWidgets\">VISA MASTER AMEX</form>";
        echo CJSON::encode(array(
 					'status'=>'failure', 
 					'sum'=>$oa_amount_str, 
 					'div'=>$result));
         }
-        public function actionPaymentLand()
+        private function PaymentLand()
         {
-            		if(isset($_GET["resourcePath"]))
-                        {
-                            $urlplus=$_GET["resourcePath"];
-                            $url = Yii::app()->params['paymenturl'].$urlplus;
-                            $data = Yii::app()->params['paymentid'];
-                            $ch = curl_init();
-                            curl_setopt($ch, CURLOPT_URL, $url."?".$data);
-                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-                            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                            $model = curl_exec($ch);
-                            if(curl_errno($ch)) {
-                                    $model= curl_error($ch);
-                            }
-                            curl_close($ch);
-                                         }
-                            else 
-                               $model='nodata';
-  //             Mainoptions::model()->setCvalue('checkpayment','done');
-           $test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());     
-            $this->render('test',array('model'=>$model,'info'=>$test,));
- 
+            if(isset($_GET["resourcePath"]))
+            {
+                $urlplus=$_GET["resourcePath"];
+                $url = Yii::app()->params['paymenturl'].$urlplus;
+                $data = Yii::app()->params['paymentid'];
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url."?".$data);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $model = curl_exec($ch);
+                if(curl_errno($ch)) {
+                        $model= curl_error($ch);
+                }
+                curl_close($ch);
+                             }
+                else 
+                   $model='nodata';
+                return $model;
+
         }
         
         public function actionAjaxInfo()

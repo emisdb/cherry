@@ -64,7 +64,15 @@
 
         <!-- Main content -->
         <section class="content">
-		<!-- param -->
+            <div class="alert alert-success fade in" id="paysuccess" style="display: none;">
+               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <strong>Success!</strong> <?php echo "".$jcode['message']; ?>
+            </div>		
+            <div class="alert alert-danger fade in" id="payerror" style="display: none;">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+             <strong>Error!</strong> <?php echo "".$jcode["message"]; ?>
+            </div>		
+            <!-- param -->
 			<div class="row">
 			<div class="col-md-8">
 			<div class="row create">
@@ -294,7 +302,8 @@ $(document).ready ( function (){
 	 <?php echo CHtml::ajax(array(
             'url'=>array('ajaxCreditCard'),
 	         'data'=>  array(
-                                 'sumtopay'=>'js:getasum()',
+                                'id_sched'=>$id_sched,
+                                'sumtopay'=>'js:getasum()',
 				 'date'=>$sched['date'],
 				 'time'=>$sched['starttime']),
             'type'=>'post',
@@ -317,7 +326,7 @@ $(document).ready ( function (){
     return true; 
  });
  counttotals();
-
+<?php if ($jcode['result']=="success") echo "$('#paysuccess').show();"; ?>
 });
 
 	 
