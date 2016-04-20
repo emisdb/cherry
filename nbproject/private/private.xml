@@ -20,14 +20,10 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/views/office/_form_gd.php</file>
-            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/views/guide/profile.php</file>
-            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/controllers/OfficeController.php</file>
-            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/views/office/_form_contact.php</file>
-            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/views/guide/contact.php</file>
-            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/controllers/GuideController.php</file>
-            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/views/office/contact.php</file>
-            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/views/guide/_form_contact.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/config/main.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/modules/admin/AdminModule.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/modules/admin/controllers/GuideController.php</file>
+            <file>file:/C:/OpenServer/domains/cherry/protected/modules/admin/controllers/DefaultController.php</file>
         </group>
     </open-files>
 </project-private>

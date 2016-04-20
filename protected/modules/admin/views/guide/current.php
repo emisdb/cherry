@@ -146,12 +146,15 @@
 						$strforjs.=$id.",";
 						echo $gs;
 						echo "</td><td>\n";
+						if($model[$element]->creditcard_id>0)
+							$disabled=array('disabled'=>'disabled');
+						else $disabled=array();
 						if($model[$element]->customersName == '') $model[$element]->customersName = $model[$element]->tourinvoice->contact->firstname.' '. $model[$element]->tourinvoice->contact->surname;
 						echo $form->textField($model[$element],'customersName',array('style'=>'width:170px','name'=>'customersName'.$id)); 
 						echo "</td><td>\n";
-						echo $form->dropDownList($model[$element],'discounttype_id',$list_discount,array('empty' => '--','name'=>'discounttype_id'.$id, 'onChange'=>'discount(value,this.id)'));
+						echo $form->dropDownList($model[$element],'discounttype_id',$list_discount, array_merge(array('empty' => '--','name'=>'discounttype_id'.$id, 'onChange'=>'discount(value,this.id)'),$disabled));
 						echo "</td><td>\n";
-						echo $form->dropDownList($model[$element],'paymentoptionid',$list_pay,array('empty' => '--','name'=>'payoption'.$id, 'onChange'=>'cash(value,this.id)'));
+						echo $form->dropDownList($model[$element],'paymentoptionid',$list_pay,array_merge(array('empty' => '--','name'=>'payoption'.$id, 'onChange'=>'cash(value,this.id)'),	$disabled));
 						echo "</td><td style='text-align: right;'>\n";
 						$bp = $model[$element]->tourinvoice->sched->tourroute_ob['base_price'];
 						$price_sh=0;
@@ -181,7 +184,7 @@
 						echo "</td><td style='padding:2px 3px;'>\n";
 						echo $form->dropDownList($model[$element],'id_invoiceoptions',$list_op,array('empty' => '--','name'=>'option'.$id));
                                                 if((int)($model[$element]->creditcard_id)>0)
-                                                    $options=array('name'=>'creditcard'.$id,'checked'=>'checked','onchange'=>'counttotals()' );
+                                                    $options=array('name'=>'creditcard'.$id,'checked'=>'checked','disabled'=>'disabled','onchange'=>'counttotals()' );
                                                         else
 					         $options=array('name'=>'creditcard'.$id,'onchange'=>'counttotals()' );
 						echo $form->checkBox($model[$element],'creditcard_id',$options);
@@ -270,6 +273,7 @@
 	echo "};\n";
 	echo $strforjs."];\n";
 	?>
+	var cardpays;
 
 $(document).ready ( function (){
 
@@ -302,8 +306,9 @@ $(document).ready ( function (){
 	 <?php echo CHtml::ajax(array(
             'url'=>array('ajaxCreditCard'),
 	         'data'=>  array(
-                                'id_sched'=>$id_sched,
-                                'sumtopay'=>'js:getasum()',
+                 'id_sched'=>$id_sched,
+                 'sumtopay'=>'js:getasum()',
+                'payers'=>'js:cardpays',
 				 'date'=>$sched['date'],
 				 'time'=>$sched['starttime']),
             'type'=>'post',
@@ -312,7 +317,7 @@ $(document).ready ( function (){
             {
                 if (data.status == 'failure'){
 //                    psqdata = $.parseJSON(data.div);
-                     $('#card-title-data').html(data.sum);
+                     $('#card-title-data').html(data.sum+'>'+data.payers);
                   $('#card-modal-data').html(data.div.html);
                  }
                 else
@@ -326,7 +331,11 @@ $(document).ready ( function (){
     return true; 
  });
  counttotals();
-<?php if ($jcode['result']=="success") echo "$('#paysuccess').show();"; ?>
+<?php
+	if ($jcode['result']=="success") echo "$('#paysuccess').show();";
+	if ($jcode['result']=="error") echo "$('#payerror').show();";
+
+?>
 });
 
 	 
@@ -432,6 +441,8 @@ function cash(id,k)
 		 var pay;
 		 var price_cash =0;
 		 var discounttype_id, payment_id;
+		 var blocked;
+		 cardpays=[];
 
 		 for	(index = 0; index < custs.length; index++) {
 			i = custs[index];
@@ -439,7 +450,9 @@ function cash(id,k)
 				//проверка какое значение выбрано в поле discount
 				discounttype_id = document.getElementById('discounttype_id'+i).value;
 				payment_id = document.getElementById('payoption'+i).value;
-				if(payment_id==3){
+				blocked = document.getElementById('payoption'+i).disabled;
+
+				if((payment_id==3)&& !blocked){
 					document.getElementById('creditcard'+i).style.display = 'block';
                                 }
                                 else  {
@@ -465,7 +478,10 @@ function cash(id,k)
 						//price_v = parseFloat(price_s)*vat_nds/100;
 						price_sv = parseFloat(price_s)-parseFloat(price_v);
 						if(pay==1) price_cash = parseFloat(price_cash)+price_su;
-                                                if(document.getElementById('creditcard'+i).checked) price_card=price_card+price_su ;
+                        if(document.getElementById('creditcard'+i).checked && !(blocked)){
+							price_card=price_card+price_su ;
+							cardpays.push(i);
+						}
 					}
 				}
 		 }
@@ -478,7 +494,7 @@ function cash(id,k)
 		 document.getElementById('price_v').innerHTML = price_v;
 		 document.getElementById('price_sv').innerHTML = price_sv;
 		 document.getElementById('price_cash').innerHTML = price_cash;
-                 document.getElementById('price_card').innerHTML = price_card;
+         document.getElementById('price_card').innerHTML = price_card;
 	
  }
  function newtourist() {

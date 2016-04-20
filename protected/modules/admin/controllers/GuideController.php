@@ -14,7 +14,7 @@ class GuideController extends Controller
         
         public function init() {
                 parent::init();
-  		$command=Yii::app()->db->createCommand();
+				$command=Yii::app()->db->createCommand();
                 $command->select('SUM(delta_cash) AS sum');
                 $command->from('cashbox_change_requests');
                 $command->where('id_users=:id AND approvedBy IS NOT NULL AND reject=0', array(':id'=>Yii::app()->user->id));
@@ -1016,9 +1016,27 @@ class GuideController extends Controller
 //                return;
                 if(isset($jarr->result->code))
                 {
-                    $jcode['message']=$jarr->result->code;
-                   $jcode['result']="success";
-                }
+	                  $jcode['message']=  json_encode($json);
+//	                  $jcode['message']=  json_encode($jarr->result);
+					if(preg_match("/^(000\.000\.|000\.100\.1|000\.[36])/",$jarr->result->code))
+					{
+						$jcode['result']="success";	
+						$rec=  new Creditcard();
+						$rec->trans_id=$jarr->id;
+						$rec->card_type=$jarr->paymentBrand;
+						$rec->amount=(float)$jarr->amount;
+						$rec->result_code=$jarr->result->code;
+						$rec->trans_date=$jarr->result->timestamp;
+						$rec->text=$jarr->result->description;
+						if($rec->save())
+						{
+							
+						}
+					}  else {
+						$jcode['result']="error";					
+						
+					}
+                 }
             }
 	
 		$id_control = Yii::app()->user->id;
@@ -1126,6 +1144,7 @@ class GuideController extends Controller
 		$date = $_POST['date'];
 		$time = $_POST['time'];
  		$id_sched = $_POST['id_sched'];
+ 		$payers = $_POST['payers'];
                 $oa_amount_str = number_format($sumtopay, 2, '.', '');
 
 //	$positionsdescriptor = subst('1001', 0, -1); 
@@ -1157,6 +1176,7 @@ class GuideController extends Controller
 	$result['html'] .= "<form action=\"".Yii::app()->createAbsoluteUrl('admin/guide/current',array('id_sched'=>$id_sched))."\" class=\"paymentWidgets\">VISA MASTER AMEX</form>";
        echo CJSON::encode(array(
 					'status'=>'failure', 
+					'payers'=>$payers, 
 					'sum'=>$oa_amount_str, 
 					'div'=>$result));
         }
