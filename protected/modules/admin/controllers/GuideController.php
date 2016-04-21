@@ -1024,8 +1024,19 @@ class GuideController extends Controller
                     if(Yii::app()->user->hasState("payers"))
                     {
                             $postdata= json_decode(Yii::app()->user->getState("payers"));
+                            $post=array();
                              Yii::app()->user->setState('payers', null);
+                             foreach ($postdata as $value) {
+                                 $post['customersName'.$value[0]]=$value[1];
+                                 $post['discounttype_id'.$value[0]]=  strlen($value[2])>0 ? (int) $value[2] : null;
+                                 $post['price'.$value[0]]=  strlen($value[3])>0 ? (float) $value[3] : null;
+                                 $post['payoption'.$value[0]]=3;
+                                 $post['option'.$value[0]]=0;
+                                 
+                                 
+                             }
                     }
+                    
 
                     $jcode['message']=  json_encode($postdata);
                     if(preg_match("/^(000\.000\.|000\.100\.1|000\.[36])/",$jarr->result->code))

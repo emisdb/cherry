@@ -481,7 +481,7 @@ function cash(id,k)
 						if(payment_id==1) price_cash = parseFloat(price_cash)+price_su;
                         if(document.getElementById('creditcard'+i).checked && !(blocked)){
 							price_card=price_card+price_su ;
-							cardpays.push([i,cust,discounttype_id,payment_id]);
+							cardpays.push([i,cust,discounttype_id,price_su.toFixed(2))]);
 						}
 					}
 				}
