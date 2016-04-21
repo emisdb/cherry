@@ -1038,7 +1038,7 @@ class GuideController extends Controller
                                 if(Yii::app()->user->hasState("payers"))
                                 {
                                         $postdata= json_decode(Yii::app()->user->getState("payers"));
-                                        $jcode['message']=  json_encode($postdata);
+                                        $jcode['message']=  "Payment was done. Sum:".$rec->amount." &euro;";
                                         $post=array();
                                          Yii::app()->user->setState('payers', null);
                                          foreach ($postdata as $value) {
