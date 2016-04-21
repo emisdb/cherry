@@ -459,11 +459,6 @@ class SegScheduledToursController extends Controller
 		{
 			$postdata=  get_object_vars(json_decode(Yii::app()->user->getState("city_data")));
 			$model->setAttributes($postdata);
-//			var_dump($postdata);
-//			echo "<hr>";
-//			var_dump($model->attributes);
-//			return;
-//			$model->setAttribute("city_data",$postdata['date'] );
 			Yii::app()->user->setState('city_data', null);
 		}
   

@@ -317,7 +317,7 @@ $(document).ready ( function (){
             {
                 if (data.status == 'failure'){
 //                    psqdata = $.parseJSON(data.div);
-                     $('#card-title-data').html(data.sum+'>'+data.payers);
+                     $('#card-title-data').html(' tourists: '+data.payers+' total: '+data.sum);
                   $('#card-modal-data').html(data.div.html);
                  }
                 else
@@ -438,19 +438,20 @@ function cash(id,k)
 		 var price_v=0;
 		 var price_sv=0;
 		 var price_card=0;
-		 var pay;
+		 var cust;
 		 var price_cash =0;
 		 var discounttype_id, payment_id;
 		 var blocked;
+                 
 		 cardpays=[];
 
 		 for	(index = 0; index < custs.length; index++) {
 			i = custs[index];
-			pay = document.getElementById('payoption'+i).value;
 				//проверка какое значение выбрано в поле discount
-				discounttype_id = document.getElementById('discounttype_id'+i).value;
-				payment_id = document.getElementById('payoption'+i).value;
-				blocked = document.getElementById('payoption'+i).disabled;
+                        cust = document.getElementById('customersName'+i).value;
+                        discounttype_id = document.getElementById('discounttype_id'+i).value;
+                        payment_id = document.getElementById('payoption'+i).value;
+                        blocked = document.getElementById('payoption'+i).disabled;
 
 				if((payment_id==3)&& !blocked){
 					document.getElementById('creditcard'+i).style.display = 'block';
@@ -469,7 +470,7 @@ function cash(id,k)
 				}
 		
 				if(discounttype_id!=42){
-					if(pay!=""){
+					if(payment_id!=""){
 						price_su = parseFloat(document.getElementById('price_i'+i).value);
 						price_s = parseFloat(price_s)+price_su;
 						d1 = vat_nds/100+1;
@@ -477,10 +478,10 @@ function cash(id,k)
 						price_v = parseFloat(price_s)*d2;
 						//price_v = parseFloat(price_s)*vat_nds/100;
 						price_sv = parseFloat(price_s)-parseFloat(price_v);
-						if(pay==1) price_cash = parseFloat(price_cash)+price_su;
+						if(payment_id==1) price_cash = parseFloat(price_cash)+price_su;
                         if(document.getElementById('creditcard'+i).checked && !(blocked)){
 							price_card=price_card+price_su ;
-							cardpays.push(i);
+							cardpays.push([i,cust,discounttype_id,payment_id]);
 						}
 					}
 				}
