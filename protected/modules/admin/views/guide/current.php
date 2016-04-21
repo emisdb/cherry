@@ -185,7 +185,8 @@
 						echo "</td><td style='padding:2px 3px;'>\n";
 						echo $form->dropDownList($model[$element],'id_invoiceoptions',$list_op,array('empty' => '--','name'=>'option'.$id));
                                                 if((int)($model[$element]->creditcard_id)>0)
-                                                    $options=array('name'=>'creditcard'.$id,'checked'=>'checked','disabled'=>'disabled','onchange'=>'counttotals()' );
+//                                                    $options=array('name'=>'creditcard'.$id,'checked'=>'checked','disabled'=>'disabled','onchange'=>'counttotals()' );
+                                                    $options=array('name'=>'creditcard'.$id,'disabled'=>'disabled','onchange'=>'counttotals()' );
                                                         else
 					         $options=array('name'=>'creditcard'.$id,'onchange'=>'counttotals()' );
 						echo $form->checkBox($model[$element],'creditcard_id',$options);
