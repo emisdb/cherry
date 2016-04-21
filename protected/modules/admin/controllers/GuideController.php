@@ -1021,24 +1021,8 @@ class GuideController extends Controller
 //                return;
                 if(isset($jarr->result->code))
                 {
-                    if(Yii::app()->user->hasState("payers"))
-                    {
-                            $postdata= json_decode(Yii::app()->user->getState("payers"));
-                            $post=array();
-                             Yii::app()->user->setState('payers', null);
-                             foreach ($postdata as $value) {
-                                 $post['customersName'.$value[0]]=$value[1];
-                                 $post['discounttype_id'.$value[0]]=  strlen($value[2])>0 ? (int) $value[2] : null;
-                                 $post['price'.$value[0]]=  strlen($value[3])>0 ? (float) $value[3] : null;
-                                 $post['payoption'.$value[0]]=3;
-                                 $post['option'.$value[0]]=0;
-                                 
-                                 
-                             }
-                    }
                     
 
-                    $jcode['message']=  json_encode($postdata);
                     if(preg_match("/^(000\.000\.|000\.100\.1|000\.[36])/",$jarr->result->code))
                     {
                             $jcode['result']="success";	
@@ -1051,7 +1035,21 @@ class GuideController extends Controller
                             $rec->text=$jarr->result->description;
                             if($rec->save())
                             {
-
+                                if(Yii::app()->user->hasState("payers"))
+                                {
+                                        $postdata= json_decode(Yii::app()->user->getState("payers"));
+                                        $jcode['message']=  json_encode($postdata);
+                                        $post=array();
+                                         Yii::app()->user->setState('payers', null);
+                                         foreach ($postdata as $value) {
+                                             $post['customersName'.$value[0]]=$value[1];
+                                             $post['discounttype_id'.$value[0]]=  strlen($value[2])>0 ? (int) $value[2] : null;
+                                             $post['price'.$value[0]]=  strlen($value[3])>0 ? (float) $value[3] : null;
+                                             $post['payoption'.$value[0]]=3;
+                                             $post['option'.$value[0]]=0;
+                                         }
+                                         $this->saveGIC($sched, $post,$rec->id);
+                                }
                             }
                     }  else {
                             $jcode['result']="error";					
@@ -1104,7 +1102,7 @@ class GuideController extends Controller
 	));
 
         }
-        private function saveGIC($sched,$post)
+        private function saveGIC($sched,$post,$cc=null)
         {
             foreach ($sched->guidestourinvoices as $invoice) {
 		$model=$invoice->guidestourinvoicescustomers;
@@ -1117,9 +1115,9 @@ class GuideController extends Controller
 		$invoice_id =  $invoice->idseg_guidesTourInvoices;			
 		for($k=0;$k<count($model);$k++)
 		{
+                    $kk=$model[$k]->idseg_guidesTourInvoicesCustomers;
                     if(isset($post['price'.$kk]))
                     {
-                        $kk=$model[$k]->idseg_guidesTourInvoicesCustomers;
                         $count_cust++;
                         $model[$k]->tourInvoiceid = $invoice_id;
                         $model[$k]->customersName = $post['customersName'.$kk];
@@ -1141,6 +1139,7 @@ class GuideController extends Controller
                             $model[$k]->isPaid = 0;
                             $model[$k]->price = 0;
                         }
+                        if($cc) $model[$k]->creditcard_id=$cc;
                         if($model[$k]->save()) $changes=true;
                     }    
 		}
@@ -1207,6 +1206,7 @@ class GuideController extends Controller
 
        echo CJSON::encode(array(
 					'status'=>'failure', 
+//					'payers'=>json_encode($payers), 
 					'payers'=>count($payers), 
 					'sum'=>$oa_amount_str, 
 					'div'=>$result));
