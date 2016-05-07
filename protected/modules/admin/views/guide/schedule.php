@@ -62,6 +62,41 @@ $datetime = time();
 	'rowCssClassExpression' => '$data->openTour || $data->date_now > '.$datetime.' ? "table_scheduled" : "table_scheduled_pdf"', 
 	//'rowCssClassExpression' => '$date->openTour ? "table_scheduled" : "table_scheduled_pdf"', 
 	'columns'=>array(
+        array(
+            'name'=>'idseg_scheduled_tours',
+            'value'=>array($model,'opendoc'),
+                        'type'=>'raw',
+             'headerHtmlOptions'=>array('class'=>'info'),
+            //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
+        ),
+       array(
+            'name'=>'date_now',
+            'value'=>'date("d.m.Y",$data->date_now)',
+			'headerHtmlOptions'=>array('class'=>'info'),
+            //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
+        ),
+        array(
+            'name'=>'starttime',
+                         'type'=>'raw',
+           'value'=>"Yii::app()->dateFormatter->format('HH:mm',strtotime(\$data->starttime))",
+   						'headerHtmlOptions'=>array('class'=>'info'),
+         //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
+        ),
+    	array(
+            'name'=>'tourroute_ob',
+            'value'=>'$data->tourroute_ob["name"]',
+            'headerHtmlOptions'=>array('class'=>'info'),
+        //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
+        ),
+  
+         array(
+            'name'=>'current_subscribers',
+            'value'=>'$data->current_subscribers."/".$data->TNmax_sched',  
+    						'headerHtmlOptions'=>array('class'=>'info'),
+        //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
+        ),
+    // 'current_subscribers',
+	//	'date_now',
 		array(
 		
 				'class'=>'CButtonColumn',
@@ -90,39 +125,6 @@ $datetime = time();
 				),
 						'headerHtmlOptions'=>array('class'=>'info'),
 		),
-        array(
-            'name'=>'idseg_scheduled_tours',
- 			'headerHtmlOptions'=>array('class'=>'info'),
-            //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
-        ),
-       array(
-            'name'=>'date_now',
-            'value'=>'date("d.m.Y",$data->date_now)',
-			'headerHtmlOptions'=>array('class'=>'info'),
-            //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
-        ),
-        array(
-            'name'=>'starttime',
-                         'type'=>'raw',
-           'value'=>"Yii::app()->dateFormatter->format('HH:mm',strtotime(\$data->starttime))",
-   						'headerHtmlOptions'=>array('class'=>'info'),
-         //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
-        ),
-    	array(
-            'name'=>'tourroute_ob',
-            'value'=>'$data->tourroute_ob["name"]',
-    						'headerHtmlOptions'=>array('class'=>'info'),
-        //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
-        ),
-  
-         array(
-            'name'=>'current_subscribers',
-            'value'=>'$data->current_subscribers."/".$data->TNmax_sched',  
-    						'headerHtmlOptions'=>array('class'=>'info'),
-        //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
-        ),
-    // 'current_subscribers',
-	//	'date_now',
 
 
 	),
