@@ -12,7 +12,7 @@ class OfficeController extends Controller
         public function init() {
                 parent::init();
   		$command=Yii::app()->db->createCommand();
-        $command->select('SUM(delta_cash) AS sum');
+            $command->select('SUM(delta_cash) AS sum');
         $command->from('cashbox_change_requests');
         $command->where('approvedBy IS NOT NULL');
 
@@ -489,9 +489,10 @@ class OfficeController extends Controller
                 {
                    if(isset($_POST['SegGuidesdata']))
                     {
-                       $modelgd->attributes=$_POST['SegGuidesdata'];
-                           $lnk_to_picture_old = $modelgd->lnk_to_picture;
-                            $modelgd->doc = CUploadedFile::getInstance($modelgd,'doc');
+                          $lnk_to_picture_old = $modelgd->lnk_to_picture;
+                         $lnk_to_license_old = $modelgd->lnk_to_license;
+                      $modelgd->attributes=$_POST['SegGuidesdata'];
+                             $modelgd->image = CUploadedFile::getInstance($modelgd,'image');
                                              if($modelgd->image!=""){
                                              if((($lnk_to_picture_old!="")||($lnk_to_picture_old!=NULL))&& file_exists('image/guide/'.$lnk_to_picture_old))
                                         unlink('image/guide/'.$lnk_to_picture_old);
@@ -499,6 +500,17 @@ class OfficeController extends Controller
                                     $modelgd->lnk_to_picture = $name_uniqid;
                                     $file = 'image/guide/'.$modelgd->lnk_to_picture;
                                     $modelgd->image->saveAs($file);
+                                }
+                             $modelgd->doc = CUploadedFile::getInstance($modelgd,'doc');
+                                  if($modelgd->doc!=""){
+                                    if((($lnk_to_license_old!="")||($lnk_to_license_old!=NULL)) && file_exists('image/guide/'.$lnk_to_license_old))
+                                        unlink('image/guide/'.$lnk_to_license_old);
+                                    $ext=pathinfo($modelgd->doc, PATHINFO_EXTENSION);
+                                      $name_uniqid = uniqid().".".$ext;
+                                    $modelgd->lnk_to_license = $name_uniqid;
+                                    $file = 'image/guide/'.$modelgd->lnk_to_license;
+                                    $modelgd->doc->saveAs($file);
+                                  
                                 }
 
 

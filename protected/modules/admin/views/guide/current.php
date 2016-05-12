@@ -352,22 +352,26 @@ function discount(id,k){
                 }
 		 var price=0;
 		 var val,type;
-		 if(id==""){
-			val = 0;
-			type = "%";
-		 }
-		 else
-		 {
-		  val = discounts[id][0];
- 		  type = discounts[id][1];
-		 }
-		 var base_price = parseInt(document.getElementById('base_price'+k).innerHTML);
-		 if(type=='euro'){
-			price =base_price-val;
-		 }
-		 if(type=='%'){
-			 price = base_price-base_price*val/100;
-		 }
+                 var base_price = parseInt(document.getElementById('base_price'+k).innerHTML);
+                 if(parseInt(id)<41)
+                 {
+
+                    if(id==""){
+                           val = 0;
+                           type = "%";
+                    }
+                    else
+                    {
+                     val = discounts[id][0];
+                     type = discounts[id][1];
+                    }
+                    if(type=='euro'){
+                           price =base_price-val;
+                    }
+                    if(type=='%'){
+                           price = base_price-base_price*val/100;
+                    }
+                }
 		 price = price.toFixed(2);
 			document.getElementById('price'+k).innerHTML = price;
 			document.getElementById('price_i'+k).value = price;
