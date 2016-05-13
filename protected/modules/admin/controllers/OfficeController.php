@@ -613,7 +613,7 @@ class OfficeController extends Controller
   	public function actionGuide($id,$id_user)
 	{
 	    $id_control = Yii::app()->user->id;
-        $update_user = User::model()->findByPk($id_user);
+            $update_user = User::model()->findByPk($id_user);
    		$model=$this->loadGuideData($id);
 		
 		$criteria_user=new CDbCriteria;
@@ -622,8 +622,8 @@ class OfficeController extends Controller
 		$id_user = User::model()->find($criteria_user)->id;
 
 		$criteria_guidestourroutes=new CDbCriteria;
-        $criteria_guidestourroutes->condition='usersid=:usersid';
-        $criteria_guidestourroutes->params=array(':usersid'=>$id_user);
+                $criteria_guidestourroutes->condition='usersid=:usersid';
+                $criteria_guidestourroutes->params=array(':usersid'=>$id_user);
   		$istourroutes = count(SegGuidesTourroutes::model()->findAll($criteria_guidestourroutes));
 
 		// Uncomment the following line if AJAX validation is needed
@@ -632,8 +632,8 @@ class OfficeController extends Controller
 		if(isset($_POST['SegGuidesdata']))
 		{
 			$model->attributes=$_POST['SegGuidesdata'];
-            $lnk_to_picture_old = $model->lnk_to_picture;
-            $model->image = CUploadedFile::getInstance($model,'image');
+                        $lnk_to_picture_old = $model->lnk_to_picture;
+                        $model->image = CUploadedFile::getInstance($model,'image');
             
            // print_r( $_POST['SegGuidesdata']);
             // print_r( $model->image);

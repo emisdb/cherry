@@ -124,6 +124,7 @@ class SegCities extends CActiveRecord
 			'mailVoucherDisplayName' => 'Mail Voucher Display Name',
 			'mailCancellationDisplayName' => 'Mail Cancellation Display Name',
 			'webadress' => 'Webadress',
+			'picture_city' => 'Picture',
 			'localPhone' => 'Local Phone',
 			'localStreet' => 'Local Street',
 			'localHouse' => 'Local House',

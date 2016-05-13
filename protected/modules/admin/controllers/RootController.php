@@ -154,7 +154,6 @@ class RootController extends Controller
  }
 	public function actionUupdate($id)
 	{
-        $id_control = Yii::app()->user->id;
     		$model=$this->loadModel($id);
     
     		// Uncomment the following line if AJAX validation is needed
@@ -531,14 +530,14 @@ class RootController extends Controller
 
 		if(isset($_POST['SegCities']))
 		{
-			$model->attributes=$_POST['SegCities'];
-			if($model->save())
-				$this->redirect(array('cadmin'));
+                    $model->attributes=$_POST['SegCities'];
+                    if($model->save())
+                            $this->redirect(array('cadmin'));
 		}
 
-			$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
 
-	$this->render('cupdate',array(
+                $this->render('cupdate',array(
 				'info'=>$test,
 		'model'=>$model,
 		));
