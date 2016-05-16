@@ -530,17 +530,34 @@ class RootController extends Controller
 
 		if(isset($_POST['SegCities']))
 		{
+                    $lnk_to_picture_old = $model->picture_city;
                     $model->attributes=$_POST['SegCities'];
-                    if($model->save())
-                            $this->redirect(array('cadmin'));
-		}
+                    $model->image = CUploadedFile::getInstance($model,'image');
+            
+           // print_r( $_POST['SegGuidesdata']);
+            // print_r( $model->image);
+            
+                if($model->image!=""){
+                    $name_uniqid = uniqid();
+                    //$lnk_to_picture_old = $model->lnk_to_picture;
+                    $model->picture_city = $name_uniqid;
 
+                       if((($lnk_to_picture_old!="")||($lnk_to_picture_old!=NULL))&& file_exists('img/'.$lnk_to_picture_old))
+                                        unlink('img/'.$lnk_to_picture_old);
+                        $file = 'img/'.$model->picture_city;
+                        $model->image->saveAs($file);
+                    }
+
+                    if($model->save())
+                                $this->redirect(array('cadmin'));
+                }
 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
 
                 $this->render('cupdate',array(
 				'info'=>$test,
 		'model'=>$model,
 		));
+                
 	}
 		public function actionSadmin()
 	{

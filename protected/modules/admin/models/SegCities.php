@@ -53,9 +53,7 @@
  */
 class SegCities extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
+	public $image; 
 	public function tableName()
 	{
 		return 'seg_cities';
@@ -82,7 +80,7 @@ class SegCities extends CActiveRecord
 			array('google_analytics_id_booking_de, google_conversions_id_booking_de, google_conversions_label_booking_de, google_analytics_id_booking_en, google_conversions_id_booking_en, google_conversions_label_booking_en', 'length', 'max'=>25),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idseg_cities, seg_cityname, shortname, segway_amount, mailInfo, mailBuchungen, mailBookings, mailVoucher, mailCancellation, mailInfoDisplayName, mailBuchungenDisplayName, mailBookingsDisplayName, mailVoucherDisplayName, mailCancellationDisplayName, webadress, localPhone, localStreet, localHouse, localPLZ, mailInfoAccount, mailBuchungenAccount, mailBookingsAccount, mailVoucherAccount, mailCancellationAccount, mailInfoPW, mailBuchungenPW, mailBookingsPW, mailVoucherPW, mailCancellationPW, webadress_en, gmaps_lnk, meetingpoint_description, meetingpoint_description_en, standart_toursize, cashaccount_DTV, tripadvisor_lnk, facebook_lnk, google_analytics_id, google_conversions_id, google_conversions_label, google_analytics_id_booking_de, google_conversions_id_booking_de, google_conversions_label_booking_de, google_analytics_id_booking_en, google_conversions_id_booking_en, google_conversions_label_booking_en', 'safe', 'on'=>'search'),
+			array('idseg_cities, seg_cityname, shortname, segway_amount, mailInfo, mailBuchungen, mailBookings, mailVoucher, mailCancellation, mailInfoDisplayName, mailBuchungenDisplayName, mailBookingsDisplayName, mailVoucherDisplayName, mailCancellationDisplayName, webadress, localPhone, localStreet, localHouse, localPLZ, mailInfoAccount, mailBuchungenAccount, mailBookingsAccount, mailVoucherAccount, mailCancellationAccount, mailInfoPW, mailBuchungenPW, mailBookingsPW, mailVoucherPW, mailCancellationPW, webadress_en, gmaps_lnk, meetingpoint_description, meetingpoint_description_en, standart_toursize, cashaccount_DTV, tripadvisor_lnk, facebook_lnk, google_analytics_id, google_conversions_id, google_conversions_label, google_analytics_id_booking_de, google_conversions_id_booking_de, google_conversions_label_booking_de, google_analytics_id_booking_en, google_conversions_id_booking_en, google_conversions_label_booking_en, image', 'safe', 'on'=>'search'),
 		);
 	}
 

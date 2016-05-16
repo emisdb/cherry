@@ -8,15 +8,9 @@
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'seg-cities-form',
-	// Please note: When you enable ajax validation, make sure the corresponding
-	// controller action is handling ajax validation correctly.
-	// There is a call to performAjaxValidation() commented in generated controller code.
-	// See class documentation of CActiveForm for details on this.
+        'htmlOptions'=>array('enctype'=>'multipart/form-data'),
 	'enableAjaxValidation'=>false,
 )); ?>
-
-
-
 	<?php echo $form->errorSummary($model); ?>
      <div class="box box-primary" >
         <div class="box-header with-border">
@@ -41,6 +35,20 @@
             </div>
          </div>
        </div>
+ 	<div class="row">
+		<div class="col-md-12">
+			<div class="form-group">
+ 		<?php
+                    echo $form->labelEx($model,'picture_city',array('style'=>'margin-right:10px;'));
+                     if($model->picture_city !=""){
+                        echo CHtml::image(Yii::app()->request->baseUrl.'/img/'. $model->picture_city,'City\'s image',array('style'=>'height: 150px;'));
+                    }
+                    echo $form->FileField($model,'image');
+                    echo $form->error($model,'picture_city');
+                  ?>
+ 		</div>
+		</div>  
+    	</div>  
         </div>
     </div>
      <div class="box box-primary" >

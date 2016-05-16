@@ -31,7 +31,7 @@ class CashboxChangeRequests extends CActiveRecord
         		$command=Yii::app()->db->createCommand();
                         $command->select('SUM(delta_cash) AS sum');
                         $command->from('cashbox_change_requests');
-                        $command->where('id_users=:id AND request_date < :rd', array(':id'=>$this->id_users,':rd'=>date('Y-m-d H:i:s', strtotime($this->from_date))));
+                        $command->where('id_users=:id AND request_date < :rd AND approvedBy IS NOT NULL AND reject=0', array(':id'=>$this->id_users,':rd'=>date('Y-m-d H:i:s', strtotime($this->from_date))));
                         $this->_start= $command->queryScalar();
                         return $this->_start;
 

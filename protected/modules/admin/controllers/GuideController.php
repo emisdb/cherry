@@ -14,7 +14,7 @@ class GuideController extends Controller
         
         public function init() {
                 parent::init();
-				$command=Yii::app()->db->createCommand();
+		$command=Yii::app()->db->createCommand();
                 $command->select('SUM(delta_cash) AS sum');
                 $command->from('cashbox_change_requests');
                 $command->where('id_users=:id AND approvedBy IS NOT NULL AND reject=0', array(':id'=>Yii::app()->user->id));
@@ -507,7 +507,9 @@ class GuideController extends Controller
  			'city'=>$city,
  			'err'=>$err,
 				));
-	}	public function actionSpontour($date,$err=null)
+	}
+        
+        public function actionSpontour($date,$err=null)
 	{
 	    $id_control = Yii::app()->user->id;
        // $update_user = User::model()->findByPk($id_user);
@@ -848,7 +850,8 @@ class GuideController extends Controller
 			'model'=>$model,'id_control'=>$id_control,'info'=>$test,'date'=> $Datef,
 		));
 	}
-		public function actionCashReport()
+	
+        public function actionCashReport()
 	{
 		$id_control = Yii::app()->user->id;
 		$model=new CashboxChangeRequests('search');
