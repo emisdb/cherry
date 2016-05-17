@@ -888,7 +888,8 @@ class GuideController extends Controller
 
 	protected function minusing($data,$row){
                 $ret=$this->totrest;
-		$this->totrest=$this->totrest-$data->delta_cash;
+                if(!is_null($data->approvedBy))
+                    $this->totrest=$this->totrest-$data->delta_cash;
 		return Yii::app()->numberFormatter->formatCurrency($ret, '') ;
 	}
 
