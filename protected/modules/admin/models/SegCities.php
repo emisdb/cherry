@@ -70,7 +70,7 @@ class SegCities extends CActiveRecord
 		// will receive user inputs.
 		return array(
 //			array('mailInfoAccount, mailBuchungenAccount, mailBookingsAccount, mailVoucherAccount, mailCancellationAccount, mailInfoPW, mailBuchungenPW, mailBookingsPW, mailVoucherPW, mailCancellationPW, webadress_en, gmaps_lnk, meetingpoint_description, meetingpoint_description_en, standart_toursize, cashaccount_DTV, tripadvisor_lnk, facebook_lnk, google_analytics_id, google_conversions_id, google_conversions_label, google_analytics_id_booking_de, google_conversions_id_booking_de, google_conversions_label_booking_de, google_analytics_id_booking_en, google_conversions_id_booking_en, google_conversions_label_booking_en', 'required'),
-			array('segway_amount, standart_toursize, google_conversions_id', 'numerical', 'integerOnly'=>true),
+			array('standart_toursize, google_conversions_id', 'numerical', 'integerOnly'=>true),
 			array('seg_cityname, mailInfo, mailBuchungen, mailBookings, mailVoucher, mailCancellation, mailInfoDisplayName, mailBuchungenDisplayName, mailBookingsDisplayName, mailVoucherDisplayName, mailCancellationDisplayName, webadress, localPhone, localPLZ, mailInfoAccount, mailBuchungenAccount, mailBookingsAccount, mailVoucherAccount, mailCancellationAccount, mailInfoPW, mailBuchungenPW, mailBookingsPW, mailVoucherPW, mailCancellationPW, webadress_en', 'length', 'max'=>45),
 			array('shortname', 'length', 'max'=>3),
 			array('localStreet', 'length', 'max'=>60),
@@ -82,7 +82,7 @@ class SegCities extends CActiveRecord
 			array('google_analytics_id_booking_de, google_conversions_id_booking_de, google_conversions_label_booking_de, google_analytics_id_booking_en, google_conversions_id_booking_en, google_conversions_label_booking_en', 'length', 'max'=>25),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('idseg_cities, seg_cityname, shortname, segway_amount, mailInfo, mailBuchungen, mailBookings, mailVoucher, mailCancellation, mailInfoDisplayName, mailBuchungenDisplayName, mailBookingsDisplayName, mailVoucherDisplayName, mailCancellationDisplayName, webadress, localPhone, localStreet, localHouse, localPLZ, mailInfoAccount, mailBuchungenAccount, mailBookingsAccount, mailVoucherAccount, mailCancellationAccount, mailInfoPW, mailBuchungenPW, mailBookingsPW, mailVoucherPW, mailCancellationPW, webadress_en, gmaps_lnk, meetingpoint_description, meetingpoint_description_en, standart_toursize, cashaccount_DTV, tripadvisor_lnk, facebook_lnk, google_analytics_id, google_conversions_id, google_conversions_label, google_analytics_id_booking_de, google_conversions_id_booking_de, google_conversions_label_booking_de, google_analytics_id_booking_en, google_conversions_id_booking_en, google_conversions_label_booking_en', 'safe', 'on'=>'search'),
+			array('idseg_cities, seg_cityname, shortname,  mailInfo, mailBuchungen, mailBookings, mailVoucher, mailCancellation, mailInfoDisplayName, mailBuchungenDisplayName, mailBookingsDisplayName, mailVoucherDisplayName, mailCancellationDisplayName, webadress, localPhone, localStreet, localHouse, localPLZ, mailInfoAccount, mailBuchungenAccount, mailBookingsAccount, mailVoucherAccount, mailCancellationAccount, mailInfoPW, mailBuchungenPW, mailBookingsPW, mailVoucherPW, mailCancellationPW, webadress_en, gmaps_lnk, meetingpoint_description, meetingpoint_description_en, standart_toursize, cashaccount_DTV, tripadvisor_lnk, facebook_lnk, google_analytics_id, google_conversions_id, google_conversions_label, google_analytics_id_booking_de, google_conversions_id_booking_de, google_conversions_label_booking_de, google_analytics_id_booking_en, google_conversions_id_booking_en, google_conversions_label_booking_en', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -112,7 +112,7 @@ class SegCities extends CActiveRecord
 			'idseg_cities' => 'Id Cities',
 			'seg_cityname' => 'City name',
 			'shortname' => 'Short name',
-			'segway_amount' => 'Amount',
+//			'segway_amount' => 'Amount',
 			'mailInfo' => 'Mail Info',
 			'mailBuchungen' => 'Mail Buchungen',
 			'mailBookings' => 'Mail Bookings',
@@ -179,7 +179,7 @@ class SegCities extends CActiveRecord
 		$criteria->compare('idseg_cities',$this->idseg_cities);
 		$criteria->compare('seg_cityname',$this->seg_cityname,true);
 		$criteria->compare('shortname',$this->shortname,true);
-		$criteria->compare('segway_amount',$this->segway_amount);
+//		$criteria->compare('segway_amount',$this->segway_amount);
 		$criteria->compare('mailInfo',$this->mailInfo,true);
 		$criteria->compare('mailBuchungen',$this->mailBuchungen,true);
 		$criteria->compare('mailBookings',$this->mailBookings,true);
