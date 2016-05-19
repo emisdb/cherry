@@ -22,7 +22,7 @@
 
 </head>
 
-  <body class="hold-transition skin-blue sidebar-mini">
+  <body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
     <div class="wrapper">
       <!-- Left side column. contains the logo and sidebar -->
       <aside class="main-sidebar">

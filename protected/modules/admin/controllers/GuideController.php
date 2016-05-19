@@ -14,7 +14,7 @@ class GuideController extends Controller
         
         public function init() {
                 parent::init();
-				$command=Yii::app()->db->createCommand();
+		$command=Yii::app()->db->createCommand();
                 $command->select('SUM(delta_cash) AS sum');
                 $command->from('cashbox_change_requests');
                 $command->where('id_users=:id AND approvedBy IS NOT NULL AND reject=0', array(':id'=>Yii::app()->user->id));
@@ -507,7 +507,9 @@ class GuideController extends Controller
  			'city'=>$city,
  			'err'=>$err,
 				));
-	}	public function actionSpontour($date,$err=null)
+	}
+        
+        public function actionSpontour($date,$err=null)
 	{
 	    $id_control = Yii::app()->user->id;
        // $update_user = User::model()->findByPk($id_user);
@@ -848,7 +850,8 @@ class GuideController extends Controller
 			'model'=>$model,'id_control'=>$id_control,'info'=>$test,'date'=> $Datef,
 		));
 	}
-		public function actionCashReport()
+	
+        public function actionCashReport()
 	{
 		$id_control = Yii::app()->user->id;
 		$model=new CashboxChangeRequests('search');
@@ -885,7 +888,8 @@ class GuideController extends Controller
 
 	protected function minusing($data,$row){
                 $ret=$this->totrest;
-		$this->totrest=$this->totrest-$data->delta_cash;
+                if(!is_null($data->approvedBy))
+                    $this->totrest=$this->totrest-$data->delta_cash;
 		return Yii::app()->numberFormatter->formatCurrency($ret, '') ;
 	}
 
@@ -1006,6 +1010,11 @@ class GuideController extends Controller
 	}
 	public function actionCurrent($id_sched,$id=null)
 	{
+  		$id_control = Yii::app()->user->id;
+                $guide = User::model()->findByPk($id_control);
+		$sched = SegScheduledTours::model()->with(array('guidestourinvoices'=>array('guidestourinvoicescustomers','contact')))->findByPk($id_sched);
+		if(is_null($sched)) 	throw new CHttpException(404,'The requested tour does not exist.');
+
             $json=$this->PaymentLand();
             $jcode['result']="none";
             $jcode['message']="";
@@ -1016,33 +1025,44 @@ class GuideController extends Controller
 //                return;
                 if(isset($jarr->result->code))
                 {
-	                  $jcode['message']=  json_encode($json);
-//	                  $jcode['message']=  json_encode($jarr->result);
-					if(preg_match("/^(000\.000\.|000\.100\.1|000\.[36])/",$jarr->result->code))
-					{
-						$jcode['result']="success";	
-						$rec=  new Creditcard();
-						$rec->trans_id=$jarr->id;
-						$rec->card_type=$jarr->paymentBrand;
-						$rec->amount=(float)$jarr->amount;
-						$rec->result_code=$jarr->result->code;
-						$rec->trans_date=$jarr->result->timestamp;
-						$rec->text=$jarr->result->description;
-						if($rec->save())
-						{
-							
-						}
-					}  else {
-						$jcode['result']="error";					
-						
-					}
+                    
+
+                    if(preg_match("/^(000\.000\.|000\.100\.1|000\.[36])/",$jarr->result->code))
+                    {
+                            $jcode['result']="success";	
+                            $rec=  new Creditcard();
+                            $rec->trans_id=$jarr->id;
+                            $rec->card_type=$jarr->paymentBrand;
+                            $rec->amount=(float)$jarr->amount;
+                            $rec->result_code=$jarr->result->code;
+                            $rec->trans_date=$jarr->timestamp;
+                            $rec->text=$jarr->result->description;
+                            if($rec->save())
+                            {
+                                if(Yii::app()->user->hasState("payers"))
+                                {
+                                        $postdata= json_decode(Yii::app()->user->getState("payers"));
+                                        $jcode['message']=  "Payment was done. Sum:".$rec->amount." &euro;";
+                                        $post=array();
+                                         Yii::app()->user->setState('payers', null);
+                                         foreach ($postdata as $value) {
+                                             $post['customersName'.$value[0]]=$value[1];
+                                             $post['discounttype_id'.$value[0]]=  strlen($value[2])>0 ? (int) $value[2] : null;
+                                             $post['price'.$value[0]]=  strlen($value[3])>0 ? (float) $value[3] : null;
+                                             $post['payoption'.$value[0]]=3;
+                                             $post['option'.$value[0]]=0;
+                                         }
+                                         $this->saveGIC($sched, $post,$rec->id);
+                                }
+                            }
+                    }  else {
+                            $jcode['result']="error";					
+
+                    }
                  }
             }
-	
-		$id_control = Yii::app()->user->id;
-                $guide = User::model()->findByPk($id_control);
-		$sched = SegScheduledTours::model()->with(array('guidestourinvoices'=>array('guidestourinvoicescustomers','contact')))->findByPk($id_sched);
-		if(is_null($sched)) 	throw new CHttpException(404,'The requested tour does not exist.');
+                            Yii::app()->user->setState('payers', null);
+ 	
 		if($sched->additional_info2) $this->redirect(array('schedule'));
  			$date_format = strtotime($sched->date);
 			$date_bd = date('Y-m-d',$date_format);
@@ -1056,58 +1076,15 @@ class GuideController extends Controller
 			$vat_nds = Mainoptions::model()->find($criteria_vat)->value;
 			$criteria = new CDbCriteria;
                         $criteria->addCondition("idpayoptions in (1,2,3,4)");
-//			$criteria->condition = 'idpayoptions=:idpayoptions1 OR idpayoptions=:idpayoptions2 OR idpayoptions=:idpayoptions3';
-//			$criteria->params = array(':idpayoptions1' => 1,':idpayoptions2' => 2,':idpayoptions3' => 3);
 			$pay = Payoptions::model()->findAll($criteria);
 			$invoiceoptions_array = Invoiceoptions::model()->findAll(array('order'=>'id ASC')); 
 			$dis = Bonus::model()->findAll(array('order'=>'sort ASC')); 
 				if(!empty($_POST))
 				{
-					$pdf=$_POST['pdf'];
-
-					foreach ($sched->guidestourinvoices as $invoice) {
-					$model=$invoice->guidestourinvoicescustomers;
-					$count_cust=0;
-					$overAllIncome=0;
-					$cashIncome=0;
-					$invoice_id =  $invoice->idseg_guidesTourInvoices;			
-					for($k=0;$k<count($model);$k++)
-					{
-						$kk=$model[$k]->idseg_guidesTourInvoicesCustomers;
-						$count_cust++;
-						$model[$k]->tourInvoiceid = $invoice_id;
-						$model[$k]->customersName = $_POST['customersName'.$kk];
-						$model[$k]->discounttype_id = $_POST['discounttype_id'.$kk];
-						$model[$k]->paymentoptionid = $_POST['payoption'.$kk];
-						$model[$k]->id_invoiceoptions = $_POST['option'.$kk];
-						if(($model[$k]->paymentoptionid) &&($model[$k]->discounttype_id!=42))
-						{
-	
-							$model[$k]->isPaid = 1;
-							$model[$k]->price = $_POST['price'.$kk];
-							$overAllIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
-							if($model[$k]->paymentoptionid==1) 
-								$cashIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
-						}
-                                                else {
-							$model[$k]->isPaid = 0;
-							$model[$k]->price = 0;
-						}
-	
-						$model[$k]->save();
-						
-					}
-					$invoice->creationDate = $sched->date;
-					$invoice->cityid = $sched->city_id;
-					$invoice->sched_tourid = $sched->tourroute_id;
-					$invoice->guideNr = $sched->guide1_id;
-					$invoice->status = 0;
-					$invoice->id_sched = $sched->idseg_scheduled_tours;
-					$invoice->overAllIncome = $overAllIncome;
-					$invoice->cashIncome =  $cashIncome;
-					$invoice->save();
-				}
-				if($pdf){
+                                   $pdf=$_POST['pdf'];
+                                    $this->saveGIC($sched,$_POST);
+ 
+ 				if($pdf){
 					if(!$this->createpdf($sched)) return;
 //					$this->redirect(Yii::app()->createUrl("/filespdf/".$sched->additional_info2.".pdf"));
 					return;
@@ -1128,9 +1105,63 @@ class GuideController extends Controller
 		'info'=>$test,
 	));
 
-	
-	}
-        	public function actionAjaxCreditCard()
+        }
+        private function saveGIC($sched,$post,$cc=null)
+        {
+            foreach ($sched->guidestourinvoices as $invoice) {
+		$model=$invoice->guidestourinvoicescustomers;
+                $changes=false;
+		$count_cust=0;
+		$overAllIncome=0;
+		$cashIncome=0;
+		$overAllIncome_i=0;
+		$cashIncome_i=0;
+		$invoice_id =  $invoice->idseg_guidesTourInvoices;			
+		for($k=0;$k<count($model);$k++)
+		{
+                    $kk=$model[$k]->idseg_guidesTourInvoicesCustomers;
+                    if(isset($post['price'.$kk]))
+                    {
+                        $count_cust++;
+                        $model[$k]->tourInvoiceid = $invoice_id;
+                        $model[$k]->customersName = $post['customersName'.$kk];
+                        $model[$k]->discounttype_id = $post['discounttype_id'.$kk];
+                        $model[$k]->paymentoptionid = $post['payoption'.$kk];
+                        $model[$k]->id_invoiceoptions = $post['option'.$kk];
+                        if(($model[$k]->paymentoptionid) &&($model[$k]->discounttype_id!=42)){
+                            $model[$k]->isPaid = 1;
+                            $overAllIncome_i+=is_null($model[$k]->price)? 0 : $model[$k]->price;
+                            if($model[$k]->paymentoptionid==1) 
+                                $cashIncome_i+=is_null($model[$k]->price)? 0 : $model[$k]->price;
+                        
+                            $model[$k]->price = $post['price'.$kk];
+                            $overAllIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
+                            if($model[$k]->paymentoptionid==1) 
+                                $cashIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
+                        }
+                        else {
+                            $model[$k]->isPaid = 0;
+                            $model[$k]->price = 0;
+                        }
+                        if($cc) $model[$k]->creditcard_id=$cc;
+                        if($model[$k]->save()) $changes=true;
+                    }    
+		}
+                if($changes)
+                {
+                    $invoice->creationDate = $sched->date;
+                    $invoice->cityid = $sched->city_id;
+                    $invoice->sched_tourid = $sched->tourroute_id;
+                    $invoice->guideNr = $sched->guide1_id;
+                    $invoice->status = 0;
+                    $invoice->id_sched = $sched->idseg_scheduled_tours;
+                    $invoice->overAllIncome += $overAllIncome-$overAllIncome_i;
+                    $invoice->cashIncome +=  $cashIncome-$cashIncome_i;
+                    $invoice->save();
+                }
+            }
+       }
+        public function actionAjaxCreditCard()
 	{
 	if (!Yii::app()->request->isAjaxRequest)
 			{
@@ -1174,9 +1205,13 @@ class GuideController extends Controller
 	$result['html'] = "<script src=\"https://test.oppwa.com/v1/paymentWidgets.js?checkoutId=".$result['psq_response']->id."\"></script>";
 //	$result['html'] .= "<form action=\"http://seg-touren.de/cherrypit/webapi/psq_lander.php\" class=\"paymentWidgets\">VISA MASTER AMEX</form>";
 	$result['html'] .= "<form action=\"".Yii::app()->createAbsoluteUrl('admin/guide/current',array('id_sched'=>$id_sched))."\" class=\"paymentWidgets\">VISA MASTER AMEX</form>";
+        
+        Yii::app()->user->setState('payers',json_encode($payers));
+
        echo CJSON::encode(array(
 					'status'=>'failure', 
-					'payers'=>$payers, 
+//					'payers'=>json_encode($payers), 
+					'payers'=>count($payers), 
 					'sum'=>$oa_amount_str, 
 					'div'=>$result));
         }

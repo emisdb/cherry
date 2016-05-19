@@ -12,7 +12,7 @@ class OfficeController extends Controller
         public function init() {
                 parent::init();
   		$command=Yii::app()->db->createCommand();
-        $command->select('SUM(delta_cash) AS sum');
+            $command->select('SUM(delta_cash) AS sum');
         $command->from('cashbox_change_requests');
         $command->where('approvedBy IS NOT NULL');
 
@@ -489,9 +489,10 @@ class OfficeController extends Controller
                 {
                    if(isset($_POST['SegGuidesdata']))
                     {
-                       $modelgd->attributes=$_POST['SegGuidesdata'];
-                           $lnk_to_picture_old = $modelgd->lnk_to_picture;
-                            $modelgd->doc = CUploadedFile::getInstance($modelgd,'doc');
+                          $lnk_to_picture_old = $modelgd->lnk_to_picture;
+                         $lnk_to_license_old = $modelgd->lnk_to_license;
+                      $modelgd->attributes=$_POST['SegGuidesdata'];
+                             $modelgd->image = CUploadedFile::getInstance($modelgd,'image');
                                              if($modelgd->image!=""){
                                              if((($lnk_to_picture_old!="")||($lnk_to_picture_old!=NULL))&& file_exists('image/guide/'.$lnk_to_picture_old))
                                         unlink('image/guide/'.$lnk_to_picture_old);
@@ -499,6 +500,17 @@ class OfficeController extends Controller
                                     $modelgd->lnk_to_picture = $name_uniqid;
                                     $file = 'image/guide/'.$modelgd->lnk_to_picture;
                                     $modelgd->image->saveAs($file);
+                                }
+                             $modelgd->doc = CUploadedFile::getInstance($modelgd,'doc');
+                                  if($modelgd->doc!=""){
+                                    if((($lnk_to_license_old!="")||($lnk_to_license_old!=NULL)) && file_exists('image/guide/'.$lnk_to_license_old))
+                                        unlink('image/guide/'.$lnk_to_license_old);
+                                    $ext=pathinfo($modelgd->doc, PATHINFO_EXTENSION);
+                                      $name_uniqid = uniqid().".".$ext;
+                                    $modelgd->lnk_to_license = $name_uniqid;
+                                    $file = 'image/guide/'.$modelgd->lnk_to_license;
+                                    $modelgd->doc->saveAs($file);
+                                  
                                 }
 
 
@@ -601,7 +613,7 @@ class OfficeController extends Controller
   	public function actionGuide($id,$id_user)
 	{
 	    $id_control = Yii::app()->user->id;
-        $update_user = User::model()->findByPk($id_user);
+            $update_user = User::model()->findByPk($id_user);
    		$model=$this->loadGuideData($id);
 		
 		$criteria_user=new CDbCriteria;
@@ -610,8 +622,8 @@ class OfficeController extends Controller
 		$id_user = User::model()->find($criteria_user)->id;
 
 		$criteria_guidestourroutes=new CDbCriteria;
-        $criteria_guidestourroutes->condition='usersid=:usersid';
-        $criteria_guidestourroutes->params=array(':usersid'=>$id_user);
+                $criteria_guidestourroutes->condition='usersid=:usersid';
+                $criteria_guidestourroutes->params=array(':usersid'=>$id_user);
   		$istourroutes = count(SegGuidesTourroutes::model()->findAll($criteria_guidestourroutes));
 
 		// Uncomment the following line if AJAX validation is needed
@@ -620,8 +632,8 @@ class OfficeController extends Controller
 		if(isset($_POST['SegGuidesdata']))
 		{
 			$model->attributes=$_POST['SegGuidesdata'];
-            $lnk_to_picture_old = $model->lnk_to_picture;
-            $model->image = CUploadedFile::getInstance($model,'image');
+                        $lnk_to_picture_old = $model->lnk_to_picture;
+                        $model->image = CUploadedFile::getInstance($model,'image');
             
            // print_r( $_POST['SegGuidesdata']);
             // print_r( $model->image);

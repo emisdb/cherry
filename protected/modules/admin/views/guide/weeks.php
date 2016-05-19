@@ -74,7 +74,7 @@
 foreach($model as $item) {
 		echo '<div class="panel panel-default">';
 		echo '<div class="panel-heading"><h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse'.$index.'">'.$item['label'].'</a>
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse'.$index.'"><div>'.$item['label'].'</div></a>
         </h4></div>';
 		echo '<div id="collapse'.$index.'" class="panel-collapse collapse';
 		if($index==0) echo ' in';

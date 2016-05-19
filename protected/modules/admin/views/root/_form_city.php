@@ -8,88 +8,212 @@
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'seg-cities-form',
-	// Please note: When you enable ajax validation, make sure the corresponding
-	// controller action is handling ajax validation correctly.
-	// There is a call to performAjaxValidation() commented in generated controller code.
-	// See class documentation of CActiveForm for details on this.
+        'htmlOptions'=>array('enctype'=>'multipart/form-data'),
 	'enableAjaxValidation'=>false,
 )); ?>
-
-
-
 	<?php echo $form->errorSummary($model); ?>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'seg_cityname'); ?>
-		<?php echo $form->textField($model,'seg_cityname',array('size'=>45,'maxlength'=>45)); ?>
+     <div class="box box-primary" >
+        <div class="box-header with-border">
+            <h4 class="box-title">
+           Names
+            </h4>
+        </div>
+        <div class="box-body" >
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'seg_cityname',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'seg_cityname',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'seg_cityname'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'shortname'); ?>
-		<?php echo $form->textField($model,'shortname',array('size'=>3,'maxlength'=>3)); ?>
+            </div>
+         </div>
+         <div class="col-md-6">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'shortname',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'shortname',array('size'=>3,'maxlength'=>3,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'shortname'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailInfo'); ?>
-		<?php echo $form->textField($model,'mailInfo',array('size'=>45,'maxlength'=>45)); ?>
+            </div>
+         </div>
+       </div>
+ 	<div class="row">
+		<div class="col-md-12">
+			<div class="form-group">
+ 		<?php
+                    echo $form->labelEx($model,'picture_city',array('style'=>'margin-right:10px;'));
+                     if($model->picture_city !=""){
+                        echo CHtml::image(Yii::app()->request->baseUrl.'/img/'. $model->picture_city,'City\'s image',array('style'=>'height: 150px;'));
+                    }
+                    echo $form->FileField($model,'image');
+                    echo $form->error($model,'picture_city');
+                  ?>
+ 		</div>
+		</div>  
+    	</div>  
+        </div>
+    </div>
+     <div class="box box-primary" >
+        <div class="box-header with-border">
+            <h4 class="box-title">
+           Mails
+            </h4>
+        </div>
+        <div class="box-body" >
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailInfo',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailInfo',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'mailInfo'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailBuchungen'); ?>
-		<?php echo $form->textField($model,'mailBuchungen',array('size'=>45,'maxlength'=>45)); ?>
+            </div>
+         </div>
+          <div class="col-md-4">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailBuchungen',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailBuchungen',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'mailBuchungen'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailBookings'); ?>
-		<?php echo $form->textField($model,'mailBookings',array('size'=>45,'maxlength'=>45)); ?>
+            </div>
+         </div>
+          <div class="col-md-4">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailBookings',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailBookings',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'mailBookings'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailVoucher'); ?>
-		<?php echo $form->textField($model,'mailVoucher',array('size'=>45,'maxlength'=>45)); ?>
+            </div>
+         </div>
+       </div>
+       <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailVoucher',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailVoucher',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'mailVoucher'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailCancellation'); ?>
-		<?php echo $form->textField($model,'mailCancellation',array('size'=>45,'maxlength'=>45)); ?>
+            </div>
+         </div>
+          <div class="col-md-4">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailCancellation',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailCancellation',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'mailCancellation'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailInfoDisplayName'); ?>
-		<?php echo $form->textField($model,'mailInfoDisplayName',array('size'=>45,'maxlength'=>45)); ?>
+            </div>
+         </div>
+          <div class="col-md-4">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailInfoDisplayName',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailInfoDisplayName',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'mailInfoDisplayName'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailBuchungenDisplayName'); ?>
-		<?php echo $form->textField($model,'mailBuchungenDisplayName',array('size'=>45,'maxlength'=>45)); ?>
-		<?php echo $form->error($model,'mailBuchungenDisplayName'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailBookingsDisplayName'); ?>
-		<?php echo $form->textField($model,'mailBookingsDisplayName',array('size'=>45,'maxlength'=>45)); ?>
+            </div>
+         </div>
+       </div>
+       <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailBookingsDisplayName',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailBookingsDisplayName',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'mailBookingsDisplayName'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailVoucherDisplayName'); ?>
-		<?php echo $form->textField($model,'mailVoucherDisplayName',array('size'=>45,'maxlength'=>45)); ?>
+            </div>
+         </div>
+          <div class="col-md-4">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailBuchungenDisplayName',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailBuchungenDisplayName',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
+		<?php echo $form->error($model,'mailBuchungenDisplayName'); ?>
+            </div>
+         </div>
+          <div class="col-md-4">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailVoucherDisplayName',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailVoucherDisplayName',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'mailVoucherDisplayName'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailCancellationDisplayName'); ?>
-		<?php echo $form->textField($model,'mailCancellationDisplayName',array('size'=>45,'maxlength'=>45)); ?>
+            </div>
+         </div>
+       </div>
+       <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailCancellationDisplayName',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailCancellationDisplayName',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'mailCancellationDisplayName'); ?>
-	</div>
+            </div>
+         </div>
+          <div class="col-md-4">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailInfoAccount',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailInfoAccount',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
+		<?php echo $form->error($model,'mailInfoAccount'); ?>
+            </div>
+         </div>
+          <div class="col-md-4">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailBuchungenAccount',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailBuchungenAccount',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
+		<?php echo $form->error($model,'mailBuchungenAccount'); ?>
+            </div>
+         </div>
+       </div>
+      <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailBookingsAccount',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailBookingsAccount',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
+		<?php echo $form->error($model,'mailBookingsAccount'); ?>
+            </div>
+         </div>
+          <div class="col-md-4">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailVoucherAccount',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailVoucherAccount',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
+		<?php echo $form->error($model,'mailVoucherAccount'); ?>
+            </div>
+         </div>
+          <div class="col-md-4">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailCancellationAccount',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailCancellationAccount',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
+		<?php echo $form->error($model,'mailCancellationAccount'); ?>
+            </div>
+         </div>
+       </div>
+     <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailInfoPW',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailInfoPW',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
+		<?php echo $form->error($model,'mailInfoPW'); ?>
+            </div>
+         </div>
+          <div class="col-md-4">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailBuchungenPW',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailBuchungenPW',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
+		<?php echo $form->error($model,'mailBuchungenPW'); ?>
+            </div>
+         </div>
+          <div class="col-md-4">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailBookingsPW',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailBookingsPW',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
+		<?php echo $form->error($model,'mailBookingsPW'); ?>
+            </div>
+         </div>
+       </div>
+     <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailVoucherPW',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailVoucherPW',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
+		<?php echo $form->error($model,'mailVoucherPW'); ?>
+            </div>
+         </div>
+          <div class="col-md-6">
+            <div class="form-group">
+            <?php echo $form->labelEx($model,'mailCancellationPW',array('class'=>'control-label')); ?>
+		<?php echo $form->textField($model,'mailCancellationPW',array('size'=>45,'maxlength'=>45,'class'=>'form-control')); ?>
+		<?php echo $form->error($model,'mailCancellationPW'); ?>
+            </div>
+         </div>
+        </div>
+        </div>
+    </div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'webadress'); ?>
@@ -119,66 +243,6 @@
 		<?php echo $form->labelEx($model,'localPLZ'); ?>
 		<?php echo $form->textField($model,'localPLZ',array('size'=>45,'maxlength'=>45)); ?>
 		<?php echo $form->error($model,'localPLZ'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailInfoAccount'); ?>
-		<?php echo $form->textField($model,'mailInfoAccount',array('size'=>45,'maxlength'=>45)); ?>
-		<?php echo $form->error($model,'mailInfoAccount'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailBuchungenAccount'); ?>
-		<?php echo $form->textField($model,'mailBuchungenAccount',array('size'=>45,'maxlength'=>45)); ?>
-		<?php echo $form->error($model,'mailBuchungenAccount'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailBookingsAccount'); ?>
-		<?php echo $form->textField($model,'mailBookingsAccount',array('size'=>45,'maxlength'=>45)); ?>
-		<?php echo $form->error($model,'mailBookingsAccount'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailVoucherAccount'); ?>
-		<?php echo $form->textField($model,'mailVoucherAccount',array('size'=>45,'maxlength'=>45)); ?>
-		<?php echo $form->error($model,'mailVoucherAccount'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailCancellationAccount'); ?>
-		<?php echo $form->textField($model,'mailCancellationAccount',array('size'=>45,'maxlength'=>45)); ?>
-		<?php echo $form->error($model,'mailCancellationAccount'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailInfoPW'); ?>
-		<?php echo $form->textField($model,'mailInfoPW',array('size'=>45,'maxlength'=>45)); ?>
-		<?php echo $form->error($model,'mailInfoPW'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailBuchungenPW'); ?>
-		<?php echo $form->textField($model,'mailBuchungenPW',array('size'=>45,'maxlength'=>45)); ?>
-		<?php echo $form->error($model,'mailBuchungenPW'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailBookingsPW'); ?>
-		<?php echo $form->textField($model,'mailBookingsPW',array('size'=>45,'maxlength'=>45)); ?>
-		<?php echo $form->error($model,'mailBookingsPW'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailVoucherPW'); ?>
-		<?php echo $form->textField($model,'mailVoucherPW',array('size'=>45,'maxlength'=>45)); ?>
-		<?php echo $form->error($model,'mailVoucherPW'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'mailCancellationPW'); ?>
-		<?php echo $form->textField($model,'mailCancellationPW',array('size'=>45,'maxlength'=>45)); ?>
-		<?php echo $form->error($model,'mailCancellationPW'); ?>
 	</div>
 
 	<div class="row">

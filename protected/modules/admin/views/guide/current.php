@@ -28,8 +28,9 @@
 				 <h4 class="modal-title">Credit card payment: <span id="card-title-data"></span>&euro;</h4>
 			   </div>
 			   <div class="modal-body">
-                               <div id="card-modal-data">
-                                  <div class="overlay">
+                                <div id="card-sys-data"></div>
+                                <div id="card-modal-data">
+                                    <div class="overlay">
                                     <i class="fa fa-refresh fa-spin"></i>
                                     Card loading
                                     </div>
@@ -184,7 +185,8 @@
 						echo "</td><td style='padding:2px 3px;'>\n";
 						echo $form->dropDownList($model[$element],'id_invoiceoptions',$list_op,array('empty' => '--','name'=>'option'.$id));
                                                 if((int)($model[$element]->creditcard_id)>0)
-                                                    $options=array('name'=>'creditcard'.$id,'checked'=>'checked','disabled'=>'disabled','onchange'=>'counttotals()' );
+//                                                    $options=array('name'=>'creditcard'.$id,'checked'=>'checked','disabled'=>'disabled','onchange'=>'counttotals()' );
+                                                    $options=array('name'=>'creditcard'.$id,'disabled'=>'disabled','onchange'=>'counttotals()' );
                                                         else
 					         $options=array('name'=>'creditcard'.$id,'onchange'=>'counttotals()' );
 						echo $form->checkBox($model[$element],'creditcard_id',$options);
@@ -273,7 +275,6 @@
 	echo "};\n";
 	echo $strforjs."];\n";
 	?>
-	var cardpays;
 
 $(document).ready ( function (){
 
@@ -305,19 +306,21 @@ $(document).ready ( function (){
  	$("#creditcard").click( function(){
 	 <?php echo CHtml::ajax(array(
             'url'=>array('ajaxCreditCard'),
-	         'data'=>  array(
+	    'data'=>  array(
                  'id_sched'=>$id_sched,
                  'sumtopay'=>'js:getasum()',
-                'payers'=>'js:cardpays',
-				 'date'=>$sched['date'],
-				 'time'=>$sched['starttime']),
+                'payers'=>'js:countcard()',
+//               'payers'=>'js:cardpays',
+		'date'=>$sched['date'],
+		'time'=>$sched['starttime']),
             'type'=>'post',
-             'dataType'=>'json',
+            'dataType'=>'json',
             'success'=>"function(data)
             {
                 if (data.status == 'failure'){
 //                    psqdata = $.parseJSON(data.div);
-                     $('#card-title-data').html(data.sum+'>'+data.payers);
+                    $('#card-title-data').html(' tourists: '+data.payers+' total: '+data.sum);
+//                     $('#card-sys-data').html(data.payers);
                   $('#card-modal-data').html(data.div.html);
                  }
                 else
@@ -349,22 +352,26 @@ function discount(id,k){
                 }
 		 var price=0;
 		 var val,type;
-		 if(id==""){
-			val = 0;
-			type = "%";
-		 }
-		 else
-		 {
-		  val = discounts[id][0];
- 		  type = discounts[id][1];
-		 }
-		 var base_price = parseInt(document.getElementById('base_price'+k).innerHTML);
-		 if(type=='euro'){
-			price =base_price-val;
-		 }
-		 if(type=='%'){
-			 price = base_price-base_price*val/100;
-		 }
+                 var base_price = parseInt(document.getElementById('base_price'+k).innerHTML);
+                 if(parseInt(id)<41)
+                 {
+
+                    if(id==""){
+                           val = 0;
+                           type = "%";
+                    }
+                    else
+                    {
+                     val = discounts[id][0];
+                     type = discounts[id][1];
+                    }
+                    if(type=='euro'){
+                           price =base_price-val;
+                    }
+                    if(type=='%'){
+                           price = base_price-base_price*val/100;
+                    }
+                }
 		 price = price.toFixed(2);
 			document.getElementById('price'+k).innerHTML = price;
 			document.getElementById('price_i'+k).value = price;
@@ -430,7 +437,22 @@ function cash(id,k)
   * 2.reload the page after each payment to block other card payments
   * 3.
   */
-     function counttotals() {
+     function countcard() {  
+ 	var cardpays=[];
+       for(index = 0; index < custs.length; index++) {
+            i = custs[index];
+            if(document.getElementById('creditcard'+i).checked){
+                   cust = document.getElementById('customersName'+i).value;
+                   discounttype_id = document.getElementById('discounttype_id'+i).value;
+                   price_su = parseFloat(document.getElementById('price_i'+i).value);
+                  cardpays.push([i,cust,discounttype_id,price_su.toFixed(2)]);
+           }
+        }
+               return cardpays;
+ 
+     }
+         
+        function counttotals() {
 		var vat_nds = document.getElementById('vat_nds').innerHTML;//НДС
 	 	 var i;
 		 var price_su=0;
@@ -438,52 +460,47 @@ function cash(id,k)
 		 var price_v=0;
 		 var price_sv=0;
 		 var price_card=0;
-		 var pay;
 		 var price_cash =0;
 		 var discounttype_id, payment_id;
 		 var blocked;
-		 cardpays=[];
+ 		 for(index = 0; index < custs.length; index++) {
+                    i = custs[index];
+                            //проверка какое значение выбрано в поле discount
+                    discounttype_id = document.getElementById('discounttype_id'+i).value;
+                    payment_id = document.getElementById('payoption'+i).value;
+                    blocked = document.getElementById('payoption'+i).disabled;
 
-		 for	(index = 0; index < custs.length; index++) {
-			i = custs[index];
-			pay = document.getElementById('payoption'+i).value;
-				//проверка какое значение выбрано в поле discount
-				discounttype_id = document.getElementById('discounttype_id'+i).value;
-				payment_id = document.getElementById('payoption'+i).value;
-				blocked = document.getElementById('payoption'+i).disabled;
+                    if((payment_id==3)&& !blocked){
+                            document.getElementById('creditcard'+i).style.display = 'block';
+                    }
+                    else  {
+                            document.getElementById('creditcard'+i).style.display = 'none';
+                     }
+                    if(discounttype_id==42){
+                            document.getElementById('option'+i).style.display = 'block';
+                            document.getElementById('payoption'+i).style.display = 'none'; 
+                            document.getElementById('creditcard'+i).checked = false;
+                            document.getElementById('creditcard'+i).style.display = 'none';
+                    }else{
+                            document.getElementById('option'+i).style.display = 'none';
+                            document.getElementById('payoption'+i).style.display = 'block'; 
+                    }
 
-				if((payment_id==3)&& !blocked){
-					document.getElementById('creditcard'+i).style.display = 'block';
-                                }
-                                else  {
- 					document.getElementById('creditcard'+i).style.display = 'none';
-                                 }
-				if(discounttype_id==42){
-					document.getElementById('option'+i).style.display = 'block';
-					document.getElementById('payoption'+i).style.display = 'none'; 
-					document.getElementById('creditcard'+i).checked = false;
-					document.getElementById('creditcard'+i).style.display = 'none';
-				}else{
-					document.getElementById('option'+i).style.display = 'none';
-					document.getElementById('payoption'+i).style.display = 'block'; 
-				}
-		
-				if(discounttype_id!=42){
-					if(pay!=""){
-						price_su = parseFloat(document.getElementById('price_i'+i).value);
-						price_s = parseFloat(price_s)+price_su;
-						d1 = vat_nds/100+1;
-						d2 = 1- 1/d1;
-						price_v = parseFloat(price_s)*d2;
-						//price_v = parseFloat(price_s)*vat_nds/100;
-						price_sv = parseFloat(price_s)-parseFloat(price_v);
-						if(pay==1) price_cash = parseFloat(price_cash)+price_su;
-                        if(document.getElementById('creditcard'+i).checked && !(blocked)){
-							price_card=price_card+price_su ;
-							cardpays.push(i);
-						}
-					}
-				}
+                    if(discounttype_id!=42){
+                        if(payment_id!=""){
+                            price_su = parseFloat(document.getElementById('price_i'+i).value);
+                            price_s = parseFloat(price_s)+price_su;
+                            d1 = vat_nds/100+1;
+                            d2 = 1- 1/d1;
+                            price_v = parseFloat(price_s)*d2;
+                            //price_v = parseFloat(price_s)*vat_nds/100;
+                            price_sv = parseFloat(price_s)-parseFloat(price_v);
+                            if(payment_id==1) price_cash = parseFloat(price_cash)+price_su;
+                            if(document.getElementById('creditcard'+i).checked && !(blocked)){
+                                    price_card=price_card+price_su ;
+                             }
+                        }
+                    }
 		 }
 		 price_s = price_s.toFixed(2);
 		 price_v = price_v.toFixed(2);

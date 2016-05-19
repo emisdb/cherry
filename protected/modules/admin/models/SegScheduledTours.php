@@ -226,6 +226,13 @@ class SegScheduledTours extends CActiveRecord
 
 			return CHtml::listData($dataReader,'uid', 'unam');
 	}
+         public function opendoc($data, $row){
+             if($data->openTour)
+                return CHtml::link($data->idseg_scheduled_tours,Yii::app()->createUrl("/filespdf/$data->additional_info2.pdf"),array("target"=>"_blank"));
+             else
+                return CHtml::link($data->idseg_scheduled_tours,array("current","id_sched"=>$data->idseg_scheduled_tours));
+
+         }
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *
@@ -284,9 +291,6 @@ class SegScheduledTours extends CActiveRecord
  				
 			}
   	}
-
-	 
-	 
 	public function search()
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
@@ -408,7 +412,6 @@ class SegScheduledTours extends CActiveRecord
                     'sort'=>$sort,
 		));
 	}
-
 	public function search_s($guide1_id, $date=null)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.

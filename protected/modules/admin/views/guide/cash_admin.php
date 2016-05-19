@@ -94,6 +94,7 @@ $dataProvider=$model->search();
 //      'ajaxUpdate'=>false,
 //	'filter'=>$model,
  	'itemsCssClass'=>'table table-bordered',
+     'rowHtmlOptionsExpression'=>'(is_null($data->approvedBy)? array("class"=>"notapp"):"")',
 	'htmlOptions'=>array('class'=>'table-responsive',
        'style'=>'width:900px;'
     ),

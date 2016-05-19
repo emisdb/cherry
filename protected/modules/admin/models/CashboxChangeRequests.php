@@ -31,7 +31,7 @@ class CashboxChangeRequests extends CActiveRecord
         		$command=Yii::app()->db->createCommand();
                         $command->select('SUM(delta_cash) AS sum');
                         $command->from('cashbox_change_requests');
-                        $command->where('id_users=:id AND request_date < :rd', array(':id'=>$this->id_users,':rd'=>date('Y-m-d H:i:s', strtotime($this->from_date))));
+                        $command->where('id_users=:id AND request_date < :rd AND approvedBy IS NOT NULL AND reject=0', array(':id'=>$this->id_users,':rd'=>date('Y-m-d H:i:s', strtotime($this->from_date))));
                         $this->_start= $command->queryScalar();
                         return $this->_start;
 
@@ -40,7 +40,7 @@ class CashboxChangeRequests extends CActiveRecord
         		$command=Yii::app()->db->createCommand();
                         $command->select('SUM(delta_cash) AS sum');
                         $command->from('cashbox_change_requests');
-                        $command->where('id_users=:id AND request_date >= :fd AND request_date <= :td', array(':id'=>$this->id_users,':fd'=>date('Y-m-d H:i:s', strtotime($this->from_date)),':td'=>date('Y-m-d H:i:s', strtotime($this->to_date))));
+                        $command->where('id_users=:id AND request_date >= :fd AND request_date <= :td AND approvedBy IS NOT NULL AND reject=0', array(':id'=>$this->id_users,':fd'=>date('Y-m-d H:i:s', strtotime($this->from_date)),':td'=>date('Y-m-d H:i:s', strtotime($this->to_date))));
                         $this->_rest= $command->queryScalar();
                         return $this->_rest;
 
@@ -229,7 +229,7 @@ class CashboxChangeRequests extends CActiveRecord
                 
                 $connection=Yii::app()->db;
                  $command=$connection->createCommand("SELECT SUM(delta_cash)
-                                                     FROM `".$this->tableName()."` where idcashbox_change_requests in (".$ids.")");
+                                                     FROM `".$this->tableName()."` where idcashbox_change_requests in (".$ids.") and approvedBy IS NOT NULL");
 
                  return Yii::app()->numberFormatter->formatCurrency($command->queryScalar(),'');
         }
@@ -279,6 +279,7 @@ class CashboxChangeRequests extends CActiveRecord
 		$criteria->compare('approvedBy',$this->approvedBy);
 		$criteria->compare('request_date',$this->request_date,true);
 		$criteria->compare('approval_date',$this->approval_date,true);
+//                $criteria->addCondition("approvedBy IS NOT NULL");
 		if($guide>0){
 			$criteria->addInCondition ("id_type", array(3,4));
 			$criteria->addInCondition ("reject", array(0));
