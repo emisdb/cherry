@@ -553,7 +553,7 @@ class GuideController extends Controller
             $scheduled_item = SegScheduledTours::model()->find($criteria);
 			if($scheduled_item){
 				$err=$time;
-				$this->redirect( Yii::app()->createUrl('guide/weeks',array('date'=>$date,'err'=>$err)) );
+				$this->redirect( array('weeks','date'=>$date,'err'=>$err) );
 			}
  
 			}
@@ -1825,14 +1825,22 @@ class GuideController extends Controller
 				$name_pdf2 =str_replace("/", "-", $name_pdf1).'_'.$datename;
 				if(!$is_full){$name_pdf2=$name_pdf2."_".$invoice_id;}
 				$files_name1 = __DIR__.'/../../../../filespdf/'.$name_pdf2.'.pdf';
-				$pdf = Yii::createComponent('application.extensions.tcpdf.ETcPdf', 'P', 'cm', 'A4', true, 'UTF-8');
+//				$pdf = Yii::createComponent('application.extensions.tcpdf.ETcPdf', 'P', 'cm', 'A4', true, 'UTF-8');
+				$pdf = Yii::createComponent('application.extensions.tcpdf.MYPDF', 'P', 'cm', 'A4', true, 'UTF-8');
 				$pdf->SetCreator(PDF_CREATOR);
-				$pdf->SetAuthor("Cheery Tours");
+				$pdf->SetAuthor("Cherry Tours");
 				$pdf->SetTitle("Tourabrechnung");
 				$pdf->SetSubject("Tourabrechnung");
 				$pdf->SetKeywords("Tourabrechnung");
+//                                $pdf->SetHeaderData('', 0, 'Information', 'In the beginning');
+//                                 $pdf->setHeaderFont(Array('helvetica', '', 8));
+                                 $pdf->setFooterFont(Array('helvetica', '', 6));
+                                 $pdf->SetMargins(1, 1.8, 1.5);
+//                                 $pdf->SetHeaderMargin(5);
+                                 $pdf->SetFooterMargin(2);
+//                                 $pdf->SetAutoPageBreak(TRUE, 0);
 				$pdf->setPrintHeader(false);
-				$pdf->setPrintFooter(false);
+				$pdf->setPrintFooter(true);
 				$pdf->AddPage();
 				$pdf->SetFont('freeserif', '', 10);
 				$pdf->writeHTML($tbl, true, false, false, false, '');
