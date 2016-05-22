@@ -1008,8 +1008,7 @@ class GuideController extends Controller
 			'item'=>$item,
 		));
 	}
-	public function actionCurrent($id_sched,$id=null)
-	{
+	public function actionCurrent($id_sched,$id=null){
   		$id_control = Yii::app()->user->id;
                 $guide = User::model()->findByPk($id_control);
 		$sched = SegScheduledTours::model()->with(array('guidestourinvoices'=>array('guidestourinvoicescustomers','contact')))->findByPk($id_sched);

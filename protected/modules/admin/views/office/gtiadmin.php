@@ -2,6 +2,23 @@
  <?php $this->renderPartial('_top', array('info'=>$info)); ?>
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
+		 <div class="modal modal-info fade" id="guideModal" role="dialog">
+		   <div class="modal-dialog modal-md">
+			 <div class="modal-content">
+			   <div class="modal-header">
+				 <button type="button" class="close" data-dismiss="modal" aria-label="close">
+					 <span aria-hidden="true">&times;</span></button>
+				 <h4 class="modal-title">Invoice info</h4>
+			   </div>
+			   <div class="modal-body">
+				 <div id="modal-data">This is the Invoice's info.</div>
+			   </div>
+			   <div class="modal-footer">
+					<button  type="button" class="btn btn-outline pull-right btn-default" data-dismiss="modal">Schließen</button>
+			   </div>
+			 </div>
+		   </div>
+		 </div>
         <!-- Content Header (Page header) -->
        <section class="content-header">
 
@@ -64,7 +81,7 @@
 				<?php echo CHtml::submitButton('Suchen',array('class'=>'btn btn-primary cancel')); // submit button ?> 
 			</div>
 		</div>
- <?php $this->endWidget(); ?>	
+ <?php $this->endWidget();  ?>	
 		<div class="row">
 			<div class="col-md-12">
 
@@ -115,7 +132,7 @@
 		'guidename',
 	      array(
             'name'=>'cityname',	
-              'filter'=>CHtml::listData(SegCities::model()->findAll(),'idseg_cities', 'seg_cityname'),
+              'filter'=>CHtml::listData(SegCities::model()->findAll(),'idseg_cities', 'seg_cityname'), 
         ),	
 //		'cityname',
       array(
@@ -129,7 +146,12 @@
                  'type'=>'raw',
         'value'=>'CHtml::link($data->contact->email, "mailto:".$data->contact->email)',
         ),	
-		
+      array(
+            'name'=>'info',	
+                 'type'=>'raw',
+        'value'=>'(is_null($data->info)||(!(strlen($data->info)>0)))? CHtml::link( "__","js:void(0);",array("id"=>"inf".$data->idseg_guidesTourInvoices)): CHtml::link( substr($data->info,0,5),"js:void(0);",array("id"=>"inf".$data->idseg_guidesTourInvoices))',
+        ),	
+	
       array(
             'name'=>'sched.date_now',	
             'value'=>'date("d.m.Y",$data->sched->date_now)',

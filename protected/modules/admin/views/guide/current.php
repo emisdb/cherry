@@ -247,10 +247,10 @@
 
 		<!-- *********************** BUTTINS ***************************************************************-->
 		<div class="row buttons">
-				<button class="btn btn-primary" type="submit"><?php echo 'Speichern'; ?></button>
+				<button class="btn btn-primary" type="submit"><?php echo 'Zwischenspeichern'; ?></button>
 				<button class="btn btn-primary cancel">
 					<?php 
-					echo CHtml::link("PDF","javascript:void(0);",array('onclick'=>'newtourist();'));
+					echo CHtml::link("Abrechnung erstellen","javascript:void(0);",array('onclick'=>'newtourist();'));
 					?>
 				</button>
 				<button class="btn btn-primary cancel"><?php echo CHtml::link("Abbrechen", array("schedule")) ?></button>

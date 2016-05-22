@@ -13,6 +13,7 @@
  * @property double $cashIncome
  * @property integer $InvoiceNumber
  * @property string $TA_string
+* @property string $info
  */
 class SegGuidestourinvoices extends CActiveRecord
 {
@@ -155,7 +156,7 @@ class SegGuidestourinvoices extends CActiveRecord
 		//	array('TA_string', 'length', 'max'=>12),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('creationDate, from_date, to_date, sched, countCustomers, custname, custsname, idseg_guidesTourInvoices, creationDate, cityid, sched_tourid, guideNr, overAllIncome, cashIncome, InvoiceNumber, TA_string, contacts_id, cityname, langname, guidename, phone, email, trname, stime, cancel', 'safe', 'on'=>'search'),
+			array('creationDate,info, from_date, to_date, sched, countCustomers, custname, custsname, idseg_guidesTourInvoices, creationDate, cityid, sched_tourid, guideNr, overAllIncome, cashIncome, InvoiceNumber, TA_string, contacts_id, cityname, langname, guidename, phone, email, trname, stime, cancel', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -194,6 +195,7 @@ class SegGuidestourinvoices extends CActiveRecord
 			'to_date' => 'Bis:',
 			'custname' => 'Vorname',
 			'custsname' => 'Nachname',
+			'info' => 'Info',
 		);
 	}
 		private function daterange($criteria)
@@ -239,6 +241,7 @@ class SegGuidestourinvoices extends CActiveRecord
 		$criteria->compare('cityid',$this->cityid);
 		$criteria->compare('sched_tourid',$this->sched_tourid);
 		$criteria->compare('guideNr',$this->guideNr);
+		$criteria->compare('info',$this->info);
 		$criteria->compare('overAllIncome',$this->overAllIncome);
 		$criteria->compare('cashIncome',$this->cashIncome);
 		$criteria->compare('InvoiceNumber',$this->InvoiceNumber);

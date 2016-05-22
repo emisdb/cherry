@@ -230,20 +230,27 @@ $this->renderPartial('_top', array('info'=>$info));
 			</div>
 		</div>
    		<div class="row">
-			<div class="col-md-8">
+			<div class="col-md-4">
 				<div class="form-group">
 				  <label>Email</label>
 				  <?php echo $form->textField($contact,'email',array('class'=>"form-control")); ?>
 				</div>					
 			</div>
 			<div class="col-md-4">
-			</div>
-		</div>
-  		<div class="row">
-			<div class="col-md-8">
+
 				<div class="form-group">
 				  <label>Handynummer</label>
 				  <?php echo $form->textField($contact,'phone',array('class'=>"form-control")); ?>
+				</div>					
+			</div>
+			<div class="col-md-4">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8">
+				<div class="form-group">
+				  <label>Info</label>
+				  <?php echo $form->textArea($contact,'info',array('class'=>"form-control")); ?>
 				</div>					
 			</div>
 			<div class="col-md-4">

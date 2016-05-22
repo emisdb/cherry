@@ -23,9 +23,14 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `cashbox_change_requests`
+-- Структура таблицы `seg_cities`
 --
 ALTER TABLE  `seg_cities` ADD  `picture_city` VARCHAR( 100 ) NULL  ;
+--
+-- Структура таблицы `seg_guidestourinvoices`
+--
+
+ALTER TABLE  `seg_guidestourinvoices` ADD  `info` VARCHAR( 128 ) NULL ;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

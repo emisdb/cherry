@@ -1251,7 +1251,7 @@ class OfficeController extends Controller
 		     $contact = new Bookq;
 	    $model = SegGuidestourinvoices::model()->with(array('sched','contact','countCustomers'))->findByPk($id);
 
-			$criteria_tours_link2 = new CDbCriteria;
+            $criteria_tours_link2 = new CDbCriteria;
             $criteria_tours_link2->condition = 'idseg_tourroutes=:idseg_tourroutes';
             $criteria_tours_link2->params = array(':idseg_tourroutes' => $model->sched->tourroute_id);
             $tours_guide = SegTourroutes::model()->findAll($criteria_tours_link2);
@@ -1276,10 +1276,11 @@ class OfficeController extends Controller
  			 $contact->country=$model->contact->country;
  			 $contact->email=$model->contact->email;
  			 $contact->phone=$model->contact->phone;
+			 $contact->info=$model->info;
        	if(isset($_POST['Bookq']))
 		{
-			$contact->attributes=$_POST['Bookq'];
-            $ticket_count =	$contact->tickets-$model->countCustomers;
+                    $contact->attributes=$_POST['Bookq'];
+                    $ticket_count =	$contact->tickets-$model->countCustomers;
 			if($contact->validate()){
 								
 				//save contact
@@ -1335,7 +1336,8 @@ class OfficeController extends Controller
 					}
 							
 				}
-
+                                $model->info=$contact->info;
+					$model->save();
 					$scheduled=  SegScheduledTours::model()->findByPk($model->id_sched);
 					$scheduled->current_subscribers=$scheduled->current_subscribers +$ticket_count;
 					$scheduled->save();
