@@ -117,7 +117,9 @@
 						echo $form->textField($model[$element],'customersName',array('style'=>'width:170px','name'=>'customersName'.$id)); 
 						echo "</td>";
                                                 if($i==1)
-                                                echo "<td ".(($count_cust_in_inv>1)? ("rowspan='".$count_cust_in_inv."'") : "").">\n</td>";
+                                                {
+                                                     echo "<td ".(($count_cust_in_inv>1)? ("rowspan='".$count_cust_in_inv."'") : "").">".$value->info."</td>\n";
+                                                }
 						echo "<td>\n";
 						echo $form->dropDownList($model[$element],'discounttype_id',$list_discount,array('empty' => '--','name'=>'discounttype_id'.$id, 'onChange'=>'discount(value,this.id)'));
 						echo "</td><td>\n";
