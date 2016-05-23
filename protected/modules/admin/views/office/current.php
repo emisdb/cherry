@@ -76,6 +76,7 @@
 				<th>Tourist</th>
 				<th>Nr</th>
 				<th>Name</th>
+				<th>Info</th>
 				<th>Rabatt/Gutschein</th>
 				<th>Zahlungsmittel</th>
 				<th style="padding:1px 4px;">Base</th>
@@ -98,8 +99,9 @@
 				$count_cust=0;
 				foreach ($sched->guidestourinvoices as $value) {
 					$model=$value->guidestourinvoicescustomers;
-					$i=0;				
-					for($element=0;$element < count($model);$element++)
+					$i=0;	
+                                        $count_cust_in_inv=count($model);
+					for($element=0;$element < $count_cust_in_inv;$element++)
 					{
 						$count_cust++;
 						$i++;
@@ -113,7 +115,10 @@
 						echo "</td><td>\n";
 						if($model[$element]->customersName == '') $model[$element]->customersName = $model[$element]->tourinvoice->contact->firstname.' '. $model[$element]->tourinvoice->contact->surname;
 						echo $form->textField($model[$element],'customersName',array('style'=>'width:170px','name'=>'customersName'.$id)); 
-						echo "</td><td>\n";
+						echo "</td>";
+                                                if($i==1)
+                                                echo "<td ".(($count_cust_in_inv>1)? ("rowspan='".$count_cust_in_inv."'") : "").">\n</td>";
+						echo "<td>\n";
 						echo $form->dropDownList($model[$element],'discounttype_id',$list_discount,array('empty' => '--','name'=>'discounttype_id'.$id, 'onChange'=>'discount(value,this.id)'));
 						echo "</td><td>\n";
 						echo $form->dropDownList($model[$element],'paymentoptionid',$list_pay,array('empty' => '--','name'=>'payoption'.$id, 'onChange'=>'cash(value,this.id)'));
@@ -351,7 +356,12 @@ function cash(id,k)
 				if(discounttype_id==42){
 					document.getElementById('option'+i).style.display = 'block';
 					document.getElementById('payoption'+i).style.display = 'none'; 
-				}else{
+				}
+                                else if(discounttype_id==43)
+                                {
+                                    document.getElementById('payoption'+i).style.display = 'none';                                   
+                                }
+                                else{
 					document.getElementById('option'+i).style.display = 'none';
 					document.getElementById('payoption'+i).style.display = 'block'; 
 				}
