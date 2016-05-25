@@ -309,7 +309,41 @@ class SegGuidestourinvoices extends CActiveRecord
                     'sort'=>$sort,
 		));
 	}
-
+        public function showinfo($data, $row)
+        {
+          if(is_null($data->info)||(!(strlen($data->info)>0)))
+          {
+              $ret=CHtml::ajaxLink( "___",
+                      $url=array('office/ajaxGti'),
+                      $ajaxOptions=array(
+            'data'=>array('id'=>$data->idseg_guidesTourInvoices),
+              'type'=>'POST',
+	     'success'=>'function(html){'
+                          . ' jQuery("#SegGuidestourinvoices_info").html(html); '
+                           . ' jQuery("#SegGuidestourinvoices_idseg_guidesTourInvoices").html('.$data->idseg_guidesTourInvoices.'); '
+                         . ' $("#guideModal").modal("show");return true;}',
+///             'complete' => 'return true;'
+				 )	  
+                    );
+//                      "js:void(0);",array("id"=>"inf".$data->idseg_guidesTourInvoices,'data-toggle'=>'modal','data-target'=>'#guideModal',));
+          }
+          else{ 
+              $ret=CHtml::ajaxLink( substr($data->info,0,10),
+                      $url=array('office/ajaxGti'),
+                      $ajaxOptions=array(
+            'data'=>array('id'=>$data->idseg_guidesTourInvoices),
+              'type'=>'POST',
+	     'success'=>'function(html){'
+                          . ' jQuery("#SegGuidestourinvoices_info").html(html); '
+                          . ' jQuery("#SegGuidestourinvoices_idseg_guidesTourInvoices").html('.$data->idseg_guidesTourInvoices.'); '
+                          . ' $("#guideModal").modal("show");return true;}',
+///             'complete' => 'return true;'
+			));
+//              $ret=CHtml::ajaxLink( substr($data->info,0,10),"js:void(0);",array("id"=>"inf".$data->idseg_guidesTourInvoices,'data-toggle'=>'modal','data-target'=>'#guideModal',));
+          }
+          return $ret;
+          
+         }
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!

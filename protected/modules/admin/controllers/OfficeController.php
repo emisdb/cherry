@@ -865,13 +865,19 @@ class OfficeController extends Controller
 			$model->to_date = Mainoptions::model()->getCvalue('scht_'.$id_control);
 
 		}
-	 else
+                 else
 		{
 			Mainoptions::model()->setCvalue('schf_'.$id_control,$_POST['SegGuidestourinvoices']['from_date']);
 			Mainoptions::model()->setCvalue('scht_'.$id_control,$_POST['SegGuidestourinvoices']['to_date']);
 			$model->from_date = $_POST['SegGuidestourinvoices']['from_date'];
 			$model->to_date = $_POST['SegGuidestourinvoices']['to_date'];
-			$model->attributes=$_POST['SegGuidestourinvoices'];
+                        if(isset($_POST['SegGuidestourinvoices']['idseg_guidesTourInvoices'])){
+                            $pk=$_POST['SegGuidestourinvoices']['idseg_guidesTourInvoices'];
+                            $info=$_POST['SegGuidestourinvoices']['SegGuidestourinvoices_info'];
+//                            if(isset($pk))
+//                            $model->updateByPk((int)$pk, array('SegGuidestourinvoices_info'=>$info));
+                            }
+//			$model->attributes=$_POST['SegGuidestourinvoices'];
  		}
     	if(isset($_GET['SegGuidestourinvoices']))
 			$model->attributes=$_GET['SegGuidestourinvoices'];
@@ -880,6 +886,7 @@ class OfficeController extends Controller
 		$this->render('gtiadmin',array(
 			'model'=>$model,
 	 		'info'=>$test,
+                    'pk'=>$pk,
 		));
 
 	}
@@ -2101,7 +2108,25 @@ class OfficeController extends Controller
 	                            return $name_pdf2;
 
 	}
-	       	public function actionAjaxInfo()
+	       	public function actionAjaxGti()
+	{
+                    	if (!Yii::app()->request->isAjaxRequest)
+			{
+				echo "No data";
+				exit;               
+			}
+
+	 	$id= $_POST['id'];
+ 		$model=SegGuidestourinvoices::model()->findByPk($id);
+		if($model===null)
+			echo "No data";
+                    else
+                        echo $model->info;
+
+                    
+                }
+
+                public function actionAjaxInfo()
 	{
 	if (!Yii::app()->request->isAjaxRequest)
 			{

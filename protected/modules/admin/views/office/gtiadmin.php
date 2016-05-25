@@ -2,27 +2,10 @@
  <?php $this->renderPartial('_top', array('info'=>$info)); ?>
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
-		 <div class="modal modal-info fade" id="guideModal" role="dialog">
-		   <div class="modal-dialog modal-md">
-			 <div class="modal-content">
-			   <div class="modal-header">
-				 <button type="button" class="close" data-dismiss="modal" aria-label="close">
-					 <span aria-hidden="true">&times;</span></button>
-				 <h4 class="modal-title">Invoice info</h4>
-			   </div>
-			   <div class="modal-body">
-				 <div id="modal-data">This is the Invoice's info.</div>
-			   </div>
-			   <div class="modal-footer">
-					<button  type="button" class="btn btn-outline pull-right btn-default" data-dismiss="modal">Schließen</button>
-			   </div>
-			 </div>
-		   </div>
-		 </div>
         <!-- Content Header (Page header) -->
        <section class="content-header">
 
-<h1>Buchung</h1>	
+<h1>Buchung <?php echo $pk.";"; ?></h1>	
        </section>
 
 
@@ -81,6 +64,35 @@
 				<?php echo CHtml::submitButton('Suchen',array('class'=>'btn btn-primary cancel')); // submit button ?> 
 			</div>
 		</div>
+            	 <div class="modal modal-success fade" id="guideModal" role="dialog">
+		   <div class="modal-dialog modal-md">
+ 			 <div class="modal-content">
+			   <div class="modal-header">
+				 <h4 class="modal-title">Invoice info</h4>
+			   </div>
+			   <div class="modal-body">
+ 					<div class="row">
+						<div class="col-md-10">
+						<?php 
+//							echo $form->labelEx($cash_model,'reason');
+							echo chtml::label("Informationen", "SegGuidestourinvoices_info");
+							echo $form->textArea($model,'info',array('size'=>60,'maxlength'=>128,'style'=>'color:#000;')); 
+							echo $form->error($model,'info');
+							echo $form->hiddenField($model,'idseg_guidesTourInvoices');
+						?>
+					</div>
+					<div class="col-md-2">
+					</div>
+					</div>	                                
+			   </div>
+			   <div class="modal-footer">
+                                        <button class="btn btn-success btn-outline btn-default" type="submit">Speichern</button>
+                                        <button  type="button" class="btn  pull-right" data-dismiss="modal" onclick="js:jQuery('#SegGuidestourinvoices_idseg_guidesTourInvoices').html('');">Abbrechen</button>
+                            </div>
+			 </div>
+		   </div>
+		 </div>
+
  <?php $this->endWidget();  ?>	
 		<div class="row">
 			<div class="col-md-12">
@@ -149,8 +161,10 @@
       array(
             'name'=>'info',	
                  'type'=>'raw',
-        'value'=>'(is_null($data->info)||(!(strlen($data->info)>0)))? CHtml::link( "__","js:void(0);",array("id"=>"inf".$data->idseg_guidesTourInvoices)): CHtml::link( substr($data->info,0,5),"js:void(0);",array("id"=>"inf".$data->idseg_guidesTourInvoices))',
-        ),	
+//        'value'=>'(is_null($data->info)||(!(strlen($data->info)>0)))? CHtml::link( "__","js:void(0);",array("id"=>"inf".$data->idseg_guidesTourInvoices)): CHtml::link( substr($data->info,0,5),"js:void(0);",array("id"=>"inf".$data->idseg_guidesTourInvoices))',
+        'value'=>array($model,'showinfo'),
+              'filter'=>false,
+         ),	
 	
       array(
             'name'=>'sched.date_now',	

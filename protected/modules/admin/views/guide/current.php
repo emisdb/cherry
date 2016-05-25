@@ -112,6 +112,7 @@
 				<th>Tourist</th>
 				<th>Nr</th>
 				<th>Name</th>
+                		<th>Info</th>
 				<th>Rabatt/Gutschein</th>
 				<th>Zahlungsmittel</th>
 				<th style="padding:1px 4px;">Base</th>
@@ -134,8 +135,9 @@
 				$count_cust=0;
 				foreach ($sched->guidestourinvoices as $value) {
 					$model=$value->guidestourinvoicescustomers;
+                                       $count_cust_in_inv=count($model);
 					$i=0;				
-					for($element=0;$element < count($model);$element++)
+					for($element=0;$element < $count_cust_in_inv;$element++)
 					{
 						$count_cust++;
 						$i++;
@@ -152,8 +154,13 @@
 						else $disabled=array();
 						if($model[$element]->customersName == '') $model[$element]->customersName = $model[$element]->tourinvoice->contact->firstname.' '. $model[$element]->tourinvoice->contact->surname;
 						echo $form->textField($model[$element],'customersName',array('style'=>'width:170px','name'=>'customersName'.$id)); 
-						echo "</td><td>\n";
-						echo $form->dropDownList($model[$element],'discounttype_id',$list_discount, array_merge(array('empty' => '--','name'=>'discounttype_id'.$id, 'onChange'=>'discount(value,this.id)'),$disabled));
+                				echo "</td>";
+                                                if($i==1)
+                                                {
+                                                     echo "<td ".(($count_cust_in_inv>1)? ("rowspan='".$count_cust_in_inv."'") : "").">".$value->info."</td>\n";
+                                                }
+						echo "<td>\n";
+							echo $form->dropDownList($model[$element],'discounttype_id',$list_discount, array_merge(array('empty' => '--','name'=>'discounttype_id'.$id, 'onChange'=>'discount(value,this.id)'),$disabled));
 						echo "</td><td>\n";
 						echo $form->dropDownList($model[$element],'paymentoptionid',$list_pay,array_merge(array('empty' => '--','name'=>'payoption'.$id, 'onChange'=>'cash(value,this.id)'),	$disabled));
 						echo "</td><td style='text-align: right;'>\n";
@@ -481,7 +488,14 @@ function cash(id,k)
                             document.getElementById('payoption'+i).style.display = 'none'; 
                             document.getElementById('creditcard'+i).checked = false;
                             document.getElementById('creditcard'+i).style.display = 'none';
-                    }else{
+                    }
+                    else if(discounttype_id==43)
+                    {
+                        document.getElementById('payoption'+i).style.display = 'none';                                   
+                            document.getElementById('creditcard'+i).checked = false;
+                            document.getElementById('creditcard'+i).style.display = 'none';
+                   }
+                   else{
                             document.getElementById('option'+i).style.display = 'none';
                             document.getElementById('payoption'+i).style.display = 'block'; 
                     }
