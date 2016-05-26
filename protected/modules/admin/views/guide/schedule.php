@@ -67,6 +67,7 @@ $datetime = time();
             'value'=>array($model,'opendoc'),
                         'type'=>'raw',
              'headerHtmlOptions'=>array('class'=>'info'),
+            'htmlOptions'=>array("style"=>'padding:0;'),
             //'filter'=>CHtml::listData($usergroups, 'idusergroups', 'groupname'),
         ),
        array(

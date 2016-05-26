@@ -216,14 +216,16 @@ class RootController extends Controller
 		if(isset($_POST['User']))
 		{
 		    //information profile
-            $model->id_usergroups = $_POST['User']['role_ob'];
-			$model->attributes=$_POST['User'];
+            $model->id_usergroups = $_POST['User']['idusergroups'];
+            $model->attributes=$_POST['User'];
             $model->status =1;  
+            $model_contact->attributes=$_POST['SegContacts'];
 
             if($model_contact->save()){
                 $model->id_contact =  $model_contact->idcontacts;
-                 if($model->save())
-                    $this->redirect(array('uupdate','id'=>$model->id));
+                if($model->save())
+                    $this->redirect(array('uadmin'));
+//                    $this->redirect(array('uupdate','id'=>$model->id));
             }
 		}
 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());

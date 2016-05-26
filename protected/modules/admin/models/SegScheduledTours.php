@@ -228,9 +228,9 @@ class SegScheduledTours extends CActiveRecord
 	}
          public function opendoc($data, $row){
              if($data->openTour)
-                return CHtml::link($data->idseg_scheduled_tours,Yii::app()->createUrl("/filespdf/$data->additional_info2.pdf"),array("target"=>"_blank"));
+                return CHtml::link("<div>".$data->idseg_scheduled_tours."</div>",Yii::app()->createUrl("/filespdf/$data->additional_info2.pdf"),array("target"=>"_blank"));
              else
-                return CHtml::link($data->idseg_scheduled_tours,array("current","id_sched"=>$data->idseg_scheduled_tours));
+                return CHtml::link("<div>".$data->idseg_scheduled_tours."</div>",array("current","id_sched"=>$data->idseg_scheduled_tours));
 
          }
 	/**
