@@ -216,7 +216,7 @@ class RootController extends Controller
 		if(isset($_POST['User']))
 		{
 		    //information profile
-            $model->id_usergroups = $_POST['User']['idusergroups'];
+            $model->id_usergroups = $_POST['User']['id_usergroups'];
             $model->attributes=$_POST['User'];
             $model->status =1;  
             $model_contact->attributes=$_POST['SegContacts'];
