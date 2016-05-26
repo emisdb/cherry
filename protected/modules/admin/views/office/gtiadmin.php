@@ -5,7 +5,7 @@
         <!-- Content Header (Page header) -->
        <section class="content-header">
 
-<h1>Buchung <?php echo $pk.";"; ?></h1>	
+<h1>Buchung</h1>	
        </section>
 
 

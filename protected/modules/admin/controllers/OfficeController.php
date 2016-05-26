@@ -886,7 +886,7 @@ class OfficeController extends Controller
 		$this->render('gtiadmin',array(
 			'model'=>$model,
 	 		'info'=>$test,
-                    'pk'=>$pk,
+//                    'pk'=>$pk,
 		));
 
 	}
@@ -2205,9 +2205,11 @@ class OfficeController extends Controller
 		if(Yii::app()->params['mailPWD']==$pwd)
 		{
 			echo "<h1>".date("Y-m-d H:i:s")."</h1>";
+                        $canceled_tours=array(0,0,0);
         $guides = SegGuidesdata::model()->with(array('user_ob.contact_ob'=>array('select'=>'email,phone,firstname,surname'),'user_ob.scheds'=>array('condition'=>'isInvoiced_guide1=0','select'=>'date,starttime')))
 					->findAll(array('condition'=>'invoiceCount2013>0','select'=>'idseg_guidesdata,invoiceCount2013,invoiceCount2014'));
 			foreach($guides as $item){
+                                $canceled_tours[0]++;
 				foreach($item['user_ob']['scheds'] as $it){
 					$date_f=$it['date']."T".$it['starttime'];
 					$diff=floor((strtotime($date_f)-time())/3600) ;
@@ -2250,6 +2252,7 @@ class OfficeController extends Controller
 				}
 			}
 		}
+                var_dump($canceled_tours);
 	}
 
 
