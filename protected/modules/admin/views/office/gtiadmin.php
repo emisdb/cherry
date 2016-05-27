@@ -68,6 +68,8 @@
 		   <div class="modal-dialog modal-md">
  			 <div class="modal-content">
 			   <div class="modal-header">
+				 <button type="button" class="close" data-dismiss="modal" aria-label="close">
+					 <span aria-hidden="true">&times;</span></button>
 				 <h4 class="modal-title">Invoice info</h4>
 			   </div>
 			   <div class="modal-body">
@@ -79,6 +81,7 @@
 							echo $form->textArea($model,'info',array('size'=>60,'maxlength'=>128,'style'=>'color:#000;')); 
 							echo $form->error($model,'info');
 							echo $form->hiddenField($model,'idseg_guidesTourInvoices');
+							echo $form->hiddenField($model,'cancel',array('value'=>'false'));
 						?>
 					</div>
 					<div class="col-md-2">
@@ -86,8 +89,8 @@
 					</div>	                                
 			   </div>
 			   <div class="modal-footer">
-                                        <button class="btn btn-success btn-outline btn-default" type="submit">Speichern</button>
-                                        <button  type="button" class="btn  pull-right" data-dismiss="modal" onclick="js:jQuery('#SegGuidestourinvoices_idseg_guidesTourInvoices').html('');">Abbrechen</button>
+                                        <button class="btn btn-success btn-outline btn-default" type="submit" onclick="js:jQuery('#SegGuidestourinvoices_cancel').val(true);">Speichern</button>
+                                        <button  type="button" class="btn  pull-right" data-dismiss="modal" >Abbrechen</button>
                             </div>
 			 </div>
 		   </div>
@@ -162,6 +165,7 @@
             'name'=>'info',	
                  'type'=>'raw',
 //        'value'=>'(is_null($data->info)||(!(strlen($data->info)>0)))? CHtml::link( "__","js:void(0);",array("id"=>"inf".$data->idseg_guidesTourInvoices)): CHtml::link( substr($data->info,0,5),"js:void(0);",array("id"=>"inf".$data->idseg_guidesTourInvoices))',
+//          'htmlOptions'=>'style="width:20px;"',
         'value'=>array($model,'showinfo'),
               'filter'=>false,
          ),	

@@ -195,7 +195,7 @@ class SegGuidestourinvoices extends CActiveRecord
 			'to_date' => 'Bis:',
 			'custname' => 'Vorname',
 			'custsname' => 'Nachname',
-			'info' => 'Info',
+			'info' => 'Informationen',
 		);
 	}
 		private function daterange($criteria)
@@ -320,7 +320,7 @@ class SegGuidestourinvoices extends CActiveRecord
               'type'=>'POST',
 	     'success'=>'function(html){'
                           . ' jQuery("#SegGuidestourinvoices_info").html(html); '
-                           . ' jQuery("#SegGuidestourinvoices_idseg_guidesTourInvoices").html('.$data->idseg_guidesTourInvoices.'); '
+                           . ' jQuery("#SegGuidestourinvoices_idseg_guidesTourInvoices").val('.$data->idseg_guidesTourInvoices.'); '
                          . ' $("#guideModal").modal("show");return true;}',
 ///             'complete' => 'return true;'
 				 )	  

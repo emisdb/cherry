@@ -871,13 +871,13 @@ class OfficeController extends Controller
 			Mainoptions::model()->setCvalue('scht_'.$id_control,$_POST['SegGuidestourinvoices']['to_date']);
 			$model->from_date = $_POST['SegGuidestourinvoices']['from_date'];
 			$model->to_date = $_POST['SegGuidestourinvoices']['to_date'];
-                        var_dump($_POST);
-                        exit();
-                        if(isset($_POST['SegGuidestourinvoices']['idseg_guidesTourInvoices'])){
+//                        var_dump($_POST);
+//                        exit();
+                        if($_POST['SegGuidestourinvoices']['cancel']=='true'){
                             $pk=$_POST['SegGuidestourinvoices']['idseg_guidesTourInvoices'];
-                            $info=$_POST['SegGuidestourinvoices']['SegGuidestourinvoices_info'];
-//                            if(isset($pk))
-//                            $model->updateByPk((int)$pk, array('SegGuidestourinvoices_info'=>$info));
+                            $info=$_POST['SegGuidestourinvoices']['info'];
+                            if(isset($pk))
+                            $model->updateByPk((int)$pk, array('info'=>$info));
                             }
 //			$model->attributes=$_POST['SegGuidestourinvoices'];
  		}
