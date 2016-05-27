@@ -67,3 +67,20 @@ Demo PlatformTransaktionen
 2.изменить видгет выбора времени
 
 Guide/current   discountoption - the js action is hardcoded and refers to the id (42)
+
+pivot table query:
+SET @sql = NULL;
+SELECT GROUP_CONCAT( DISTINCT CONCAT(  'count(case when username = ''', username,  ''' then 1 end) AS ', REPLACE( username,  ' ',  '' ) ) ) 
+INTO @sql
+FROM tbl_user
+
+SET @sql = CONCAT('SELECT pt.partner_name, ', @sql, ' from partners pt
+left join sales s
+  on pt.part_id = s.partner_id
+left join products pd
+  on s.product_id = pd.prod_id
+group by pt.partner_name');
+
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;

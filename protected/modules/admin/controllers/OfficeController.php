@@ -2206,11 +2206,13 @@ class OfficeController extends Controller
 		{
 			echo "<h1>".date("Y-m-d H:i:s")."</h1>";
                         $canceled_tours=array(0,0,0);
-        $guides = SegGuidesdata::model()->with(array('user_ob.contact_ob'=>array('select'=>'email,phone,firstname,surname'),'user_ob.scheds'=>array('condition'=>'isInvoiced_guide1=0','select'=>'date,starttime')))
-					->findAll(array('condition'=>'invoiceCount2013>0','select'=>'idseg_guidesdata,invoiceCount2013,invoiceCount2014'));
+                        $guides = SegGuidesdata::model()->with(array('user_ob.contact_ob'=>array('select'=>'email,phone,firstname,surname'),'user_ob.scheds'=>array('condition'=>'isInvoiced_guide1=0','select'=>'idseg_scheduled_tours,current_subscribers,date,starttime')))
+					->findAll(array('condition'=>'invoiceCount2013>0','select'=>'idseg_guidesdata,cancel_hours,cancel_number,invoiceCount2013,invoiceCount2014'));
 			foreach($guides as $item){
                                 $canceled_tours[0]++;
+//                                var_dump($item);
 				foreach($item['user_ob']['scheds'] as $it){
+	                        $canceled_tours[1]++;
 					$date_f=$it['date']."T".$it['starttime'];
 					$diff=floor((strtotime($date_f)-time())/3600) ;
 					if(($diff<=$item->invoiceCount2014)&&($diff>=0)){
@@ -2221,13 +2223,15 @@ class OfficeController extends Controller
 								$it->isInvoiced_guide1=1;
 								$it->save();
 							}
-								
 					}
+//                                        echo "<div>".$canceled_tours[1].":".$it['idseg_scheduled_tours'].":".$date_f.":".$diff."</div>";
+//                                        echo "<div style='margin-left:10px;'>".$item->cancel_hours.":".$it->current_subscribers.":".$item->cancel_number."</div>";
 					if($item->cancel_hours>0)
 					{
 					if($it->current_subscribers<$item->cancel_number)
 					{
 					if(($diff<=$item->cancel_hours)&&($diff>=0)){
+                                                echo "<div>!</div>";
 						if(strlen($item['user_ob']['contact_ob']['email'])>0)
 							if($this->sendMail($item['user_ob']['contact_ob']['email'],"Tour at ".$it['starttime'],
 									"Dear ".$item['user_ob']['contact_ob']['firstname']." ".$item['user_ob']['contact_ob']['surname'].". Your tour scheduled at ".$it['date']." ".$it['starttime']." is canceled for the lack of guests."))
