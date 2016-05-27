@@ -871,6 +871,8 @@ class OfficeController extends Controller
 			Mainoptions::model()->setCvalue('scht_'.$id_control,$_POST['SegGuidestourinvoices']['to_date']);
 			$model->from_date = $_POST['SegGuidestourinvoices']['from_date'];
 			$model->to_date = $_POST['SegGuidestourinvoices']['to_date'];
+                        var_dump($_POST);
+                        exit();
                         if(isset($_POST['SegGuidestourinvoices']['idseg_guidesTourInvoices'])){
                             $pk=$_POST['SegGuidestourinvoices']['idseg_guidesTourInvoices'];
                             $info=$_POST['SegGuidestourinvoices']['SegGuidestourinvoices_info'];
@@ -1163,7 +1165,7 @@ class OfficeController extends Controller
         
         $this->render('show',array('model'=>$model,'info'=>$test,));
      }
-	public function actionCurrent($id_sched)
+    public function actionCurrent($id_sched)
 	{
 	
 		$id_control = Yii::app()->user->id;
@@ -1171,74 +1173,74 @@ class OfficeController extends Controller
 		if(is_null($sched)) 	throw new CHttpException(404,'The requested tour does not exist.');
 //		if($sched->additional_info2) $this->redirect(array('schedule'));
 //		if($sched->additional_info2) $this->redirect(Yii::app()->createUrl("/filespdf/".$sched->additional_info2.".pdf"));
- 			$date_format = strtotime($sched->date);
-			$date_bd = date('Y-m-d',$date_format);
-			$dt =$date_bd.' '.$sched->starttime;
-	
-			//mainoption
+                $date_format = strtotime($sched->date);
+                $date_bd = date('Y-m-d',$date_format);
+                $dt =$date_bd.' '.$sched->starttime;
 
-			$criteria_vat = new CDbCriteria;
-			$criteria_vat->condition = 'name=:name ';
-			$criteria_vat->params = array(':name'=>'Vat');
-			$vat_nds = Mainoptions::model()->find($criteria_vat)->value;
-			$criteria = new CDbCriteria;
-                        $criteria->addCondition("idpayoptions in (1,2,3,4)");
+                //mainoption
+
+                $criteria_vat = new CDbCriteria;
+                $criteria_vat->condition = 'name=:name ';
+                $criteria_vat->params = array(':name'=>'Vat');
+                $vat_nds = Mainoptions::model()->find($criteria_vat)->value;
+                $criteria = new CDbCriteria;
+                $criteria->addCondition("idpayoptions in (1,2,3,4)");
 //			$criteria->condition = 'idpayoptions=:idpayoptions1 OR idpayoptions=:idpayoptions2 OR idpayoptions=:idpayoptions3';
 //			$criteria->params = array(':idpayoptions1' => 1,':idpayoptions2' => 2,':idpayoptions3' => 3);
-			$pay = Payoptions::model()->findAll($criteria);
-			$invoiceoptions_array = Invoiceoptions::model()->findAll(array('order'=>'id ASC')); 
-			$dis = Bonus::model()->findAll(array('order'=>'sort ASC')); 
-				if(!empty($_POST))
-				{
-					$pdf=$_POST['pdf'];
+                $pay = Payoptions::model()->findAll($criteria);
+                $invoiceoptions_array = Invoiceoptions::model()->findAll(array('order'=>'id ASC')); 
+                $dis = Bonus::model()->findAll(array('order'=>'sort ASC')); 
+                if(!empty($_POST))
+                {
+                        $pdf=$_POST['pdf'];
 
-					foreach ($sched->guidestourinvoices as $invoice) {
-					$model=$invoice->guidestourinvoicescustomers;
-					$count_cust=0;
-					$overAllIncome=0;
-					$cashIncome=0;
-					$invoice_id =  $invoice->idseg_guidesTourInvoices;			
-					for($k=0;$k<count($model);$k++)
-					{
-						$kk=$model[$k]->idseg_guidesTourInvoicesCustomers;
-						$count_cust++;
-						$model[$k]->tourInvoiceid = $invoice_id;
-						$model[$k]->customersName = $_POST['customersName'.$kk];
-						$model[$k]->discounttype_id = $_POST['discounttype_id'.$kk];
-						$model[$k]->paymentoptionid = $_POST['payoption'.$kk];
-						$model[$k]->id_invoiceoptions = $_POST['option'.$kk];
-						if(($model[$k]->paymentoptionid) &&($model[$k]->discounttype_id!=42))
-						{
-	
-							$model[$k]->isPaid = 1;
-							$model[$k]->price = $_POST['price'.$kk];
-							$overAllIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
-							if($model[$k]->paymentoptionid==1) 
-								$cashIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
-						}
-                                                else {
-							$model[$k]->isPaid = 0;
-							$model[$k]->price = 0;
-						}
-						$model[$k]->save();
-						
-					}
-					$invoice->creationDate = $sched->date;
-					$invoice->cityid = $sched->city_id;
-					$invoice->sched_tourid = $sched->tourroute_id;
-					$invoice->guideNr = $sched->guide1_id;
-					$invoice->status = 0;
-					$invoice->id_sched = $sched->idseg_scheduled_tours;
-					$invoice->overAllIncome = $overAllIncome;
-					$invoice->cashIncome =  $cashIncome;
-					$invoice->save();
-				}
-				if($pdf){
-					if(!$this->createpdf($sched)) return;
+                        foreach ($sched->guidestourinvoices as $invoice) {
+                        $model=$invoice->guidestourinvoicescustomers;
+                        $count_cust=0;
+                        $overAllIncome=0;
+                        $cashIncome=0;
+                        $invoice_id =  $invoice->idseg_guidesTourInvoices;			
+                        for($k=0;$k<count($model);$k++)
+                        {
+                                $kk=$model[$k]->idseg_guidesTourInvoicesCustomers;
+                                $count_cust++;
+                                $model[$k]->tourInvoiceid = $invoice_id;
+                                $model[$k]->customersName = $_POST['customersName'.$kk];
+                                $model[$k]->discounttype_id = $_POST['discounttype_id'.$kk];
+                                $model[$k]->paymentoptionid = $_POST['payoption'.$kk];
+                                $model[$k]->id_invoiceoptions = $_POST['option'.$kk];
+                                if(($model[$k]->paymentoptionid) &&($model[$k]->discounttype_id!=42))
+                                {
+
+                                        $model[$k]->isPaid = 1;
+                                        $model[$k]->price = $_POST['price'.$kk];
+                                        $overAllIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
+                                        if($model[$k]->paymentoptionid==1) 
+                                                $cashIncome+=is_null($model[$k]->price)? 0 : $model[$k]->price;
+                                }
+                                else {
+                                        $model[$k]->isPaid = 0;
+                                        $model[$k]->price = 0;
+                                }
+                                $model[$k]->save();
+
+                        }
+                        $invoice->creationDate = $sched->date;
+                        $invoice->cityid = $sched->city_id;
+                        $invoice->sched_tourid = $sched->tourroute_id;
+                        $invoice->guideNr = $sched->guide1_id;
+                        $invoice->status = 0;
+                        $invoice->id_sched = $sched->idseg_scheduled_tours;
+                        $invoice->overAllIncome = $overAllIncome;
+                        $invoice->cashIncome =  $cashIncome;
+                        $invoice->save();
+                }
+                if($pdf){
+                        if(!$this->createpdf($sched)) return;
 //					$this->redirect(Yii::app()->createUrl("/filespdf/".$sched->additional_info2.".pdf"));
-					return;
-				}
-			}
+                        return;
+                }
+        }
 	$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
 
 	$this->render('current',array(
@@ -1253,57 +1255,56 @@ class OfficeController extends Controller
 	}
     public function actionInvoice($id)
 	{
-		$tour=null;
-    	$id_control = Yii::app()->user->id;
-		     $contact = new Bookq;
+            $tour=null;
+            $id_control = Yii::app()->user->id;
+	    $contact = new Bookq;
 	    $model = SegGuidestourinvoices::model()->with(array('sched','contact','countCustomers'))->findByPk($id);
 
             $criteria_tours_link2 = new CDbCriteria;
             $criteria_tours_link2->condition = 'idseg_tourroutes=:idseg_tourroutes';
             $criteria_tours_link2->params = array(':idseg_tourroutes' => $model->sched->tourroute_id);
             $tours_guide = SegTourroutes::model()->findAll($criteria_tours_link2);
-			$criteria = new CDbCriteria;
-			 $criteria->condition = 'cityid=:cityid AND idseg_tourroutes=:id_tour_categories';
-			 $criteria->params = array(':cityid' => $model->sched->city_id,':id_tour_categories'=>$model->sched->tourroute_id);
-			 $tour = SegTourroutes::model()->find($criteria);
-			 $contact->tour=$tour->idseg_tourroutes;
-		 /*languages*/
+            $criteria = new CDbCriteria;
+             $criteria->condition = 'cityid=:cityid AND idseg_tourroutes=:id_tour_categories';
+             $criteria->params = array(':cityid' => $model->sched->city_id,':id_tour_categories'=>$model->sched->tourroute_id);
+             $tour = SegTourroutes::model()->find($criteria);
+             $contact->tour=$tour->idseg_tourroutes;
+	 /*languages*/
 
             $languages_guide = Languages::model()->findByPk($model->sched->language_id);
- 			 $contact->language=$model->sched->language_id;
- 
-			 $contact->tickets=$model->countCustomers;
-			 $contact->firstname=$model->contact->firstname;
- 			 $contact->lastname=$model->contact->surname;
- 			 $contact->street=$model->contact->street;
- 			 $contact->house=$model->contact->house;
- 			 $contact->additional_address=$model->contact->additional_address;
- 			 $contact->postalcode=$model->contact->postalcode;
- 			 $contact->city=$model->contact->city;
- 			 $contact->country=$model->contact->country;
- 			 $contact->email=$model->contact->email;
- 			 $contact->phone=$model->contact->phone;
-			 $contact->info=$model->info;
-       	if(isset($_POST['Bookq']))
-		{
-                    $contact->attributes=$_POST['Bookq'];
-                    $ticket_count =	$contact->tickets-$model->countCustomers;
-			if($contact->validate()){
-								
-				//save contact
-				$user_contact =  SegContacts::model()->findByPk($model->contacts_id);
-                $user_contact->firstname = $_POST['Bookq']['firstname'];
-				$user_contact->surname = $_POST['Bookq']['lastname'];
-				$user_contact->additional_address = $_POST['Bookq']['additional_address'];
-				$user_contact->city = $_POST['Bookq']['city'];
-				$user_contact->street = $_POST['Bookq']['street'];
-				$user_contact->postalcode = $_POST['Bookq']['postalcode'];
+            $contact->language=$model->sched->language_id;
+
+            $contact->tickets=$model->countCustomers;
+            $contact->firstname=$model->contact->firstname;
+            $contact->lastname=$model->contact->surname;
+            $contact->street=$model->contact->street;
+            $contact->house=$model->contact->house;
+            $contact->additional_address=$model->contact->additional_address;
+            $contact->postalcode=$model->contact->postalcode;
+            $contact->city=$model->contact->city;
+            $contact->country=$model->contact->country;
+            $contact->email=$model->contact->email;
+            $contact->phone=$model->contact->phone;
+            $contact->info=$model->info;
+            if(isset($_POST['Bookq']))
+            {
+                $contact->attributes=$_POST['Bookq'];
+                $ticket_count =	$contact->tickets-$model->countCustomers;
+                if($contact->validate()){
+                        //save contact
+                    $user_contact =  SegContacts::model()->findByPk($model->contacts_id);
+                   $user_contact->firstname = $_POST['Bookq']['firstname'];
+                    $user_contact->surname = $_POST['Bookq']['lastname'];
+                    $user_contact->additional_address = $_POST['Bookq']['additional_address'];
+                    $user_contact->city = $_POST['Bookq']['city'];
+                    $user_contact->street = $_POST['Bookq']['street'];
+                    $user_contact->postalcode = $_POST['Bookq']['postalcode'];
 //				$user_contact->house = $_POST['Bookq']['house'];
-				$user_contact->country = $_POST['Bookq']['country'];
-				$user_contact->phone = $_POST['Bookq']['phone'];
-				$user_contact->email = $_POST['Bookq']['email'];
-				$user_contact->save();
-				//save guidestourinvoicecustomers
+                    $user_contact->country = $_POST['Bookq']['country'];
+                    $user_contact->phone = $_POST['Bookq']['phone'];
+                    $user_contact->email = $_POST['Bookq']['email'];
+                    $user_contact->save();
+                    //save guidestourinvoicecustomers
 				if($ticket_count>0)
 				{
 				for($j=0;$j<$ticket_count;$j++){
@@ -1784,9 +1785,9 @@ class OfficeController extends Controller
 			$forpdf=$invoice;
 			if(count($sched->guidestourinvoices)>0) $txt_num=$sched->guidestourinvoices[0]->TA_string;	
 		}
- else {
-		$txt_num=$invoice->TA_string;			
- }
+            else {
+                           $txt_num=$invoice->TA_string;			
+            }
 
 
 		$tbl0 = '<table style="margin:30px;">
@@ -2108,7 +2109,7 @@ class OfficeController extends Controller
 	                            return $name_pdf2;
 
 	}
-	       	public function actionAjaxGti()
+	public function actionAjaxGti()
 	{
                     	if (!Yii::app()->request->isAjaxRequest)
 			{
