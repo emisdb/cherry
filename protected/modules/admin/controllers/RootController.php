@@ -197,18 +197,20 @@ class RootController extends Controller
   			'info'=>$test,
 		));
 	}
-	 	public function actionUcreate()
+	
+        public function actionUcreate()
 	{
 		$id_control = Yii::app()->user->id;
-        $role_control = $this->loadModel($id_control)->id_usergroups;        
+            $role_control = $this->loadModel($id_control)->id_usergroups;        
 
             $criteria=new CDbCriteria;
             $criteria->condition='groupname<>:groupname1';
             $criteria->params=array(':groupname1'=>'root');
             $usergroups = Usergroups::model()->findAll($criteria);
+ //           $usergroups = Usergroups::model($criteria);
      
-        $model=new User;
-        $model_contact = new SegContacts;
+            $model=new User;
+            $model_contact = new SegContacts;
  
 		// Uncomment the following line if AJAX validation is needed
 		//$this->performAjaxValidation($model);
@@ -230,8 +232,9 @@ class RootController extends Controller
 		}
 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
 		$this->render('create_user',array(
-			'model'=>$model,'usergroups'=>$usergroups,
-            'modelc'=>$model_contact,
+			'model'=>$model,
+                        'usergroups'=>$usergroups,
+                        'modelc'=>$model_contact,
  			'info'=>$test,
 		));
 	}

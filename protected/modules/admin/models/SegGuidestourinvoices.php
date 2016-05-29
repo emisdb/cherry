@@ -320,7 +320,8 @@ class SegGuidestourinvoices extends CActiveRecord
               'type'=>'POST',
 	     'success'=>'function(html){'
                           . ' jQuery("#SegGuidestourinvoices_info").html(html); '
-                           . ' jQuery("#SegGuidestourinvoices_idseg_guidesTourInvoices").val('.$data->idseg_guidesTourInvoices.'); '
+                          .'document.getElementById("SegGuidestourinvoices_idseg_guidesTourInvoices").value = '.$data->idseg_guidesTourInvoices.';'
+//                           . ' jQuery("#SegGuidestourinvoices_idseg_guidesTourInvoices").val("'.$data->idseg_guidesTourInvoices.'"); '
                          . ' $("#guideModal").modal("show");return true;}',
 ///             'complete' => 'return true;'
 				 )	  
@@ -335,7 +336,8 @@ class SegGuidestourinvoices extends CActiveRecord
               'type'=>'POST',
 	     'success'=>'function(html){'
                           . ' jQuery("#SegGuidestourinvoices_info").html(html); '
-                          . ' jQuery("#SegGuidestourinvoices_idseg_guidesTourInvoices").html('.$data->idseg_guidesTourInvoices.'); '
+                          .'document.getElementById("SegGuidestourinvoices_idseg_guidesTourInvoices").value = '.$data->idseg_guidesTourInvoices.';'
+//                          . ' jQuery("#SegGuidestourinvoices_idseg_guidesTourInvoices").html('.$data->idseg_guidesTourInvoices.'); '
                           . ' $("#guideModal").modal("show");return true;}',
 ///             'complete' => 'return true;'
 			));

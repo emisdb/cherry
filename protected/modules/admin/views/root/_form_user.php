@@ -16,8 +16,8 @@
 		<div class="col-md-6">
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'id_usergroups',array('class'=>'control-label')); ?>
-		<?php $list = CHtml::listData($usergroups, 'id_usergroups', 'groupname'); ?>
-		<?php echo $form->dropDownList($model,'id_usergroups',$list,array( 'class'=>'form-control')); ?>
+		<?php $list = CHtml::listData($usergroups, 'idusergroups', 'groupname'); 
+		echo $form->dropDownList($model,'id_usergroups',$list,array( 'class'=>'form-control')); ?>
         <?php echo $form->error($model,'id_usergroups'); ?>
 	</div>
 	</div>

@@ -80,7 +80,7 @@
 							echo chtml::label("Informationen", "SegGuidestourinvoices_info");
 							echo $form->textArea($model,'info',array('size'=>60,'maxlength'=>128,'style'=>'color:#000;')); 
 							echo $form->error($model,'info');
-							echo $form->hiddenField($model,'idseg_guidesTourInvoices');
+							echo $form->hiddenField($model,'idseg_guidesTourInvoices',array('value'=>'0'));
 							echo $form->hiddenField($model,'cancel',array('value'=>'false'));
 						?>
 					</div>
@@ -89,7 +89,7 @@
 					</div>	                                
 			   </div>
 			   <div class="modal-footer">
-                                        <button class="btn btn-success btn-outline btn-default" type="submit" onclick="js:jQuery('#SegGuidestourinvoices_cancel').val(true);">Speichern</button>
+                                        <button class="btn btn-success btn-outline btn-default" type="submit" onclick="js:jQuery('#SegGuidestourinvoices_cancel').val('true');">Speichern</button>
                                         <button  type="button" class="btn  pull-right" data-dismiss="modal" >Abbrechen</button>
                             </div>
 			 </div>
