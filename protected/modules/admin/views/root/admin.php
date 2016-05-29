@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 	'Users',
 );
 ?>
-<?php $modelsearch = $model->search_office();	?>
+<?php $modelsearch = $model->search_root();	?>
 
 <h1>All users</h1>
 
