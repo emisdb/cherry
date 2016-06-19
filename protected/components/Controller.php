@@ -24,7 +24,7 @@ class Controller extends CController
 	{
 		        Yii::import('ext.yii-mail.YiiMailMessage');
                 $message = new YiiMailMessage;
-				$message->setBody($body);
+				$message->setBody($body, 'text/html');
                 $message->subject = $subject;
                 $message->addTo($to);
                 $message->from = Yii::app()->params['adminEmail'];
@@ -34,4 +34,15 @@ class Controller extends CController
 				}
                return Yii::app()->mail->send($message);
 		}
+	protected function dateEn($dat)
+	{
+		$dat = preg_replace('/([0-9]{4})-([0-9]{2})-([0-9]{2})/','$3.$2.$1',$dat);
+		return $dat;
+	}
+	protected function timeShort($time)
+	{
+      $tm = explode(":",$time);
+	  $time = $tm[0].':'.$tm[1];
+	  return $time;	
+	}
 }

@@ -398,6 +398,8 @@ class SegScheduledTours extends CActiveRecord
             'date'=>CSort::SORT_ASC,
             'starttime'=>CSort::SORT_ASC,
         );
+		
+		
 
 		return new CActiveDataProvider($this, array(
 //                   'pagination'=>false,

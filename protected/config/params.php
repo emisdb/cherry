@@ -19,6 +19,7 @@ return array(
 		"&descriptor=Cherrytours".
 		"&merchantTransactionId=[trans]".
 		"&paymentType=DB",
+	'img'=>'img',
 	'mailPWD'=>'123',
 	// number of posts displayed per page
 	'postsPerPage'=>10,
@@ -30,4 +31,6 @@ return array(
 	'commentNeedApproval'=>true,
 	// the copyright information displayed in the footer section
 	'copyrightInfo'=>'Copyright &copy; 2009 by My Company.',
+	'site_en'=>'cherrytours.com',
+	'site_de'=>'cherrytours.de',
 );

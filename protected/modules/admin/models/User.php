@@ -202,22 +202,37 @@ class User extends CActiveRecord
     public function search_root()
 	{
 		$criteria=new CDbCriteria;
+		$sort   = new CSort;
 
-        $criteria->condition='id_usergroups<>:id_usergroups1';
-        $criteria->params=array(':id_usergroups1'=>1);
+                $criteria->condition='id_usergroups<>:id_usergroups1';
+                $criteria->params=array(':id_usergroups1'=>1);
+//		$criteria->select="t.*, SUM(delta_cash) AS paysum ";
+//		$citeria->join="LEFT JOIN cashbox_change_requests  ON cashbox_change_requests.id_users = t.id";
+//              $citeria->condition = "approvedBy IS NOT NULL";
+//              $citeria->group = 't.id';
+                $criteria->with = array('contact_ob'=>array('select'=>'firstname,surname'),'city'=>array('with'=>'cities'),'payNA','paySum');
+		$criteria->compare('cities.seg_cityname',$this->cityname,true);
+		if(strlen($this->guidename)>0)
+		   $criteria->addCondition('contact_ob.firstname LIKE \'%'.$this->guidename.'%\' OR contact_ob.surname LIKE \'%'.$this->guidename.'%\'');
+//       	$criteria->compare('paysum',$this->paysum);
+                $criteria->compare('status',$this->status);
+		$sort->attributes = array(
+			'*',
+			'cityname'=>array('asc'=>'cities.seg_cityname',
+							'desc'=>'cities.seg_cityname DESC', 
+							'label'=>'Stadt'),
+			'guidename'=>array('asc'=>'contact_ob.firstname, contact_ob.surname',
+							'desc'=>'contact_ob.firstname DESC, contact_ob.surname DESC', 
+							'label'=>'Name'),
+//			'paysum'=>array('asc'=>'paysum',
+//							'desc'=>'paysum DESC', 
+//							'label'=>'Balance'),
+		);
 
-
-        $criteria->with = array('role_ob','contact_ob','guide_ob');
-		$criteria->compare('role_ob.idusergroups',$this->role_ob,true);
-		$criteria->compare('contact_ob.idcontacts',$this->contact_ob);
-        $criteria->compare('guide_ob.idseg_guidesdata',$this->guide_ob);
-        
-       	$criteria->compare('id',$this->id);
-		$criteria->compare('username',$this->username,true);
-		$criteria->compare('profile',$this->profile,true);
-      
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+	             'pagination'=>array('pageSize'=>50),
+                 'criteria'=>$criteria,
+                    'sort'=>$sort,
 		));
 	}
 

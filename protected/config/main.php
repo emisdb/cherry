@@ -40,7 +40,8 @@ return array(
 		'admin'
     ),
 
-	'defaultController'=>'main',
+//	'defaultController'=>'main',
+	'defaultController'=>'api',
 
 	// application components
 	'components'=>array(
@@ -65,7 +66,8 @@ return array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
-	/*	'db'=>array(
+		'session' => array ( 'sessionName' => 'cherrytours'),
+ 	/*	'db'=>array(
 			'connectionString' => 'sqlite:protected/data/blog.db',
 			'tablePrefix' => 'tbl_',
 		), */
@@ -87,8 +89,18 @@ return array(
 */		'urlManager'=>array(
 			'urlFormat'=>'path',
             'showScriptName'=>false,
-		
-			'rules'=>array(
+            'rules' => array(
+                'admin' => '/admin/default/login',
+                'admin/<controller>/<action>' => '/admin/<controller>/<action>',
+                '' => 'api/index',
+                'main/<nn:.*?>' => 'main/<nn>',
+  
+                '<cont>' => 'api/index/cont/<cont>',
+                '<cont>/<act>' => 'api/index/cont/<cont>/act/<act>',
+               '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+
+             ),		
+/*			'rules'=>array(
             	'/' => 'segScheduledTours/index',
 				'admin' => 'admin/default/login',
 				'admin/<controller>/<action>' => 'admin/<controller>/<action>',
@@ -103,12 +115,13 @@ return array(
 				'/hamburg' => 'segScheduledTours/city/city/3',
 				'/<city>' => 'segScheduledTours/city',
 				'/<book>/book' => 'segScheduledTours/book',
-/**/			
+			
 				'post/<id:\d+>/<title:.*?>'=>'post/view',
 				'posts/<tag:.*?>'=>'post/index',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
     			),
-		),
+*/
+            ),
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(

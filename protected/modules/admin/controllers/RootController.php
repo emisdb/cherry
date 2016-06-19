@@ -536,21 +536,40 @@ class RootController extends Controller
 		if(isset($_POST['SegCities']))
 		{
                     $lnk_to_picture_old = $model->picture_city;
+                    $mlnk_to_picture_old = $model->mail_picture_city;
                     $model->attributes=$_POST['SegCities'];
                     $model->image = CUploadedFile::getInstance($model,'image');
-            
+                           $name_uniqid = $model->image;
+     
+           // print_r( $_POST['SegGuidesdata']);
+             
+                if($model->image!=""){
+//                    $name_uniqid = uniqid();
+                    $model->picture_city = $name_uniqid;
+
+                       if((($lnk_to_picture_old!="")||($lnk_to_picture_old!=NULL))&& file_exists(Yii::app()->params['img'].'/'.$lnk_to_picture_old))
+                       {
+                                        unlink(Yii::app()->params['img'].'/'.$lnk_to_picture_old);
+                     }
+                        $file = Yii::app()->params['img'].'/'.$model->picture_city;
+                        $model->image->saveAs($file);
+                    }
+                    $model->mimage = CUploadedFile::getInstance($model,'mimage');
+                           $name_uniqid = $model->mimage;
+     
            // print_r( $_POST['SegGuidesdata']);
             // print_r( $model->image);
             
-                if($model->image!=""){
-                    $name_uniqid = uniqid();
-                    //$lnk_to_picture_old = $model->lnk_to_picture;
-                    $model->picture_city = $name_uniqid;
+                if($model->mimage!=""){
+//                    $name_uniqid = uniqid();
+                    $model->mail_picture_city = $name_uniqid;
 
-                       if((($lnk_to_picture_old!="")||($lnk_to_picture_old!=NULL))&& file_exists('img/'.$lnk_to_picture_old))
-                                        unlink('img/'.$lnk_to_picture_old);
-                        $file = 'img/'.$model->picture_city;
-                        $model->image->saveAs($file);
+                       if((($mlnk_to_picture_old!="")||($mlnk_to_picture_old!=NULL))&& file_exists(Yii::app()->params['img'].'/'.$mlnk_to_picture_old))
+                       {
+                                        unlink(Yii::app()->params['img'].'/'.$mlnk_to_picture_old);
+                     }
+                        $file = Yii::app()->params['img'].'/'.$model->mail_picture_city;
+                        $model->mimage->saveAs($file);
                     }
 
                     if($model->save())

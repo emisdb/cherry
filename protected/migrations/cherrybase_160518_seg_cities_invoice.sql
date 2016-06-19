@@ -26,6 +26,7 @@ SET time_zone = "+00:00";
 -- Структура таблицы `seg_cities`
 --
 ALTER TABLE  `seg_cities` ADD  `picture_city` VARCHAR( 100 ) NULL  ;
+ALTER TABLE  `seg_cities` ADD  `mail_picture_city` VARCHAR( 100 ) NULL  ;
 --
 -- Структура таблицы `seg_guidestourinvoices`
 --

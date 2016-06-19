@@ -36,15 +36,27 @@
          </div>
        </div>
  	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-6">
 			<div class="form-group">
  		<?php
                     echo $form->labelEx($model,'picture_city',array('style'=>'margin-right:10px;'));
                      if($model->picture_city !=""){
-                        echo CHtml::image(Yii::app()->request->baseUrl.'/img/'. $model->picture_city,'City\'s image',array('style'=>'height: 150px;'));
+                        echo CHtml::image(Yii::app()->request->baseUrl.'/'.Yii::app()->params['img'].'/'. $model->picture_city,'City\'s image',array('style'=>'height: 150px;'));
                     }
                     echo $form->FileField($model,'image');
                     echo $form->error($model,'picture_city');
+                  ?>
+ 		</div>
+		</div>  
+		<div class="col-md-6">
+			<div class="form-group">
+ 		<?php
+                    echo $form->labelEx($model,'mail_picture_city',array('style'=>'margin-right:10px;'));
+                     if($model->mail_picture_city !=""){
+                        echo CHtml::image(Yii::app()->request->baseUrl.'/'.Yii::app()->params['img'].'/'. $model->mail_picture_city,'City\'s image',array('style'=>'height: 150px;'));
+                    }
+                    echo $form->FileField($model,'mimage');
+                    echo $form->error($model,'mail_picture_city');
                   ?>
  		</div>
 		</div>  
@@ -52,6 +64,56 @@
         </div>
     </div>
      <div class="box box-primary" >
+        <div class="box-header with-border">
+            <h4 class="box-title">
+           Phone & Address & Accounts
+            </h4>
+        </div>
+        <div class="box-body" >
+            <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                        <?php echo $form->labelEx($model,'localPhone'); ?>
+                        <?php echo $form->textField($model,'localPhone',array('size'=>45,'maxlength'=>45)); ?>
+                        <?php echo $form->error($model,'localPhone'); ?>
+                  </div>
+               </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+ 		<?php echo $form->labelEx($model,'cashaccount_DTV'); ?>
+		<?php echo $form->textField($model,'cashaccount_DTV',array('size'=>5,'maxlength'=>5)); ?>
+		<?php echo $form->error($model,'cashaccount_DTV'); ?>
+                  </div>
+               </div>
+               </div>
+            <div class="row">
+              <div class="col-md-4">
+                  <div class="form-group">
+                    <?php echo $form->labelEx($model,'localPLZ'); ?>
+                    <?php echo $form->textField($model,'localPLZ',array('size'=>45,'maxlength'=>45)); ?>
+                    <?php echo $form->error($model,'localPLZ'); ?>
+                  </div>
+               </div>
+              <div class="col-md-4">
+                  <div class="form-group">
+                    <?php echo $form->labelEx($model,'localStreet'); ?>
+                    <?php echo $form->textField($model,'localStreet',array('size'=>60,'maxlength'=>60)); ?>
+                    <?php echo $form->error($model,'localStreet'); ?>
+                  </div>
+               </div>
+              <div class="col-md-4">
+                  <div class="form-group">
+                        <?php echo $form->labelEx($model,'localHouse'); ?>
+                        <?php echo $form->textField($model,'localHouse',array('size'=>10,'maxlength'=>10)); ?>
+                        <?php echo $form->error($model,'localHouse'); ?>
+                  </div>
+               </div>
+               
+                </div> 
+         </div>
+    </div>
+           
+        <div class="box box-primary" >
         <div class="box-header with-border">
             <h4 class="box-title">
            Mails
@@ -214,117 +276,126 @@
         </div>
         </div>
     </div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'webadress'); ?>
+    <div class="box box-primary" >
+        <div class="box-header with-border">
+            <h4 class="box-title">
+           Webaddresses and links
+            </h4>
+        </div>
+        <div class="box-body" >
+            <div class="row">
+              <div class="col-md-6">
+                  <div class="form-group">
+ 		<?php echo $form->labelEx($model,'webadress'); ?>
 		<?php echo $form->textField($model,'webadress',array('size'=>45,'maxlength'=>45)); ?>
 		<?php echo $form->error($model,'webadress'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'localPhone'); ?>
-		<?php echo $form->textField($model,'localPhone',array('size'=>45,'maxlength'=>45)); ?>
-		<?php echo $form->error($model,'localPhone'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'localStreet'); ?>
-		<?php echo $form->textField($model,'localStreet',array('size'=>60,'maxlength'=>60)); ?>
-		<?php echo $form->error($model,'localStreet'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'localHouse'); ?>
-		<?php echo $form->textField($model,'localHouse',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'localHouse'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'localPLZ'); ?>
-		<?php echo $form->textField($model,'localPLZ',array('size'=>45,'maxlength'=>45)); ?>
-		<?php echo $form->error($model,'localPLZ'); ?>
-	</div>
-
-	<div class="row">
+                  </div>
+               </div>
+              <div class="col-md-6">
+                  <div class="form-group">
 		<?php echo $form->labelEx($model,'webadress_en'); ?>
 		<?php echo $form->textField($model,'webadress_en',array('size'=>45,'maxlength'=>45)); ?>
 		<?php echo $form->error($model,'webadress_en'); ?>
-	</div>
-
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'cashaccount_DTV'); ?>
-		<?php echo $form->textField($model,'cashaccount_DTV',array('size'=>5,'maxlength'=>5)); ?>
-		<?php echo $form->error($model,'cashaccount_DTV'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'tripadvisor_lnk'); ?>
+                  </div>
+               </div>
+                </div>
+           <div class="row">
+              <div class="col-md-6">
+                  <div class="form-group">
+ 		<?php echo $form->labelEx($model,'tripadvisor_lnk'); ?>
 		<?php echo $form->textField($model,'tripadvisor_lnk',array('size'=>60,'maxlength'=>100)); ?>
 		<?php echo $form->error($model,'tripadvisor_lnk'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'facebook_lnk'); ?>
+                  </div>
+               </div>
+              <div class="col-md-6">
+                  <div class="form-group">
+ 		<?php echo $form->labelEx($model,'facebook_lnk'); ?>
 		<?php echo $form->textField($model,'facebook_lnk',array('size'=>60,'maxlength'=>100)); ?>
 		<?php echo $form->error($model,'facebook_lnk'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'google_analytics_id'); ?>
+                  </div>
+               </div>
+               
+                </div> 
+         </div>
+    </div>
+    <div class="box box-primary" >
+        <div class="box-header with-border">
+            <h4 class="box-title">
+           Google
+            </h4>
+        </div>
+        <div class="box-body" >
+             <div class="row">
+              <div class="col-md-4">
+                  <div class="form-group">
+ 		<?php echo $form->labelEx($model,'google_analytics_id'); ?>
 		<?php echo $form->textField($model,'google_analytics_id',array('size'=>20,'maxlength'=>20)); ?>
 		<?php echo $form->error($model,'google_analytics_id'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'google_conversions_id'); ?>
+                  </div>
+               </div>
+              <div class="col-md-4">
+                  <div class="form-group">
+ 		<?php echo $form->labelEx($model,'google_conversions_id'); ?>
 		<?php echo $form->textField($model,'google_conversions_id'); ?>
 		<?php echo $form->error($model,'google_conversions_id'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'google_conversions_label'); ?>
+                  </div>
+               </div>
+              <div class="col-md-4">
+                  <div class="form-group">
+ 		<?php echo $form->labelEx($model,'google_conversions_label'); ?>
 		<?php echo $form->textField($model,'google_conversions_label',array('size'=>20,'maxlength'=>20)); ?>
 		<?php echo $form->error($model,'google_conversions_label'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'google_analytics_id_booking_de'); ?>
+                  </div>
+               </div>
+                 </div> 
+            <div class="row">
+              <div class="col-md-4">
+                  <div class="form-group">
+ 		<?php echo $form->labelEx($model,'google_analytics_id_booking_de'); ?>
 		<?php echo $form->textField($model,'google_analytics_id_booking_de',array('size'=>25,'maxlength'=>25)); ?>
 		<?php echo $form->error($model,'google_analytics_id_booking_de'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'google_conversions_id_booking_de'); ?>
+                  </div>
+               </div>
+              <div class="col-md-4">
+                  <div class="form-group">
+ 		<?php echo $form->labelEx($model,'google_conversions_id_booking_de'); ?>
 		<?php echo $form->textField($model,'google_conversions_id_booking_de',array('size'=>25,'maxlength'=>25)); ?>
 		<?php echo $form->error($model,'google_conversions_id_booking_de'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'google_conversions_label_booking_de'); ?>
+                  </div>
+               </div>
+              <div class="col-md-4">
+                  <div class="form-group">
+ 		<?php echo $form->labelEx($model,'google_conversions_label_booking_de'); ?>
 		<?php echo $form->textField($model,'google_conversions_label_booking_de',array('size'=>25,'maxlength'=>25)); ?>
 		<?php echo $form->error($model,'google_conversions_label_booking_de'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'google_analytics_id_booking_en'); ?>
+                  </div>
+               </div>
+                 </div> 
+           <div class="row">
+              <div class="col-md-4">
+                  <div class="form-group">
+ 		<?php echo $form->labelEx($model,'google_analytics_id_booking_en'); ?>
 		<?php echo $form->textField($model,'google_analytics_id_booking_en',array('size'=>25,'maxlength'=>25)); ?>
 		<?php echo $form->error($model,'google_analytics_id_booking_en'); ?>
-	</div>
-
-	<div class="row">
+                  </div>
+               </div>
+              <div class="col-md-4">
+                  <div class="form-group">
 		<?php echo $form->labelEx($model,'google_conversions_id_booking_en'); ?>
 		<?php echo $form->textField($model,'google_conversions_id_booking_en',array('size'=>25,'maxlength'=>25)); ?>
 		<?php echo $form->error($model,'google_conversions_id_booking_en'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'google_conversions_label_booking_en'); ?>
+                 </div>
+               </div>
+              <div class="col-md-4">
+                  <div class="form-group">
+ 		<?php echo $form->labelEx($model,'google_conversions_label_booking_en'); ?>
 		<?php echo $form->textField($model,'google_conversions_label_booking_en',array('size'=>25,'maxlength'=>25)); ?>
 		<?php echo $form->error($model,'google_conversions_label_booking_en'); ?>
-	</div>
-
-
+                  </div>
+               </div>
+                 </div> 
+         </div>
+    </div>
 	<div class="row buttons">
         <button class="btn btn-primary" type="submit"><?php echo $model->isNewRecord ? 'New record' : 'Save'; ?></button>
         <button class="btn btn-primary cancel"><a href="<?php echo Yii::app()->request->baseUrl; ?>cadmin"><?php echo 'Cancel'; ?></a></button>

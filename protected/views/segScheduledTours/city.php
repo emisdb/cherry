@@ -1,207 +1,150 @@
-<?php
-/* @var $this SegScheduledToursController */
-/* @var $dataProvider CActiveDataProvider */
- Yii::app()->clientScript->registerScriptFile('http://maps.googleapis.com/maps/api/js',CClientScript::POS_HEAD);
- ?>
-		 <div class="modal modal-info fade" id="guideModal" role="dialog">
-		   <div class="modal-dialog modal-md">
-			 <div class="modal-content">
-			   <div class="modal-header">
-				 <button type="button" class="close" data-dismiss="modal" aria-label="close">
-					 <span aria-hidden="true">&times;</span></button>
-				 <h4 class="modal-title" id="modal-title">Guides info</h4>
-			   </div>
-			   <div class="modal-body">
-				 <div id="modal-data">This is the guide's info.</div>
-			   </div>
-			 </div>
-		   </div>
-		 </div>
+<?
+$data = $tours->search()->getData();
 
-<div class="row" id="top">
-	<?php	
-//		echo	CHtml::image(Yii::app()->request->baseUrl.'/img/top.jpg','info',array('style'=>'width: 100%;'));
-	?>
-	<div style="width:100%;  text-align: center;" ><?php	echo	CHtml::image(Yii::app()->request->baseUrl.'/img/cherrytours_icon_white_rgb.png','info',array('style'=>'height: 40px; ')); ?></div>
-	<div style="width:100%; font-size:1.4em; color:#fff; font-weight:bold; letter-spacing: 5px; text-transform: uppercase; text-align: center;" >CHERRYTOURS</div>
-	<div style="width:100%; font-size:1.1em; color:#fff; font-weight:bold; letter-spacing: 5px;  text-transform: uppercase; text-align: center; margin-bottom:130px;" ><?php echo $model->city_ob->seg_cityname ?></div>
+$city_name = $model->city_ob->seg_cityname;
 
-</div>
-	<?php
-/*	echo "Date".date('Y-m-d',strtotime($model->date));  
-	echo "from: ".$model->from_date ;
-	echo "to: ".$model->to_date ;
-	echo "start: ".is_null($model->starttime) ? "NULL" : "NOT".":".date('H:i:s',time()) ;
-	echo "city: ".$model->city_id ;
- */
-//var_dump($model);
-//		var_dump(CHtml::listData($gui->search_gn(),'id','guidename'));
-		?>
-<div class="row">
-	<div class="col-md-3" style="padding: 0;">
-		<ul class="nav nav-pills nav-justified hidden-sm hidden-xs">
-			<li><a href="#" class="nohover"><div style="min-height: 65px;">
-	<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'book-form',
-	'action'=>array("booking"),
-	'method'=>'post',
-)); 
-	echo CHtml::hiddenField("book-params");
-	echo CHtml::hiddenField("search-params");
-	$this->endWidget();
-	?>			
-						
-					</div></a></li>
-		</ul>
-		<div id="googleMap" style="width:100%;height:210px; margin-bottom: 5px;"></div>
-		<div style=" text-align: right;">
-			<?php       $this->renderPartial('_select', array('model'=>$model)) ;?>
-		</div>
-	</div>
-	<div class="col-md-9" style="padding: 0;">
-		<?php
-			$data = $tours->search()->getData();
-		?>	
+$i = 1;
+$zp = $gmap = $gmapdiv = '';
+foreach ($data as $val) {
+    if ($val['gmaps_lnk'] != '') {
+        $gmap .= $zp . $i . ':"' . $val['gmaps_lnk'] . '"';
+        $i++;
+        $zp = ',';
+    }
+}
+$gmap = '{' . $gmap . '}';
+if ($gmap == '') {
+    $gmapdiv = '<div>NOT MAP</div>';
+}
 
-		<ul class="nav nav-pills">
-		<?php
-		$ii=0;
-		foreach($data as $value)
-		{
-			$img;
-			if ($value['id_tour_categories']==1) $img=CHtml::image(Yii::app()->request->baseUrl.'/img/icon-museum.png','classic',array('style'=>'height: 45px;'));
-			elseif ($value['id_tour_categories']==2) $img=CHtml::image(Yii::app()->request->baseUrl.'/img/icon-castle.png','historical',array('style'=>'height: 45px;'));
-			elseif ($value['id_tour_categories']==3)
-			{
-			if ($value['cityid']==2)
-					$img=CHtml::image(Yii::app()->request->baseUrl.'/img/beer.png','special',array('style'=>'height: 45px;'));
-				else 
-				$img=CHtml::image(Yii::app()->request->baseUrl.'/img/icon-food.png','special',array('style'=>'height: 45px;'));
-			}
-			$str='<li '.(($ii==0) ? 'class="active"' : '').'><a data-toggle="tab" href="#tab'.$ii.'">'
-					.$img
-					.'<div>'.$value['name'].'</div></a></li>';
-			echo $str;
-			$ii++;
-		}
-	?>
-	</ul>
-	<div class="tab-content">
-	
-	<?php
-		$ii=0;
-		foreach($data as $value)
-		{
-			echo	'<div id="tab'.$ii.'" class="tab-pane fade '.(($ii==0) ? 'in active' : '').'">';
-			echo	'<div class="panel panel-default">';
-			echo	'<div class="panel-heading">'
-						.'<div class="row">'
-							.'<div class="col-md-9 bordered">';
-						echo	'<div class="row">'
-									.'<div class="col-md-1">'.
-					CHtml::image(Yii::app()->request->baseUrl.'/img/info.png','info',array('style'=>'height:30px;')).
-									'</div>'
-									.'<div class="col-md-11">'.$value['shorttext'].
-									'</div>'
-								.'</div>';
-							echo '<div class="row" style="font-size:.8em; margin-top:5px;">'
-									.'<div class="col-md-11 col-md-offset-1">'.$value['maintext'].'</div>'
-								.'</div>'
-							.'</div>';
-			echo	'<div class="col-md-3">';
-			echo	'<div class="row">'.
-					CHtml::image(Yii::app()->request->baseUrl.'/img/hourglass.png','duration',array('style'=>'margin-right:15px;')).
-					$value['standard_duration'].' min</div>';
-			echo	'<div class="row">'.
-					CHtml::image(Yii::app()->request->baseUrl.'/img/euro.png','euro').
-					number_format($value['base_price'], 2, '.', ' ').' inkl. Mvst.</div>';
-			echo	'<div class="row">'.
-					CHtml::image(Yii::app()->request->baseUrl.'/img/location.png','pin').
-					$value['route_pic'].' </div>';
-			echo '</div></div></div>';
-			echo	'<div class="panel-body">';
-			$dp=$model->search_f($value['id_tour_categories']);
-//			var_dump($dp->getData());
-			 $this->renderPartial('_loop', array('dataProvider'=>$dp,
-								'tid'=>$value['id_tour_categories'],
-								'tnmax'=>$value['TNmax']));
-			echo '<div id="req_res_loading'.$ii.'"></div>';
-		echo '</div>';
-		echo '<div class="panel-footer">';
-		echo $dp->totalItemCount.' > '.$dp->pagination->pageSize.'>'.$dp->itemCount;
-		 if ($dp->totalItemCount  > $dp->pagination->pageSize){
-			 echo '<div class="row" style="margin: 10px 0; padding:10px;">
-                            <div class="span9" style="text-align:center;">
-                                <p id="loading_classic'.$ii.'" style="display:none">';
-			 echo CHtml::image(Yii::app()->request->baseUrl.'/img/loader.gif','loading');
-					 echo '</p></div></div>';
-			 echo '<div id="showbutton'.$ii.'" class="row" style="position:relative;top:0;width:197px;margin:0 auto;">';
-    echo CHtml::ajaxButton(
-    'MEHR ANZEIGEN',          // the link body (it will NOT be HTML-encoded.)
-    array('ajaxLoad'), // the URL for the AJAX request. If empty, it is assumed to be the current URL.
-    array(
-//        'data'=>array('arrdata'=>'js:$("#yw0").serialize();'),
-        'data'=>array('arrdata'=> json_encode($model->attributes),
-											'type'=>$value['id_tour_categories'],
-											'tnmax'=>$value['TNmax'],
-											'page'=>'js:pageN['.$ii.']',
-					),
-        'type'=>'POST',
-//       'update'=>'#req_res_loading'.$ii,
-        'beforeSend' => 'function() {           
-           $("#loading_classic'.$ii.'").show();
-       }',
-        'success' => 'function(data) {
-          $("#loading_classic'.$ii.'").hide();
-			$("#req_res_loading'.$ii.'").append(data);
- 			 pageN['.$ii.']++;
-			 if(pageN['.$ii.']*'.$dp->pagination->pageSize.'>='.$dp->totalItemCount.')
-		      $("#showbutton'.$ii.'").hide();
-        }',        
-			 ),
-			array('class'=>'btn btn-default')
-		);
-             echo '</div>';
-		 }
-  		echo '</div>';
-		echo '</div></div>';
-			$ii++;
-		}
-	?>	
-	</div>
+$search_str = $this->renderPartial('_form_search_tour', array('model' => $model), true); 
+?>
 
-	</div>
-</div>
+<!--<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>-->
 <script type="text/javascript">
+    label = {lat: 52.518343, lng: 13.342357};
+    gmap = <?=$gmap;?>;
+    function gmaps(x) {
+        $("#gmap-cont").attr('src', '').prev('.errorMap').remove();
+        if (gmap[x]) {
+
+            $("#gmap-cont").attr('src', gmap[x]);
+        }
+        else {
+            $("#gmap-cont").before('<div class="errorMap">NOT MAP</div>');
+        }
+    }
+    $(function () {
+        //initialize();
+        gmaps(1);
+        var hash = window.location.hash;
+        console.log(hash)
+        switch (hash) {
+            case '#classic':
+                $('a[href="#info-tour1"]').trigger('click');
+                break;
+            case '#historical':
+                $('a[href="#info-tour2"]').trigger('click');
+                console.log('hist')
+                break;
+            case '#special':
+                $('a[href="#a.info-tour3"]').trigger('click');
+                break;
+        }
+    })
+	
+
+</script>
+
+<nav id="navbar-mobile" class="navbar">
+    <div class="container">
+        <div class="navbar-header">
+            
+            <a class="navbar-brand" href="../">
+                <img alt="Brand" src="/template/design-1/icons/svg-export_cherrytours-symbol-pink.svg" width="50" height="44">
+            </a>
+            <a href="../" class="navbar-city"><span><?= $city_name; ?></span></a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" id="bt_top_menu">
+                <span class="sr-only">Menu</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <div class="nav navbar-nav search_str">
+            
+                <?=$search_str;?>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<header class="page-all-header"
+        style="background:url(/template/design-1/images/<?= $model->city_ob->webadress_en; ?>350.jpg)">
+    <div class="layout">
 
 
-function initialize() {
-  var mapProp = {
-    center:new google.maps.LatLng(52.518343, 13.342357),
-    zoom:13,
-    disableDefaultUI:true,    
-	mapTypeId:google.maps.MapTypeId.ROADMAP
-  };
-  var map=new google.maps.Map(document.getElementById("googleMap"), mapProp);
+        <div class="container block-logo">
+            <div class="logotype">
+                <a href="../">
+                    <img src="/template/design-1/icons/svg-export_cherrytours-symbol-white.svg" width="100%" height="65"
+                         alt="logotype">
+                    <strong>Cherrytours</strong>
+                </a>
+            </div>
+            <div class="logotype-city"><?= $city_name; ?></div>
+        </div>
+    </div>
+</header>
 
-}
-function submitdata(sid,tid)
-{
-	document.forms['book-form'].elements['book-params'].value=JSON.stringify({"sid":sid,"tid":tid});
-	var arr=$("#search-form").serializeArray();
-	var parr={};
-	$.each(arr,
-    function(i, v) {
-		var vname=v.name.slice(v.name.indexOf("[")+1,v.name.indexOf("]"))
-        parr[vname] = v.value;
-    });
-	document.forms['book-form'].elements['search-params'].value=JSON.stringify(parr);
-    document.forms['book-form'].submit();
-}
-google.maps.event.addDomListener(window, 'load', initialize);
- var pageN=[<?php for($vi=0;$vi<$ii;$vi++) echo "1,"; ?>];
-
-</script>	
+<div class="row top-menu">
+    <!-- top-menu -->
+    <div class="col-sm-3 col-xs-12">&nbsp;</div>
+    <div class="col-sm-6 col-xs-12 top-menu-link">
+        <ul class="nav nav-tabs" role="tablist">
+            <? $this->renderPartial('_top_menu', array('data_tour' => $data)); ?>
+        </ul>
+    </div>
+    <div class="col-sm-3 col-xs-12">&nbsp;</div>
+    <!-- top-menu -->
+</div>
 
 
+<div class="clearfix"></div>
 
+<article class="container-fluid">
+    <div class="col-md-9 col-xs-12" style="float:right">
+        <div class="col-md-8 col-sm-8 col-xs-12 tab-content">
+            <? $this->renderPartial('_info_tour', array('data_tour' => $data)); ?>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12 info-detail">
+            <? $this->renderPartial('_info_detail', array('data_tour' => $data)); ?>
+        </div>
+    </div>
+    <div class="col-md-3 col-xs-12" id="google_map"
+         style="height:240px; float:left; padding-left:0px; padding-right:0px;">
+        <iframe src="" width="100%" height="240" frameborder="0" id="gmap-cont"><i class="fa fa-spinner fa-spin"></i>
+        </iframe>
+    </div>
+</article>
+
+
+<div class="clearfix"></div>
+
+<div class="row row_str">
+    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+        <div class="col-sm-11 col-xs-12 pull-right search_str" id="div_search_str">
+            <?=$search_str;?>
+        </div>
+    </div>
+    <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12 list_tour_str">
+        <? $this->renderPartial('_list_tour', array('data' => $data, 'model' => $model)); ?>
+    </div>
+</div>
+<form action="<?= $model->city_ob->webadress_en . '/book'; ?>" method="post" id="f_book">
+    <input name="book-params" id="book-params" type="hidden" value=""/>
+    <input name="search-params" id="search-params" type="hidden" value=""/>
+</form>
+<div class="clearfix"></div>

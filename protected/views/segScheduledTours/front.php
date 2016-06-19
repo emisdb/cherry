@@ -1,60 +1,68 @@
-<?php
-/* @var $this SegScheduledToursController */
-/* @var $dataProvider CActiveDataProvider */
- ?>
-<div class="row" id="top_start">
-	<?php	
-//		echo	CHtml::image(Yii::app()->request->baseUrl.'/img/top.jpg','info',array('style'=>'width: 100%;'));
-	?>
-	<!--<div class="gradient"><div>-->
-	<div style="width:100%;  text-align: center;" ><?php	echo	CHtml::image(Yii::app()->request->baseUrl.'/img/cherrytours_icon_white_rgb.png','info',array('style'=>'height: 30px; ')); ?></div>
-	<div class="frontlabel" >CHERRYTOURS</div>
-	<div class="frontlabel" style="font-size:1.8em; margin-top:150px;" >TOUREN, DIE MAN NICHT VERGISST</div>
-	<div class="frontlabel" style="font-size:1.2em; text-transform: none;   letter-spacing: 3px;" >Tauchen Sie ein in Deutschlands gr&ouml;&szlig;te Metropolen</div>
-	<div style="width:100%;  text-align: center; margin:30px 0 150px;" >	   <?php       $this->renderPartial('_select_front', array('model'=>$model)) ;?>
-</div>
+<header class="big-img bg-1">
+ <div class="layout">
 
-</div>
-	<div class="row frontlabel" style="font-size:1.4em; color:#555; margin:30px 0;" >EROBERE DEINE STADT</div>
-	<div class="row" style="text-align: center; margin:auto;">
-		<ul class="teaserhold">
-			<li>
-				<?php echo CHtml::link('<div class="teaser berlin"><div>'
-					.CHtml::image(Yii::app()->request->baseUrl.'/img/icon-museum.png','info',array('style'=>'height: 40px; margin-top:60px; '))
-					.'</div><div class="frontlabel" style="font-size:1.5em;">CLASSIC<p>BERLIN</div></div>',array('/berlin'));	
-			?>
-			</li>
-			<li>
-				
-				<?php echo CHtml::link('<div class="teaser munchen"><div>'
-					.CHtml::image(Yii::app()->request->baseUrl.'/img/icon-castle.png','info',array('style'=>'height: 40px; margin-top:60px; '))
-					.'</div><div class="frontlabel" style="font-size:1.5em;">CLASSIC<p> M&Uuml;NCHEN</div></div>',array('/munchen'));	
-			?>
-			</li>
-			<li>
-				<?php echo CHtml::link('<div class="teaser hamburg"><div>'
-					.CHtml::image(Yii::app()->request->baseUrl.'/img/icon-food.png','info',array('style'=>'height: 40px; margin-top:60px; '))
-					.'</div><div class="frontlabel" style="font-size:1.5em;">HISTORICAL<p> M&Uuml;NCHEN</div></div>',array('/munchen'));	
-			?>		
-			</li>
-		</ul>
-	</div>
-	<script type="text/javascript">
+  
+  <div class="container">
+   <div class="logotype">
+    <a href="/"><img src="/template/design-1/icons/svg-export_cherrytours-symbol-white.svg" width="100%" height="80" alt="logotype"><strong>Cherrytours</strong></a>
+   </div>
+   <div id="title">
+    <h1><?= Yii::t('api', 'index_top_h1'); ?></h1>
+    <h2><?= Yii::t('api', 'index_top_h2'); ?></h2>
+   </div>
+   <?
+     $citys = SegCities::model()->findAll();
+	 $opt='';
+	 foreach($citys as $val){
+		 $opt .= '<option value="'.$val->idseg_cities.'" data-city="'.$val->webadress_en.'">'.$val->seg_cityname.'</option>';
+	 };
+   ?>
+   <form action="" id="search-form-main" method="post" class="form-inline" >
 
-//$(document).ready(function() {}); 
-setInterval(function() {
-   var $body = $('#top_start');
-   if($body.hasClass('bgr1'))
-   {
-       $body.removeClass('bgr1');
-       $body.addClass('bgr2');
-   }
-  else {        
-       $body.removeClass('bgr2');
-       $body.addClass('bgr1');
-    }
-}, 6000);
-</script> 	
-
-
-
+    <select id="pickcity-main" name="SegScheduledTours[city_id]">
+     <option value="0" data-city="0"><?=Yii::t('api', 'bt_city');?></option>
+     <?=$opt;?>
+    </select>
+    <input  id="pickdate-main" name="SegScheduledTours[date]" type="text" value="<?=date("d.m.Y");?>" class="svg-date">
+    <button type="submit" class="btn bt-bordo" id="index-submit" disabled="disabled"><?=Yii::t('api', 'bt_search');?></button>
+ 
+   </form>
+  </div>
+ </div>
+</header>
+<section id="content">
+ <div class="container">
+  <div id="categories-title">
+   <h3><?= Yii::t('api', 'name_city_index');?></h3>
+  </div>
+  <div id="categories">
+   <div id="classic" class="cat-block col-sm-4">
+    <a href="berlin#classic" class="img-city">
+     <img src="/template/design-1/images/berlin1.jpg" alt="berlin1" class="img-responsive">
+     <div class="inner-cat-title">
+      <img src="/template/design-1/icons/svg-export_classic-white.svg" width="100%" height="150" alt="Classic Berlin">
+      <i id="cat-berlin">Classic</br>Berlin</i>
+     </div>
+    </a>
+   </div>
+   <div id="historical" class="cat-block col-sm-4">
+    <a href="munchen#classic" class="img-city">
+     <img src="/template/design-1/images/munich1.jpg" alt="munich1" class="img-responsive">
+     <div class="inner-cat-title">
+      <img src="/template/design-1/icons/svg-export_classic-white.svg" width="100%" height="150"  alt="Classic München">
+      <i id="cat-munchen">Classic</br>München</i>
+     </div>
+    </a>
+   </div>
+   <div id="special" class="cat-block col-sm-4">
+    <a href="munchen#historical" id="goto-hamburg" class="img-city">
+     <img src="/template/design-1/images/munich2.jpg" alt="munich2" class="img-responsive">
+     <div class="inner-cat-title">
+      <img src="/template/design-1/icons/svg-export_historical-white.svg"  width="100%" height="150"  alt="Historical München">
+      <i id="cat-hamburg">Historical</br>München</i>
+     </div>
+    </a>
+   </div>
+  </div>
+ </div>
+</section>
