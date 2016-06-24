@@ -330,7 +330,60 @@ class OfficeController extends Controller
 			'dataProvider'=>$dataProvider,
 		));
 	}
-	  public function actionProfile()
+	public function actionPages()
+	{
+		$model=new Main('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Main']))
+			$model->attributes=$_GET['Main'];
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+		$this->render('admin_main',array(
+			'model'=>$model,
+			'info'=>$test,
+		));
+	}
+	public function actionUpdate_main($id)
+	{
+		$model=$this->loadMain($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Main']))
+		{
+			$model->attributes=$_POST['Main'];
+			if($model->save())
+					$this->redirect(array('pages'));
+	}
+	 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+ 
+		$this->render('update_main',array(
+			'model'=>$model,
+				'info'=>$test,
+	));
+	}
+ 	public function actionCreate_main()
+	{
+		$model=new Main;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Main']))
+		{
+			$model->attributes=$_POST['Main'];
+			if($model->save())
+				$this->redirect(array('pages'));
+		}
+	 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+ 
+		$this->render('create_main',array(
+			'model'=>$model,
+				'info'=>$test,
+	));
+	}
+        public function actionProfile()
 	{
 
         $id_control = Yii::app()->user->id;
@@ -1271,7 +1324,8 @@ class OfficeController extends Controller
              $contact->tour=$tour->idseg_tourroutes;
 	 /*languages*/
 
-            $languages_guide = Languages::model()->findByPk($model->sched->language_id);
+             $languages_guide = SegLanguagesGuides::model()->with('languages')->findAll('users_id=' . $model->sched->guide1_id);
+//           $languages_guide = Languages::model()->findByPk($model->sched->language_id);
             $contact->language=$model->sched->language_id;
 
             $contact->tickets=$model->countCustomers;
@@ -2032,7 +2086,7 @@ class OfficeController extends Controller
 						<tr>
 						  <td>Guide\'s RechnungsNr.:</td>
 						  <td style="font-weight:bold;text-align:right;">'.$sched->GN_string.'</td>
-						  <td colspan="2">(inklusive '.$vat.'% vat:&nbsp;Umsatzsteuer:'.$forpdf['gonorar_vat'].'&nbsp;&euro;)</td>
+						  <td colspan="2">'.($sched->user_ob->guide_ob['paysUSt']==1 ? '(inklusive '.$vat.'% vat:&nbsp;Umsatzsteuer:'.$forpdf['gonorar_vat'].'&nbsp;&euro;)' : '').'</td>
 						  <td>&nbsp;</td>
 						</tr>
 						<tr>
@@ -2361,5 +2415,11 @@ class OfficeController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
-
+	public function loadMain($id)
+	{
+		$model=Main::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
 }

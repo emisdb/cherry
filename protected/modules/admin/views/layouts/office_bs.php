@@ -71,6 +71,9 @@
               <li <?php echo (Yii::app()->controller->action->id=='booking') ? "class=\"active\"" : "" ; ?>>
 				<?php echo CHtml::link("<i class='fa fa-bold'></i><span>Buchung</span>", array('booking')); ?>
             </li>
+              <li <?php echo (Yii::app()->controller->action->id=='pages') ? "class=\"active\"" : "" ; ?>>
+				<?php echo CHtml::link("<i class='fa fa-file-code-o'></i><span>Pages</span>", array('pages')); ?>
+            </li>
   
             </ul>
         </section>

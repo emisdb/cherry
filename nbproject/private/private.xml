@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="9">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="10">
         <file>
             <url>protected/controllers/OfficeController.php</url>
             <bookmark id="8">
@@ -16,19 +16,19 @@
                 <line>515</line>
                 <key/>
             </bookmark>
+            <bookmark id="10">
+                <name/>
+                <line>1273</line>
+                <key/>
+            </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/OpenServer/domains/cherry/protected/config/params.php</file>
-            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/controllers/RootController.php</file>
+            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/views/office/invoice.php</file>
             <file>file:/D:/OpenServer/domains/cherry/protected/config/main.php</file>
-            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/models/SegCities.php</file>
-            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/views/root/cupdate.php</file>
             <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/controllers/OfficeController.php</file>
-            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/views/root/_form_city.php</file>
-            <file>file:/D:/OpenServer/domains/cherry/protected/modules/admin/controllers/GuideController.php</file>
-            <file>file:/D:/OpenServer/domains/cherry/protected/migrations/cherrybase_160518_seg_cities_invoice.sql</file>
+            <file>file:/D:/OpenServer/domains/cherry/protected/views/segScheduledTours/book.php</file>
         </group>
     </open-files>
 </project-private>

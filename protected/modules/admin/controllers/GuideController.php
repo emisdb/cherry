@@ -570,7 +570,7 @@ class GuideController extends Controller
                 $scheduled_item->guide1_id = $id_control;
                 $scheduled_item->original_starttime = $ortime;
                 $scheduled_item->visibility = 1;
-               // $scheduled_item->tourroute_id =  $tour_schel;//???????????????????????????
+               // $scheduled_item->tourroute_id =  $tour_schel;
                 $scheduled_item->city_id = $id_city;
                 $scheduled_item->save();
                 $this->redirect(array('weeks','date'=>$date)) ;
@@ -1895,7 +1895,7 @@ class GuideController extends Controller
 						<tr>
 						  <td>Guide\'s RechnungsNr.:</td>
 						  <td style="font-weight:bold;text-align:right;">'.$sched->GN_string.'</td>
-						  <td colspan="2">(inklusive '.$vat.'% vat:&nbsp;Umsatzsteuer:'.$forpdf['gonorar_vat'].'&nbsp;&euro;)</td>
+						  <td colspan="2">'.($sched->user_ob->guide_ob['paysUSt']==1 ? '(inklusive '.$vat.'% vat:&nbsp;Umsatzsteuer:'.$forpdf['gonorar_vat'].'&nbsp;&euro;)' : '').'</td>
 						  <td>&nbsp;</td>
 						</tr>
 						<tr>

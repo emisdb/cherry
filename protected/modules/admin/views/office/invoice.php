@@ -97,20 +97,20 @@ $this->renderPartial('_top', array('info'=>$info));
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
-                      <label>Sprache</label>
-							<?php
-							 if($scheduled->language_id==null)
-								 {	
-									 $list_l = CHtml::listData($languages_guide, 'id_languages', 'englishname');
-									 echo $form->dropDownList($contact,'language',$list_l, array('class'=>'form-control select2'));
-								 }
-								 else 
-								 {
-								   echo '<input type="text" class="form-control" value="'.$scheduled->language_ob->englishname.'" disabled="">';
-									echo $form->hiddenField($contact,'language');
-								 }
-							 ?>
-					</div>					
+                                        <label>Sprache</label>
+                                          <?php
+                                           if($scheduled->language_id==null)
+                                          {	
+                                                  $list_l = CHtml::listData($languages_guide, 'id_languages', 'englishname');
+                                                  echo $form->dropDownList($contact,'language',$list_l, array('class'=>'form-control select2'));
+                                          }
+                                          else 
+                                          {
+                                            echo '<input type="text" class="form-control" value="'.$scheduled->language_ob->englishname.'" disabled="">';
+                                                 echo $form->hiddenField($contact,'language');
+                                          }
+                                           ?>
+                                      </div>					
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">
