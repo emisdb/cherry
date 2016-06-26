@@ -19,7 +19,12 @@ $x3=number_format($gonorar, 2, '.', ' ');
         <td class="table-info-guide-last"><? echo $x3;?>  &euro;</td>
     </tr>
     <tr>
-    	<td colspan="3">(Inklusive <? echo $vat;?>% Ust)</td>
+    	<td colspan="3">
+        <?php
+            if($vattype==1) echo "(Inklusive ".$vat."% Ust; Umsatzsteuer:".$gonorar_vat." &euro;)"; 
+            else echo "exklusive Umsatzsteuer <br> (umsatzsteuerfrei nach ".$gonorar_vat." &euro; Abs. 1)"       
+        ?>
+        </td>
     </tr>
 </table>
 

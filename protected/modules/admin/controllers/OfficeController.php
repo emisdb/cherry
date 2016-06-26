@@ -2086,7 +2086,7 @@ class OfficeController extends Controller
 						<tr>
 						  <td>Guide\'s RechnungsNr.:</td>
 						  <td style="font-weight:bold;text-align:right;">'.$sched->GN_string.'</td>
-						  <td colspan="2">'.($sched->user_ob->guide_ob['paysUSt']==1 ? '(inklusive '.$vat.'% vat:&nbsp;Umsatzsteuer:'.$forpdf['gonorar_vat'].'&nbsp;&euro;)' : '').'</td>
+						  <td colspan="2">'.($sched->user_ob->guide_ob['paysUSt']==1 ? '(inklusive '.$vat.'% vat:&nbsp;Umsatzsteuer:'.$forpdf['gonorar_vat'].'&nbsp;&euro;)' : "exklusive Umsatzsteuer <br> (umsatzsteuerfrei nach ".$forpdf['gonorar_vat']." &euro; Abs. 1 UStG)" ).'</td>
 						  <td>&nbsp;</td>
 						</tr>
 						<tr>
@@ -2197,7 +2197,7 @@ class OfficeController extends Controller
 		$sched = SegScheduledTours::model()->findByPk($id_sched);
 
 		$id_control = $sched->guide1_id;
-		$guide = User::model()->findByPk($id_control);
+		$guide = User::model()->with('guide_ob')->findByPk($id_control);
         $role_control = $guide->id_usergroups;    
 
    
@@ -2229,7 +2229,9 @@ class OfficeController extends Controller
         $cifra = $invoicecustomer - $gonorar_tour->guest_variable;
 		if($cifra<=0){$cifra=0;}//turists >
 		$gonorar = $gonorar_tour->base_provision+$cifra*$gonorar_tour->guestsMinforVariable;//summa gonorar
-			$command=Yii::app()->db->createCommand();
+                $gonorar_vat = $gonorar*(1-1/($vat/100+1));
+		$gonorar_vat = number_format($gonorar_vat, 2, '.', ' ');
+				$command=Yii::app()->db->createCommand();
  //               $command->select('SUM(delta_cash) AS sum');
                 $command->select('(SUM(delta_cash)- IFNULL((SELECT SUM(delta_cash) FROM cashbox_change_requests WHERE sched_user_id='.$sched->idseg_scheduled_tours.'),0)) AS sum');
                 $command->from('cashbox_change_requests');
@@ -2240,8 +2242,10 @@ class OfficeController extends Controller
 			'gonorar_tour'=>$gonorar_tour,
 			'cifra'=>$cifra,
 			'gonorar'=>$gonorar,
+			'gonorar_vat'=>$gonorar_vat,
 			//'gonorar_vat'=>$gonorar_vat,
 			'vat'=>$vat,
+			'vattype'=>$guide->guide_ob['paysUSt'],
 			'cash'=>$cashsum,
 			'cashincome'=>$cashincome,
 			
