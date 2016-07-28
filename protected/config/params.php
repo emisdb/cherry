@@ -20,6 +20,7 @@ return array(
 		"&merchantTransactionId=[trans]".
 		"&paymentType=DB",
 	'img'=>'img',
+	'tourspdf'=>'tourspdf',
 	'mailPWD'=>'123',
 	// number of posts displayed per page
 	'postsPerPage'=>10,

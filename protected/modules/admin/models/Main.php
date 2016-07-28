@@ -11,6 +11,7 @@
  */
 class Main extends CActiveRecord
 {
+	public $doc; 
 	/**
 	 * @return string the associated database table name
 	 */
@@ -27,9 +28,10 @@ class Main extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, text, status', 'required'),
+			array('name, text', 'required'),
 			array('status', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>200),
+			array('doc', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, name, text, status', 'safe', 'on'=>'search'),

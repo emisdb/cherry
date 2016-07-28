@@ -30,7 +30,7 @@
                ),
                 'delete' => array(
                      //'imageUrl'=>'/images/system/proc.png',
-                    'url' => 'array("deleteCR", "id" => $data->id)',
+                    'url' => 'array("delete_main", "id" => $data->id)',
                ),
              ),	
 		),

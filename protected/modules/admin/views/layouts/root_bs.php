@@ -47,7 +47,10 @@
             <li <?php echo (Yii::app()->controller->action->id=='tadmin') ? "class=\"active\"" : "" ; ?>>
 				<?php echo CHtml::link("<i class='fa fa-hand-o-up'></i><span>Tours</span>", array('tadmin')); ?>
             </li>
-   			<li class="treeview <?php echo (in_array(Yii::app()->controller->action->id,array('ugadmin','ladmin','lcreate','cupdate','cadmin','ccreate','cupdate','sadmin','screate','supdate','tcadmin','tccreate','tcupdate','badmin','bcreate','bupdate','moadmin','mocreate','moupdate','ctadmin','ctcreate','ctupdate'))) ? "active" : "" ; ?>">
+              <li <?php echo (Yii::app()->controller->action->id=='pages') ? "class=\"active\"" : "" ; ?>>
+				<?php echo CHtml::link("<i class='fa fa-file-code-o'></i><span>Pages</span>", array('pages')); ?>
+            </li>
+  		<li class="treeview <?php echo (in_array(Yii::app()->controller->action->id,array('ugadmin','ladmin','lcreate','cupdate','cadmin','ccreate','cupdate','sadmin','screate','supdate','tcadmin','tccreate','tcupdate','badmin','bcreate','bupdate','moadmin','mocreate','moupdate','ctadmin','ctcreate','ctupdate'))) ? "active" : "" ; ?>">
               <a href="#">
                 <i class="fa fa-list"></i>
                 <span>REFERENCE</span>

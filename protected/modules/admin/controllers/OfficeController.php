@@ -330,59 +330,9 @@ class OfficeController extends Controller
 			'dataProvider'=>$dataProvider,
 		));
 	}
-	public function actionPages()
-	{
-		$model=new Main('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Main']))
-			$model->attributes=$_GET['Main'];
-		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
 
-		$this->render('admin_main',array(
-			'model'=>$model,
-			'info'=>$test,
-		));
-	}
-	public function actionUpdate_main($id)
-	{
-		$model=$this->loadMain($id);
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Main']))
-		{
-			$model->attributes=$_POST['Main'];
-			if($model->save())
-					$this->redirect(array('pages'));
-	}
-	 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
- 
-		$this->render('update_main',array(
-			'model'=>$model,
-				'info'=>$test,
-	));
-	}
- 	public function actionCreate_main()
-	{
-		$model=new Main;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Main']))
-		{
-			$model->attributes=$_POST['Main'];
-			if($model->save())
-				$this->redirect(array('pages'));
-		}
-	 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
- 
-		$this->render('create_main',array(
-			'model'=>$model,
-				'info'=>$test,
-	));
-	}
         public function actionProfile()
 	{
 
@@ -1262,8 +1212,7 @@ class OfficeController extends Controller
                                 $model[$k]->discounttype_id = $_POST['discounttype_id'.$kk];
                                 $model[$k]->paymentoptionid = $_POST['payoption'.$kk];
                                 $model[$k]->id_invoiceoptions = $_POST['option'.$kk];
-                                if(($model[$k]->paymentoptionid) &&($model[$k]->discounttype_id!=42))
-                                {
+                       if((($model[$k]->paymentoptionid) &&($model[$k]->discounttype_id!=42))||(($model[$k]->discounttype_id==43))){
 
                                         $model[$k]->isPaid = 1;
                                         $model[$k]->price = $_POST['price'.$kk];
@@ -1796,7 +1745,7 @@ class OfficeController extends Controller
                $message="Dear sirs, \n The invoice from Cherry tours.";
                 $subject = "The invoice from Cherry tours";
 				foreach ($mails as $value) {
- 				$this->sendMail($value[0],$subject,$message, __DIR__.'/../../../../filespdf/'.$value[1].'.pdf');
+				$this->sendMail($value[0],$subject,$message, __DIR__.'/../../../../filespdf/'.$value[1].'.pdf');
 					unlink(__DIR__.'/../../../../filespdf/'.$value[1].'.pdf');
 			}
 	        $this->redirect( Yii::app()->createUrl('/filespdf/'.$name_pdf2.'.pdf') );
@@ -2419,11 +2368,5 @@ class OfficeController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
-	public function loadMain($id)
-	{
-		$model=Main::model()->findByPk($id);
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
-		return $model;
-	}
+
 }

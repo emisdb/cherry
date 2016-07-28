@@ -13,23 +13,27 @@
 	// There is a call to performAjaxValidation() commented in generated controller code.
 	// See class documentation of CActiveForm for details on this.
 	'enableAjaxValidation'=>false,
-)); ?>
+    'htmlOptions'=>array('enctype'=>'multipart/form-data'),
+    )); ?>
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
 	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
 		<?php echo $form->labelEx($model,'name',array('class'=>'control-label')); ?>
 		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>200,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'name'); ?>
            </div>
-            <div class="col-md-6">
-		<?php echo $form->labelEx($model,'status',array('class'=>'control-label')); ?>
-		<?php echo $form->textField($model,'status',array('size'=>60,'maxlength'=>200,'class'=>'form-control')); ?>
-		<?php echo $form->error($model,'status'); ?>
-           </div>
+            <div class="col-md-8">
+			<div class="form-group">
+ 		<?php
+                   echo CHtml::link("Open",array('/image/'.Yii::app()->params['tourspdf'].'/'.$model->text),array("target"=>"_blank"));
+                     echo $form->FileField($model,'doc');
+                    echo $form->error($model,'doc');
+                  ?>
+ 		</div>           </div>
  	</div>
 
 	<div class="row">

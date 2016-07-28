@@ -98,7 +98,92 @@ class RootController extends Controller
   		));
         
 	}
-	public function actionContact($id)
+	public function actionPages()
+	{
+		$model=new Main('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Main']))
+			$model->attributes=$_GET['Main'];
+		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+
+		$this->render('admin_main',array(
+			'model'=>$model,
+			'info'=>$test,
+		));
+	}
+ 	public function actionCreate_main()
+	{
+		$model=new Main;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Main']))
+		{
+			$model->attributes=$_POST['Main'];
+                       $model->status=0;
+	                $model->doc = CUploadedFile::getInstance($model,'doc');
+                        $name_uniqid = $model->doc;
+                 if($model->doc!=""){
+                        $model->text = $name_uniqid;
+                      $file = 'image/'.Yii::app()->params['tourspdf'].'/'.$model->text;
+                       if($model->doc->saveAs($file)) $model->status=1;
+                    }
+			if($model->save())
+				$this->redirect(array('pages'));
+		}
+	 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+ 
+		$this->render('create_main',array(
+			'model'=>$model,
+				'info'=>$test,
+	));
+	}
+ 	public function actionUpdate_main($id)
+	{
+		$model=$this->loadMain($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Main']))
+		{
+                        $path_old = $model->text;
+                        $status_old = $model->status;
+  			$model->attributes=$_POST['Main'];
+                         $model->status=0;
+	                $model->doc = CUploadedFile::getInstance($model,'doc');
+                        $name_uniqid = $model->doc;
+                 if($model->doc!=""){
+//                    $name_uniqid = uniqid();
+                    $model->text = $name_uniqid;
+
+                       if(($status_old>0 &&($path_old!="")||($path_old!=NULL))&&  file_exists('image/'.Yii::app()->params['tourspdf'].'/'.$path_old))
+                       {
+                                        unlink('image/'.Yii::app()->params['tourspdf'].'/'.$path_old);
+                     }
+                        $file = 'image/'.Yii::app()->params['tourspdf'].'/'.$model->text;
+                       if($model->doc->saveAs($file)) $model->status=1;
+                    }
+		if($model->save())
+					$this->redirect(array('pages'));
+	}
+	 		$test=array('guide'=>$this->loadContact(Yii::app()->user->cid),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+ 
+		$this->render('update_main',array(
+			'model'=>$model,
+				'info'=>$test,
+	));
+	}
+	public function actionDelete_main($id)
+	{
+		$this->loadMain($id)->delete();
+
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax']))
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('pages'));
+	}
+        public function actionContact($id)
 	{
 	    $id_control = Yii::app()->user->id;
         $update_user = User::model()->findByPk($id);
@@ -999,5 +1084,11 @@ class RootController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
-
+	public function loadMain($id)
+	{
+		$model=Main::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
 }

@@ -1127,7 +1127,7 @@ class GuideController extends Controller
                         $model[$k]->discounttype_id = $post['discounttype_id'.$kk];
                         $model[$k]->paymentoptionid = $post['payoption'.$kk];
                         $model[$k]->id_invoiceoptions = $post['option'.$kk];
-                        if(($model[$k]->paymentoptionid) &&($model[$k]->discounttype_id!=42)){
+                        if((($model[$k]->paymentoptionid) &&($model[$k]->discounttype_id!=42))||(($model[$k]->discounttype_id==43))){
                             $model[$k]->isPaid = 1;
                             $overAllIncome_i+=is_null($model[$k]->price)? 0 : $model[$k]->price;
                             if($model[$k]->paymentoptionid==1) 
@@ -1282,6 +1282,7 @@ class GuideController extends Controller
                 $cashincome= $command->queryScalar();
         	//segguidestourinvoicescustomers
                 $invoicecustomer=SegGuidestourinvoicescustomers::model()->with('tourinvoice')->count("id_sched=".$sched->idseg_scheduled_tours." AND isPaid=1");
+                $tot_cust=1;
 
                 $cifra = $invoicecustomer - $gonorar_tour->guest_variable;
 		if($cifra<=0){$cifra=0;}//turists >
@@ -1293,7 +1294,6 @@ class GuideController extends Controller
 			'gonorar_tour'=>$gonorar_tour,
 			'cifra'=>$cifra,
 			'gonorar'=>$gonorar,
-			'invoicecustomer'=>$invoicecustomer,
 			'gonorar_vat'=>$gonorar_vat,
 			'vat'=>$vat,
 			'vattype'=>$guide->guide_ob['paysUSt'],
@@ -1484,7 +1484,7 @@ class GuideController extends Controller
 				
 				$name_forms = $scheduled->city_ob->seg_cityname;
 				$to = $user_contact->email;
-				if ($this->sendMail($to, $name_forms, $message))
+        			if ($this->sendMail($to, $name_forms, $message))
 				{
 					$this->redirect(array('current','id_sched'=>$id_sched));
 				
@@ -1623,7 +1623,7 @@ class GuideController extends Controller
              $message="Dear sirs, \n The invoice from Cherry tours.";
                 $subject = "The invoice from Cherry tours";
 				foreach ($mails as $value) {
- 				$this->sendMail($value[0],$subject,$message, __DIR__.'/../../../../filespdf/'.$value[1].'.pdf');
+        			$this->sendMail($value[0],$subject,$message, __DIR__.'/../../../../filespdf/'.$value[1].'.pdf');
 						unlink(__DIR__.'/../../../../filespdf/'.$value[1].'.pdf');
 			}
 	        $this->redirect( Yii::app()->createUrl('/filespdf/'.$name_pdf2.'.pdf') );
