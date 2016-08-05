@@ -7,7 +7,7 @@ class GuideController extends Controller
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='/layouts/guide_bs';
-    public $defaultActon='schedule';
+        public $defaultActon='schedule';
 	public $totval=0;
 	public $totrest=0;
  	public $cashsum=0;
@@ -161,8 +161,57 @@ class GuideController extends Controller
 			'dataProvider'=>$dataProvider,
 		));
 	}
+	public function Testpdf()
+	{
+            $tbl="<h1>Page ~1</h1><h3>Go 2</h3>";
+            $tbl2="<h2>Page ~2</h2>";
+            $files_name1 = __DIR__.'/../../../../filespdf/test.pdf';
+    //				$pdf = Yii::createComponent('application.extensions.tcpdf.ETcPdf', 'P', 'cm', 'A4', true, 'UTF-8');
+            $pdf = Yii::createComponent('application.extensions.tcpdf.MYPDF', 'P', 'cm', 'A4', true, 'UTF-8');
+            $pdf->SetCreator(PDF_CREATOR);
+            $pdf->SetAuthor("Cherry Tours");
+            $pdf->SetTitle("Tourabrechnung");
+            $pdf->SetSubject("Tourabrechnung");
+            $pdf->SetKeywords("Tourabrechnung");
+    //                                $pdf->SetHeaderData('', 0, 'Information', 'In the beginning');
+    //                                 $pdf->setHeaderFont(Array('helvetica', '', 8));
+//$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+//
+//// set header and footer fonts
+//$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+//$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+//
+//// set default monospaced font
+//$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+//
+//// set margins
+//$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+//$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+//$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+//
+// set auto page breaks
+//$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+             $pdf->setFooterFont(Array('helvetica', '', 6));
+             $pdf->SetMargins(1, 1.8, 1.5);
+    //                                 $pdf->SetHeaderMargin(5);
+             $pdf->SetFooterMargin(0.5);
+    //                                 $pdf->SetAutoPageBreak(TRUE, 0);
+//            $pdf->setPrintHeader(false);
+//            $pdf->setPrintFooter(false);
+            $pdf->AddPage();
+            $pdf->SetFont('freeserif', '', 10);
+            $pdf->writeHTML($tbl, true, false, false, false, '');
+            $pdf->AddPage();
+            $pdf->writeHTML($tbl2, true, false, false, false, '');
+            $pdf->Output($files_name1, 'F');
+        
+        }
 	public function actionTest()
 	{
+            $this->Testpdf();
 		$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
 //		$test=$this->loadModel();
 		$this->render('test',array(
@@ -1484,7 +1533,7 @@ class GuideController extends Controller
 				
 				$name_forms = $scheduled->city_ob->seg_cityname;
 				$to = $user_contact->email;
-        			if ($this->sendMail($to, $name_forms, $message))
+//        			if ($this->sendMail($to, $name_forms, $message))
 				{
 					$this->redirect(array('current','id_sched'=>$id_sched));
 				
@@ -1514,7 +1563,7 @@ class GuideController extends Controller
 	{
 		
 		$id_control = Yii::app()->user->id;
-        $guide = User::model()->with('contact_ob')->findByPk($id_control);
+            $guide = User::model()->with('contact_ob')->findByPk($id_control);
 		$date_format = strtotime($sched->date);
 		$date_bd = date('Y-m-d',$date_format);
 		$dt =$date_bd.' '.$sched->starttime;
@@ -1623,8 +1672,8 @@ class GuideController extends Controller
              $message="Dear sirs, \n The invoice from Cherry tours.";
                 $subject = "The invoice from Cherry tours";
 				foreach ($mails as $value) {
-        			$this->sendMail($value[0],$subject,$message, __DIR__.'/../../../../filespdf/'.$value[1].'.pdf');
-						unlink(__DIR__.'/../../../../filespdf/'.$value[1].'.pdf');
+        		//	$this->sendMail($value[0],$subject,$message, __DIR__.'/../../../../filespdf/'.$value[1].'.pdf');
+			//			unlink(__DIR__.'/../../../../filespdf/'.$value[1].'.pdf');
 			}
 	        $this->redirect( Yii::app()->createUrl('/filespdf/'.$name_pdf2.'.pdf') );
 	}
@@ -1842,7 +1891,26 @@ class GuideController extends Controller
 //                                 $pdf->SetAutoPageBreak(TRUE, 0);
 				$pdf->setPrintHeader(false);
 				$pdf->setPrintFooter(true);
-				$pdf->AddPage();
+                                $page_format = array(
+                                        'MediaBox' => array ('llx' => 0, 'lly' => 0, 'urx' => 210, 'ury' => 297),
+                                        'CropBox' => array ('llx' => 0, 'lly' => 0, 'urx' => 210, 'ury' => 297),
+                                        'BleedBox' => array ('llx' => 5, 'lly' => 5, 'urx' => 205, 'ury' => 292),
+                                        'TrimBox' => array ('llx' => 10, 'lly' => 10, 'urx' => 200, 'ury' => 287),
+                                        'ArtBox' => array ('llx' => 15, 'lly' => 15, 'urx' => 195, 'ury' => 282),
+                                        'Dur' => 3,
+                                        'trans' => array(
+                                                'D' => 1.5,
+                                                'S' => 'Split',
+                                                'Dm' => 'V',
+                                                'M' => 'O'
+                                        ),
+                                //	'Rotate' => 90,
+                                        'PZ' => 1,
+                                );
+//                                $pdf->AddPage('P', $page_format, false, false);
+//                               $pdf->AddPage('P', $page_format, false, false);
+                                $pdf->AddPage('P', 'A4');
+//				$pdf->AddPage();
 				$pdf->SetFont('freeserif', '', 10);
 				$pdf->writeHTML($tbl, true, false, false, false, '');
 				if($is_full){
@@ -1965,7 +2033,9 @@ class GuideController extends Controller
 					  </tbody>
 				</table>
 			';
-				$pdf->AddPage();
+                                $pdf->AddPage('P', 'A4');
+//                               $pdf->AddPage('P', $page_format, false, false);
+//				$pdf->AddPage();
 				$pdf->writeHTML($tbl_page2, true, false, false, false, '');
 
 				}	
