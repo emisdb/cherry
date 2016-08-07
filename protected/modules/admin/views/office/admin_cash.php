@@ -151,9 +151,9 @@
 				   ),
 				   'pdf' => array(
 						'imageUrl'=>'/img/pdf.png',
-						'url' => 'Yii::app()->createUrl("/filespdf/".$data->sched->additional_info2.".pdf")',
+						'url' => 'Yii::app()->createUrl("/filespdf/".(is_null($data->sched) ? "" : $data->sched->additional_info2 ).".pdf")',
 //						'url' => '$data->sched->additional_info2',
-					   'options'=>array("target"=>'_blank'),
+/**/					   'options'=>array("target"=>'_blank'),
 						'label'=>'PDF zeigen',
 						'visible'=>'$data->id_type==1 OR $data->id_type==2',
 				   ),
