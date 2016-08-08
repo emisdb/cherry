@@ -1533,7 +1533,7 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 				
 				$name_forms = $scheduled->city_ob->seg_cityname;
 				$to = $user_contact->email;
-//        			if ($this->sendMail($to, $name_forms, $message))
+        			if ($this->sendMail($to, $name_forms, $message))
 				{
 					$this->redirect(array('current','id_sched'=>$id_sched));
 				
@@ -1672,8 +1672,8 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
              $message="Dear sirs, \n The invoice from Cherry tours.";
                 $subject = "The invoice from Cherry tours";
 				foreach ($mails as $value) {
-        		//	$this->sendMail($value[0],$subject,$message, __DIR__.'/../../../../filespdf/'.$value[1].'.pdf');
-			//			unlink(__DIR__.'/../../../../filespdf/'.$value[1].'.pdf');
+        			$this->sendMail($value[0],$subject,$message, __DIR__.'/../../../../filespdf/'.$value[1].'.pdf');
+						unlink(__DIR__.'/../../../../filespdf/'.$value[1].'.pdf');
 			}
 	        $this->redirect( Yii::app()->createUrl('/filespdf/'.$name_pdf2.'.pdf') );
 	}
