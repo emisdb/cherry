@@ -51,9 +51,10 @@ class MYPDF extends TCPDF {
 		$this->SetFont('helvetica', 'I', 9);
 		// Page number
                  $str ='<table style="color:#66A3BC; width:100%;"><tbody><tr>'
-                        . '<td><div>Geschäftsleitung: Marina Kuranova & Christian Zeitsch<br>Cherrytours GmbH<br>Mittelstr. 30<br>10117</div></td>'
-                        . '<td><div>StNr: 1130/251/50018<br>Finanzamt Berlin IV <br>Amtsgericht Charlottenburg<br> Berlin HRB 183404</div></td>'
-                        . '<td><div>Commerzbank<br>BIC COBADEFFXXX<br>IBAN DE59 8204 0000 0815 1367 00</div></td>'
+                        . '<td><div>Cherrytours GmbH<br>Mittelstr. 30<br>10117 Berlin</div></td>'
+                        . '<td><div>Geschäftsleitung:<br>Marina Kuranova,<br>Christian Zeitsch</div></td>'
+                        . '<td><div>HRB Nr: 183404<br>USt-IDNr: DE304401873<br>SteuerNr: 1130/251/50018</div></td>'
+                        . '<td><div>Commerzbank<br>IBAN DE59 8204 0000 0815 1367 00<br>BIC COBADEFFXXX</div></td>'
                         . '</tr></tbody></table>';
                 $this->writeHTMLCell(0, 0, '', '', $str, 0, 1, 0, true, '', true);
              
