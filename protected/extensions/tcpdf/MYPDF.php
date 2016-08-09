@@ -50,11 +50,18 @@ class MYPDF extends TCPDF {
 		// Set font
 		$this->SetFont('helvetica', 'I', 9);
 		// Page number
-                 $str ='<table style="color:#66A3BC; width:100%;"><tbody><tr>'
+/*                 $str ='<table style="color:#66A3BC; width:100%;"><tbody><tr>'
                         . '<td><div>Cherrytours GmbH<br>Mittelstr. 30<br>10117 Berlin</div></td>'
                         . '<td><div>Geschäftsleitung:<br>Marina Kuranova,<br>Christian Zeitsch</div></td>'
                         . '<td><div>HRB Nr: 183404<br>USt-IDNr: DE304401873<br>SteuerNr: 1130/251/50018</div></td>'
                         . '<td><div>Commerzbank<br>IBAN DE59 8204 0000 0815 1367 00<br>BIC COBADEFFXXX</div></td>'
+                        . '</tr></tbody></table>';
+ */
+                $str ='<table style="color:#983157; width:100%;"><tbody><tr>'
+                        . '<td><div>'.Mainoptions::model()->getCvalue('Firma').'<br>'.Mainoptions::model()->getCvalue('address street').'<br>'.Mainoptions::model()->getCvalue('address city').'</div></td>'
+                        . '<td><div>'.Mainoptions::model()->getCvalue('Geschäftsleitung').'<br>'.Mainoptions::model()->getCvalue('NameMarina').',<br>'.Mainoptions::model()->getCvalue('NameChristian').'</div></td>'
+                        . '<td><div>'.Mainoptions::model()->getCvalue('Tax4').'<br>'.Mainoptions::model()->getCvalue('TAX5').'<br>'.Mainoptions::model()->getCvalue('Tax6').'</div></td>'
+                        . '<td><div>'.Mainoptions::model()->getCvalue('Bank1').'<br>'.Mainoptions::model()->getCvalue('Bank3').'<br>'.Mainoptions::model()->getCvalue('Bank2').'</div></td>'
                         . '</tr></tbody></table>';
                 $this->writeHTMLCell(0, 0, '', '', $str, 0, 1, 0, true, '', true);
              

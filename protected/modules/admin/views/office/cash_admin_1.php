@@ -152,7 +152,7 @@ $dataProvider=$model->search(1);
 		 array(
 					'name'=>'sched_user_id',
 					'type'=>'raw',
-					'value'=>"isset(\$data->tuser) ? \$data->tuser->contact_ob->firstname.' '.\$data->tuser->contact_ob->firstname : '-'",
+					'value'=>"isset(\$data->tuser) ? \$data->tuser->contact_ob->firstname.' '.\$data->tuser->contact_ob->surname : '-'",
 					'filter'=>false, // Set the filter to false when date range searching
 				'footer'=>'Gesamt:',
 			 ),
