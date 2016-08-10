@@ -151,7 +151,7 @@
 			<div class="form-group">
 				<?php
 					echo $form->labelEx($model,'street'); 
-					echo $form->textField($model,'street',array('class'=>'form-control','maxlength'=>'11'));
+					echo $form->textField($model,'street',array('class'=>'form-control'));
 					echo $form->error($model,'street'); 
 				 ?>
 			</div>
