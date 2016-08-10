@@ -1,8 +1,9 @@
+/*
 setInterval(function () {
     var $img = $('header.big-img');
     $img.toggleClass('bg-2');
 }, 6000);
-
+*/
 
 /////
 $(function () {
@@ -53,14 +54,29 @@ $(function () {
      */
 
     /////
+	/*
     $("#open_agb").on('click', function () {
-        $("#modal_agb").modal('show')
+        //$("#modal_agb").modal('show')
+		
     })
+	*/
+	$.each($(".bottom_link"),function(i,v){
+		var text = $(v).text();
+		var plink = $(v).attr('href');
+		//console.log(text)
+		if(text.indexOf('AGB') + 1){
+			$("#open_agb").attr('href',plink);
+		}
+	})
+	
+	
     ////
+	/*
     $("#yes_agb").on('click', function () {
         $("#modal_agb").modal('hide');
         $("#check_agb").prop('checked', true);
     })
+	*/
     //////
     $("#pickcity-main").on('change', function () {
         var city = $("#pickcity-main option:selected").attr("data-city");

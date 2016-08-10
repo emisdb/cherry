@@ -211,11 +211,14 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
         }
 	public function actionTest()
 	{
-            $this->Testpdf();
+//            $this->Testpdf();
 		$test=array('guide'=>$this->loadGuide(),'tours'=>$this->loadTours(),'todo'=>$this->loadUnreported());
+ 		$host = str_replace("www.","",$_SERVER['HTTP_HOST']);
+
 //		$test=$this->loadModel();
 		$this->render('test',array(
 			'info'=>$test,
+			'model'=>$host,
 		));
 	}
    public function actionProfile()

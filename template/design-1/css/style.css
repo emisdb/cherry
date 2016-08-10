@@ -885,9 +885,10 @@ footer .logotype {
     position: relative;
 }
 
-.str-lang img:nth-child(2) {
+.str-lang img:nth-child(2),.str-lang img:nth-child(3){
     margin-left: -5px;
     position: relative;
+	z-index:1;
 }
 
 .str-lang div:nth-child(1) {
@@ -1390,6 +1391,16 @@ article div[class^="col-"] {
 .thankyou{padding-bottom: 30px;}
 .prim{color:#983157;}
 .row_adres{padding-left:0px;}
+.head-mini{height:50px;    background: #983157; color:#fff;}
+.head-mini a {color:#fff;}
+#form-contact input, #form-contact select{    height: 44px;}
+.head-mini > div{padding: 15px;}
+.head-mini li{list-style:none; display:inline; margin-right:10px;}
+#form-contact{ margin-top:20px;}
+#content-contact{}
+#form-contact label>span{color:red;}
+.contact-info{font-size:22px; margin-bottom:20px;color:#983157;/*#d9426a;*/box-shadow: 1px 1px 5px #aaa; border-radius: 2px; padding: 10px; padding-bottom:20px; margin: 10px;width: 320px;}
+.contact-info i.fa{ position:relative; top:2px;}
 
 /*-------------display-------------------*/
 @media screen and (min-width: 1299px) {
@@ -1465,6 +1476,9 @@ article div[class^="col-"] {
     }
 }
 @media screen and (max-width: 767px) {
+	.contact-info{ width:100%}
+    .head-mini a {color:#d9426a;}
+	.head-mini > div{ display:none;}
 	.prim{color:#983157; font-weight: normal; font-size: 11px;}
 	.booking-form-head strong, .step-number { font-size:14px; }
 	#navbar {
